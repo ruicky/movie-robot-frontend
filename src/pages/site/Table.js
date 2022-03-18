@@ -35,7 +35,16 @@ const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)});
 `;
-const DashboardTable = ({data, onAddClick, onUpdateClick}) => {
+const getStatus = (status) => {
+    if (status == 1) {
+        return (<Chip label="可用" color="success"/>)
+    } else if (status == 2) {
+        return (<Chip label="异常" color="error"/>)
+    } else {
+        return (<Chip label="未知" color="warning"/>)
+    }
+}
+const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick}) => {
     const [hideData, setHideData] = useState(false)
     const hideOnClick = () => {
         setHideData(!hideData)
@@ -81,8 +90,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick}) => {
                                     <TableCell>{row.share_rate}</TableCell>
                                     <TableCell>{coverSize(row.upload_size)}</TableCell>
                                     <TableCell>{coverSize(row.download_size)}</TableCell>
-                                    <TableCell>{row.status === 1 ?
-                                        <Chip label="可用" color="success"/> : null}</TableCell>
+                                    <TableCell>{getStatus(row.status)}</TableCell>
                                     <TableCell>{row.web_search === 1 ? '是' : '否'}</TableCell>
                                     <TableCell>{row.smart_download === 1 ? '是' : '否'}</TableCell>
                                     <TableCell>
@@ -98,6 +106,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick}) => {
                                             color="secondary"
                                             aria-label="删除"
                                             size="small"
+                                            onClick={() => onDeleteClick(row)}
                                         >
                                             <Delete/>
                                         </IconButton>
