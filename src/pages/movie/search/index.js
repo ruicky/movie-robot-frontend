@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components/macro";
 import { Search as SearchIcon } from "@mui/icons-material";
 import { Helmet } from "react-helmet-async";
+import BScroll from 'better-scroll'
 // import axios from "axios";
 import axios from "../../../utils/request";
 import {
@@ -123,7 +124,7 @@ const PathPicker = ({ downloadInfo, onClose: close }) => {
     axios.get("/api/download/paths", {
       params: {}
     }).then((res) => {
-      const { data: { data } } = res;
+      const { data } = res;
       setPaths(data);
     });
   }, []);
@@ -202,7 +203,7 @@ function DownloadRecords(props) {
           const encode = { "全部": "全部" };
           const source = { "全部": "全部" };
           const resolution = { "全部": "全部" };
-          res.data.data.forEach(({ media_encoding, media_source, resolution: _rs }) => {
+          res.data.forEach(({ media_encoding, media_source, resolution: _rs }) => {
             if (media_encoding) {
               encode[media_encoding] = media_encoding;
             }
@@ -218,13 +219,18 @@ function DownloadRecords(props) {
             source,
             resolution
           });
-          setRecords(res.data.data);
+          setRecords(res.data);
         }
       }).catch(() => {
         setLoading(false);
       });
     }
   });
+  const bs = new BScroll('#wrapper', {
+    pullUpLoad: true,
+    scrollbar: true,
+    pullDownRefresh: true
+  })
   return (<React.Fragment>
       <Helmet title="搜索" />
       <SearchBar
@@ -244,7 +250,7 @@ function DownloadRecords(props) {
       {loading && <CircularProgress sx={{ position: "absolute", top: "50%", left: "50%", marginLeft: "-20px" }} />}
       {
         (records && records.length > 0) &&
-        <Grid container spacing={4}>
+        <Grid container spacing={4} id="wrapper">
           {
             records.filter(({ resolution, media_source, media_encoding }) => {
               let bool = true;

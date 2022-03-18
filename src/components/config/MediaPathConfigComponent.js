@@ -60,7 +60,7 @@ function MediaPathConfigComponent({ isInit }) {
     }
     try {
       const res = await axios.post("/api/config/save_media_path", params);
-      const { code, message, data } = res.data;
+      const { code, message, data } = res;
       if (code === undefined || code === 1) {
         throw new Error(message);
       }
@@ -91,7 +91,7 @@ function MediaPathConfigComponent({ isInit }) {
       errorMsg = "路径不能为空";
     } else {
       const res = await axios.get("/api/config/check_path", { params: { path: e.target.value } });
-      const { code, message, data } = res.data;
+      const { code, message, data } = res;
       if (code === undefined || code === 1) {
         errorMsg = message;
       }
@@ -115,7 +115,7 @@ function MediaPathConfigComponent({ isInit }) {
   };
   useEffect(async () => {
     axios.get("/api/config/get_media_path").then((res) => {
-      const data = res.data.data;
+      const data = res.data;
       if (data !== undefined) {
         setPaths(data);
       }

@@ -1,16 +1,25 @@
 import axios from "axios";
+import message from "@/utils/message";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://192.168.1.10:1329',
-    timeout: 30000,
-    headers: {},
+  baseURL: 'http://192.168.1.10:1329',
+  timeout: 30000,
+  headers: {},
 });
 axiosInstance.interceptors.response.use(
-    (response) => response,
-    (error) =>
-        Promise.reject(
-            (error.response && error.response.data) || "Something went wrong"
-        )
+  (response) => {
+    const res = response.data;
+    if (res.code !== 0) {
+      message.error(res.message || "操作失败");
+      return Promise.reject(new Error(res.message || "Error"));
+    } else {
+      return {...res, response};
+    }
+  },
+  (error) =>
+    Promise.reject(
+      (error.response && error.response.data) || "Something went wrong"
+    )
 );
 
 export default axiosInstance;

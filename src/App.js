@@ -11,7 +11,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import StylesProvider from "@mui/styles/StylesProvider";
 import jssPreset from "@mui/styles/jssPreset";
-
+import GlobalSnackbars from "@/components/GlobalSnackbars";
 import "./i18n";
 import createTheme from "./theme";
 import routes from "./routes";
@@ -46,6 +46,7 @@ function App() {
             <StyledEngineProvider injectFirst>
               <MuiThemeProvider theme={createTheme(theme)}>
                 <ThemeProvider theme={createTheme(theme)}>
+                  <GlobalSnackbars />
                   <AuthProvider>{content}</AuthProvider>
                 </ThemeProvider>
               </MuiThemeProvider>
