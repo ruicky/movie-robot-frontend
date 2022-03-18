@@ -81,7 +81,8 @@ const DashboardTable = ({data, onAddClick, onUpdateClick}) => {
                                     <TableCell>{row.share_rate}</TableCell>
                                     <TableCell>{coverSize(row.upload_size)}</TableCell>
                                     <TableCell>{coverSize(row.download_size)}</TableCell>
-                                    <TableCell><Chip label="可用" color="success"/></TableCell>
+                                    <TableCell>{row.status === 1 ?
+                                        <Chip label="可用" color="success"/> : null}</TableCell>
                                     <TableCell>{row.web_search === 1 ? '是' : '否'}</TableCell>
                                     <TableCell>{row.smart_download === 1 ? '是' : '否'}</TableCell>
                                     <TableCell>
