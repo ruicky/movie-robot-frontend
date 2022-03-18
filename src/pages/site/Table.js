@@ -35,7 +35,7 @@ const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)});
 `;
-const DashboardTable = ({data}) => {
+const DashboardTable = ({data, onAddClick, onUpdateClick}) => {
     const [hideData, setHideData] = useState(false)
     const hideOnClick = () => {
         setHideData(!hideData)
@@ -45,7 +45,7 @@ const DashboardTable = ({data}) => {
             <CardHeader
                 action={
                     <Stack direction="row" divider={<Divider orientation="vertical" flexItem/>} spacing={1}>
-                        <IconButton color="info" aria-label="添加" size="large">
+                        <IconButton color="info" aria-label="添加" size="large" onClick={onAddClick}>
                             <Add/>
                         </IconButton>
                         <IconButton color="info" aria-label="隐藏" size="large" onClick={hideOnClick}>
@@ -82,13 +82,14 @@ const DashboardTable = ({data}) => {
                                     <TableCell>{coverSize(row.upload_size)}</TableCell>
                                     <TableCell>{coverSize(row.download_size)}</TableCell>
                                     <TableCell><Chip label="可用" color="success"/></TableCell>
-                                    <TableCell>{row.web_search == 1 ? '是' : '否'}</TableCell>
-                                    <TableCell>{row.smart_download == 1 ? '是' : '否'}</TableCell>
+                                    <TableCell>{row.web_search === 1 ? '是' : '否'}</TableCell>
+                                    <TableCell>{row.smart_download === 1 ? '是' : '否'}</TableCell>
                                     <TableCell>
                                         <IconButton
                                             color="info"
                                             aria-label="编辑"
                                             size="small"
+                                            onClick={() => onUpdateClick(row)}
                                         >
                                             <Edit/>
                                         </IconButton>
