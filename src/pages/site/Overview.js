@@ -1,7 +1,6 @@
 import {Divider as MuiDivider, Grid, Typography} from "@mui/material";
 import Stats from "./Stats";
 import {green, red} from "@mui/material/colors";
-import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import {coverSize} from "../../utils/PtUtils";
