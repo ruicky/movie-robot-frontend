@@ -26,10 +26,16 @@ function SiteDashboard() {
         "today_up_rate": "-",
         "today_dl_rate": "-"
     })
+    const [tableData, setTableData] = useState([])
     useEffect(() => {
         axios.get("/api/site/overview").then((res) => {
             if (!res.error && res.data.code == 0) {
                 setOverview(res.data.data)
+            }
+        })
+        axios.get("/api/site/get_sites").then((res) => {
+            if (!res.error && res.data.code == 0) {
+                setTableData(res.data.data)
             }
         })
     }, []);
@@ -39,7 +45,7 @@ function SiteDashboard() {
             <Overview data={overview}/>
             <Grid container spacing={6}>
                 <Grid item xs={12} lg={12}>
-                    <Table/>
+                    <Table data={tableData}/>
                 </Grid>
             </Grid>
         </React.Fragment>

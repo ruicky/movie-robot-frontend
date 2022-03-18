@@ -1,11 +1,22 @@
-import {Divider as MuiDivider, Grid, Typography} from "@mui/material";
+import React from "react";
+import {Button, Divider as MuiDivider, Grid, Typography} from "@mui/material";
 import Stats from "./Stats";
 import {green, red} from "@mui/material/colors";
 import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import {coverSize} from "../../utils/PtUtils";
+import {Loop as LoopIcon} from "@mui/icons-material";
 
 const Divider = styled(MuiDivider)(spacing);
+const SmallButton = styled(Button)`
+  padding: 4px;
+  min-width: 0;
+
+  svg {
+    width: 0.9em;
+    height: 0.9em;
+  }
+`;
 
 function Overview({data}) {
     return (<React.Fragment>
@@ -18,9 +29,14 @@ function Overview({data}) {
                     共有{data.site_count}个站点{data.site_vip_count > 0 ? '，其中有' + data.site_vip_count + '个是尊贵的VIP身份！👍' : ''}
                 </Typography>
             </Grid>
+            <Grid item>
+                <SmallButton size="small" mr={2}>
+                    <LoopIcon/>
+                </SmallButton>
+            </Grid>
         </Grid>
 
-        <Divider my={6}/>
+        <Divider my={4}/>
 
         <Grid container spacing={6}>
             <Grid item xs={12} sm={12} md={6} lg={3} xl>
