@@ -2,9 +2,9 @@ import axios from "axios";
 import message from "@/utils/message";
 
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.1.10:1329',
-  timeout: 30000,
-  headers: {},
+    baseURL: 'http://127.0.0.1:1329',
+    timeout: 30000,
+    headers: {},
 });
 axiosInstance.interceptors.response.use(
   (response) => {
