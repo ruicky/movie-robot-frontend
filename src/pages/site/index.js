@@ -1,82 +1,42 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import {Helmet} from "react-helmet-async";
-
 import {
     Grid,
-    Divider as MuiDivider,
-    Typography as MuiTypography,
 } from "@mui/material";
-import {spacing} from "@mui/system";
-import {green, red} from "@mui/material/colors";
 
-import Stats from "./Stats";
 import Table from "./Table";
+import Overview from "./Overview";
+import axios from "../../utils/request";
 
-const Divider = styled(MuiDivider)(spacing);
-
-const Typography = styled(MuiTypography)(spacing);
 
 function SiteDashboard() {
-
+    const [overview, setOverview] = useState({
+        "today_up": 0,
+        "today_dl": 0,
+        "yestday_up": 0,
+        "yestday_dl": 0,
+        "total_up": 0,
+        "total_dl": 0,
+        "dl_change_7": 0,
+        "up_change_7": 0,
+        "data_update_time": "-",
+        "site_count": 0,
+        "site_vip_count": 0,
+        "today_up_rate": "-",
+        "today_dl_rate": "-"
+    })
+    useEffect(() => {
+        axios.get("/api/site/overview").then((res) => {
+            if (!res.error && res.data.code == 0) {
+                setOverview(res.data.data)
+            }
+        })
+    }, []);
     return (
         <React.Fragment>
-            <Helmet title="SaaS Dashboard"/>
-            <Grid justifyContent="space-between" container spacing={6}>
-                <Grid item>
-                    <Typography variant="h3" gutterBottom>
-                        我的站点
-                    </Typography>
-                    <Typography variant="subtitle1">
-                        共有5个站点，其中有3个是尊贵的VIP身份！👍
-                    </Typography>
-                </Grid>
-            </Grid>
-
-            <Divider my={6}/>
-
-            <Grid container spacing={6}>
-                <Grid item xs={12} sm={12} md={6} lg={3} xl>
-                    <Stats
-                        title="今日上传"
-                        amount="235.14 GB"
-                        chip="18:00"
-                        percentagetext="+54.12%"
-                        desc='比昨日变化'
-                        percentagecolor={green[500]}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={3} xl>
-                    <Stats
-                        title="今日下载"
-                        amount="15.55 GB"
-                        chip="18:00"
-                        percentagetext="-26.12%"
-                        desc='比昨日变化'
-                        percentagecolor={red[500]}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={3} xl>
-                    <Stats
-                        title="总上传量"
-                        amount="51.5 TB"
-                        chip="18:00"
-                        percentagetext="2.67 TB"
-                        desc='近7日新增'
-                        percentagecolor={green[500]}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={3} xl>
-                    <Stats
-                        title="总下载量"
-                        amount="15.22TB"
-                        chip="18:00"
-                        percentagetext="654.23 GB"
-                        desc='近7日下载'
-                        percentagecolor={green[500]}
-                    />
-                </Grid>
-            </Grid>
+            <Helmet title="站点管理"/>
+            <Overview data={overview}/>
             <Grid container spacing={6}>
                 <Grid item xs={12} lg={12}>
                     <Table/>

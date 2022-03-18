@@ -12,11 +12,11 @@ import InitWeb from "./pages/config/init/InitWeb";
 import InitMediaServer from "./pages/config/init/InitMediaServer";
 import InitDownloadClient from "./pages/config/init/InitDownloadClient";
 import InitMediaPath from "./pages/config/init/InitMediaPath";
-import SiteDashboard from "./pages/site";
 
 const MovieAnalyze = async(() => import("./pages/movie/analyze"));
 const MovieSearch = async(() => import("./pages/movie/search"));
 const DownloadRecord = async(() => import("./pages/download/record"));
+const SiteDashboard = async(() => import("./pages/site"));
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
         path: "sign-in", element: <SignIn/>
