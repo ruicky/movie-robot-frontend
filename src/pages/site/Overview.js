@@ -1,5 +1,5 @@
-import React from "react";
-import {Button, Divider as MuiDivider, Grid, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Alert, Button, Divider as MuiDivider, Grid, Typography} from "@mui/material";
 import Stats from "./Stats";
 import {green, red} from "@mui/material/colors";
 import styled from "styled-components/macro";
@@ -18,7 +18,8 @@ const SmallButton = styled(Button)`
   }
 `;
 
-function Overview({data}) {
+function Overview({data, onUpdateClick}) {
+    const [updating, setUpdating] = useState(false)
     return (<React.Fragment>
         <Grid justifyContent="space-between" container spacing={6}>
             <Grid item>
@@ -30,9 +31,10 @@ function Overview({data}) {
                 </Typography>
             </Grid>
             <Grid item>
-                <SmallButton size="small" mr={2}>
+                <SmallButton size="small" mr={2} onClick={() => onUpdateClick(setUpdating)}>
                     <LoopIcon/>
                 </SmallButton>
+                {updating && "站点数据更新中..."}
             </Grid>
         </Grid>
 
