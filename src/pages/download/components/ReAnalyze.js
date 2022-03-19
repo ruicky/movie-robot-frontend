@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   Checkbox,
@@ -17,9 +17,16 @@ export default function ReAnalyze(props) {
   const { id, open = false, name:propsName, year:propsYear,notify: propsNotify =true, onAnalyze} = props;
   console.log('props-->', props)
   const [validResult, setValidResult ] = useState({})
-  const [name, setName] = useState(propsName);
-  const [year, setYear] = useState(propsYear);
+  const [name, setName] = useState();
+  const [year, setYear] = useState();
   const [notify, setNotify] = useState(propsNotify);
+
+  useEffect(() => {
+    setYear(propsYear)
+  }, [propsYear])
+  useEffect(() => {
+    setName(propsName)
+  }, [propsName])
 
   const handleClose =()=>{
     onAnalyze({open: false})
@@ -39,14 +46,14 @@ export default function ReAnalyze(props) {
       })
       return;
     }
-    await reanalyze({
+    const result = await reanalyze({
       id,
       name,
       year,
       send_notify: notify ? 1 : 0
     });
     handleClose();
-    message.success('操作成功')
+    message.success(result.message || '操作成功')
   }
   return (
     <Dialog

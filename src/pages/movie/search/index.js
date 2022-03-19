@@ -133,7 +133,7 @@ const PathPicker = ({ downloadInfo, onClose: close }) => {
     const { id, site_name } = downloadInfo;
     axios.get("/api/download/torrent", {
       params: { id, site_name, save_path: path }
-    }).then(({ data: { code, message } }) => {
+    }).then(({ code, message }) => {
       setMessage(message);
     });
 

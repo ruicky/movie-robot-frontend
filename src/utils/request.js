@@ -2,7 +2,7 @@ import axios from "axios";
 import message from "@/utils/message";
 
 const axiosInstance = axios.create({
-    baseURL: '',
+    baseURL: 'http://82.156.208.110:4070',
     timeout: 30000,
     headers: {},
 });

@@ -7,8 +7,8 @@ export default function DeleteConfirm(props) {
   const {id, open=false, onDelete, removeDataById} = props;
 
   const handleOk = async() => {
-    await deleteRecord(id)
-    message.success('操作成功')
+    const result = await deleteRecord(id)
+    message.success(result.message || '操作成功')
     removeDataById(id)
     onDelete({open: false})
   };

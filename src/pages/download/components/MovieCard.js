@@ -39,14 +39,14 @@ export default function MovieCard (props) {
   } = props.data;
 
   const handleAnalyze = () => {
-    onAnalyze({ open: true, year: year, id: id })
+    onAnalyze({ open: true, year: year, id: id, name:title })
   };
   const handleDelete = () => {
     onDelete({open: true, id})
   }
 
   return(
-    <Grid item md={4} xl={3} lg={2}  key={id}>
+    <Grid item md={6} lg={4} xl={2}  key={id} style={{width: '100%'}}>
       <Card>
         {/*图片*/}
         <CardActionArea target="_blank" href={url || '#'}>
@@ -73,7 +73,7 @@ export default function MovieCard (props) {
           </Stack>
           {/*影片描述*/}
           <Typography mb={1} color="textSecondary" component="p">
-            <LinesEllipsis text={desc} maxLine={2} />
+            <LinesEllipsis text={desc} maxLine={2} style={{minHeight: '40px'}} />
           </Typography>
         </CardContent>
         <Divider my={1} />

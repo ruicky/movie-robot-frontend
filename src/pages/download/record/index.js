@@ -23,10 +23,8 @@ export default function DownloadRecords () {
   }
 
   const fetchDownloadingList = async() => {
-    console.log('fetchDownloadingList-->')
-    const downloadList = list?.filter(x => x.download_status === 0);
+    const downloadList = list?.filter(x => x.status_code === 0);
     if (downloadList.length > 0) {
-      console.log('downloadList-->')
       const result = await getDownloading();
       setDownloadingList(result.data);
     }

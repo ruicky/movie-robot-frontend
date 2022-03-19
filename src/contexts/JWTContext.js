@@ -78,7 +78,6 @@ function AuthProvider({ children }) {
     const response = await axios.post("/api/auth/get_token", {
       username, password
     });
-    console.log('response-->', response)
     const { code, message, data } = response;
     if (code === 1) {
       throw new Error(message);
