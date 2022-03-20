@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 
 import { Paper, Typography } from "@mui/material";
 
-import WebConfigComponent from "../../components/config/WebConfigComponent";
+import WebConfigComponent from "./components/WebConfigComponent";
 import {useLocation} from "react-router-dom";
 
 
@@ -24,7 +24,7 @@ function Web() {
   }
   return (<React.Fragment>
     <Wrapper>
-      <Helmet title="Web配置 - 初始化" />
+      <Helmet title={isInit ? "网站访问设置 - 初始化" : "网站访问设置"}/>
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
         网站访问设置

@@ -4,8 +4,8 @@ import {Helmet} from "react-helmet-async";
 
 import {Paper, Typography} from "@mui/material";
 
-import MediaServerConfigComponent from "../../components/config/MediaServerConfigComponent";
-import MovieMetadataConfigComponent from "@/components/config/MovieMetadataConfigComponent";
+import MediaServerConfigComponent from "./components/MediaServerConfigComponent";
+import MovieMetadataConfigComponent from "@/pages/config/components/MovieMetadataConfigComponent";
 import {useLocation} from "react-router-dom";
 
 
@@ -25,7 +25,7 @@ function MovieMetadata() {
     }
     return (<React.Fragment>
         <Wrapper>
-            <Helmet title="媒体服务器设置 - 初始化"/>
+            <Helmet title={isInit ? "媒体元数据接口设置 - 初始化" : "媒体元数据接口设置"}/>
 
             <Typography component="h1" variant="h4" align="center" gutterBottom>
                 媒体元数据接口设置

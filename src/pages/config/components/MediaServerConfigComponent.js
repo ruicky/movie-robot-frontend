@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import axios from "../../utils/request";
+import axios from "../../../utils/request";
 
 import {
     Alert as MuiAlert,

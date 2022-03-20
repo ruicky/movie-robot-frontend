@@ -4,7 +4,7 @@ import {Helmet} from "react-helmet-async";
 
 import {Paper, Typography} from "@mui/material";
 
-import MediaServerConfigComponent from "../../components/config/MediaServerConfigComponent";
+import MediaServerConfigComponent from "./components/MediaServerConfigComponent";
 import {useLocation} from "react-router-dom";
 
 
@@ -24,7 +24,7 @@ function MediaServer() {
     }
     return (<React.Fragment>
         <Wrapper>
-            <Helmet title="媒体服务器设置 - 初始化"/>
+            <Helmet title={isInit ? "媒体服务设置 - 初始化" : "媒体服务设置"}/>
 
             <Typography component="h1" variant="h4" align="center" gutterBottom>
                 媒体服务设置

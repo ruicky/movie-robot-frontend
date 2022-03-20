@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components/macro";
-import axios from "../../utils/request";
+import axios from "../../../utils/request";
+import pageMessage from "@/utils/message";
 
 import {
     Alert as MuiAlert,
@@ -68,10 +69,12 @@ function MediaPathConfigComponent({isInit}) {
                 navigate(data.next);
             } else {
                 setMessage(message);
+                pageMessage.success(message)
             }
         } catch (error) {
             const message = error.message || "配置出错啦";
             setErrorMessage(message);
+            pageMessage.error(message)
         }
         setNextButtonDisabled(false);
     };

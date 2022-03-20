@@ -4,8 +4,10 @@ import {Helmet} from "react-helmet-async";
 
 import {Paper, Typography} from "@mui/material";
 
-import DownloadClientConfigComponent from "./components/DownloadClientConfigComponent";
+import MediaServerConfigComponent from "./components/MediaServerConfigComponent";
+import MovieMetadataConfigComponent from "@/pages/config/components/MovieMetadataConfigComponent";
 import {useLocation} from "react-router-dom";
+import DoubanConfigComponent from "@/pages/config/douban/DoubanConfigComponent";
 
 
 const Wrapper = styled(Paper)`
@@ -16,7 +18,7 @@ const Wrapper = styled(Paper)`
   }
 `;
 
-function DownloadClient() {
+function DoubanConfig() {
     const location = useLocation();
     let isInit = false;
     if (location.pathname.startsWith('/setup')) {
@@ -24,18 +26,18 @@ function DownloadClient() {
     }
     return (<React.Fragment>
         <Wrapper>
-            <Helmet title={isInit ? "下载工具设置 - 初始化" : "下载工具设置"}/>
+            <Helmet title="豆瓣智能下载设置"/>
 
             <Typography component="h1" variant="h4" align="center" gutterBottom>
-                下载工具设置
+                豆瓣智能下载设置
             </Typography>
             <Typography component="h2" variant="body1" align="center">
-                关联下载工具，可以进行种子自动提交，监控下载进度等操作。
+                监听豆瓣多人的账户，定时拉取并智能选择最适合你的种子进行下载。
             </Typography>
 
-            <DownloadClientConfigComponent isInit={isInit}/>
+            <DoubanConfigComponent isInit={isInit}/>
         </Wrapper>
     </React.Fragment>);
 }
 
-export default DownloadClient;
+export default DoubanConfig;
