@@ -156,6 +156,7 @@ function MediaServerConfigComponent({isInit}) {
                 variant="contained"
                 color="primary"
                 disabled={formik.isSubmitting}
+                fullWidth={!isInit}
             >
                 {isInit ? "保存进入下一步" : "保存"}
             </Button>

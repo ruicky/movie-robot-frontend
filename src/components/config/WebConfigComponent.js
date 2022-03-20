@@ -49,7 +49,7 @@ function WebConfigComponent({isInit}) {
             })
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
-                saveWebConfig(values.port, values.username, values.confirmPassword, values.server_url);
+                await saveWebConfig(values.port, values.username, values.confirmPassword, values.server_url);
             } catch (error) {
                 const message = error.message || "配置出错啦";
 
@@ -145,6 +145,7 @@ function WebConfigComponent({isInit}) {
             variant="contained"
             color="primary"
             disabled={formik.isSubmitting}
+            fullWidth
         >
             {isInit ? "保存进入下一步" : "保存"}
         </Button>

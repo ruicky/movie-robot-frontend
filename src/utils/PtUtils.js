@@ -1,6 +1,8 @@
 export const coverSize = (size_mb) => {
     if (size_mb < 0) {
-        return "0"
+        return '-';
+    } else if (size_mb === '-' || size_mb === '无限') {
+        return size_mb;
     }
     if (size_mb <= 1024) {
         return size_mb + "MB";
