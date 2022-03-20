@@ -19,7 +19,7 @@ function WebConfigComponent({ isInit }) {
   const [message, setMessage] = useState();
   const saveWebConfig = async (port, username, password, server_url) => {
     const res = await axios.post("/api/config/save_web", { port, username, password, server_url });
-    const { code, message, data } = res.data;
+    const { code, message, data } = res;
     if (code === undefined || code === 1) {
       throw new Error(message);
     }
@@ -58,7 +58,7 @@ function WebConfigComponent({ isInit }) {
 
   useEffect(async () => {
     axios.get("/api/config/get_web").then((res) => {
-      const data = res.data.data;
+      const data = res.data;
       if (data != undefined) {
         formik.setFieldValue("server_url", data.server_url);
         formik.setFieldValue("port", data.port);

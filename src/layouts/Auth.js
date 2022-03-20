@@ -8,7 +8,7 @@ import Settings from "../components/Settings";
 import GlobalStyle from "../components/GlobalStyle";
 
 const Root = styled.div`
-  max-width: 520px;
+  //max-width: 520px;
   margin: 0 auto;
   justify-content: center;
   align-items: center;

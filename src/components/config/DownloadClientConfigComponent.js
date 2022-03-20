@@ -30,7 +30,7 @@ function DownloadCLientConfigComponent({ isInit }) {
   const [message, setMessage] = useState();
   const saveConfig = async (params) => {
     const res = await axios.post("/api/config/save_download_client", params);
-    const { code, message, data } = res.data;
+    const { code, message, data } = res;
     if (code === undefined || code === 1) {
       throw new Error(message);
     }
@@ -74,7 +74,7 @@ function DownloadCLientConfigComponent({ isInit }) {
 
   useEffect(async () => {
     axios.get("/api/config/get_download_client").then((res) => {
-      const data = res.data.data;
+      const data = res.data;
       if (data != undefined) {
         formik.setFieldValue("type", data.type);
         formik.setFieldValue("url", data.url);

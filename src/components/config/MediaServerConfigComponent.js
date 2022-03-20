@@ -29,7 +29,7 @@ function MediaServerConfigComponent({isInit}) {
     const [message, setMessage] = useState();
     const saveConfig = async (type, url, token) => {
         const res = await axios.post("/api/config/save_media_server", {type, url, token});
-        const {code, message, data} = res.data;
+        const {code, message, data} = res;
         if (code === undefined || code === 1) {
             throw new Error(message);
         }
@@ -61,7 +61,7 @@ function MediaServerConfigComponent({isInit}) {
 
     useEffect(async () => {
         await axios.get("/api/config/get_media_server").then((res) => {
-            const data = res.data.data;
+            const data = res.data;
             formik.setFieldValue("type", data.type);
             formik.setFieldValue("url", data.url);
             formik.setFieldValue("token", data.token);

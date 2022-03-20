@@ -60,7 +60,7 @@ const SetSite = ({opType, open, site, filterSiteNames, onClose, onEditSuccess, o
         try {
             setMessage('保存中，请稍后....')
             const res = await axios.post("/api/site/save_site", values);
-            const {code, message, data} = res.data;
+            const {code, message, data} = res;
             if (code === undefined || code === 1) {
                 setErrorMessage(message);
                 return;

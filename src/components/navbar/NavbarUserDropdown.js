@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components/macro";
-import { Power } from "react-feather";
+import { Activity as ActivityIcon } from "react-feather";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -47,7 +47,7 @@ function NavbarUserDropdown() {
           color="inherit"
           size="large"
         >
-          <Power />
+          <ActivityIcon />
         </IconButton>
       </Tooltip>
       <Menu

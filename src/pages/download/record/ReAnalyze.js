@@ -49,7 +49,7 @@ const ReAnalyze = ({ data, setAnalyze, setMessage }) => {
         send_notify: values.notify ? 1 : 0
       }
     }).then((res) => {
-      setMessage(res.data.message);
+      setMessage(res.message);
       setAnalyze({ name: "", open: false, year: "", id: undefined });
     });
   };
