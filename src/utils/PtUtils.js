@@ -3,7 +3,7 @@ export const coverSize = (size_mb) => {
         return "0"
     }
     if (size_mb <= 1024) {
-        return size_mb + "MB";
+        return size_mb.toFixed(2) + "MB";
     } else if (size_mb <= 1024 * 1024) {
         return (size_mb / 1024).toFixed(2) + "GB";
     } else if (size_mb <= 1024 * 1024 * 1024) {
