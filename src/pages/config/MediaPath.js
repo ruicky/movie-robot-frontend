@@ -4,7 +4,8 @@ import { Helmet } from "react-helmet-async";
 
 import { Paper, Typography } from "@mui/material";
 
-import MediaPathConfigComponent from "../../../components/config/MediaPathConfigComponent";
+import MediaPathConfigComponent from "../../components/config/MediaPathConfigComponent";
+import {useLocation} from "react-router-dom";
 
 
 const Wrapper = styled(Paper)`
@@ -15,7 +16,12 @@ const Wrapper = styled(Paper)`
   }
 `;
 
-function InitMediaPath() {
+function MediaPath() {
+  const location = useLocation();
+  let isInit = false;
+  if (location.pathname.startsWith('/setup')) {
+    isInit = true
+  }
   return (<React.Fragment>
     <Wrapper>
       <Helmet title="下载工具设置 - 初始化" />
@@ -27,9 +33,9 @@ function InitMediaPath() {
         设置你存放影视文件的路径后，系统可以帮你自动整理"刮削"
       </Typography>
 
-      <MediaPathConfigComponent isInit={true} />
+      <MediaPathConfigComponent isInit={isInit} />
     </Wrapper>
   </React.Fragment>);
 }
 
-export default InitMediaPath;
+export default MediaPath;

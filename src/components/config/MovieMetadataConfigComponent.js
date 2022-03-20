@@ -27,8 +27,8 @@ const Centered = styled.div`
 function MovieMetadataConfigComponent({isInit}) {
     const navigate = useNavigate();
     const [message, setMessage] = useState();
-    const saveConfig = async (type, url, token) => {
-        const res = await axios.post("/api/config/save_movie_metadata", {type, url, token});
+    const saveConfig = async (params) => {
+        const res = await axios.post("/api/config/save_movie_metadata", params);
         const {code, message, data} = res;
         if (code === undefined || code === 1) {
             throw new Error(message);
@@ -45,10 +45,9 @@ function MovieMetadataConfigComponent({isInit}) {
             fanart_api_key: ''
         }, validationSchema: Yup.object().shape({
             tmdb_api_key: Yup.string().max(256).required(),
-            fanart_api_key: Yup.string().max(256).required()
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
-                await saveConfig(values.type, values.url, values.token);
+                await saveConfig(values);
             } catch (error) {
                 const message = error.message || "配置出错啦";
                 setStatus({success: false});
@@ -60,7 +59,7 @@ function MovieMetadataConfigComponent({isInit}) {
 
     useEffect(async () => {
         await axios.get("/api/config/get_movie_metadata").then((res) => {
-            const data = res;
+            const data = res.data;
             if (data !== undefined && data !== null) {
                 formik.setFieldValue("tmdb_api_key", data.tmdb_api_key);
                 formik.setFieldValue("fanart_api_key", data.fanart_api_key);
@@ -103,7 +102,7 @@ function MovieMetadataConfigComponent({isInit}) {
             fullWidth
             helperText={(
                 <span>
-                    访问FanArt接口时需要的API密钥
+                    可为空，配置后推送和页面显示的图片会更好看。
                     <Link target="_blank"
                           href="https://fanart.tv/get-an-api-key/">
                             去申请API密钥
@@ -132,6 +131,7 @@ function MovieMetadataConfigComponent({isInit}) {
                 variant="contained"
                 color="primary"
                 disabled={formik.isSubmitting}
+                fullWidth={!isInit}
             >
                 {isInit ? "保存进入下一步" : "保存"}
             </Button>

@@ -8,16 +8,16 @@ import AuthLayout from "./layouts/Auth";
 import SignIn from "./pages/auth/SignIn";
 import Page404 from "./pages/auth/Page404";
 import Page500 from "./pages/auth/Page500";
-import InitWeb from "./pages/config/init/InitWeb";
-import InitMediaServer from "./pages/config/init/InitMediaServer";
-import InitDownloadClient from "./pages/config/init/InitDownloadClient";
-import InitMediaPath from "./pages/config/init/InitMediaPath";
-import InitMovieMetadata from "@/pages/config/init/InitMovieMetadata";
 
 const MovieAnalyze = async(() => import("./pages/movie/analyze"));
 const MovieSearch = async(() => import("./pages/movie/search"));
 const DownloadRecord = async(() => import("./pages/download/record"));
 const SiteDashboard = async(() => import("./pages/site"));
+const InitMediaServer = async(() => import("./pages/config/MediaServer"));
+const InitDownloadClient = async(() => import("./pages/config/DownloadClient"));
+const InitMediaPath = async(() => import("./pages/config/MediaPath"));
+const InitMovieMetadata = async(() => import("./pages/config/MovieMetadata"));
+const InitWeb = async(() => import("./pages/config/Web"));
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
         path: "sign-in", element: <SignIn/>
@@ -28,6 +28,20 @@ const routes = [{
     }]
 }, {
     path: "setup", element: <AuthLayout/>, children: [{
+        path: "web", element: <InitWeb/>
+    }, {
+        path: "media-server", element: <AuthGuard><InitMediaServer/></AuthGuard>
+    }, {
+        path: "download-client", element: <AuthGuard><InitDownloadClient/></AuthGuard>
+    }, {
+        path: "media-path", element: <AuthGuard><InitMediaPath/></AuthGuard>
+    }, {
+        path: "movie-metadata", element: <AuthGuard><InitMovieMetadata/></AuthGuard>
+    }]
+}, {
+    path: "config", element: <AuthGuard>
+        <DashboardLayout/>
+    </AuthGuard>, children: [{
         path: "web", element: <InitWeb/>
     }, {
         path: "media-server", element: <InitMediaServer/>
@@ -63,14 +77,9 @@ const routes = [{
         path: "dashboard", element: <SiteDashboard/>
     }]
 }, {
-    path: "*",
-    element: <AuthLayout/>,
-    children: [
-        {
-            path: "*",
-            element: <Page404/>
-        }
-    ]
+    path: "*", element: <AuthLayout/>, children: [{
+        path: "*", element: <Page404/>
+    }]
 }];
 
 export default routes;
