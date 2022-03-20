@@ -65,7 +65,7 @@ function MediaPathConfigComponent({ isInit }) {
         throw new Error(message);
       }
       if (isInit) {
-        navigate("/setup/" + data.next);
+        navigate(data.next);
       } else {
         setMessage(message);
       }

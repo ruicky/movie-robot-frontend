@@ -12,6 +12,7 @@ import InitWeb from "./pages/config/init/InitWeb";
 import InitMediaServer from "./pages/config/init/InitMediaServer";
 import InitDownloadClient from "./pages/config/init/InitDownloadClient";
 import InitMediaPath from "./pages/config/init/InitMediaPath";
+import InitMovieMetadata from "@/pages/config/init/InitMovieMetadata";
 
 const MovieAnalyze = async(() => import("./pages/movie/analyze"));
 const MovieSearch = async(() => import("./pages/movie/search"));
@@ -34,6 +35,8 @@ const routes = [{
         path: "download-client", element: <InitDownloadClient/>
     }, {
         path: "media-path", element: <InitMediaPath/>
+    }, {
+        path: "movie-metadata", element: <InitMovieMetadata/>
     }]
 }, {
     path: "/", element: (<AuthGuard>
