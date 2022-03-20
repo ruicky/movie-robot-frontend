@@ -67,7 +67,7 @@ const DownloadPathConfigComponent = ({ruleData, data, setData}) => {
                 {data.map((item, i) => (
                     <Card mb={6} key={i}>
                         <Typography gutterBottom variant="h5" component="h2">
-                            保存规则 {i + 1}
+                            下载保存规则 {i + 1}
                             <Button
                                 onClick={() => {
                                     const temp = [...data];
@@ -172,7 +172,7 @@ const DownloadPathConfigComponent = ({ruleData, data, setData}) => {
                     <Button size="small" color="primary" onClick={() => {
                         setData([...data, {type: "movie", cate: [], area: [], score_rule: 'compress'}]);
                     }}>
-                        加一个存储规则
+                        加一个下载保存规则
                     </Button>
                 </CardActions>
             </Card>
