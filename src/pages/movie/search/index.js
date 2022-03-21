@@ -5,6 +5,8 @@ import { Helmet } from "react-helmet-async";
 import BScroll from 'better-scroll'
 // import axios from "axios";
 import axios from "../../../utils/request";
+import { useUrlQueryParam } from '@/hooks/useUrlQueryParam';
+
 import {
   Snackbar,
   List,
@@ -83,7 +85,7 @@ const TagFileter = ({ filter, data, onFilter }) => {
   );
 };
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, ...props }) => {
   const [value, setValue] = useState();
   return (
     <FormControl fullWidth sx={{ flexDirection: "row" }}>
@@ -102,6 +104,7 @@ const SearchBar = ({ onSearch }) => {
           }
         }}
         value={value}
+        {...props}
         endAdornment={
           <InputAdornment>
             <IconButton type="submit" sx={{ p: "10px" }} aria-label="search" onClick={() => {
@@ -188,13 +191,17 @@ function DownloadRecords(props) {
   const [loading, setLoading] = useState(false);
   const [downloadInfo, setDownloadInfo] = useState();
   const [tagVersion, setTagVersion] = useState(Date.now());
-  const search = useCallback((keyword) => {
+  const [param, setParam] = useUrlQueryParam(["keyword"]);
+  console.log('param-->', param);
+
+  const searchData = (keyword) => {
     if (keyword) {
       setLoading(true);
       setRecords();
+      setParam({keyword})
       axios.get("/api/movie/search_keyword", {
         params: {
-          keyword,
+          keyword:keyword,
           rule_name: "compress"
         }
       }).then((res) => {
@@ -225,6 +232,14 @@ function DownloadRecords(props) {
         setLoading(false);
       });
     }
+  }
+
+  useEffect(()=> {
+    searchData(param.keyword)
+  }, [param])
+
+  const search = useCallback((keyword) => {
+    searchData(keyword)
   });
   const bs = new BScroll('#wrapper', {
     pullUpLoad: true,
@@ -234,6 +249,7 @@ function DownloadRecords(props) {
   return (<React.Fragment>
       <Helmet title="搜索" />
       <SearchBar
+        defaultValue={param?.keyword}
         onSearch={(value) => {
           setFilter({ encode: "全部", source: "全部", resolution: "全部"});
           setTagVersion(Date.now());
