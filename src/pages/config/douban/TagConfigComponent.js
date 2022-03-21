@@ -2,7 +2,7 @@ import {Button, Card, CardActions, CardContent, Grid, Link, TextField, Typograph
 import React, {useState} from "react";
 import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
 
-const DoubanTagConfigComponent = ({ruleData, tags, setTags}) => {
+const TagConfigComponent = ({ruleData, tags, setTags}) => {
     const [errors, setErrors] = useState({})
     const handleOnChange = (index, e) => {
         let tmp = [...tags];
@@ -96,4 +96,4 @@ const DoubanTagConfigComponent = ({ruleData, tags, setTags}) => {
         </React.Fragment>
     )
 }
-export default DoubanTagConfigComponent
+export default TagConfigComponent

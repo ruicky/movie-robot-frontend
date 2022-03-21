@@ -6,19 +6,12 @@ import {useFormik} from "formik";
 import axios from "../../../utils/request";
 
 import {
-    Alert as MuiAlert,
-    Button,
-    FormControl,
-    FormHelperText,
-    Link,
-    MenuItem,
-    Select,
-    TextField as MuiTextField
+    Alert as MuiAlert, Button, FormControl, FormHelperText, Link, MenuItem, Select, TextField as MuiTextField
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
-import DoubanUserConfigComponent from "@/pages/config/douban/DoubanUserConfigComponent";
-import DoubanTagConfigComponent from "@/pages/config/douban/DoubanTagConfigComponent";
+import UserConfigComponent from "@/pages/config/douban/UserConfigComponent";
+import TagConfigComponent from "@/pages/config/douban/TagConfigComponent";
 import DownloadPathConfigComponent from "@/pages/config/douban/DownloadPathConfigComponent";
 import pageMessage from "@/utils/message";
 
@@ -36,6 +29,8 @@ function DoubanConfigComponent({}) {
     const [tags, setTags] = useState([])
     const [downloadPath, setDownloadPath] = useState([{type: "movie", cate: [], area: [], score_rule: 'compress'}])
     const [message, setMessage] = useState();
+    const [userFormHasError, setUserFormHasError] = useState(false)
+    const [pathFormHasError, setPathFormHasError] = useState(false)
     const saveConfig = async (params) => {
         const res = await axios.post("/api/config/save_douban", params);
         const {code, message, data} = res;
@@ -47,15 +42,17 @@ function DoubanConfigComponent({}) {
     };
     const formik = useFormik({
         initialValues: {
-            default_score_rule: 'compress',
-            cron: '0,30 0-2,9-23 * * *',
-            cookie: ''
+            default_score_rule: 'compress', cron: '0,30 0-2,9-23 * * *', cookie: ''
         }, validationSchema: Yup.object().shape({
             default_score_rule: Yup.string().max(256).required(),
             cron: Yup.string().max(256).required(),
             cookie: Yup.string().max(256).required()
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
+            if (userFormHasError) {
+                return
+            }
             try {
+                await setSubmitting(true);
                 console.log(downloadPath)
                 await saveConfig(values);
             } catch (error) {
@@ -63,7 +60,8 @@ function DoubanConfigComponent({}) {
                 pageMessage.error(message)
                 setStatus({success: false});
                 setErrors({submit: message});
-                setSubmitting(false);
+            } finally {
+                await setSubmitting(false);
             }
         }
     });
@@ -93,15 +91,13 @@ function DoubanConfigComponent({}) {
             value={formik.values.cron}
             error={Boolean(formik.touched.cron && formik.errors.cron)}
             fullWidth
-            helperText={(
-                <span>
+            helperText={(<span>
                     Linux CRON表达式，默认每天上午9点至凌晨2点，每半小时一次
                     <Link target="_blank"
                           href="https://tool.lu/crontab/">
                             去测试表达式
                         </Link>
-                </span>
-            )}
+                </span>)}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
@@ -113,22 +109,23 @@ function DoubanConfigComponent({}) {
             value={formik.values.cookie}
             error={Boolean(formik.touched.cookie && formik.errors.cookie)}
             fullWidth
-            helperText={(
-                <span>
+            helperText={(<span>
                     任意用户访问豆瓣的Cookie，一些电影不登陆读不到详情
                     <Link target="_blank"
                           href="https://movie.douban.com/">
                             去获取Cookie
                         </Link>
-                </span>
-            )}
+                </span>)}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
         />
-        <DoubanUserConfigComponent ruleData={ruleData} users={users} setUsers={setUsers}/>
-        <DownloadPathConfigComponent data={downloadPath} setData={setDownloadPath}/>
-        <DoubanTagConfigComponent ruleData={ruleData} tags={tags} setTags={setTags}/>
+        <UserConfigComponent ruleData={ruleData} users={users} setUsers={setUsers}
+                             submitting={formik.isSubmitting}
+                             setHasError={setUserFormHasError}/>
+        <DownloadPathConfigComponent data={downloadPath} setData={setDownloadPath} submitting={formik.isSubmitting}
+                                     setHasError={setPathFormHasError}/>
+        <TagConfigComponent ruleData={ruleData} tags={tags} setTags={setTags}/>
         <Centered>
             <Button
                 mr={2}
