@@ -14,6 +14,7 @@ import UserConfigComponent from "@/pages/config/douban/UserConfigComponent";
 import TagConfigComponent from "@/pages/config/douban/TagConfigComponent";
 import DownloadPathConfigComponent from "@/pages/config/douban/DownloadPathConfigComponent";
 import pageMessage from "@/utils/message";
+import TestDownload from "@/pages/config/douban/TestDownload";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -24,12 +25,19 @@ const Centered = styled.div`
 
 function DoubanConfigComponent({}) {
     const navigate = useNavigate();
+    const [testDownloadPath, setTestDownloadPath] = useState({disabled: true, open: false})
     const [ruleData, setRuleData] = useState([])
     const [doubanTags, setDoubanTags] = useState({cate: [], area: []})
     const [mediaPaths, setMediaPaths] = useState([])
     const [users, setUsers] = useState([{id: '', nickname: '', pull_time_range: 365, score_rule: 'compress'}])
     const [tags, setTags] = useState([])
-    const [downloadPath, setDownloadPath] = useState([{type: "movie", cate: [], area: [],download_path:"", score_rule: 'compress'}])
+    const [downloadPath, setDownloadPath] = useState([{
+        type: "movie",
+        cate: [],
+        area: [],
+        download_path: "",
+        score_rule: 'compress'
+    }])
     const [formMessage, setFormMessage] = useState();
     const [userFormHasError, setUserFormHasError] = useState(false)
     const [pathFormHasError, setPathFormHasError] = useState(false)
@@ -41,6 +49,7 @@ function DoubanConfigComponent({}) {
         }
         setFormMessage(message);
         pageMessage.success(message || '操作成功')
+        setTestDownloadPath({disabled: false})
     };
     const formik = useFormik({
         initialValues: {
@@ -81,6 +90,7 @@ function DoubanConfigComponent({}) {
             setUsers(config.users);
             setDownloadPath(config.download_paths);
             setTags(config.tags)
+            setTestDownloadPath({disabled: false})
         }
         let res = await axios.get("/api/common/rules")
         setRuleData(res.data);
@@ -138,17 +148,30 @@ function DoubanConfigComponent({}) {
         <DownloadPathConfigComponent data={downloadPath} setData={setDownloadPath} submitting={formik.isSubmitting}
                                      setHasError={setPathFormHasError} tag={doubanTags} downloadPaths={mediaPaths}/>
         <TagConfigComponent ruleData={ruleData} tags={tags} setTags={setTags}/>
+        <TestDownload open={testDownloadPath.open} onClose={() => {
+            setTestDownloadPath({...testDownloadPath, open: false})
+        }}/>
         <Centered>
             <Button
-                mr={2}
+                sx={{mr: 2}}
                 size="medium"
                 type="submit"
                 variant="contained"
                 color="primary"
                 disabled={formik.isSubmitting}
-                fullWidth
             >
-                保存
+                保存设置
+            </Button>
+            <Button
+                size="medium"
+                variant="contained"
+                color="primary"
+                disabled={testDownloadPath.disabled}
+                onClick={() => {
+                    setTestDownloadPath({...testDownloadPath, open: true})
+                }}
+            >
+                测试一下保存规则
             </Button>
         </Centered>
 
