@@ -46,7 +46,7 @@ export default function MovieCard (props) {
   }
 
   return(
-    <Grid item md={6} lg={4} xl={2}  key={id} style={{width: '100%'}}>
+    <Grid item md={6} lg={4} xl={3}  key={id} style={{width: '100%'}}>
       <Card>
         {/*图片*/}
         <CardActionArea target="_blank" href={url || '#'}>

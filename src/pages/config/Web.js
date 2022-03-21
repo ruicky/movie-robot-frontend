@@ -4,7 +4,8 @@ import { Helmet } from "react-helmet-async";
 
 import { Paper, Typography } from "@mui/material";
 
-import MediaPathConfigComponent from "../../../components/config/MediaPathConfigComponent";
+import WebConfigComponent from "./components/WebConfigComponent";
+import {useLocation} from "react-router-dom";
 
 
 const Wrapper = styled(Paper)`
@@ -15,21 +16,26 @@ const Wrapper = styled(Paper)`
   }
 `;
 
-function InitMediaPath() {
+function Web() {
+  const location = useLocation();
+  let isInit = false;
+  if (location.pathname.startsWith('/setup')) {
+    isInit = true
+  }
   return (<React.Fragment>
     <Wrapper>
-      <Helmet title="下载工具设置 - 初始化" />
+      <Helmet title={isInit ? "网站访问设置 - 初始化" : "网站访问设置"}/>
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        媒体文件夹设置
+        网站访问设置
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        设置你存放影视文件的路径后，系统可以帮你自动整理"刮削"
+        请记住此页面的配置，便于今后的访问
       </Typography>
 
-      <MediaPathConfigComponent isInit={true} />
+      <WebConfigComponent isInit={isInit} />
     </Wrapper>
   </React.Fragment>);
 }
 
-export default InitMediaPath;
+export default Web;

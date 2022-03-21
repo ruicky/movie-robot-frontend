@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 import useAuth from "../../hooks/useAuth";
+import {MoreVert} from "@mui/icons-material";
 
 const IconButton = styled(MuiIconButton)`
   svg {
@@ -47,7 +48,7 @@ function NavbarUserDropdown() {
           color="inherit"
           size="large"
         >
-          <ActivityIcon />
+          <MoreVert />
         </IconButton>
       </Tooltip>
       <Menu

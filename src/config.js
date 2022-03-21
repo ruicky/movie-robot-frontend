@@ -34,4 +34,7 @@ export const ptSiteData = [{"name": "mteam", "domain": "kp.m-team.cc"}, {
 }, {"name": "ourbits", "domain": "ourbits.club"}, {"name": "lemonhd", "domain": "lemonhd.org"}, {
   "name": "pthome",
   "domain": "pthome.net"
+}, {
+  "name": "hdfans",
+  "domain": "hdfans.org"
 }]

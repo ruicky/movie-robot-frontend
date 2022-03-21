@@ -46,14 +46,14 @@ function SiteDashboard() {
     }
     const refreshSites = () => {
         axios.get("/api/site/get_sites").then((res) => {
-            if (!res.error && res.code === 0) {
+            if (res.code === 0) {
                 setTableData(res.data)
             }
         })
     }
     const refreshOverview = () => {
         axios.get("/api/site/overview").then((res) => {
-            if (!res.error && res.code === 0) {
+            if (res.code === 0) {
                 setOverview(res.data)
             }
         })

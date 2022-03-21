@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {  useFormik } from "formik";
-import axios from "../../utils/request";
+import axios from "../../../utils/request";
 
 import {
   Alert as MuiAlert,
@@ -35,7 +35,7 @@ function DownloadCLientConfigComponent({ isInit }) {
       throw new Error(message);
     }
     if (isInit) {
-      navigate("/setup/" + data.next);
+      navigate(data.next);
     } else {
       setMessage(message);
     }
@@ -168,6 +168,7 @@ function DownloadCLientConfigComponent({ isInit }) {
         variant="contained"
         color="primary"
         disabled={formik.isSubmitting}
+        fullWidth={!isInit}
       >
         {isInit ? "保存进入下一步" : "保存"}
       </Button>

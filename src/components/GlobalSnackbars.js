@@ -40,7 +40,7 @@ const GlobalSnackbars = () => {
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={open}
-        autoHideDuration={5000}
+        autoHideDuration={3500}
         onClose={handleClose}
       >
         <Alert variant={"filled"} onClose={handleClose} severity={severity}>
