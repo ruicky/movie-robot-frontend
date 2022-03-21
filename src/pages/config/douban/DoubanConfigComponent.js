@@ -97,7 +97,7 @@ function DoubanConfigComponent({}) {
         let res_tag = await axios.get('/api/common/douban_tag');
         setDoubanTags(res_tag.data);
         let res_path = await axios.get('/api/config/get_media_path');
-        setMediaPaths(res_path.data);
+        setMediaPaths(res_path.data.paths);
     }, []);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">

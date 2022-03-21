@@ -57,16 +57,17 @@ const TestDownload = ({open, onClose, onSuccess, onFailed}) => {
             const res = await axios.post("/api/config/test_douban_download", values);
             const {code, message, data} = res;
             if (code === undefined || code === 1) {
+                setMessage(undefined)
                 setErrorMessage(message);
                 return;
             }
-            console.log(message)
             setMessage(message)
             if (onSuccess !== undefined) {
                 onSuccess(values)
             }
         } catch (error) {
             const message = error.message || "测试出错啦";
+            setMessage(undefined)
             setErrorMessage(message);
             if (onFailed !== undefined) {
                 onFailed(error, values)
@@ -90,7 +91,7 @@ const TestDownload = ({open, onClose, onSuccess, onFailed}) => {
         <DialogTitle id="form-dialog-title">测试下载保存路径规则</DialogTitle>
         <DialogContent>
             <DialogContentText>
-                找一部豆瓣上的电影或剧集，测试一下，会被保存在哪。
+                找一部豆瓣上的电影或剧集，测试一下，会被保存在哪。（一定要先保存设置，再测试）
             </DialogContentText>
             {errorMessage && (<Alert mt={2} mb={1} severity="warning">
                 {errorMessage}
