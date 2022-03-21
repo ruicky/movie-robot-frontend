@@ -24,10 +24,8 @@ const MenuProps = {
         },
     },
 };
-const DownloadPathConfigComponent = ({ruleData, data, setData, submitting, setHasError}) => {
+const DownloadPathConfigComponent = ({data, setData, submitting, setHasError, downloadPaths, tag}) => {
     const [errors, setErrors] = useState({})
-    const [tag, setTags] = useState({cate: [], area: []})
-    const [downloadPaths, setDownloadPaths] = useState([])
     const handleOnChange = (index, e) => {
         let tmp = [...data];
         let item = {...tmp[index]};
@@ -65,11 +63,6 @@ const DownloadPathConfigComponent = ({ruleData, data, setData, submitting, setHa
             }
             setHasError(hasError)
             setErrors(tmpErrors)
-        } else {
-            let res = await axios.get('/api/common/douban_tag');
-            setTags(res.data)
-            let res_path = await axios.get('/api/config/get_media_path');
-            setDownloadPaths(res_path.data)
         }
     }, [submitting])
     return (<React.Fragment>

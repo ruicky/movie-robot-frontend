@@ -25,10 +25,12 @@ const Centered = styled.div`
 function DoubanConfigComponent({}) {
     const navigate = useNavigate();
     const [ruleData, setRuleData] = useState([])
+    const [doubanTags, setDoubanTags] = useState({cate: [], area: []})
+    const [mediaPaths, setMediaPaths] = useState([])
     const [users, setUsers] = useState([{id: '', nickname: '', pull_time_range: 365, score_rule: 'compress'}])
     const [tags, setTags] = useState([])
-    const [downloadPath, setDownloadPath] = useState([{type: "movie", cate: [], area: [], score_rule: 'compress'}])
-    const [message, setMessage] = useState();
+    const [downloadPath, setDownloadPath] = useState([{type: "movie", cate: [], area: [],download_path:"", score_rule: 'compress'}])
+    const [formMessage, setFormMessage] = useState();
     const [userFormHasError, setUserFormHasError] = useState(false)
     const [pathFormHasError, setPathFormHasError] = useState(false)
     const saveConfig = async (params) => {
@@ -37,7 +39,7 @@ function DoubanConfigComponent({}) {
         if (code === undefined || code === 1) {
             throw new Error(message);
         }
-        setMessage(message);
+        setFormMessage(message);
         pageMessage.success(message || '操作成功')
     };
     const formik = useFormik({
@@ -46,15 +48,18 @@ function DoubanConfigComponent({}) {
         }, validationSchema: Yup.object().shape({
             default_score_rule: Yup.string().max(256).required(),
             cron: Yup.string().max(256).required(),
-            cookie: Yup.string().max(256).required()
+            cookie: Yup.string().required()
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
-            if (userFormHasError) {
+            if (userFormHasError || pathFormHasError) {
                 return
             }
             try {
                 await setSubmitting(true);
-                console.log(downloadPath)
-                await saveConfig(values);
+                let params = {...values}
+                params["users"] = users
+                params["tags"] = tags
+                params["download_paths"] = downloadPath
+                await saveConfig(params);
             } catch (error) {
                 const message = error.message || "配置出错啦";
                 pageMessage.error(message)
@@ -67,22 +72,29 @@ function DoubanConfigComponent({}) {
     });
 
     useEffect(async () => {
+        let res_config = await axios.get("/api/config/get_douban");
+        let config = res_config.data;
+        if (config !== undefined && config !== null) {
+            formik.setFieldValue("default_score_rule", config.default_score_rule);
+            formik.setFieldValue("cron", config.cron);
+            formik.setFieldValue("cookie", config.cookie);
+            setUsers(config.users);
+            setDownloadPath(config.download_paths);
+            setTags(config.tags)
+        }
         let res = await axios.get("/api/common/rules")
-        setRuleData(res.data)
-        await axios.get("/api/config/get_douban").then((res) => {
-            const data = res.data;
-            if (data !== undefined && data !== null) {
-                formik.setFieldValue("tmdb_api_key", data.tmdb_api_key);
-                formik.setFieldValue("fanart_api_key", data.fanart_api_key);
-            }
-        });
+        setRuleData(res.data);
+        let res_tag = await axios.get('/api/common/douban_tag');
+        setDoubanTags(res_tag.data);
+        let res_path = await axios.get('/api/config/get_media_path');
+        setMediaPaths(res_path.data);
     }, []);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
         </Alert>)}
-        {message && (<Alert severity="success" my={3}>
-            {message}
+        {formMessage && (<Alert severity="success" my={3}>
+            {formMessage}
         </Alert>)}
         <TextField
             type="text"
@@ -124,7 +136,7 @@ function DoubanConfigComponent({}) {
                              submitting={formik.isSubmitting}
                              setHasError={setUserFormHasError}/>
         <DownloadPathConfigComponent data={downloadPath} setData={setDownloadPath} submitting={formik.isSubmitting}
-                                     setHasError={setPathFormHasError}/>
+                                     setHasError={setPathFormHasError} tag={doubanTags} downloadPaths={mediaPaths}/>
         <TagConfigComponent ruleData={ruleData} tags={tags} setTags={setTags}/>
         <Centered>
             <Button
