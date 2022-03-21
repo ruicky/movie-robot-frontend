@@ -7,3 +7,16 @@ export const THEMES = {
   GREEN: "GREEN",
   INDIGO: "INDIGO",
 };
+
+// 状态
+export const STATUS = {
+  0: {
+    msg: "下载中", color: "primary"
+  }, 1: {
+    msg: "下载完成", color: "success"
+  }, 2: {
+    msg: "下载被删", color: "error"
+  }, 3: {
+    msg: "未能识别", color: "warning"
+  }
+};

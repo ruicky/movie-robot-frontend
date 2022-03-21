@@ -67,7 +67,7 @@ function Overview({data, onUpdateClick}) {
                     amount={coverSize(data.total_up)}
                     chip={data.data_update_time}
                     percentagetext={coverSize(data.up_change_7)}
-                    desc='近7日新增'
+                    desc='近7日上传'
                     percentagecolor={green[500]}
                 />
             </Grid>

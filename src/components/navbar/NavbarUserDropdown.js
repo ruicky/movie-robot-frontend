@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components/macro";
-import { Power } from "react-feather";
+import { Activity as ActivityIcon } from "react-feather";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 import useAuth from "../../hooks/useAuth";
+import {MoreVert} from "@mui/icons-material";
 
 const IconButton = styled(MuiIconButton)`
   svg {
@@ -47,7 +48,7 @@ function NavbarUserDropdown() {
           color="inherit"
           size="large"
         >
-          <Power />
+          <MoreVert />
         </IconButton>
       </Tooltip>
       <Menu

@@ -42,7 +42,7 @@ function AuthProvider({ children }) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
           const response = await axios.get("/api/auth/my_account");
-          const { code, message, data } = response.data;
+          const { code, message, data } = response;
           if (code === 1) {
             setSession(null);
             dispatch({ type: SIGN_OUT });
@@ -78,7 +78,7 @@ function AuthProvider({ children }) {
     const response = await axios.post("/api/auth/get_token", {
       username, password
     });
-    const { code, message, data } = response.data;
+    const { code, message, data } = response;
     if (code === 1) {
       throw new Error(message);
     }

@@ -46,15 +46,15 @@ function SiteDashboard() {
     }
     const refreshSites = () => {
         axios.get("/api/site/get_sites").then((res) => {
-            if (!res.error && res.data.code === 0) {
-                setTableData(res.data.data)
+            if (res.code === 0) {
+                setTableData(res.data)
             }
         })
     }
     const refreshOverview = () => {
         axios.get("/api/site/overview").then((res) => {
-            if (!res.error && res.data.code === 0) {
-                setOverview(res.data.data)
+            if (res.code === 0) {
+                setOverview(res.data)
             }
         })
     }
@@ -67,7 +67,7 @@ function SiteDashboard() {
     const onDeleteSite = async (site) => {
         try {
             const res = await axios.post("/api/site/delete", {id: site.id});
-            const {code, message, data} = res.data;
+            const {code, message, data} = res;
             if (code === undefined || code === 1) {
                 setMessage(message);
                 return;
@@ -84,7 +84,7 @@ function SiteDashboard() {
         setUpdating(true)
         try {
             const res = await axios.get("/api/site/update_sites");
-            const {code, message, data} = res.data;
+            const {code, message, data} = res;
             if (code === undefined || code === 1) {
                 setMessage(message);
                 return;

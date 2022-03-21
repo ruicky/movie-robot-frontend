@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import axios from "../../utils/request";
+import axios from "../../../utils/request";
 
 import {
     Alert as MuiAlert,
@@ -29,12 +29,12 @@ function MediaServerConfigComponent({isInit}) {
     const [message, setMessage] = useState();
     const saveConfig = async (type, url, token) => {
         const res = await axios.post("/api/config/save_media_server", {type, url, token});
-        const {code, message, data} = res.data;
+        const {code, message, data} = res;
         if (code === undefined || code === 1) {
             throw new Error(message);
         }
         if (isInit) {
-            navigate("/setup/" + data.next);
+            navigate(data.next);
         } else {
             setMessage(message);
         }
@@ -61,7 +61,7 @@ function MediaServerConfigComponent({isInit}) {
 
     useEffect(async () => {
         await axios.get("/api/config/get_media_server").then((res) => {
-            const data = res.data.data;
+            const data = res.data;
             formik.setFieldValue("type", data.type);
             formik.setFieldValue("url", data.url);
             formik.setFieldValue("token", data.token);
@@ -156,6 +156,7 @@ function MediaServerConfigComponent({isInit}) {
                 variant="contained"
                 color="primary"
                 disabled={formik.isSubmitting}
+                fullWidth={!isInit}
             >
                 {isInit ? "保存进入下一步" : "保存"}
             </Button>

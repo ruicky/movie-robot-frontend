@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {  useFormik } from "formik";
-import axios from "../../utils/request";
+import axios from "../../../utils/request";
 
 import {
   Alert as MuiAlert,
@@ -30,12 +30,12 @@ function DownloadCLientConfigComponent({ isInit }) {
   const [message, setMessage] = useState();
   const saveConfig = async (params) => {
     const res = await axios.post("/api/config/save_download_client", params);
-    const { code, message, data } = res.data;
+    const { code, message, data } = res;
     if (code === undefined || code === 1) {
       throw new Error(message);
     }
     if (isInit) {
-      navigate("/setup/" + data.next);
+      navigate(data.next);
     } else {
       setMessage(message);
     }
@@ -74,7 +74,7 @@ function DownloadCLientConfigComponent({ isInit }) {
 
   useEffect(async () => {
     axios.get("/api/config/get_download_client").then((res) => {
-      const data = res.data.data;
+      const data = res.data;
       if (data != undefined) {
         formik.setFieldValue("type", data.type);
         formik.setFieldValue("url", data.url);
@@ -168,6 +168,7 @@ function DownloadCLientConfigComponent({ isInit }) {
         variant="contained"
         color="primary"
         disabled={formik.isSubmitting}
+        fullWidth={!isInit}
       >
         {isInit ? "保存进入下一步" : "保存"}
       </Button>
