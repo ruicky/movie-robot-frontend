@@ -2,8 +2,6 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components/macro";
 import { Search as SearchIcon } from "@mui/icons-material";
 import { Helmet } from "react-helmet-async";
-import BScroll from 'better-scroll'
-// import axios from "axios";
 import axios from "../../../utils/request";
 import { useUrlQueryParam } from '@/hooks/useUrlQueryParam';
 
@@ -241,11 +239,6 @@ function DownloadRecords(props) {
   const search = useCallback((keyword) => {
     searchData(keyword)
   });
-  const bs = new BScroll('#wrapper', {
-    pullUpLoad: true,
-    scrollbar: true,
-    pullDownRefresh: true
-  })
   return (<React.Fragment>
       <Helmet title="搜索" />
       <SearchBar
@@ -266,7 +259,7 @@ function DownloadRecords(props) {
       {loading && <CircularProgress sx={{ position: "absolute", top: "50%", left: "50%", marginLeft: "-20px" }} />}
       {
         (records && records.length > 0) &&
-        <Grid container spacing={4} id="wrapper">
+        <Grid container spacing={4}>
           {
             records.filter(({ resolution, media_source, media_encoding }) => {
               let bool = true;
