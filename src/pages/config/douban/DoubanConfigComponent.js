@@ -6,21 +6,15 @@ import {useFormik} from "formik";
 import axios from "../../../utils/request";
 
 import {
-    Alert as MuiAlert,
-    Button,
-    FormControl,
-    FormHelperText,
-    Link,
-    MenuItem,
-    Select,
-    TextField as MuiTextField
+    Alert as MuiAlert, Button, FormControl, FormHelperText, Link, MenuItem, Select, TextField as MuiTextField
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
-import DoubanUserConfigComponent from "@/pages/config/douban/DoubanUserConfigComponent";
-import DoubanTagConfigComponent from "@/pages/config/douban/DoubanTagConfigComponent";
+import UserConfigComponent from "@/pages/config/douban/UserConfigComponent";
+import TagConfigComponent from "@/pages/config/douban/TagConfigComponent";
 import DownloadPathConfigComponent from "@/pages/config/douban/DownloadPathConfigComponent";
 import pageMessage from "@/utils/message";
+import TestDownload from "@/pages/config/douban/TestDownload";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -31,60 +25,86 @@ const Centered = styled.div`
 
 function DoubanConfigComponent({}) {
     const navigate = useNavigate();
+    const [testDownloadPath, setTestDownloadPath] = useState({disabled: true, open: false})
     const [ruleData, setRuleData] = useState([])
+    const [doubanTags, setDoubanTags] = useState({cate: [], area: []})
+    const [mediaPaths, setMediaPaths] = useState([])
     const [users, setUsers] = useState([{id: '', nickname: '', pull_time_range: 365, score_rule: 'compress'}])
     const [tags, setTags] = useState([])
-    const [downloadPath, setDownloadPath] = useState([{type: "movie", cate: [], area: [], score_rule: 'compress'}])
-    const [message, setMessage] = useState();
+    const [downloadPath, setDownloadPath] = useState([{
+        type: "movie",
+        cate: [],
+        area: [],
+        download_path: "",
+        score_rule: 'compress'
+    }])
+    const [formMessage, setFormMessage] = useState();
+    const [userFormHasError, setUserFormHasError] = useState(false)
+    const [pathFormHasError, setPathFormHasError] = useState(false)
     const saveConfig = async (params) => {
         const res = await axios.post("/api/config/save_douban", params);
         const {code, message, data} = res;
         if (code === undefined || code === 1) {
             throw new Error(message);
         }
-        setMessage(message);
+        setFormMessage(message);
         pageMessage.success(message || '操作成功')
+        setTestDownloadPath({disabled: false})
     };
     const formik = useFormik({
         initialValues: {
-            default_score_rule: 'compress',
-            cron: '0,30 0-2,9-23 * * *',
-            cookie: ''
+            default_score_rule: 'compress', cron: '0,30 0-2,9-23 * * *', cookie: ''
         }, validationSchema: Yup.object().shape({
             default_score_rule: Yup.string().max(256).required(),
             cron: Yup.string().max(256).required(),
-            cookie: Yup.string().max(256).required()
+            cookie: Yup.string().required()
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
+            if (userFormHasError || pathFormHasError) {
+                return
+            }
             try {
-                console.log(downloadPath)
-                await saveConfig(values);
+                await setSubmitting(true);
+                let params = {...values}
+                params["users"] = users
+                params["tags"] = tags
+                params["download_paths"] = downloadPath
+                await saveConfig(params);
             } catch (error) {
                 const message = error.message || "配置出错啦";
                 pageMessage.error(message)
                 setStatus({success: false});
                 setErrors({submit: message});
-                setSubmitting(false);
+            } finally {
+                await setSubmitting(false);
             }
         }
     });
 
     useEffect(async () => {
+        let res_config = await axios.get("/api/config/get_douban");
+        let config = res_config.data;
+        if (config !== undefined && config !== null) {
+            formik.setFieldValue("default_score_rule", config.default_score_rule);
+            formik.setFieldValue("cron", config.cron);
+            formik.setFieldValue("cookie", config.cookie);
+            setUsers(config.users);
+            setDownloadPath(config.download_paths);
+            setTags(config.tags)
+            setTestDownloadPath({disabled: false})
+        }
         let res = await axios.get("/api/common/rules")
-        setRuleData(res.data)
-        await axios.get("/api/config/get_douban").then((res) => {
-            const data = res.data;
-            if (data !== undefined && data !== null) {
-                formik.setFieldValue("tmdb_api_key", data.tmdb_api_key);
-                formik.setFieldValue("fanart_api_key", data.fanart_api_key);
-            }
-        });
+        setRuleData(res.data);
+        let res_tag = await axios.get('/api/common/douban_tag');
+        setDoubanTags(res_tag.data);
+        let res_path = await axios.get('/api/config/get_media_path');
+        setMediaPaths(res_path.data.paths);
     }, []);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
         </Alert>)}
-        {message && (<Alert severity="success" my={3}>
-            {message}
+        {formMessage && (<Alert severity="success" my={3}>
+            {formMessage}
         </Alert>)}
         <TextField
             type="text"
@@ -93,15 +113,13 @@ function DoubanConfigComponent({}) {
             value={formik.values.cron}
             error={Boolean(formik.touched.cron && formik.errors.cron)}
             fullWidth
-            helperText={(
-                <span>
+            helperText={(<span>
                     Linux CRON表达式，默认每天上午9点至凌晨2点，每半小时一次
                     <Link target="_blank"
                           href="https://tool.lu/crontab/">
                             去测试表达式
                         </Link>
-                </span>
-            )}
+                </span>)}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
@@ -113,33 +131,47 @@ function DoubanConfigComponent({}) {
             value={formik.values.cookie}
             error={Boolean(formik.touched.cookie && formik.errors.cookie)}
             fullWidth
-            helperText={(
-                <span>
+            helperText={(<span>
                     任意用户访问豆瓣的Cookie，一些电影不登陆读不到详情
                     <Link target="_blank"
                           href="https://movie.douban.com/">
                             去获取Cookie
                         </Link>
-                </span>
-            )}
+                </span>)}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
         />
-        <DoubanUserConfigComponent ruleData={ruleData} users={users} setUsers={setUsers}/>
-        <DownloadPathConfigComponent data={downloadPath} setData={setDownloadPath}/>
-        <DoubanTagConfigComponent ruleData={ruleData} tags={tags} setTags={setTags}/>
+        <UserConfigComponent ruleData={ruleData} users={users} setUsers={setUsers}
+                             submitting={formik.isSubmitting}
+                             setHasError={setUserFormHasError}/>
+        <DownloadPathConfigComponent data={downloadPath} setData={setDownloadPath} submitting={formik.isSubmitting}
+                                     setHasError={setPathFormHasError} tag={doubanTags} downloadPaths={mediaPaths}/>
+        <TagConfigComponent ruleData={ruleData} tags={tags} setTags={setTags}/>
+        <TestDownload open={testDownloadPath.open} onClose={() => {
+            setTestDownloadPath({...testDownloadPath, open: false})
+        }}/>
         <Centered>
             <Button
-                mr={2}
+                sx={{mr: 2}}
                 size="medium"
                 type="submit"
                 variant="contained"
                 color="primary"
                 disabled={formik.isSubmitting}
-                fullWidth
             >
-                保存
+                保存设置
+            </Button>
+            <Button
+                size="medium"
+                variant="contained"
+                color="primary"
+                disabled={testDownloadPath.disabled}
+                onClick={() => {
+                    setTestDownloadPath({...testDownloadPath, open: true})
+                }}
+            >
+                测试一下保存规则
             </Button>
         </Centered>
 

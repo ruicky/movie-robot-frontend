@@ -54,7 +54,7 @@ export default function DownloadRecords () {
         {
           list.map(movie=>{
             const downloading = downloadingList?.find(down => down.hash === movie.hash)
-            return <MovieCard key={movie.id} data={movie} onDelete={setDeleteData} downloading={downloading} onAnalyze={setAnalyzeData} />
+            return <MovieCard key={movie.id} data={movie} onDelete={setDeleteData} downloading={downloading} onAnalyze={setAnalyzeData}/>
           })
         }
       </Grid>

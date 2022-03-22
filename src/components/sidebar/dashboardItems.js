@@ -28,7 +28,7 @@ const settingPages = [{
         },
         {
             href: "/config/movie-metadata",
-            title: "媒体元数据",
+            title: "影音识别",
         }
     ]
 }];

@@ -31,7 +31,8 @@ function MediaPathConfigComponent({isInit}) {
     const [message, setMessage] = useState();
     const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
-    const [paths, setPaths] = useState([{type: "movie", file_process_mode: "link"}]);
+    const [paths, setPaths] = useState([{qbit_cate: "", type: "movie", file_process_mode: "link"}]);
+    const [downloadClient, setDownloadClient] = useState()
     const saveConfig = async (params) => {
         setNextButtonDisabled(true);
         setErrorMessage(undefined);
@@ -120,7 +121,10 @@ function MediaPathConfigComponent({isInit}) {
         axios.get("/api/config/get_media_path").then((res) => {
             const data = res.data;
             if (data !== undefined) {
-                setPaths(data);
+                if (data.download_client !== undefined) {
+                    setDownloadClient(data.download_client)
+                }
+                setPaths(data.paths);
             }
         });
     }, []);
@@ -164,6 +168,18 @@ function MediaPathConfigComponent({isInit}) {
                     onChange={(e) => handleOnChange(i, e)}
                     onBlur={(e) => handleOnBlur(i, e)}
                 />
+                {downloadClient !== undefined && downloadClient === "qbittorrent" && (
+                    <TextField
+                        name="qbit_cate"
+                        value={p.qbit_cate}
+                        label="qbittorrent分类名称"
+                        fullWidth
+                        variant="outlined"
+                        helperText="使用qbittorrent自动管理模式，需要设置分类名，并和qbit中分类名一致"
+                        my={2}
+                        onChange={(e) => handleOnChange(i, e)}
+                    />
+                )}
                 <TextField
                     name="source_dir"
                     label="下载路径装载到容器的路径"
@@ -204,7 +220,7 @@ function MediaPathConfigComponent({isInit}) {
         </Card>))) : null}
         <CardActions>
             <Button size="small" color="primary" onClick={() => {
-                setPaths([...paths, {type: "movie", file_process_mode: "link"}]);
+                setPaths([...paths, {type: "movie", file_process_mode: "link", qbit_cate: ""}]);
             }}>
                 加一个路径
             </Button>
