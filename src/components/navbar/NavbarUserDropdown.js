@@ -1,6 +1,5 @@
 import * as React from "react";
 import styled from "styled-components/macro";
-import { Activity as ActivityIcon } from "react-feather";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -10,8 +9,13 @@ import {
   IconButton as MuiIconButton,
 } from "@mui/material";
 
-import useAuth from "../../hooks/useAuth";
+
+import useAuth from "@/hooks/useAuth";
 import {MoreVert} from "@mui/icons-material";
+import axios from "@/utils/request";
+
+import useStore from "@/store/index";
+import msg from "@/utils/message";
 
 const IconButton = styled(MuiIconButton)`
   svg {
@@ -25,6 +29,8 @@ function NavbarUserDropdown() {
   const navigate = useNavigate();
   const { signOut } = useAuth();
 
+  const theme = useStore(state=>state.theme)
+
   const toggleMenu = (event) => {
     setAnchorMenu(event.currentTarget);
   };
@@ -37,6 +43,18 @@ function NavbarUserDropdown() {
     await signOut();
     navigate("/auth/sign-in");
   };
+  const runTaskNow = ()=>{
+    axios
+      .get("/api/task/run", {
+        params: {
+          name: "sync_movies",
+        },
+      })
+      .then(({ code, message }) => {
+        msg.success(message)
+        closeMenu()
+      });
+  }
 
   return (
     <React.Fragment>
@@ -58,6 +76,8 @@ function NavbarUserDropdown() {
         onClose={closeMenu}
       >
         <MenuItem>重载配置</MenuItem>
+        <MenuItem onClick={()=>{theme.toggle(true);closeMenu()}}>更换主题</MenuItem>
+        <MenuItem onClick={runTaskNow}>执行豆瓣任务</MenuItem>
         <MenuItem onClick={handleSignOut}>退出</MenuItem>
       </Menu>
     </React.Fragment>
