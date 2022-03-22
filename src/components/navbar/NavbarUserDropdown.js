@@ -75,7 +75,6 @@ function NavbarUserDropdown() {
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
       >
-        <MenuItem>重载配置</MenuItem>
         <MenuItem onClick={()=>{theme.toggle(true);closeMenu()}}>更换主题</MenuItem>
         <MenuItem onClick={runTaskNow}>执行豆瓣任务</MenuItem>
         <MenuItem onClick={handleSignOut}>退出</MenuItem>
