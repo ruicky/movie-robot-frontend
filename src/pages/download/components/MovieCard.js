@@ -12,13 +12,11 @@ import {
   CardActions,
   Grid,
 } from "@mui/material";
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components/macro";
 import DownloadBar from "./DownloadBar";
 import {spacing} from "@mui/system";
 import LinesEllipsis from 'react-lines-ellipsis'
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function MovieCard (props) {
   const {onDelete,onAnalyze, downloading} = props
@@ -30,21 +28,20 @@ export default function MovieCard (props) {
     site_name,
     year,
     desc,
-    chip,
+    status,
+    status_color,
     status_code,
     resolution,
     media_source,
     media_encoding,
     url
   } = props.data;
-
   const handleAnalyze = () => {
     onAnalyze({ open: true, year: year, id: id, name:title })
   };
   const handleDelete = () => {
     onDelete({open: true, id})
   }
-
   return(
     <Grid item md={6} lg={4} xl={3}  key={id} style={{width: '100%'}}>
       <Card>
@@ -66,7 +63,7 @@ export default function MovieCard (props) {
           {status_code == 0 && <DownloadBar downloading={downloading} id={id}/>}
           {/*标签*/}
           <Stack direction="row" spacing={1}>
-            {status_code !== 0 ? chip : null}
+            <Chip label={status} color={status_color} />
             {media_source && <Chip label={media_source} color="primary" />}
             {resolution && <Chip label={resolution} color="success" />}
             {media_encoding && <Chip label={media_encoding} color="info" />}

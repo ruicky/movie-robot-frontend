@@ -9,13 +9,14 @@ import {
     Alert as MuiAlert, Button, TextField as MuiTextField
 } from "@mui/material";
 import {spacing} from "@mui/system";
-import {setSession} from "@/utils/jwt";
+import useAuth from "../../../hooks/useAuth";
 
 const Alert = styled(MuiAlert)(spacing);
 
 const TextField = styled(MuiTextField)(spacing);
 
 function WebConfigComponent({isInit}) {
+    const {signIn} = useAuth();
     const navigate = useNavigate();
     const [message, setMessage] = useState();
     const saveWebConfig = async (port, username, password, server_url) => {
@@ -24,9 +25,7 @@ function WebConfigComponent({isInit}) {
         if (code === undefined || code === 1) {
             throw new Error(message);
         }
-        if (data.access_token !== undefined && data.access_token !== null) {
-            setSession(data.access_token)
-        }
+        await signIn(username, password);
         if (isInit) {
             navigate(data.next);
         } else {

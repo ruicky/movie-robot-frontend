@@ -45,8 +45,8 @@ function MediaServerConfigComponent({isInit}) {
             url: "http://",
             token: ""
         }, validationSchema: Yup.object().shape({
-            url: Yup.string().max(256).required(),
-            token: Yup.string().max(256).required()
+            url: Yup.string().max(256).required("访问地址不能为空"),
+            token: Yup.string().max(256).required("API密钥不能为空")
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
                 await saveConfig(values.type, values.url, values.token);
@@ -62,13 +62,19 @@ function MediaServerConfigComponent({isInit}) {
     useEffect(async () => {
         await axios.get("/api/config/get_media_server").then((res) => {
             const data = res.data;
-            formik.setFieldValue("type", data.type);
-            formik.setFieldValue("url", data.url);
-            formik.setFieldValue("token", data.token);
+            if (data !== undefined && data !== null) {
+                formik.setFieldValue("type", data.type);
+                if (data.url !== undefined && data.url !== null) {
+                    formik.setFieldValue("url", data.url);
+                }
+                if (data.token !== undefined && data.token !== null) {
+                    formik.setFieldValue("token", data.token);
+                }
+            }
         });
     }, []);
     let tokenHelpText, tokenLabel;
-    if (formik.values.type == "emby") {
+    if (formik.values.type === "emby") {
         tokenLabel = "API密钥";
         tokenHelpText = (
             <span>
@@ -107,7 +113,6 @@ function MediaServerConfigComponent({isInit}) {
                 onChange={(e) => {
                     formik.handleChange(e);
                 }}
-                displayEmpty
             >
                 <MenuItem value="emby">Emby</MenuItem>
                 <MenuItem value="plex">Plex</MenuItem>
