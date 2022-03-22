@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { css } from "styled-components/macro";
 
 import { green, grey, indigo } from "@mui/material/colors";
 import { Alert } from "@mui/lab";
-import { Palette as PaletteIcon } from "@mui/icons-material";
+// import { Palette as PaletteIcon } from "@mui/icons-material";
 import {
   Box,
   Drawer,
@@ -15,6 +15,7 @@ import {
 
 import { THEMES } from "../constants";
 import useTheme from "../hooks/useTheme";
+import useStore from "@/store/index";
 
 const DemoButton = styled.div`
   cursor: pointer;
@@ -144,20 +145,16 @@ function Demos() {
 }
 
 function Settings() {
-  const [state, setState] = useState({
-    isOpen: false,
-  });
-
+  const theme = useStore(state => state.theme)
   const toggleDrawer = (open) => () => {
-    setState({ ...state, isOpen: open });
+    theme.toggle(open)
   };
-
   return (
     <React.Fragment>
-      <Fab color="primary" aria-label="Edit" onClick={toggleDrawer(true)}>
+      {/* <Fab color="primary" aria-label="Edit" onClick={toggleDrawer(true)}>
         <PaletteIcon />
-      </Fab>
-      <Drawer anchor="right" open={state.isOpen} onClose={toggleDrawer(false)}>
+      </Fab> */}
+      <Drawer anchor="right" open={theme.isOpen} onClose={toggleDrawer(false)}>
         <Demos />
       </Drawer>
     </React.Fragment>
