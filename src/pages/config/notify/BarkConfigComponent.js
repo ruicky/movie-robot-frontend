@@ -4,6 +4,7 @@ import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from "../../../utils/request";
+import _ from 'lodash';
 
 import {
     Alert as MuiAlert, Button, FormControl, FormHelperText, Link, MenuItem, Select, TextField as MuiTextField
@@ -72,6 +73,10 @@ function BarkConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             formik.setFieldValue('push_url', data.push_url)
             formik.setFieldValue('sound', data.sound)
             formik.setFieldValue('group', data.group)
+            const { title, message } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, { title: '', message: '' })
+            formik.setFieldValue('title', title)
+            formik.setFieldValue('message', message)
+            setMessageTemplate(data.message_template)
         }
     }, [data]);
     return (<form noValidate onSubmit={formik.handleSubmit}>

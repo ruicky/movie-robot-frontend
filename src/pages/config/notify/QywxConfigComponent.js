@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
+import _ from 'lodash';
 
 import {
     Alert as MuiAlert, Button, FormControl, FormHelperText, Link, MenuItem, Select, TextField as MuiTextField
@@ -78,6 +79,10 @@ function QywxConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             if (data.aes_key) {
                 formik.setFieldValue('aes_key', data.aes_key)
             }
+            const { title, message } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, { title: '', message: '' })
+            formik.setFieldValue('title', title)
+            formik.setFieldValue('message', message)
+            setMessageTemplate(data.message_template)
         }
     }, [data]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
