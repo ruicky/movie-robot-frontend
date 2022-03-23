@@ -49,7 +49,7 @@ function MovieMetadataConfigComponent({isInit}) {
             try {
                 await saveConfig(values);
             } catch (error) {
-                const message = error.message || "配置出错啦";
+                const message = error.message || "配置出错啦，容器能科学上网么？";
                 setStatus({success: false});
                 setErrors({submit: message});
                 setSubmitting(false);
