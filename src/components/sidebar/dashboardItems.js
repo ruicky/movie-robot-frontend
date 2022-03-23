@@ -29,6 +29,10 @@ const settingPages = [{
         {
             href: "/config/movie-metadata",
             title: "影音识别",
+        },
+        {
+            href: "/config/notify",
+            title: "推送通知",
         }
     ]
 }];
