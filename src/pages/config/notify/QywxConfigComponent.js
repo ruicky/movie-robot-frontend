@@ -1,21 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import axios from "../../../utils/request";
 
 import {
-    Alert as MuiAlert,
-    Button,
-    FormControl,
-    FormHelperText,
-    Link,
-    MenuItem,
-    Select,
-    TextField as MuiTextField
+    Alert as MuiAlert, Button, FormControl, FormHelperText, Link, MenuItem, Select, TextField as MuiTextField
 } from "@mui/material";
 import {spacing} from "@mui/system";
+import MessageTemplateComponent from "@/pages/config/notify/MessageTemplateComponent";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -24,39 +16,70 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-function QywxConfigComponent({isInit, data}) {
-    const navigate = useNavigate();
+function QywxConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
+    const [opType, setOpType] = useState('save')
     const [message, setMessage] = useState();
+    const [messageTemplate, setMessageTemplate] = useState({
+        movie_completed: {
+            title: '${name} (${year}) 评分:${rating}', message: '${nickname}添加的电影 ${name}(${year})下载完毕'
+        }, 'tv_completed': {
+            title: '${name} (${year}) 评分:${rating}', message: '${nickname}添加的剧集 ${name}(${year})第${episodes}集下载完毕'
+        }
+    })
     const formik = useFormik({
         initialValues: {
             touser: '@all',
             corpid: '',
             corpsecret: '',
             agentid: '100001',
-            movie_message_pattern: '${nickname}添加的电影 ${name}(${year})下载完毕',
-            tv_message_pattern: '${nickname}添加的剧集 ${name}(${year})第${episodes}集下载完毕'
+            message_template: 'movie_completed',
+            title: '${name} (${year}) 评分:${rating}',
+            message: '${nickname}添加的电影 ${name}(${year})下载完毕',
+            token: '',
+            aes_key: ''
         }, validationSchema: Yup.object().shape({
-            tmdb_api_key: Yup.string().max(256).required(),
+            touser: Yup.string().max(256).required(),
+            corpid: Yup.string().max(256).required(),
+            corpsecret: Yup.string().max(256).required(),
+            agentid: Yup.string().max(256).required(),
+            title: Yup.string().max(1000).required(),
+            message: Yup.string().max(1000).required(),
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
-                // await saveConfig(values);
+                setMessage(undefined)
+                setSubmitting(true)
+                let params = {...values}
+                params['message_template'] = messageTemplate;
+                delete params['title']
+                delete params['message']
+                if (opType === "save") {
+                    await onSubmitEvent(params, setMessage)
+                } else if (opType === "test") {
+                    await onTestEvent(params, setMessage)
+                }
             } catch (error) {
-                const message = error.message || "配置出错啦";
+                const message = error.message || "企业微信配置出错啦";
                 setStatus({success: false});
                 setErrors({submit: message});
+            } finally {
                 setSubmitting(false);
             }
         }
     });
-
     useEffect(async () => {
         if (data !== undefined && data !== null) {
-            formik.setFieldValue('push_url', data.defualt_push_url)
-            formik.setFieldValue('sound', data.sound)
-            formik.setFieldValue('group', data.group)
-            formik.setFieldValue('movie_message_pattern', data.movie_message_pattern)
+            formik.setFieldValue('touser', data.touser)
+            formik.setFieldValue('corpid', data.corpid)
+            formik.setFieldValue('corpsecret', data.corpsecret)
+            formik.setFieldValue('agentid', data.agentid)
+            if (data.token) {
+                formik.setFieldValue('token', data.token)
+            }
+            if (data.aes_key) {
+                formik.setFieldValue('aes_key', data.aes_key)
+            }
         }
-    }, []);
+    }, [data]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
@@ -112,33 +135,43 @@ function QywxConfigComponent({isInit, data}) {
             onChange={formik.handleChange}
             my={3}
         />
+        <MessageTemplateComponent formik={formik} messageTemplate={messageTemplate}
+                                  setMessageTemplate={setMessageTemplate}/>
         <TextField
-            name="movie_message_pattern"
-            label="电影通知模版"
-            value={formik.values.movie_message_pattern}
-            error={Boolean(formik.touched.movie_message_pattern && formik.errors.movie_message_pattern)}
+            type="text"
+            name="token"
+            label="Token"
+            value={formik.values.token}
+            error={Boolean(formik.touched.token && formik.errors.token)}
             fullWidth
-            helperText={'电影下载完成时，最终推送到app的消息内容，可以使用占位变量自由定义格式。'}
+            helperText={'企业微信接收消息页随机获取的Token，可留空不配置。'}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            multiline
-            maxRows={4}
             my={3}
         />
         <TextField
-            name="tv_message_pattern"
-            label="剧集通知模版"
-            value={formik.values.tv_message_pattern}
-            error={Boolean(formik.touched.tv_message_pattern && formik.errors.tv_message_pattern)}
+            type="text"
+            name="aes_key"
+            label="EncodingAESKey"
+            value={formik.values.aes_key}
+            error={Boolean(formik.touched.aes_key && formik.errors.aes_key)}
             fullWidth
-            helperText={'剧集下载完成时，最终推送到app的消息内容，可以使用占位变量自由定义格式。'}
+            helperText={'企业微信接收消息页随机获取的EncodingAESKey，可留空不配置。'}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            multiline
-            maxRows={4}
             my={3}
         />
         <Centered>
+            <Button sx={{mr: 2}}
+                    size="medium"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpType('test')}
+
+            >
+                推送一条消息测试
+            </Button>
             <Button
                 mr={2}
                 size="medium"
@@ -146,7 +179,7 @@ function QywxConfigComponent({isInit, data}) {
                 variant="contained"
                 color="primary"
                 disabled={formik.isSubmitting}
-                fullWidth={!isInit}
+                onClick={() => setOpType('save')}
             >
                 保存设置
             </Button>
