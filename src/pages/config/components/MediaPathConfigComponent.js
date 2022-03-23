@@ -31,7 +31,7 @@ function MediaPathConfigComponent({isInit}) {
     const [message, setMessage] = useState();
     const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
-    const [paths, setPaths] = useState([{qbit_cate: "", type: "movie", file_process_mode: "link"}]);
+    const [paths, setPaths] = useState([{download_path: "", source_dir: "", target_dir: "", qbit_cate: "", type: "movie", file_process_mode: "link"}]);
     const [downloadClient, setDownloadClient] = useState()
     const saveConfig = async (params) => {
         setNextButtonDisabled(true);
