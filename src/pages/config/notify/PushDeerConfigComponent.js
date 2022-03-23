@@ -4,6 +4,7 @@ import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from "../../../utils/request";
+import _ from 'lodash';
 
 import {
     Alert as MuiAlert,
@@ -75,6 +76,10 @@ function PushDeerConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
         if (data !== undefined && data !== null) {
             formik.setFieldValue('api', data.api)
             formik.setFieldValue('pushkey', data.pushkey)
+            const { title, message } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, { title: '', message: '' })
+            formik.setFieldValue('title', title)
+            formik.setFieldValue('message', message)
+            setMessageTemplate(data.message_template)
         }
     }, [data]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
