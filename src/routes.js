@@ -19,6 +19,7 @@ const InitMediaPath = async(() => import("./pages/config/MediaPath"));
 const InitMovieMetadata = async(() => import("./pages/config/MovieMetadata"));
 const InitWeb = async(() => import("./pages/config/Web"));
 const DoubanConfig = async(() => import("./pages/config/DoubanConfig"));
+const NotifyConfig = async(() => import("./pages/config/NotifyConfig"));
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
         path: "sign-in", element: <SignIn/>
@@ -52,6 +53,8 @@ const routes = [{
         path: "media-path", element: <InitMediaPath/>
     }, {
         path: "movie-metadata", element: <InitMovieMetadata/>
+    }, {
+        path: "notify", element: <NotifyConfig/>
     }]
 }, {
     path: "smartDownload", element: <AuthGuard>
