@@ -34,6 +34,7 @@ function BarkConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             push_url: '',
             sound: 'chime',
             group: '电影机器人',
+            icon:'https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/icon.jpg',
             message_template: 'movie_completed',
             title: '${name} (${year}) 评分:${rating}',
             message: '${nickname}添加的电影 ${name}(${year})下载完毕'
@@ -111,7 +112,19 @@ function BarkConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             value={formik.values.group}
             error={Boolean(formik.touched.group && formik.errors.group)}
             fullWidth
-            helperText={'Bark 推送接口的group参数'}
+            helperText={'对消息进行分组，推送将按group分组显示在通知中心中。'}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
+        <TextField
+            type="text"
+            name="icon"
+            label="icon"
+            value={formik.values.icon}
+            error={Boolean(formik.touched.icon && formik.errors.icon)}
+            fullWidth
+            helperText={'自定义推送图标（需IOS15或以上）'}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
@@ -124,6 +137,7 @@ function BarkConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    disabled={formik.isSubmitting}
                     onClick={() => setOpType('test')}
 
             >

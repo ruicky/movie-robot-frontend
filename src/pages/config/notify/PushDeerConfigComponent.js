@@ -117,7 +117,7 @@ function PushDeerConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
                     variant="contained"
                     color="primary"
                     onClick={() => setOpType('test')}
-
+                    disabled={formik.isSubmitting}
             >
                 推送一条消息测试
             </Button>

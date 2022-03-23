@@ -76,7 +76,7 @@ function NotifyConfig() {
                 通知应用设置
             </Typography>
             <Typography component="h2" variant="body1" align="center">
-                设置好通知功能，可以再电影下载、整理、刮削完推送消息到手机。
+                设置好通知功能，可以在电影下载、整理、刮削完推送消息到手机。
             </Typography>
             <FormControl m={4} fullWidth>
                 <Select
