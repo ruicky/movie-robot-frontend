@@ -75,7 +75,7 @@ const TagConfigComponent = ({ruleData, tags, setTags}) => {
                                         fullWidth
                                         variant="outlined"
                                         error={error(i, 'name_keyword')}
-                                        helperText={helperText(i, 'name_keyword') || "相同品质的资源，包含此关键字的种子，将会被优先下载。多个用英文豆瓣,隔开"}
+                                        helperText={helperText(i, 'name_keyword') || "相同品质的资源，包含此关键字的种子，将会被优先下载。多个用英文逗号,隔开"}
                                         value={tag.name_keyword}
                                         onChange={(e) => handleOnChange(i, e)}
                                         onBlur={(e) => handleOnBlur(i, e)}
