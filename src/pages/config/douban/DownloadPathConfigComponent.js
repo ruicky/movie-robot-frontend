@@ -115,7 +115,7 @@ const DownloadPathConfigComponent = ({data, setData, submitting, setHasError, do
                                 </Select>
                                 <FormHelperText>
                                                 <span>
-                                                    {helperText(i, 'cate') || "当豆瓣影视类型包含所选分类时(可留空)"}
+                                                    {helperText(i, 'cate') || "当豆瓣影视类型包含全部所选分类时，留空为任何类型"}
                                                 </span>
                                 </FormHelperText>
                             </FormControl>
@@ -135,7 +135,7 @@ const DownloadPathConfigComponent = ({data, setData, submitting, setHasError, do
                                 </Select>
                                 <FormHelperText>
                                                 <span>
-                                                    {helperText(i, 'area') || "当豆瓣影视类型包含所选区域时(可留空)"}
+                                                    {helperText(i, 'area') || "当豆瓣影视区域包含任意一个所选区域时，留空为任何区域"}
                                                 </span>
                                 </FormHelperText>
                             </FormControl>
