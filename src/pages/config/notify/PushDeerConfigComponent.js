@@ -4,6 +4,7 @@ import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from "../../../utils/request";
+import _ from 'lodash';
 
 import {
     Alert as MuiAlert,
@@ -16,6 +17,7 @@ import {
     TextField as MuiTextField
 } from "@mui/material";
 import {spacing} from "@mui/system";
+import MessageTemplateComponent from "@/pages/config/notify/MessageTemplateComponent";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -24,24 +26,47 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-function PushDeerConfigComponent({isInit, data}) {
+function PushDeerConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
     const navigate = useNavigate();
+    const [opType, setOpType] = useState('save')
     const [message, setMessage] = useState();
+    const [messageTemplate, setMessageTemplate] = useState({
+        movie_completed: {
+            title: '${name} (${year}) 评分:${rating}', message: '${nickname}添加的电影 ${name}(${year})下载完毕'
+        }, 'tv_completed': {
+            title: '${name} (${year}) 评分:${rating}', message: '${nickname}添加的剧集 ${name}(${year})第${episodes}集下载完毕'
+        }
+    })
     const formik = useFormik({
         initialValues: {
             api: '',
             pushkey: '',
-            movie_message_pattern: '${nickname}添加的电影 ${name}(${year})下载完毕',
-            tv_message_pattern: '${nickname}添加的剧集 ${name}(${year})第${episodes}集下载完毕'
+            message_template: 'movie_completed',
+            title: '${name} (${year}) 评分:${rating}',
+            message: '${nickname}添加的电影 ${name}(${year})下载完毕'
         }, validationSchema: Yup.object().shape({
-            tmdb_api_key: Yup.string().max(256).required(),
+            api: Yup.string().max(1000).required(),
+            pushkey: Yup.string().max(500).required(),
+            title: Yup.string().max(1000).required(),
+            message: Yup.string().max(1000).required(),
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
-                // await saveConfig(values);
+                setMessage(undefined)
+                setSubmitting(true)
+                let params = {...values}
+                params['message_template'] = messageTemplate;
+                delete params['title']
+                delete params['message']
+                if (opType === "save") {
+                    await onSubmitEvent(params, setMessage)
+                } else if (opType === "test") {
+                    await onTestEvent(params, setMessage)
+                }
             } catch (error) {
-                const message = error.message || "配置出错啦";
+                const message = error.message || "PushDeer配置出错啦";
                 setStatus({success: false});
                 setErrors({submit: message});
+            } finally {
                 setSubmitting(false);
             }
         }
@@ -49,12 +74,14 @@ function PushDeerConfigComponent({isInit, data}) {
 
     useEffect(async () => {
         if (data !== undefined && data !== null) {
-            formik.setFieldValue('push_url', data.defualt_push_url)
-            formik.setFieldValue('sound', data.sound)
-            formik.setFieldValue('group', data.group)
-            formik.setFieldValue('movie_message_pattern', data.movie_message_pattern)
+            formik.setFieldValue('api', data.api)
+            formik.setFieldValue('pushkey', data.pushkey)
+            const { title, message } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, { title: '', message: '' })
+            formik.setFieldValue('title', title)
+            formik.setFieldValue('message', message)
+            setMessageTemplate(data.message_template)
         }
-    }, []);
+    }, [data]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
@@ -86,33 +113,19 @@ function PushDeerConfigComponent({isInit, data}) {
             onChange={formik.handleChange}
             my={3}
         />
-        <TextField
-            name="movie_message_pattern"
-            label="电影通知模版"
-            value={formik.values.movie_message_pattern}
-            error={Boolean(formik.touched.movie_message_pattern && formik.errors.movie_message_pattern)}
-            fullWidth
-            helperText={'电影下载完成时，最终推送到app的消息内容，可以使用占位变量自由定义格式。'}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            multiline
-            maxRows={4}
-            my={3}
-        />
-        <TextField
-            name="tv_message_pattern"
-            label="剧集通知模版"
-            value={formik.values.tv_message_pattern}
-            error={Boolean(formik.touched.tv_message_pattern && formik.errors.tv_message_pattern)}
-            fullWidth
-            helperText={'剧集下载完成时，最终推送到app的消息内容，可以使用占位变量自由定义格式。'}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            multiline
-            maxRows={4}
-            my={3}
-        />
+        <MessageTemplateComponent formik={formik} messageTemplate={messageTemplate}
+                                  setMessageTemplate={setMessageTemplate}/>
         <Centered>
+            <Button sx={{mr: 2}}
+                    size="medium"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpType('test')}
+                    disabled={formik.isSubmitting}
+            >
+                推送一条消息测试
+            </Button>
             <Button
                 mr={2}
                 size="medium"
@@ -120,7 +133,7 @@ function PushDeerConfigComponent({isInit, data}) {
                 variant="contained"
                 color="primary"
                 disabled={formik.isSubmitting}
-                fullWidth={!isInit}
+                onClick={() => setOpType('save')}
             >
                 保存设置
             </Button>

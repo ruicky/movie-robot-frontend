@@ -85,7 +85,7 @@ function WebConfigComponent({isInit}) {
             value={formik.values.server_url}
             error={Boolean(formik.touched.server_url && formik.errors.server_url)}
             fullWidth
-            helperText="该地址适用于未来分享应用链接时访问，一般为外网可访问的地址"
+            helperText="该地址适用于未来分享应用链接时访问，一般为外网可访问的地址，不开外网访问可以不填"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
@@ -97,7 +97,7 @@ function WebConfigComponent({isInit}) {
             value={formik.values.port}
             error={Boolean(formik.touched.port && formik.errors.port)}
             fullWidth
-            helperText={(formik.touched.port && formik.errors.port) || "此端口需映射到Docker容器后才可以访问"}
+            helperText={(formik.touched.port && formik.errors.port) || "web服务启动端口，没有特殊需求不用改"}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
