@@ -14,6 +14,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import Footer from "../components/Footer";
 import Settings from "../components/Settings";
 
+import useStore from "@/store/index";
 const drawerWidth = 258;
 
 const Root = styled.div`
@@ -51,10 +52,10 @@ const MainContent = styled(Paper)`
 `;
 
 const Dashboard = ({ children }) => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
+  // const [mobileOpen, setMobileOpen] = useState(false);
+  const sideBar = useStore((state) => state.sideBar);
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    sideBar.toggleOpen();
   };
 
   const theme = useTheme();
@@ -69,7 +70,7 @@ const Dashboard = ({ children }) => {
           <Sidebar
             PaperProps={{ style: { width: drawerWidth } }}
             variant="temporary"
-            open={mobileOpen}
+            open={sideBar.isOpen}
             onClose={handleDrawerToggle}
             items={dashboardItems}
           />
