@@ -9,26 +9,27 @@ import {
     DialogTitle,
     FormControl,
     FormControlLabel,
-    FormHelperText, Link,
+    FormHelperText,
+    Link,
     MenuItem,
     Select,
     TextField
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {ptSiteData} from "../../config";
 import axios from "../../utils/request";
 
 
-const SetSite = ({opType, open, site, filterSiteNames, onClose, onEditSuccess, onEditFailed}) => {
+const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEditSuccess, onEditFailed}) => {
     const [values, setValues] = React.useState({
         site_name: "mteam", cookie: "", web_search: true, smart_download: true
     });
-    const [siteData, setSiteData] = useState(ptSiteData)
+    const [siteData, setSiteData] = useState(siteMeta)
     const [errors, setErrors] = React.useState({});
     const [showErrors, setShowErrors] = React.useState({});
     const [submitting, setSubmitting] = useState(false)
     const [message, setMessage] = useState()
     const [errorMessage, setErrorMessage] = useState()
+
     const handleValueChange = (e) => {
         if (e.target.type === "checkbox") {
             setValues({...values, [e.target.name]: e.target.checked});
@@ -83,22 +84,22 @@ const SetSite = ({opType, open, site, filterSiteNames, onClose, onEditSuccess, o
         setErrorMessage(undefined)
         if (opType === "add" && filterSiteNames !== undefined && filterSiteNames.length > 0) {
             let data = []
-            ptSiteData.map((val, i) => {
-                if (!filterSiteNames.includes(val.name)) {
+            siteMeta.map((val, i) => {
+                if (!filterSiteNames.includes(val.id)) {
                     data.push(val)
                 }
             })
             setSiteData(data)
-            setValues({...values, site_name: data[0].name})
+            setValues({...values, site_name: data[0].id})
         } else {
-            setSiteData(ptSiteData)
+            setSiteData(siteMeta)
         }
         if (site !== undefined && site !== null) {
             setValues({
                 site_name: site.site_name,
                 cookie: site.cookie,
-                web_search: site.web_search === 1 ? true : false,
-                smart_download: site.smart_download === 1 ? true : false
+                web_search: site.web_search === 1,
+                smart_download: site.smart_download === 1
             })
         } else {
             setValues({
@@ -129,7 +130,8 @@ const SetSite = ({opType, open, site, filterSiteNames, onClose, onEditSuccess, o
                     onChange={(e) => handleValueChange(e)}
                     disabled={opType === "update"}
                 >
-                    {siteData.map((row) => (<MenuItem key={row.name} value={row.name}>{row.domain}</MenuItem>))}
+                    {siteData && siteData.map((row) => (
+                        <MenuItem key={row.id} value={row.id}>{row.name + '-' + row.domain}</MenuItem>))}
                 </Select>
                 <FormHelperText>路径存放的内容类型</FormHelperText>
             </FormControl>
