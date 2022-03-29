@@ -96,7 +96,7 @@ const SearchBar = ({onSearch, ...props}) => {
                     setValue(v);
                 }}
                 onKeyUp={({code}) => {
-                    if (code === "Enter" && value) {
+                    if ((code === "Enter" || code === "NumpadEnter") && value) {
                         onSearch(value);
                     }
                 }}
