@@ -5,6 +5,7 @@ import { rgba, darken } from "polished";
 
 import { Chip, Collapse, ListItemButton, ListItemText } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import useStore from "@/store/index";
 
 const CustomRouterLink = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -98,6 +99,8 @@ const SidebarNavListItem = (props) => {
     setOpen((state) => !state);
   };
 
+  const sideBar = useStore((state) => state.sideBar);
+
   if (children) {
     return (
       <React.Fragment>
@@ -120,6 +123,7 @@ const SidebarNavListItem = (props) => {
         depth={depth}
         component={CustomRouterLink}
         to={href}
+        onClick={()=>{sideBar.toggleOpen(false)}}
         activeclassname="active"
       >
         {Icon && <Icon />}
