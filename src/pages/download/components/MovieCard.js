@@ -1,5 +1,7 @@
 import {
   CardActionArea,
+  CardHeader,
+  Box,
   CardMedia,
   Chip as MuiChip,
   Stack,
@@ -9,6 +11,7 @@ import {
   Tooltip,
   Divider,
   Card as MuiCard,
+  IconButton,
   CardActions,
   Grid,
 } from "@mui/material";
@@ -17,6 +20,7 @@ import styled from "styled-components/macro";
 import DownloadBar from "./DownloadBar";
 import {spacing} from "@mui/system";
 import LinesEllipsis from 'react-lines-ellipsis'
+import { ChevronRight as ChevronRightIcon, Refresh as RefreshIcon, DeleteSweep as DeleteSweepIcon } from '@mui/icons-material';
 
 export default function MovieCard (props) {
   const {onDelete,onAnalyze, downloading} = props
@@ -42,18 +46,24 @@ export default function MovieCard (props) {
   const handleDelete = () => {
     onDelete({open: true, id})
   }
+  
+  
   return(
     <Grid item md={6} lg={4} xl={3}  key={id} style={{width: '100%'}}>
       <Card>
         {/*图片*/}
         <CardActionArea target="_blank" href={url || '#'}>
-          <CardMedia style={{height: '220px'}} image={image || '/static/img/default.jpeg'} title={title} />
+          <CardMedia style={{height: '220px', display: 'flex'}} image={image || '/static/img/default.jpeg'} title={title}
+          act>
+            {
+              title && <TitleConainer variant="h5" component="h3" noWrap aria-label="标题">
+                  <span>{title ? `${title}(${year})` : ''} &nbsp;</span>
+                  <IconButton sx={{ color: '#fff' }}><ChevronRightIcon /> </IconButton>
+              </TitleConainer>
+            }
+          </CardMedia>
         </CardActionArea>
         <CardContent>
-          {/*标题*/}
-          <Typography gutterBottom variant="h5" component="h2" noWrap>
-            {title ? `${title}(${year})` : ''} &nbsp;
-          </Typography>
           {/*文件名*/}
           <Typography mb={2} color="h5" component="h2" noWrap>
             {site_name !='unknown' && `[${site_name}]`}
@@ -77,13 +87,13 @@ export default function MovieCard (props) {
         <CardActions container={true} sx={{justifyContent: 'flex-end'}}>
           {
             status_code !== 2 &&
-            <Button size="small" color="primary" onClick={handleAnalyze}>
-            重新识别
-            </Button>
+            <IconButton onClick={handleAnalyze}  aria-label="重新识别">
+              <RefreshIcon color="primary" />
+            </IconButton>
           }
-          <Button size="small" color="primary" onClick={handleDelete}>
-            删除
-          </Button>
+          <IconButton onClick={handleDelete}  aria-label="删除">
+            <DeleteSweepIcon color="warning" />
+          </IconButton>
         </CardActions>
       </Card>
     </Grid>
@@ -98,4 +108,14 @@ const Chip = styled(MuiChip)`
   background-color: ${(props) => props.theme.palette[props.color ? props.color : "primary"].light};
   color: ${(props) => props.theme.palette.common.white};
   margin-bottom: ${(props) => props.theme.spacing(4)};
+`;
+const TitleConainer = styled(Typography)`
+    background: #595858a1;
+    color: #fff;
+    margin-top: auto;
+    width: 100%;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
