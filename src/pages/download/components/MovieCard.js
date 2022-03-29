@@ -50,7 +50,7 @@ export default function MovieCard (props) {
   
   return(
     <Grid item md={6} lg={4} xl={3}  key={id} style={{width: '100%'}}>
-      <Card>
+      <CardContainer>
         {/*图片*/}
         <CardActionArea target="_blank" href={url || '#'}>
           <CardMedia style={{height: '220px', display: 'flex'}} image={image || '/static/img/default.jpeg'} title={title}
@@ -95,7 +95,7 @@ export default function MovieCard (props) {
             <DeleteSweepIcon color="warning" />
           </IconButton>
         </CardActions>
-      </Card>
+      </CardContainer>
     </Grid>
   )
 };
@@ -110,12 +110,21 @@ const Chip = styled(MuiChip)`
   margin-bottom: ${(props) => props.theme.spacing(4)};
 `;
 const TitleConainer = styled(Typography)`
-    background: #595858a1;
-    color: #fff;
-    margin-top: auto;
-    width: 100%;
-    padding-left: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: #595858a1;
+  color: #fff;
+  margin-top: auto;
+  width: 100%;
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const CardContainer = styled(Card)`
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    position: relative;
+    transform: translateY(-6px);
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.5);
+  }
 `;
