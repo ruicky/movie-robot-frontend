@@ -47,7 +47,7 @@ export default function MovieCard(props) {
 
     return (
         <Grid item md={6} lg={4} xl={3} key={id} style={{width: '100%'}}>
-            <Card>
+            <CardContainer>
                 {/*图片*/}
                 <CardActionArea target="_blank" href={url || '#'}>
                     <CardMedia style={{height: '220px', display: 'flex'}} image={image || '/static/img/default.jpeg'}
@@ -93,7 +93,7 @@ export default function MovieCard(props) {
                         <DeleteForever/>
                     </IconButton>
                 </CardActions>
-            </Card>
+            </CardContainer>
         </Grid>
     )
 };
@@ -116,4 +116,13 @@ const TitleConainer = styled(Typography)`
     display: flex;
     justify-content: space-between;
     align-items: center;
+`;
+
+const CardContainer = styled(Card)`
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    position: relative;
+    transform: translateY(-6px);
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.5);
+  }
 `;
