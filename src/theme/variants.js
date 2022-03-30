@@ -246,6 +246,7 @@ const indigoVariant = merge(defaultVariant, {
   },
 });
 
+const dimRatio = 0.7
 const deepDarkVariant = merge(defaultVariant, {
   name: THEMES.DEEP_DARK,
   palette: {
@@ -257,7 +258,7 @@ const deepDarkVariant = merge(defaultVariant, {
     primary: {
       main: "#FFF",
       contrastText: "#FFF",
-      light: "rgb(95, 139, 217)"
+      light: `rgba(95, 139, 217, ${dimRatio})`
     },
     secondary: {
       main: "rgba(255, 255, 255, 0.7)",
@@ -265,11 +266,15 @@ const deepDarkVariant = merge(defaultVariant, {
     },
     success: {
       main: "rgb(76, 175, 80)",
-      light: "rgb(76, 175, 80)"
+      light: `rgba(76, 175, 80, ${dimRatio})`
     },
     info: {
       main: "rgb(3, 169, 244)",
-      light: "rgb(3, 169, 244)"
+      light: `rgb(3, 169, 244, ${dimRatio})`
+    },
+    error: {
+      main: "rgb(239, 83, 80)",
+      light: `rgba(239, 83, 80, ${dimRatio})`
     }
   },
   header: {
