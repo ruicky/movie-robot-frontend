@@ -53,6 +53,11 @@ const DemoButtonInner = styled.div`
       background: #23303f;
     `}
   ${(props) =>
+    props.selectedTheme === THEMES.DEEP_DARK &&
+    css`
+      background: #121212;
+    `}
+  ${(props) =>
     props.selectedTheme === THEMES.LIGHT &&
     css`
       background: ${grey[100]};
@@ -138,6 +143,7 @@ function Demos() {
           <Demo title="Blue" themeVariant={THEMES.BLUE} />
           <Demo title="Green" themeVariant={THEMES.GREEN} />
           <Demo title="Indigo" themeVariant={THEMES.INDIGO} />
+          <Demo title="Deep_Dark" themeVariant={THEMES.DEEP_DARK} />
         </Grid>
       </Box>
     </Wrapper>
