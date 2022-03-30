@@ -246,35 +246,40 @@ const indigoVariant = merge(defaultVariant, {
   },
 });
 
+const dimRatio = 0.7
 const deepDarkVariant = merge(defaultVariant, {
   name: THEMES.DEEP_DARK,
   palette: {
     mode: "dark",
+    background: {
+      paper: "#202124",
+      default: "rgb(23, 23, 23)",
+    },
     primary: {
-      main: "#FFF",
-      contrastText: "#FFF",
-      light: "rgb(95, 139, 217)"
+      main: "#bdc1c6",
+      contrastText: "rgb(23, 23, 23)",
+      light: `rgba(95, 139, 217, ${dimRatio})`
     },
     secondary: {
       main: "rgba(255, 255, 255, 0.7)",
       contrastText: "#FFF",
     },
-    background: {
-      default: "#121212",
-      paper: "rgba(255, 255, 255, 0.04)",
-    },
     success: {
       main: "rgb(76, 175, 80)",
-      light: "rgb(76, 175, 80)"
+      light: `rgba(76, 175, 80, ${dimRatio})`
     },
     info: {
       main: "rgb(3, 169, 244)",
-      light: "rgb(3, 169, 244)"
+      light: `rgb(3, 169, 244, ${dimRatio})`
+    },
+    error: {
+      main: "rgb(239, 83, 80)",
+      light: `rgba(239, 83, 80, ${dimRatio})`
     }
   },
   header: {
     color: "#FFF",
-    background: "rgba(0, 0, 0, 0.6)",
+    background: "rgb(23, 23, 23)",
     search: {
       color: grey[800],
     },
@@ -288,10 +293,10 @@ const deepDarkVariant = merge(defaultVariant, {
   },
   sidebar: {
     color: grey[200],
-    background: "rgba(0, 0, 0, 0.87)",
+    background: "#202124",
     header: {
       color: grey[200],
-      background: "rgba(0, 0, 0, 0.87)",
+      background: "#202124",
       brand: {
         color: customBlue[500],
       },
