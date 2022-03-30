@@ -246,6 +246,70 @@ const indigoVariant = merge(defaultVariant, {
   },
 });
 
+const deepDarkVariant = merge(defaultVariant, {
+  name: THEMES.DEEP_DARK,
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#FFF",
+      contrastText: "#FFF",
+      light: "rgb(95, 139, 217)"
+    },
+    secondary: {
+      main: "rgba(255, 255, 255, 0.7)",
+      contrastText: "#FFF",
+    },
+    background: {
+      default: "#121212",
+      paper: "rgba(255, 255, 255, 0.04)",
+    },
+    success: {
+      main: "rgb(76, 175, 80)",
+      light: "rgb(76, 175, 80)"
+    },
+    info: {
+      main: "rgb(3, 169, 244)",
+      light: "rgb(3, 169, 244)"
+    }
+  },
+  header: {
+    color: "#FFF",
+    background: "rgba(0, 0, 0, 0.6)",
+    search: {
+      color: grey[800],
+    },
+    indicator: {
+      background: "rgba(0, 0, 0, 0.6)",
+    },
+  },
+  footer: {
+    color: "#FFF",
+    background: "rgba(0, 0, 0, 0.87)",
+  },
+  sidebar: {
+    color: grey[200],
+    background: "rgba(0, 0, 0, 0.87)",
+    header: {
+      color: grey[200],
+      background: "rgba(0, 0, 0, 0.87)",
+      brand: {
+        color: customBlue[500],
+      },
+    },
+    footer: {
+      color: grey[200],
+      background: "#121212",
+      online: {
+        background: green[500],
+      },
+    },
+    badge: {
+      color: "#121212",
+      background: customBlue[500],
+    },
+  },
+});
+
 const variants = [
   defaultVariant,
   darkVariant,
@@ -253,6 +317,7 @@ const variants = [
   blueVariant,
   greenVariant,
   indigoVariant,
+  deepDarkVariant
 ];
 
 export default variants;

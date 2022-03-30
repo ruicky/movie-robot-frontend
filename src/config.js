@@ -18,23 +18,3 @@ export const cognitoConfig = {
     userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
     clientId: process.env.REACT_APP_COGNITO_CLIENT_ID,
 };
-
-export const ptSiteData = [{"name": "mteam", "domain": "kp.m-team.cc"}, {"name": "ttg", "domain": "totheglory.im"}, {
-    "name": "hdsky",
-    "domain": "hdsky.me"
-}, {"name": "tjupt", "domain": "tjupt.org"}, {"name": "hdchina", "domain": "hdchina.org"}, {
-    "name": "ssd",
-    "domain": "springsunday.net"
-}, {"name": "chdbits", "domain": "chdbits.co"}, {"name": "keepfrds", "domain": "pt.keepfrds.com"}, {
-    "name": "btschool",
-    "domain": "pt.btschool.club"
-}, {"name": "putao", "domain": "pt.sjtu.edu.cn"}, {"name": "pterclub", "domain": "pterclub.com"}, {
-    "name": "pttime",
-    "domain": "www.pttime.org"
-}, {"name": "ourbits", "domain": "ourbits.club"}, {"name": "lemonhd", "domain": "lemonhd.org"}, {
-    "name": "pthome",
-    "domain": "pthome.net"
-}, {
-    "name": "hdfans",
-    "domain": "hdfans.org"
-}]

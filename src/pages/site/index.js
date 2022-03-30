@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from "react";
-import styled from "styled-components/macro";
 import {Helmet} from "react-helmet-async";
-import {
-    Grid, Snackbar,
-} from "@mui/material";
+import {Grid, Snackbar,} from "@mui/material";
 
 import Table from "./Table";
 import Overview from "./Overview";
@@ -32,6 +29,7 @@ function SiteDashboard() {
     const [tableData, setTableData] = useState([])
     const [edit, setEdit] = useState({open: false, opType: 'add'})
     const [deleteSite, setDeleteSite] = useState()
+    const [siteMeta, setSiteMeta] = useState()
     const editOnClose = () => {
         setEdit({...edit, open: false});
     }
@@ -99,7 +97,9 @@ function SiteDashboard() {
             setUpdating(false)
         }
     }
-    useEffect(() => {
+    useEffect(async () => {
+        let res = await axios.get('/api/common/sites')
+        setSiteMeta(res.data)
         refreshOverview();
         refreshSites();
     }, []);
@@ -115,6 +115,7 @@ function SiteDashboard() {
         />
         <Overview data={overview} onUpdateClick={onUpdateClick}/>
         <SetSite open={edit.open} opType={edit.opType} site={edit.site}
+                 siteMeta={siteMeta}
                  filterSiteNames={tableData.map(x => x.site_name)}
                  onEditSuccess={onEditSuccess} onClose={editOnClose}/>
         <Grid container spacing={6}>

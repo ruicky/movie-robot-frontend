@@ -40,6 +40,7 @@ export const getRecordList = async () => {
             title: r.movie_name,
             tname: r.torrent_name,
             site_name: r.site_name,
+            movie_type: r.movie_type,
             image: r.thumb_image_url,
             status: STATUS[r.download_status].msg,
             status_color: STATUS[r.download_status].color,
