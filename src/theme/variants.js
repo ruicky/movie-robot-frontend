@@ -250,6 +250,10 @@ const deepDarkVariant = merge(defaultVariant, {
   name: THEMES.DEEP_DARK,
   palette: {
     mode: "dark",
+    background: {
+      paper: "#202124",
+      default: "rgb(23, 23, 23)",
+    },
     primary: {
       main: "#FFF",
       contrastText: "#FFF",
@@ -258,10 +262,6 @@ const deepDarkVariant = merge(defaultVariant, {
     secondary: {
       main: "rgba(255, 255, 255, 0.7)",
       contrastText: "#FFF",
-    },
-    background: {
-      default: "#121212",
-      paper: "rgba(255, 255, 255, 0.04)",
     },
     success: {
       main: "rgb(76, 175, 80)",
@@ -274,7 +274,7 @@ const deepDarkVariant = merge(defaultVariant, {
   },
   header: {
     color: "#FFF",
-    background: "rgba(0, 0, 0, 0.6)",
+    background: "rgb(23, 23, 23)",
     search: {
       color: grey[800],
     },
@@ -288,10 +288,10 @@ const deepDarkVariant = merge(defaultVariant, {
   },
   sidebar: {
     color: grey[200],
-    background: "rgba(0, 0, 0, 0.87)",
+    background: "#202124",
     header: {
       color: grey[200],
-      background: "rgba(0, 0, 0, 0.87)",
+      background: "#202124",
       brand: {
         color: customBlue[500],
       },
