@@ -192,7 +192,7 @@ function DownloadRecords(props) {
     console.log('param-->', param);
 
     const searchData = (keyword) => {
-        if (keyword) {
+        if (keyword && !loading) {
             setLoading(true);
             setRecords();
             setParam({keyword})
@@ -233,7 +233,7 @@ function DownloadRecords(props) {
 
     useEffect(() => {
         searchData(param.keyword)
-    }, [param])
+    }, [])
 
     const search = useCallback((keyword) => {
         searchData(keyword)
