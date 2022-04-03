@@ -96,7 +96,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick}) => {
                                     <TableCell>{getStatus(row.status)}</TableCell>
                                     <TableCell>{row.web_search === 1 ? '是' : '否'}</TableCell>
                                     <TableCell>{row.smart_download === 1 ? '是' : '否'}</TableCell>
-                                    <TableCell>{row.traffic_management_status !== 0 ? "开启" : "关闭"}</TableCell>
+                                    <TableCell>{row.traffic_management_status !== undefined && row.traffic_management_status !== null && row.traffic_management_status !== 0 ? "开启" : "关闭"}</TableCell>
                                     <TableCell>
                                         <IconButton
                                             color="info"

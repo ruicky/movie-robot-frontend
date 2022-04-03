@@ -32,7 +32,7 @@ function FreeDownloadConfigComponent({isInit}) {
     };
     const formik = useFormik({
         initialValues: {
-            enable: true,
+            enable: false,
             save_path: "/downloads",
             available_space: 1024,
             avg_statistics_period: 10,
