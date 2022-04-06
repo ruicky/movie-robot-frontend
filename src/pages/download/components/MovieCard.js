@@ -17,6 +17,7 @@ import DownloadBar from "./DownloadBar";
 import {spacing} from "@mui/system";
 import LinesEllipsis from 'react-lines-ellipsis'
 import {ChevronRight as ChevronRightIcon, DeleteForever, Refresh as RefreshIcon} from '@mui/icons-material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function MovieCard(props) {
     const {onDelete, onAnalyze, downloading} = props
@@ -44,10 +45,10 @@ export default function MovieCard(props) {
         onDelete({open: true, id})
     }
 
-
+    const CardWrapper = useMediaQuery((theme) => theme.breakpoints.up('md'))?CardContainer:Card;
     return (
         <Grid item md={6} lg={4} xl={3} key={id} style={{width: '100%'}}>
-            <CardContainer>
+            <CardWrapper>
                 {/*图片*/}
                 <CardActionArea target="_blank" href={url || '#'}>
                     <CardMedia style={{height: '220px', display: 'flex'}} image={image || '/static/img/default.jpeg'}
@@ -93,7 +94,7 @@ export default function MovieCard(props) {
                         <DeleteForever/>
                     </IconButton>
                 </CardActions>
-            </CardContainer>
+            </CardWrapper>
         </Grid>
     )
 };

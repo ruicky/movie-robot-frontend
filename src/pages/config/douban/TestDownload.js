@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import axios from "../../../utils/request";
-import {ptSiteData} from "@/config";
 
 
 const TestDownload = ({open, onClose, onSuccess, onFailed}) => {

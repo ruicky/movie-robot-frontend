@@ -6,6 +6,7 @@ export const THEMES = {
   BLUE: "BLUE",
   GREEN: "GREEN",
   INDIGO: "INDIGO",
+  DEEP_DARK: "DEEP_DARK"
 };
 
 // 状态

@@ -1,5 +1,5 @@
-import {Download, MovieFilter, Search} from "@mui/icons-material";
-import {Bookmark, Command, Settings, Star} from "react-feather";
+import {Download, Search, Tune} from "@mui/icons-material";
+import {Bookmark, Settings, Star} from "react-feather";
 
 const moviePages = [{
     href: "/movie/search", icon: Search, title: "搜索资源"
@@ -29,13 +29,21 @@ const settingPages = [{
         {
             href: "/config/movie-metadata",
             title: "影音识别",
-        },
+        }
+    ]
+}, {
+    href: "/config", icon: Tune, title: "进阶设置", children: [
         {
             href: "/config/notify",
             title: "推送通知",
+        },
+        {
+            href: "/config/free-download",
+            title: "流量管理",
         }
     ]
 }];
+
 const smartDownloadPage = [{
     href: "/smartDownload", icon: Bookmark, title: "智能下载", children: [
         {

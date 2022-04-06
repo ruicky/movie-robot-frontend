@@ -1,4 +1,4 @@
-import {Box, Chip as MuiChip, Grid, Stack, Typography as MuiTypography} from "@mui/material";
+import {Box, Chip as MuiChip, Grid, Link, Stack, Typography as MuiTypography} from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
     StyledCard as Card,
@@ -10,7 +10,7 @@ import {
 import {ArrowDown, ArrowUp, Download, File} from "react-feather";
 import React from "react";
 import {rgba} from "polished";
-import {green} from "@mui/material/colors";
+import {deepOrange, green} from "@mui/material/colors";
 
 const Chip = styled(MuiChip)`
   height: 20px;
@@ -40,6 +40,7 @@ const Percentage = styled(MuiTypography)`
 const COM = ({
                  onDownload,
                  subject,
+                 details_url,
                  name,
                  site_name,
                  upload,
@@ -49,29 +50,34 @@ const COM = ({
                  resolution,
                  file_size,
                  download_volume_factor,
+                 upload_volume_factor,
+                 minimum_ratio,
                  free_desc
              }) => {
     let free = ''
+    if (upload_volume_factor === 2) {
+        free = "2x";
+    }
     if (download_volume_factor !== 1) {
         switch (download_volume_factor) {
             case 0:
-                free = "免费";
+                free += "Free";
                 break
             case 0.5:
-                free = "50%";
+                free += "50%";
                 break
             case 0.3:
-                free = "30%";
+                free += "30%";
                 break
             default:
-                free = '';
+                free += '';
                 break
         }
     }
     return (<Card>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                    {subject}
+                    <Link target="_blank" href={details_url} color="inherit">{subject}</Link>
                 </Typography>
                 <div>
                     <Stack direction="row" spacing={1}>
@@ -109,7 +115,6 @@ const COM = ({
                                 <File/>
                             </IconHolder>
                         </Grid>
-
                         {download_volume_factor !== 1 ? (
                             <Grid item>
                                 <Percentage
@@ -117,10 +122,19 @@ const COM = ({
                                     color="textSecondary"
                                     percentagecolor={green[500]}
                                 >
-                                    <span>{free}</span> {free_desc ? "限时："+free_desc : ''}
+                                    <span>{free}</span> {free_desc ? "限时：" + free_desc : ''}
                                 </Percentage>
                             </Grid>
                         ) : null}
+                        {minimum_ratio > 0 ? (<Grid item>
+                            <Percentage
+                                variant="subtitle2"
+                                color="textSecondary"
+                                percentagecolor={deepOrange[500]}
+                            >
+                                <span>H&R</span>
+                            </Percentage>
+                        </Grid>) : null}
                     </Grid>
                     <Download onClick={onDownload}/>
                 </Box>
