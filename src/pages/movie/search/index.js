@@ -96,7 +96,7 @@ const SearchBar = ({onSearch, ...props}) => {
                     setValue(v);
                 }}
                 onKeyUp={({code}) => {
-                    if (code === "Enter" && value) {
+                    if ((code === "Enter" || code === "NumpadEnter") && value) {
                         onSearch(value);
                     }
                 }}
@@ -192,7 +192,7 @@ function DownloadRecords(props) {
     console.log('param-->', param);
 
     const searchData = (keyword) => {
-        if (keyword) {
+        if (keyword && !loading) {
             setLoading(true);
             setRecords();
             setParam({keyword})
@@ -233,7 +233,7 @@ function DownloadRecords(props) {
 
     useEffect(() => {
         searchData(param.keyword)
-    }, [param])
+    }, [])
 
     const search = useCallback((keyword) => {
         searchData(keyword)
@@ -271,8 +271,9 @@ function DownloadRecords(props) {
                             <Grid item xs={12} lg={12} xl={12}>
                                 <Record
                                     subject={row.subject}
-                                    key={row.name}
+                                    key={row.id}
                                     name={row.name}
+                                    details_url={row.details_url}
                                     site_name={row.site_id}
                                     upload={row.upload_count}
                                     download={row.download_count}
@@ -281,7 +282,9 @@ function DownloadRecords(props) {
                                     resolution={row.resolution}
                                     file_size={row.size_mb}
                                     download_volume_factor={row.download_volume_factor}
+                                    upload_volume_factor={row.upload_volume_factor}
                                     free_desc={row.free_desc}
+                                    minimum_ratio={row.minimum_ratio}
                                     onDownload={() => {
                                         const {id, site_id} = row;
                                         setDownloadInfo({id, site_id});

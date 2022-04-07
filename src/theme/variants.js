@@ -246,6 +246,75 @@ const indigoVariant = merge(defaultVariant, {
   },
 });
 
+const dimRatio = 0.7
+const deepDarkVariant = merge(defaultVariant, {
+  name: THEMES.DEEP_DARK,
+  palette: {
+    mode: "dark",
+    background: {
+      paper: "#202124",
+      default: "rgb(23, 23, 23)",
+    },
+    primary: {
+      main: "#bdc1c6",
+      contrastText: "rgb(23, 23, 23)",
+      light: `rgba(95, 139, 217, ${dimRatio})`
+    },
+    secondary: {
+      main: "rgba(255, 255, 255, 0.7)",
+      contrastText: "#FFF",
+    },
+    success: {
+      main: "rgb(76, 175, 80)",
+      light: `rgba(76, 175, 80, ${dimRatio})`
+    },
+    info: {
+      main: "rgb(3, 169, 244)",
+      light: `rgb(3, 169, 244, ${dimRatio})`
+    },
+    error: {
+      main: "rgb(239, 83, 80)",
+      light: `rgba(239, 83, 80, ${dimRatio})`
+    }
+  },
+  header: {
+    color: "#FFF",
+    background: "rgb(23, 23, 23)",
+    search: {
+      color: grey[800],
+    },
+    indicator: {
+      background: "rgba(0, 0, 0, 0.6)",
+    },
+  },
+  footer: {
+    color: "#FFF",
+    background: "rgba(0, 0, 0, 0.87)",
+  },
+  sidebar: {
+    color: grey[200],
+    background: "#202124",
+    header: {
+      color: grey[200],
+      background: "#202124",
+      brand: {
+        color: customBlue[500],
+      },
+    },
+    footer: {
+      color: grey[200],
+      background: "#121212",
+      online: {
+        background: green[500],
+      },
+    },
+    badge: {
+      color: "#121212",
+      background: customBlue[500],
+    },
+  },
+});
+
 const variants = [
   defaultVariant,
   darkVariant,
@@ -253,6 +322,7 @@ const variants = [
   blueVariant,
   greenVariant,
   indigoVariant,
+  deepDarkVariant
 ];
 
 export default variants;
