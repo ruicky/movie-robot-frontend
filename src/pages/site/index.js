@@ -81,7 +81,7 @@ function SiteDashboard() {
     const onUpdateClick = async (setUpdating) => {
         setUpdating(true)
         try {
-            const res = await axios.get("/api/site/update_sites");
+            const res = await axios.get("/api/site/update_sites", {timeout: 180000});
             const {code, message, data} = res;
             if (code === undefined || code === 1) {
                 setMessage(message);

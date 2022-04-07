@@ -21,7 +21,12 @@ import axios from "../../utils/request";
 
 const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEditSuccess, onEditFailed}) => {
     const [values, setValues] = React.useState({
-        site_name: "mteam", cookie: "", web_search: true, smart_download: true
+        site_name: "mteam",
+        cookie: "",
+        web_search: true,
+        smart_download: true,
+        traffic_management_status: 0,
+        upload_kpi: 1024
     });
     const [siteData, setSiteData] = useState(siteMeta)
     const [errors, setErrors] = React.useState({});
@@ -99,11 +104,18 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                 site_name: site.site_name,
                 cookie: site.cookie,
                 web_search: site.web_search === 1,
-                smart_download: site.smart_download === 1
+                smart_download: site.smart_download === 1,
+                traffic_management_status: site.traffic_management_status,
+                upload_kpi: site.upload_kpi
             })
         } else {
             setValues({
-                site_name: "", cookie: "", web_search: true, smart_download: true
+                site_name: "",
+                cookie: "",
+                web_search: true,
+                smart_download: true,
+                traffic_management_status: 0,
+                upload_kpi: 1024
             })
         }
     }, [opType, site, filterSiteNames])
@@ -133,7 +145,7 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                     {siteData && siteData.map((row) => (
                         <MenuItem key={row.id} value={row.id}>{row.name + '-' + row.domain}</MenuItem>))}
                 </Select>
-                <FormHelperText>路径存放的内容类型</FormHelperText>
+                <FormHelperText>当前已经支持的站点</FormHelperText>
             </FormControl>
             <TextField
                 type="text"
@@ -151,6 +163,38 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                               href="https://support.huaweicloud.com/vss_faq/vss_01_0146.html">
                                 去学习如何获取
                             </Link>
+                    </span>
+                )}
+            />
+            <FormControl fullWidth>
+                <Select
+                    name="traffic_management_status"
+                    value={values.traffic_management_status}
+                    onChange={(e) => handleValueChange(e)}
+                >
+                    <MenuItem value={0}>关闭流量管理</MenuItem>
+                    <MenuItem value={1}>主动积累上传量</MenuItem>
+                    <MenuItem value={2}>被动按需养护</MenuItem>
+                </Select>
+                <FormHelperText>
+                    开启此功能还需要在基础设置-流量管理中做好设置才会生效。
+                    <Link target="_blank"
+                          href="https://feather-purple-bdd.notion.site/854f2ab70f394358b00b0ff9e2c1690a">有什么用？</Link>
+                </FormHelperText>
+            </FormControl>
+            <TextField
+                type="number"
+                name="upload_kpi"
+                margin="dense"
+                label="上传量目标"
+                fullWidth
+                defaultValue={values.upload_kpi}
+                onChange={handleValueChange}
+                error={Boolean(showErrors.upload_kpi && errors.upload_kpi)}
+                disabled={values.traffic_management_status !== 1}
+                helperText={(showErrors.upload_kpi && errors.upload_kpi) || (
+                    <span>
+                        单位GB。主动积累上传量模式时需要设定一个要达成的目标，被动模式此值无用。
                     </span>
                 )}
             />
