@@ -14,7 +14,7 @@ export const StyledIconHolder = styled.span`
 `;
 
 export const StyledCardContent = styled(CardContent)`
-  border-bottom: 1px solid ${(props) => props.theme.palette.grey[300]};
+  /* border-bottom: 1px solid ${(props) => props.theme.palette.grey[300]}; */
 `;
 
 export const StyledCardMedia = styled(CardMedia)`

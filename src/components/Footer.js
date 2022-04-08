@@ -57,6 +57,9 @@ function Footer() {
                 primary={`© ${new Date().getFullYear()} - Movie Robot`}
               />
             </ListItemButton>
+            <ListItemButton component="a" href="#">
+              <ListItemText primary="版本: Beta 0.6" />
+            </ListItemButton>
           </List>
         </Grid>
       </Grid>
