@@ -35,7 +35,7 @@ export default function ReAnalyze(props) {
     const [linkPath, setLinkPath] = useState();
     const [movieType, setMovieType] = useState();
     const [notify, setNotify] = useState(propsNotify);
-
+    const [submitting, setSubmitting] = useState(false)
     useEffect(() => {
         setYear(propsYear)
     }, [propsYear])
@@ -72,6 +72,7 @@ export default function ReAnalyze(props) {
             })
             return;
         }
+        setSubmitting(true)
         const result = await reanalyze({
             id,
             movie_type: movieType,
@@ -80,6 +81,7 @@ export default function ReAnalyze(props) {
             year,
             send_notify: notify ? 1 : 0
         });
+        setSubmitting(false)
         handleClose();
         if (onAnalyzeSuccess) {
             onAnalyzeSuccess(result)
@@ -153,10 +155,10 @@ export default function ReAnalyze(props) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button color="primary" onClick={handleSubmit}>
-                    提交
+                <Button color="primary" onClick={handleSubmit} disabled={submitting}>
+                    {submitting ? "处理中..." : "提交"}
                 </Button>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handleClose} color="primary" disabled={submitting}>
                     取消
                 </Button>
             </DialogActions>
