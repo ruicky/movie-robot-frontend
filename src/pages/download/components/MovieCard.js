@@ -71,7 +71,7 @@ export default function MovieCard(props) {
                         {tname}
                     </Typography>
                     {/*进度条*/}
-                    {status_code == 0 && <DownloadBar downloading={downloading} id={id}/>}
+                    {status_code === 0 && downloading && <DownloadBar downloading={downloading} id={id}/>}
                     {/*标签*/}
                     <Stack direction="row" spacing={1}>
                         <Chip label={status} color={status_color}/>
