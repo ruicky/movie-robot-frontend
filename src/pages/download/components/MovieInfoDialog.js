@@ -12,100 +12,114 @@ import {
     ListItemText,
     Typography
 } from "@mui/material";
-
+import styled from "styled-components/macro";
 import {Info as InfoIcon} from '@mui/icons-material';
-import {getRecord, getTorrentInfo} from "@/utils/download_record";
+import {getRecord} from "@/utils/download_record";
 
+const ListText = styled(ListItemText)`
+    margin:0;
+    word-break: break-all;
+`;
 function InfoList({data}) {
     return (
         <List dense>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>内容类型：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.record.movie_type==="Movie"?"电影":"剧集"}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.record.movie_type==="Movie"?"电影":"剧集"}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>来自站点：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.record.site_name==="unknown"?"未知":data?.record.site_name}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.record.site_name==="unknown"?"未知":data?.record.site_name}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>种子名称：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.torrent_info.name}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.torrent_info.name}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>保存路径：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.torrent_info.save_path}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.torrent_info.save_path}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>内容路径：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.torrent_info.content_path}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.torrent_info.content_path}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>链接路径：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.record.link_path}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.record.link_path}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>文件尺寸：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.torrent_info.size_str}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.torrent_info.size_str}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>已经上传：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.torrent_info.uploaded_str}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.torrent_info.uploaded_str}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
+                        <Typography>分享比率：</Typography>
+                    </Grid>
+                    <Grid item xs>
+                        <ListText>{(data?.torrent_info.ratio*100).toFixed(2)}%</ListText>
+                    </Grid>
+                </Grid>
+            </ListItem>
+            <ListItem>
+                <Grid container spacing={2}>
+                    <Grid item >
                         <Typography>做种时间：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.torrent_info.seeding_time_str}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.torrent_info.seeding_time_str}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
@@ -139,7 +153,7 @@ export default function MovieInfoDialog({id}) {
                 aria-describedby="scroll-dialog-description"
                 sx={{minWidth: '600'}}
             >
-                <DialogTitle id="scroll-dialog-title">种子信息</DialogTitle>
+                <DialogTitle id="scroll-dialog-title">详细信息</DialogTitle>
                 <DialogContent dividers sx={{padding: 0}}>
                     <InfoList data={data}/>
                 </DialogContent>

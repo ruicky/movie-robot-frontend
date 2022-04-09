@@ -51,6 +51,7 @@ export const getRecordList = async () => {
             media_source: r.media_source,
             resolution: r.resolution,
             media_encoding: r.media_encoding,
+            link_path:r.link_path,
             url: r.url
         });
     }

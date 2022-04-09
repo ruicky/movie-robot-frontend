@@ -38,16 +38,16 @@ export default function MovieCard(props) {
         media_source,
         media_encoding,
         url,
-        hash
+        link_path
     } = props.data;
     const handleAnalyze = () => {
-        onAnalyze({open: true, year: year, id: id, name: title})
+        onAnalyze({open: true, year: year, id: id, name: title, link_path: link_path, movie_type: movie_type})
     };
     const handleDelete = () => {
         onDelete({open: true, id})
     }
 
-    const CardWrapper = useMediaQuery((theme) => theme.breakpoints.up('md'))?CardContainer:Card;
+    const CardWrapper = useMediaQuery((theme) => theme.breakpoints.up('md')) ? CardContainer : Card;
     return (
         <Grid item md={6} lg={4} xl={3} key={id} style={{width: '100%'}}>
             <CardWrapper>
