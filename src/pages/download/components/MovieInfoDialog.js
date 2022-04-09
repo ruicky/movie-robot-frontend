@@ -15,57 +15,63 @@ import {
 
 import {Info as InfoIcon} from '@mui/icons-material';
 import {getTorrentInfo} from "@/utils/download_record";
+import styled from "styled-components/macro";
+
+const ListText = styled(ListItemText)`
+    margin:0;
+    word-break: break-all;
+`;
 
 function InfoList({data}) {
     return (
         <List dense>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>种子名称：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.name}</ListItemText>
+                    <Grid item xs>
+                        <ListText >{data?.name}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>保存路径：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.save_path}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.save_path}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>内容路径：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.content_path}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.content_path}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>文件尺寸：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.size_str}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.size_str}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
             <ListItem>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item >
                         <Typography>已经上传：</Typography>
                     </Grid>
-                    <Grid item xs={9}>
-                        <ListItemText>{data?.uploaded_str}</ListItemText>
+                    <Grid item xs>
+                        <ListText>{data?.uploaded_str}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
