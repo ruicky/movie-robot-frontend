@@ -65,11 +65,6 @@ export default function MovieCard(props) {
                     </CardMedia>
                 </CardActionArea>
                 <CardContent>
-                    {/*文件名*/}
-                    <Typography mb={2} color="h5" component="h2" noWrap>
-                        {site_name != 'unknown' && `[${site_name}]`}
-                        {tname}
-                    </Typography>
                     {/*进度条*/}
                     {status_code === 0 && downloading && <DownloadBar downloading={downloading} id={id}/>}
                     {/*标签*/}
