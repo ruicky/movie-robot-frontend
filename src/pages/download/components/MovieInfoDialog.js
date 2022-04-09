@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 
 import {Info as InfoIcon} from '@mui/icons-material';
-import {getTorrentInfo} from "@/utils/download_record";
+import {getRecord, getTorrentInfo} from "@/utils/download_record";
 
 function InfoList({data}) {
     return (
@@ -25,7 +25,7 @@ function InfoList({data}) {
                         <Typography>种子名称：</Typography>
                     </Grid>
                     <Grid item xs={9}>
-                        <ListItemText>{data?.name}</ListItemText>
+                        <ListItemText>{data?.torrent_info.name}</ListItemText>
                     </Grid>
                 </Grid>
             </ListItem>
@@ -35,7 +35,7 @@ function InfoList({data}) {
                         <Typography>保存路径：</Typography>
                     </Grid>
                     <Grid item xs={9}>
-                        <ListItemText>{data?.save_path}</ListItemText>
+                        <ListItemText>{data?.torrent_info.save_path}</ListItemText>
                     </Grid>
                 </Grid>
             </ListItem>
@@ -45,7 +45,7 @@ function InfoList({data}) {
                         <Typography>内容路径：</Typography>
                     </Grid>
                     <Grid item xs={9}>
-                        <ListItemText>{data?.content_path}</ListItemText>
+                        <ListItemText>{data?.torrent_info.content_path}</ListItemText>
                     </Grid>
                 </Grid>
             </ListItem>
@@ -55,7 +55,7 @@ function InfoList({data}) {
                         <Typography>文件尺寸：</Typography>
                     </Grid>
                     <Grid item xs={9}>
-                        <ListItemText>{data?.size_str}</ListItemText>
+                        <ListItemText>{data?.torrent_info.size_str}</ListItemText>
                     </Grid>
                 </Grid>
             </ListItem>
@@ -65,7 +65,7 @@ function InfoList({data}) {
                         <Typography>已经上传：</Typography>
                     </Grid>
                     <Grid item xs={9}>
-                        <ListItemText>{data?.uploaded_str}</ListItemText>
+                        <ListItemText>{data?.torrent_info.uploaded_str}</ListItemText>
                     </Grid>
                 </Grid>
             </ListItem>
@@ -73,11 +73,11 @@ function InfoList({data}) {
     );
 }
 
-export default function MovieInfoDialog({torrent_hash}) {
+export default function MovieInfoDialog({id}) {
     const [open, setOpen] = React.useState(false);
     const [data, setDate] = React.useState({})
     const handleClickOpen = async () => {
-        let result = await getTorrentInfo(torrent_hash)
+        let result = await getRecord(id)
         setDate(result.data)
         setOpen(true);
     };
@@ -99,7 +99,7 @@ export default function MovieInfoDialog({torrent_hash}) {
                 aria-describedby="scroll-dialog-description"
                 sx={{minWidth: '600'}}
             >
-                <DialogTitle id="scroll-dialog-title">信息</DialogTitle>
+                <DialogTitle id="scroll-dialog-title">种子信息</DialogTitle>
                 <DialogContent dividers sx={{padding: 0}}>
                     <InfoList data={data}/>
                 </DialogContent>

@@ -86,7 +86,7 @@ export default function MovieCard(props) {
                 </CardContent>
                 <Divider my={1}/>
                 <CardActions container={true} sx={{justifyContent: 'flex-end'}}>
-                    {status_code !== 2 && <MovieInfoDialog torrent_hash={hash}/>}
+                    {status_code !== 2 && <MovieInfoDialog id={id}/>}
                     {
                         status_code !== 2 &&
                         <IconButton onClick={handleAnalyze} aria-label="重新识别" size="small" sx={{marginLeft: '9px'}}>

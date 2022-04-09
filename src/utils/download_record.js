@@ -69,9 +69,9 @@ export const reanalyze = async (params) => {
     return result;
 }
 
-export const getTorrentInfo = async (torrent_hash) => {
-    const result = await axios.get("/api/download/get_torrent_info", {
-        params: {torrent_hash}
+export const getRecord = async (id) => {
+    const result = await axios.get("/api/download/get_record", {
+        params: {id}
     });
     return result;
 }
