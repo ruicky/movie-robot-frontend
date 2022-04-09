@@ -5,21 +5,15 @@ import React, {useEffect, useRef} from "react";
  * @param callback 调用方法
  * @param delay 延迟时间(单位毫秒)
  */
-export function useInterval(callback,delay) {
-  const savedCallback = useRef();
+export function useInterval(cb, delay) {
+  const ref = useRef()
 
   useEffect(() => {
-    savedCallback.current = callback;
-  });
+    ref.current = cb
+  })
 
   useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
+    const timer = setInterval(() => ref.current(), delay)
+    return () => clearInterval(timer)
+  }, [delay])
 }

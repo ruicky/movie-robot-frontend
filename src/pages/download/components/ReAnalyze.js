@@ -23,7 +23,6 @@ export default function ReAnalyze(props) {
         onAnalyze,
         onAnalyzeSuccess
     } = props;
-    console.log('props-->', props)
     const [validResult, setValidResult] = useState({})
     const [name, setName] = useState();
     const [year, setYear] = useState();

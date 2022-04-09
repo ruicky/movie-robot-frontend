@@ -18,6 +18,7 @@ import {spacing} from "@mui/system";
 import LinesEllipsis from 'react-lines-ellipsis'
 import {ChevronRight as ChevronRightIcon, DeleteForever, Refresh as RefreshIcon} from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import MovieInfoDialog from './MovieInfoDialog'
 
 export default function MovieCard(props) {
     const {onDelete, onAnalyze, downloading} = props
@@ -36,7 +37,8 @@ export default function MovieCard(props) {
         resolution,
         media_source,
         media_encoding,
-        url
+        url,
+        hash
     } = props.data;
     const handleAnalyze = () => {
         onAnalyze({open: true, year: year, id: id, name: title})
@@ -84,9 +86,10 @@ export default function MovieCard(props) {
                 </CardContent>
                 <Divider my={1}/>
                 <CardActions container={true} sx={{justifyContent: 'flex-end'}}>
+                    {status_code !== 2 && <MovieInfoDialog torrent_hash={hash}/>}
                     {
                         status_code !== 2 &&
-                        <IconButton onClick={handleAnalyze} aria-label="重新识别" size="small">
+                        <IconButton onClick={handleAnalyze} aria-label="重新识别" size="small" sx={{marginLeft: '9px'}}>
                             <RefreshIcon/>
                         </IconButton>
                     }

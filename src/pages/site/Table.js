@@ -4,17 +4,19 @@ import styled from "styled-components/macro";
 import {
     Card as MuiCard,
     CardHeader,
-    IconButton,
     Chip as MuiChip,
+    Divider,
+    IconButton,
     Paper as MuiPaper,
+    Stack,
     Table,
     TableBody,
     TableCell,
     TableHead,
-    TableRow, Stack, Divider,
+    TableRow,
 } from "@mui/material";
 import {spacing} from "@mui/system";
-import {Add, Delete, Edit, Menu as MenuIcon} from "@mui/icons-material";
+import {Add, Delete, Edit} from "@mui/icons-material";
 import {coverSize} from "../../utils/PtUtils";
 import {Eye, EyeOff} from "react-feather";
 
@@ -25,7 +27,7 @@ const Chip = styled(MuiChip)`
   padding: 4px 0;
   font-size: 90%;
   background-color: ${(props) =>
-          props.theme.palette[props.color ? props.color : "primary"].light};
+    props.theme.palette[props.color ? props.color : "primary"].light};
   color: ${(props) => props.theme.palette.common.white};
 `;
 
@@ -77,6 +79,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick}) => {
                                 <TableCell>状态</TableCell>
                                 <TableCell>Web搜索</TableCell>
                                 <TableCell>智能下载</TableCell>
+                                <TableCell>流量管理</TableCell>
                                 <TableCell>操作</TableCell>
                             </TableRow>
                         </TableHead>
@@ -93,6 +96,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick}) => {
                                     <TableCell>{getStatus(row.status)}</TableCell>
                                     <TableCell>{row.web_search === 1 ? '是' : '否'}</TableCell>
                                     <TableCell>{row.smart_download === 1 ? '是' : '否'}</TableCell>
+                                    <TableCell>{row.traffic_management_status !== undefined && row.traffic_management_status !== null && row.traffic_management_status !== 0 ? "开启" : "关闭"}</TableCell>
                                     <TableCell>
                                         <IconButton
                                             color="info"

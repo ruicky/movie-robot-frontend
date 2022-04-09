@@ -20,6 +20,8 @@ const InitMovieMetadata = async(() => import("./pages/config/MovieMetadata"));
 const InitWeb = async(() => import("./pages/config/Web"));
 const DoubanConfig = async(() => import("./pages/config/DoubanConfig"));
 const NotifyConfig = async(() => import("./pages/config/NotifyConfig"));
+const Notify = async(() => import("./pages/notify/index"));
+const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
         path: "sign-in", element: <SignIn/>
@@ -55,6 +57,8 @@ const routes = [{
         path: "movie-metadata", element: <InitMovieMetadata/>
     }, {
         path: "notify", element: <NotifyConfig/>
+    }, {
+        path: "free-download", element: <FreeDownloadConfig/>
     }]
 }, {
     path: "smartDownload", element: <AuthGuard>
@@ -85,6 +89,10 @@ const routes = [{
 }, {
     path: "site", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
         path: "dashboard", element: <SiteDashboard/>
+    }]
+}, {
+    path: "notify", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
+        path: "list", element: <Notify/>
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{
