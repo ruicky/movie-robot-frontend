@@ -6,9 +6,9 @@ import {STATUS} from "@/constants";
  * @param id
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const deleteRecord = async (id) => {
+export const deleteRecord = async (params) => {
     const result = await axios.get("/api/download/delete_record", {
-        params: {id: id}
+        params
     })
     return result;
 }
