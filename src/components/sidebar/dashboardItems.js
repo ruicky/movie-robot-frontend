@@ -1,5 +1,5 @@
 import {Download, Search, Tune} from "@mui/icons-material";
-import {Bookmark, Settings, Star} from "react-feather";
+import {Bookmark, Settings, Star, Users} from "react-feather";
 
 const moviePages = [{
     href: "/movie/search", icon: Search, title: "搜索资源"
@@ -8,6 +8,8 @@ const moviePages = [{
 }];
 const settingPages = [{
     href: "/site/dashboard", icon: Star, title: "站点管理"
+}, {
+    href: "/user/index", icon: Users, title: "用户管理"
 }, {
     href: "/config", icon: Settings, title: "基础设置", children: [
         {

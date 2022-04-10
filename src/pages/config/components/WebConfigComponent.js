@@ -5,9 +5,7 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from "../../../utils/request";
 
-import {
-    Alert as MuiAlert, Button, TextField as MuiTextField
-} from "@mui/material";
+import {Alert as MuiAlert, Button, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 import useAuth from "../../../hooks/useAuth";
 
@@ -65,9 +63,18 @@ function WebConfigComponent({isInit}) {
             if (data != undefined) {
                 formik.setFieldValue("server_url", data.server_url);
                 formik.setFieldValue("port", data.port);
-                formik.setFieldValue("username", data.username);
-                formik.setFieldValue("password", data.password);
-                formik.setFieldValue("confirmPassword", data.password);
+                if (data.username) {
+                    formik.setFieldValue("username", data.username);
+                } else {
+                    formik.setFieldValue("username", '');
+                }
+                if (data.password) {
+                    formik.setFieldValue("password", data.password);
+                    formik.setFieldValue("confirmPassword", data.password);
+                } else {
+                    formik.setFieldValue("password", '');
+                    formik.setFieldValue("confirmPassword", '');
+                }
             }
         });
     }, []);
