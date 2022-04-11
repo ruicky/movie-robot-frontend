@@ -18,6 +18,7 @@ const InitDownloadClient = async(() => import("./pages/config/DownloadClient"));
 const InitMediaPath = async(() => import("./pages/config/MediaPath"));
 const InitMovieMetadata = async(() => import("./pages/config/MovieMetadata"));
 const InitWeb = async(() => import("./pages/config/Web"));
+const InitAdminUser = async(() => import("./pages/config/AdminUser"));
 const DoubanConfig = async(() => import("./pages/config/DoubanConfig"));
 const NotifyConfig = async(() => import("./pages/config/NotifyConfig"));
 const Notify = async(() => import("./pages/notify/index"));
@@ -35,6 +36,8 @@ const routes = [{
     }]
 }, {
     path: "setup", element: <AuthLayout/>, children: [{
+        path: "admin", element: <InitAdminUser/>
+    },{
         path: "web", element: <InitWeb/>
     }, {
         path: "media-server", element: <AuthGuard><InitMediaServer/></AuthGuard>

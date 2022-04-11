@@ -65,6 +65,8 @@ const UserTable = ({data}) => {
                                 <TableCell>角色</TableCell>
                                 <TableCell>豆瓣</TableCell>
                                 <TableCell>微信</TableCell>
+                                <TableCell>PushDeer</TableCell>
+                                <TableCell>Bark</TableCell>
                                 <TableCell>操作</TableCell>
                             </TableRow>
                         </TableHead>
@@ -78,6 +80,8 @@ const UserTable = ({data}) => {
                                     <TableCell>{getRole(row.role)}</TableCell>
                                     <TableCell>{row.douban_user ? row.douban_user : "未设置"}</TableCell>
                                     <TableCell>{row.qywx_user ? row.qywx_user : "未设置"}</TableCell>
+                                    <TableCell>{row.pushdeer_key ? "已设置" : "未设置"}</TableCell>
+                                    <TableCell>{row.bark_url ? "已设置" : "未设置"}</TableCell>
                                     <TableCell>
                                         <IconButton
                                             color="info"
@@ -86,13 +90,6 @@ const UserTable = ({data}) => {
                                             href={"/user/edit?op=edit&id=" + row.id}
                                         >
                                             <Edit/>
-                                        </IconButton>
-                                        <IconButton
-                                            color="secondary"
-                                            aria-label="删除"
-                                            size="small"
-                                        >
-                                            <Delete/>
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>

@@ -49,7 +49,10 @@ function EditUser({}) {
             password: '',
             role: 2,
             qywxUser: '',
-            doubanUser: ''
+            doubanUser: '',
+            pushdeerKey: '',
+            barkUrl: ''
+
         }, validationSchema: Yup.object().shape({
             username: Yup.string().max(64, "用户名太长了").required("用户名不能为空"),
             nickname: Yup.string().max(64, "昵称太长了").required("昵称不能为空"),
@@ -65,9 +68,9 @@ function EditUser({}) {
                 setSubmitting(true)
                 let r;
                 if (op === "add") {
-                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser)
+                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl)
                 } else {
-                    r = await updateUser(id, values.password, values.role, values.doubanUser, values.qywxUser)
+                    r = await updateUser(id,values.username, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl)
                 }
                 if (r.code === 0) {
                     message.success(r.message)
@@ -108,8 +111,17 @@ function EditUser({}) {
             if (user.douban_user) {
                 formik.setFieldValue("doubanUser", user.douban_user)
             }
+            if (user.role) {
+                formik.setFieldValue("role", user.role)
+            }
             if (user.qywx_user) {
                 formik.setFieldValue("qywxUser", user.qywx_user)
+            }
+            if (user.pushdeer_key) {
+                formik.setFieldValue("pushdeerKey", user.pushdeer_key)
+            }
+            if (user.bark_url) {
+                formik.setFieldValue("barkUrl", user.bark_url)
             }
         }
     }, [op])
@@ -134,7 +146,6 @@ function EditUser({}) {
                         value={formik.values.username}
                         error={Boolean(formik.touched.username && formik.errors.username)}
                         fullWidth
-                        disabled={op === "edit"}
                         helperText={formik.touched.username && formik.errors.username || (
                             <span>
                                 用作登陆账号，不可重复
@@ -213,6 +224,36 @@ function EditUser({}) {
                         </Select>
                         <FormHelperText>在企业微信的应用中发送"绑定用户"后，可以回来选择</FormHelperText>
                     </FormControl>
+                    <TextField
+                        type="text"
+                        name="pushdeerKey"
+                        label="Pushdeer PushKey"
+                        value={formik.values.pushdeerKey}
+                        error={Boolean(formik.touched.pushdeerKey && formik.errors.pushdeerKey)}
+                        fullWidth
+                        helperText={formik.touched.pushdeerKey && formik.errors.pushdeerKey || (
+                            <span>
+                                推送Pushdeer的key，每个设备都是不同的，设置后可以定向推送
+                            </span>
+                        )} onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        my={3}
+                    />
+                    <TextField
+                        type="text"
+                        name="barkUrl"
+                        label="Bark推送URL"
+                        value={formik.values.barkUrl}
+                        error={Boolean(formik.touched.barkUrl && formik.errors.barkUrl)}
+                        fullWidth
+                        helperText={formik.touched.barkUrl && formik.errors.barkUrl || (
+                            <span>
+                                推送的Bark URL，每个设备都是不同的，设置后可以定向推送
+                            </span>
+                        )} onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        my={3}
+                    />
                     <Centered>
                         <Button
                             mr={2}
