@@ -70,7 +70,7 @@ function EditUser({}) {
                 if (op === "add") {
                     r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl)
                 } else {
-                    r = await updateUser(id,values.username, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl)
+                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl)
                 }
                 if (r.code === 0) {
                     message.success(r.message)

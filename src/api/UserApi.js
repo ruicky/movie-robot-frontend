@@ -25,9 +25,9 @@ export const registerUser = async (username, password, nickname, role, douban_us
     })
     return result;
 }
-export const updateUser = async (uid, username, new_password, role, douban_user, qywx_user, pushdeer_key, bark_url) => {
+export const updateUser = async (uid, username, nickname, new_password, role, douban_user, qywx_user, pushdeer_key, bark_url) => {
     const result = await axios.post("/api/user/update_user", {
-        uid, username, new_password, role, douban_user, qywx_user,
+        uid, username, nickname, new_password, role, douban_user, qywx_user,
         pushdeer_key,
         bark_url
     })

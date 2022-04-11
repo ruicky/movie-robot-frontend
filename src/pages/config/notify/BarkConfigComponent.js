@@ -71,6 +71,9 @@ function BarkConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             formik.setFieldValue('push_url', data.push_url)
             formik.setFieldValue('sound', data.sound)
             formik.setFieldValue('group', data.group)
+            if (data.icon) {
+                formik.setFieldValue('icon', data.icon)
+            }
             const {
                 title,
                 message
