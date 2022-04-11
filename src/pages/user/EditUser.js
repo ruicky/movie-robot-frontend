@@ -208,7 +208,7 @@ function EditUser({}) {
                                 <MenuItem key={item} value={item}>{item}</MenuItem>
                             ))}
                         </Select>
-                        <FormHelperText>在智能下载-豆瓣想看中监听用户后，可以回来选择</FormHelperText>
+                        <FormHelperText>在智能下载-豆瓣想看中监听用户后，可以回来选择绑定（可留空）</FormHelperText>
                     </FormControl>
                     <FormControl m={4} fullWidth>
                         {formik.values.qywxUser ? null : <InputLabel>企业微信用户</InputLabel>}
@@ -222,7 +222,7 @@ function EditUser({}) {
                                 <MenuItem key={row.user} value={row.user}>{row.user}</MenuItem>
                             ))}
                         </Select>
-                        <FormHelperText>在企业微信的应用中发送"绑定用户"后，可以回来选择</FormHelperText>
+                        <FormHelperText>在企业微信的应用中发送"绑定用户"后，可以回来选择绑定（可留空）</FormHelperText>
                     </FormControl>
                     <TextField
                         type="text"
@@ -233,7 +233,7 @@ function EditUser({}) {
                         fullWidth
                         helperText={formik.touched.pushdeerKey && formik.errors.pushdeerKey || (
                             <span>
-                                推送Pushdeer的key，每个设备都是不同的，设置后可以定向推送
+                                推送Pushdeer的key，每个设备都是不同的，设置后可以定向推送（可留空）
                             </span>
                         )} onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
@@ -248,7 +248,7 @@ function EditUser({}) {
                         fullWidth
                         helperText={formik.touched.barkUrl && formik.errors.barkUrl || (
                             <span>
-                                推送的Bark URL，每个设备都是不同的，设置后可以定向推送
+                                推送的Bark URL，每个设备都是不同的，设置后可以定向推送（可留空）
                             </span>
                         )} onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
