@@ -7,7 +7,11 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    FormControl,
     FormControlLabel,
+    FormHelperText,
+    MenuItem,
+    Select,
     TextField
 } from "@mui/material";
 import {reanalyze} from "@/utils/download_record";
@@ -17,25 +21,33 @@ export default function ReAnalyze(props) {
     const {
         id,
         open = false,
+        movie_type,
+        link_path,
         name: propsName,
         year: propsYear,
         notify: propsNotify = true,
         onAnalyze,
         onAnalyzeSuccess
     } = props;
-    console.log('props-->', props)
     const [validResult, setValidResult] = useState({})
     const [name, setName] = useState();
     const [year, setYear] = useState();
+    const [linkPath, setLinkPath] = useState();
+    const [movieType, setMovieType] = useState();
     const [notify, setNotify] = useState(propsNotify);
-
+    const [submitting, setSubmitting] = useState(false)
     useEffect(() => {
         setYear(propsYear)
     }, [propsYear])
     useEffect(() => {
         setName(propsName)
     }, [propsName])
-
+    useEffect(() => {
+        setLinkPath(link_path)
+    }, [link_path])
+    useEffect(() => {
+        setMovieType(movie_type)
+    }, [movie_type])
     const handleClose = () => {
         onAnalyze({open: false})
     }
@@ -54,12 +66,22 @@ export default function ReAnalyze(props) {
             })
             return;
         }
+        if (!linkPath) {
+            setValidResult({
+                linkPath: {error: true, helperText: '必须填写链接目标路径'}
+            })
+            return;
+        }
+        setSubmitting(true)
         const result = await reanalyze({
             id,
+            movie_type: movieType,
+            link_path: linkPath,
             name,
             year,
             send_notify: notify ? 1 : 0
         });
+        setSubmitting(false)
         handleClose();
         if (onAnalyzeSuccess) {
             onAnalyzeSuccess(result)
@@ -77,6 +99,18 @@ export default function ReAnalyze(props) {
                 <DialogContentText>
                     提供正确的影视名称和年份，提交后，机器人将重新识别整理、通知。
                 </DialogContentText>
+                <FormControl m={4} fullWidth>
+                    <Select
+                        name="type"
+                        value={movieType}
+                        displayEmpty
+                        onChange={(e) => setMovieType(e.target.value)}
+                    >
+                        <MenuItem value="Movie">电影</MenuItem>
+                        <MenuItem value="Series">剧集</MenuItem>
+                    </Select>
+                    <FormHelperText>内容类型</FormHelperText>
+                </FormControl>
                 <TextField
                     autoFocus
                     type="text"
@@ -100,6 +134,17 @@ export default function ReAnalyze(props) {
                     error={!!validResult?.year?.error}
                     helperText={validResult?.year?.helperText}
                 />
+                <TextField
+                    type="text"
+                    name="link_path"
+                    margin="dense"
+                    label="链接路径"
+                    fullWidth
+                    defaultValue={linkPath}
+                    onChange={(e) => setLinkPath(e.target.value)}
+                    error={!!validResult?.linkPath?.error}
+                    helperText={validResult?.linkPath?.helperText}
+                />
                 <FormControlLabel
                     control={<Checkbox
                         checked={notify}
@@ -110,10 +155,10 @@ export default function ReAnalyze(props) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button color="primary" onClick={handleSubmit}>
-                    提交
+                <Button color="primary" onClick={handleSubmit} disabled={submitting}>
+                    {submitting ? "处理中..." : "提交"}
                 </Button>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handleClose} color="primary" disabled={submitting}>
                     取消
                 </Button>
             </DialogActions>

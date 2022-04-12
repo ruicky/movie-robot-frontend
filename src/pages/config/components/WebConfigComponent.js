@@ -5,27 +5,21 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from "../../../utils/request";
 
-import {
-    Alert as MuiAlert, Button, TextField as MuiTextField
-} from "@mui/material";
+import {Alert as MuiAlert, Button, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
-import useAuth from "../../../hooks/useAuth";
-
 const Alert = styled(MuiAlert)(spacing);
 
 const TextField = styled(MuiTextField)(spacing);
 
 function WebConfigComponent({isInit}) {
-    const {signIn} = useAuth();
     const navigate = useNavigate();
     const [message, setMessage] = useState();
-    const saveWebConfig = async (port, username, password, server_url) => {
-        const res = await axios.post("/api/config/save_web", {port, username, password, server_url});
+    const saveWebConfig = async (port, server_url) => {
+        const res = await axios.post("/api/config/save_web", {port, server_url});
         const {code, message, data} = res;
         if (code === undefined || code === 1) {
             throw new Error(message);
         }
-        await signIn(username, password);
         if (isInit) {
             navigate(data.next);
         } else {
@@ -34,21 +28,12 @@ function WebConfigComponent({isInit}) {
     };
     const formik = useFormik({
         initialValues: {
-            port: 1329, username: "admin", password: "", confirmPassword: "", server_url: "http://"
+            port: 1329, server_url: "http://"
         }, validationSchema: Yup.object().shape({
             port: Yup.string().max(5).required("网站服务端口号必须填写"),
-            username: Yup.string().max(64).required("网站登陆账号必须填写"),
-            password: Yup.string()
-                .min(8, "登陆密码不能少于8位")
-                .max(64)
-                .required("网站登陆密码必须填写"),
-            confirmPassword: Yup.string().when("password", {
-                is: (val) => (val && val.length > 0 ? true : false),
-                then: Yup.string().oneOf([Yup.ref("password")], "两次输入的密码必须一致")
-            })
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
-                await saveWebConfig(values.port, values.username, values.confirmPassword, values.server_url);
+                await saveWebConfig(values.port, values.server_url);
             } catch (error) {
                 const message = error.message || "配置出错啦";
 
@@ -65,9 +50,6 @@ function WebConfigComponent({isInit}) {
             if (data != undefined) {
                 formik.setFieldValue("server_url", data.server_url);
                 formik.setFieldValue("port", data.port);
-                formik.setFieldValue("username", data.username);
-                formik.setFieldValue("password", data.password);
-                formik.setFieldValue("confirmPassword", data.password);
             }
         });
     }, []);
@@ -98,42 +80,6 @@ function WebConfigComponent({isInit}) {
             error={Boolean(formik.touched.port && formik.errors.port)}
             fullWidth
             helperText={(formik.touched.port && formik.errors.port) || "web服务启动端口，没有特殊需求不用改"}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            my={3}
-        />
-        <TextField
-            type="text"
-            name="username"
-            label="网站登陆账号"
-            value={formik.values.username}
-            error={Boolean(formik.touched.username && formik.errors.username)}
-            fullWidth
-            helperText={formik.touched.username && formik.errors.username}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            my={3}
-        />
-        <TextField
-            type="password"
-            name="password"
-            label="登陆密码"
-            value={formik.values.password}
-            error={Boolean(formik.touched.password && formik.errors.password)}
-            fullWidth
-            helperText={formik.touched.password && formik.errors.password}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            my={3}
-        />
-        <TextField
-            type="password"
-            name="confirmPassword"
-            label="确认密码"
-            value={formik.values.confirmPassword}
-            error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
-            fullWidth
-            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}

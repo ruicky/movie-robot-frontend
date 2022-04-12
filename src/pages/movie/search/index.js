@@ -189,7 +189,6 @@ function DownloadRecords(props) {
     const [downloadInfo, setDownloadInfo] = useState();
     const [tagVersion, setTagVersion] = useState(Date.now());
     const [param, setParam] = useUrlQueryParam(["keyword"]);
-    console.log('param-->', param);
 
     const searchData = (keyword) => {
         if (keyword && !loading) {

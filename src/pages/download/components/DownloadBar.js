@@ -9,7 +9,6 @@ export default function DownloadBar(props) {
   const { downloading } = props;
 
   let itemDownloading = { progress: 0, ...downloading };
-  console.log('itemDownloading-->', itemDownloading)
   return(
     <div>
       <LinearProgress my={2} variant="determinate" value={itemDownloading?.progress} />

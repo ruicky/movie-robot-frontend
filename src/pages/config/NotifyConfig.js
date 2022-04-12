@@ -91,7 +91,7 @@ function NotifyConfig() {
                     <MenuItem value="bark">Bark</MenuItem>
                     <MenuItem value="pushdeer">PushDeer</MenuItem>
                 </Select>
-                <FormHelperText>目前已支持的推送应用</FormHelperText>
+                <FormHelperText>可以选择多个通道分别设置启用，启用多少推多少</FormHelperText>
             </FormControl>
             {app === 'qywx' &&
                 <QywxConfigComponent isInit={isInit} data={config.qywx} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
