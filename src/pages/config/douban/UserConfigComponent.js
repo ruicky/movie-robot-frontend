@@ -2,7 +2,7 @@ import {Button, Card, CardActions, CardContent, Grid, Link, TextField, Typograph
 import React, {useEffect, useState} from "react";
 import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
 
-const UserConfigComponent = ({ruleData, users, setUsers, submitting, setHasError}) => {
+const UserConfigComponent = ({users, setUsers, submitting, setHasError}) => {
     const [errors, setErrors] = useState({})
     const handleOnChange = (index, e) => {
         let tmp = [...users];
@@ -85,19 +85,6 @@ const UserConfigComponent = ({ruleData, users, setUsers, submitting, setHasError
                         </Grid>
                         <Grid item md={6}>
                             <TextField
-                                name="nickname"
-                                label="自定义昵称"
-                                fullWidth
-                                variant="outlined"
-                                error={error(i, 'nickname')}
-                                helperText={helperText(i, 'nickname') || "这个昵称可以用作通知显示，随便定义。"}
-                                value={user.nickname}
-                                onChange={(e) => handleOnChange(i, e)}
-                                onBlur={(e) => handleOnBlur(i, e)}
-                            />
-                        </Grid>
-                        <Grid item md={6}>
-                            <TextField
                                 type="number"
                                 name="pull_time_range"
                                 label="拉取天数"
@@ -109,10 +96,6 @@ const UserConfigComponent = ({ruleData, users, setUsers, submitting, setHasError
                                 onChange={(e) => handleOnChange(i, e)}
                                 onBlur={(e) => handleOnBlur(i, e)}
                             />
-                        </Grid>
-                        <Grid item md={6}>
-                            <ScoreRuleSelectComponent name='score_rule' value={user.score_rule} data={ruleData}
-                                                      onChange={(e) => handleOnChange(i, e)}/>
                         </Grid>
                     </Grid>
                 </CardContent>

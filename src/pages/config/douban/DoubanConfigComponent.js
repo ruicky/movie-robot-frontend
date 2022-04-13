@@ -5,9 +5,7 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from "../../../utils/request";
 
-import {
-    Alert as MuiAlert, Button, FormControl, FormHelperText, Link, MenuItem, Select, TextField as MuiTextField
-} from "@mui/material";
+import {Alert as MuiAlert, Button, Link, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
 import UserConfigComponent from "@/pages/config/douban/UserConfigComponent";
@@ -15,6 +13,7 @@ import TagConfigComponent from "@/pages/config/douban/TagConfigComponent";
 import DownloadPathConfigComponent from "@/pages/config/douban/DownloadPathConfigComponent";
 import pageMessage from "@/utils/message";
 import TestDownload from "@/pages/config/douban/TestDownload";
+import {getScoreRuleNames} from "@/api/CommonApi";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -26,11 +25,11 @@ const Centered = styled.div`
 function DoubanConfigComponent({}) {
     const navigate = useNavigate();
     const [testDownloadPath, setTestDownloadPath] = useState({disabled: true, open: false})
-    const [ruleData, setRuleData] = useState([])
     const [doubanTags, setDoubanTags] = useState({cate: [], area: []})
     const [mediaPaths, setMediaPaths] = useState([])
-    const [users, setUsers] = useState([{id: '', nickname: '', pull_time_range: 365, score_rule: 'compress'}])
+    const [users, setUsers] = useState([{id: '', pull_time_range: 365}])
     const [tags, setTags] = useState([])
+    const [ruleData, setRuleData] = useState([])
     const [downloadPath, setDownloadPath] = useState([{
         type: "movie",
         cate: [],
@@ -92,8 +91,8 @@ function DoubanConfigComponent({}) {
             setTags(config.tags)
             setTestDownloadPath({disabled: false})
         }
-        let res = await axios.get("/api/common/rules")
-        setRuleData(res.data);
+        const scoreRuleNames = await getScoreRuleNames()
+        setRuleData(scoreRuleNames);
         let res_tag = await axios.get('/api/common/douban_tag');
         setDoubanTags(res_tag.data);
         let res_path = await axios.get('/api/config/get_media_path');
@@ -142,7 +141,9 @@ function DoubanConfigComponent({}) {
             onChange={formik.handleChange}
             my={3}
         />
-        <UserConfigComponent ruleData={ruleData} users={users} setUsers={setUsers}
+        <ScoreRuleSelectComponent name="default_score_rule" value={formik.values.default_score_rule} data={ruleData}
+                                  onChange={formik.handleChange}/>
+        <UserConfigComponent users={users} setUsers={setUsers}
                              submitting={formik.isSubmitting}
                              setHasError={setUserFormHasError}/>
         <DownloadPathConfigComponent data={downloadPath} setData={setDownloadPath} submitting={formik.isSubmitting}
