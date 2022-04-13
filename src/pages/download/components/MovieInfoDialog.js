@@ -6,7 +6,7 @@ import {
     DialogContent,
     DialogTitle,
     Grid,
-    IconButton,
+    IconButton, Link,
     List,
     ListItem,
     ListItemText,
@@ -21,6 +21,18 @@ const ListText = styled(ListItemText)`
     word-break: break-all;
 `;
 
+function getTorrentName(data) {
+    if (data.record?.torrent_url) {
+        return (
+            <ListText>
+                <Link href={data?.record.torrent_url} target="_blank">{data?.record.torrent_name}</Link>
+            </ListText>
+        )
+    } else {
+        return (<ListText>{data?.record.torrent_name}</ListText>)
+    }
+}
+
 function InfoList({data}) {
     return (
         <List dense>
@@ -31,6 +43,16 @@ function InfoList({data}) {
                     </Grid>
                     <Grid item xs>
                         <ListText>{data?.record.movie_type === "Movie" ? "电影" : "剧集"}</ListText>
+                    </Grid>
+                </Grid>
+            </ListItem>
+            <ListItem>
+                <Grid container spacing={2}>
+                    <Grid item>
+                        <Typography>来自用户：</Typography>
+                    </Grid>
+                    <Grid item xs>
+                        <ListText>{data?.user_nickname}</ListText>
                     </Grid>
                 </Grid>
             </ListItem>
@@ -50,7 +72,7 @@ function InfoList({data}) {
                         <Typography>种子名称：</Typography>
                     </Grid>
                     <Grid item xs>
-                        <ListText>{data?.record.torrent_name}</ListText>
+                        {getTorrentName(data)}
                     </Grid>
                 </Grid>
             </ListItem>
@@ -125,7 +147,7 @@ function InfoList({data}) {
                             </Grid>
                         </Grid>
                     </ListItem>
-            </React.Fragment>
+                </React.Fragment>
             )
             }
         </List>

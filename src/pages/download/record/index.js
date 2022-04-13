@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Helmet} from "react-helmet-async";
-import {Divider as MuiDivider, Grid, Typography} from "@mui/material";
+import {Button, Divider as MuiDivider, Grid, Typography} from "@mui/material";
 import MovieCard from "../components/MovieCard";
 import {getDownloading, getRecordList} from "@/utils/download_record";
 import styled from "styled-components/macro";
@@ -8,7 +8,17 @@ import {spacing} from "@mui/system";
 import ReAnalyze from "@/pages/download/components/ReAnalyze";
 import DeleteConfirm from "@/pages/download/components/DeleteConfirm";
 import {useInterval} from "@/utils/hooks";
+import {Loop as LoopIcon} from "@mui/icons-material";
 
+const SmallButton = styled(Button)`
+  padding: 4px;
+  min-width: 0;
+
+  svg {
+    width: 0.9em;
+    height: 0.9em;
+  }
+`;
 
 export default function DownloadRecords() {
     const [list, setList] = useState([]);
@@ -42,13 +52,25 @@ export default function DownloadRecords() {
         await fetchData()
         await fetchDownloadingList();
     }, [])
-
+    const onUpdateClick = async () => {
+        await fetchData()
+        await fetchDownloadingList();
+    }
     return (
         <React.Fragment>
             <Helmet title="下载记录"/>
-            <Typography variant="h3" gutterBottom display="inline">
-                近期下载
-            </Typography>
+            <Grid justifyContent="space-between" container spacing={6}>
+                <Grid item>
+                    <Typography variant="h3" gutterBottom>
+                        近期下载
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <SmallButton size="small" mr={2} onClick={() => onUpdateClick()}>
+                        <LoopIcon/>
+                    </SmallButton>
+                </Grid>
+            </Grid>
             <Divider my={4}/>
             <Grid container={true} spacing={6}>
                 {

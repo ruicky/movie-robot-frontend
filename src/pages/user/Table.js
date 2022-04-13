@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import {Add, Delete, Edit} from "@mui/icons-material";
+import {Link} from "react-router-dom";
 
 const Card = styled(MuiCard)(spacing);
 
@@ -48,7 +49,7 @@ const UserTable = ({data}) => {
             <CardHeader
                 action={
                     <Stack direction="row" divider={<Divider orientation="vertical" flexItem/>} spacing={1}>
-                        <IconButton color="info" aria-label="添加" size="large" href={"/user/edit?op=add"}>
+                        <IconButton color="info" aria-label="添加" size="large" component={Link} to={"/user/edit?op=add"}>
                             <Add/>
                         </IconButton>
                     </Stack>
@@ -87,7 +88,8 @@ const UserTable = ({data}) => {
                                             color="info"
                                             aria-label="编辑"
                                             size="small"
-                                            href={"/user/edit?op=edit&id=" + row.id}
+                                            component={Link}
+                                            to={"/user/edit?op=edit&id=" + row.id}
                                         >
                                             <Edit/>
                                         </IconButton>
