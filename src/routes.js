@@ -1,6 +1,5 @@
 import React from "react";
 import async from "./components/Async";
-import DashboardLayout from "./layouts/Dashboard";
 import AuthGuard from "./components/guards/AuthGuard";
 import AuthLayout from "./layouts/Auth";
 
@@ -9,6 +8,7 @@ import SignIn from "./pages/auth/SignIn";
 import Page404 from "./pages/auth/Page404";
 import Page500 from "./pages/auth/Page500";
 
+const DashboardLayout = async(() => import("./layouts/Dashboard"));
 const MovieAnalyze = async(() => import("./pages/movie/analyze"));
 const MovieSearch = async(() => import("./pages/movie/search"));
 const DownloadRecord = async(() => import("./pages/download/record"));

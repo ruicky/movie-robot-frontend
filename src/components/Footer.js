@@ -1,12 +1,7 @@
 import * as React from "react";
 import styled from "styled-components/macro";
 
-import {
-  Grid,
-  List,
-  ListItemText as MuiListItemText,
-  ListItemButton as MuiListItemButton
-} from "@mui/material";
+import {Grid, List, ListItemButton as MuiListItemButton, ListItemText as MuiListItemText} from "@mui/material";
 
 const Wrapper = styled.div`
   padding: ${(props) => props.theme.spacing(0.25)} ${(props) => props.theme.spacing(4)};
@@ -33,38 +28,38 @@ const ListItemText = styled(MuiListItemText)`
   }
 `;
 
-function Footer() {
-  return (
-    <Wrapper>
-      <Grid container spacing={0}>
-        <Grid
-          sx={{ display: { xs: "none", md: "block" } }}
-          container
-          item
-          xs={12}
-          md={6}
-        >
-          <List>
-            <ListItemButton component="a" href="#">
-              <ListItemText primary="帮助文档" />
-            </ListItemButton>
-          </List>
-        </Grid>
-        <Grid container item xs={12} md={6} justifyContent="flex-end">
-          <List>
-            <ListItemButton>
-              <ListItemText
-                primary={`© ${new Date().getFullYear()} - Movie Robot`}
-              />
-            </ListItemButton>
-            <ListItemButton component="a" href="#">
-              <ListItemText primary="Version: Beta 2.1" />
-            </ListItemButton>
-          </List>
-        </Grid>
-      </Grid>
-    </Wrapper>
-  );
+function Footer({version}) {
+    return (
+        <Wrapper>
+            <Grid container spacing={0}>
+                <Grid
+                    sx={{display: {xs: "none", md: "block"}}}
+                    container
+                    item
+                    xs={12}
+                    md={6}
+                >
+                    <List>
+                        <ListItemButton component="a" target="_blank" href="https://feather-purple-bdd.notion.site/Movie-Robot-4cb7aef2b9cb4236b409ae8742672985">
+                            <ListItemText primary="帮助文档"/>
+                        </ListItemButton>
+                    </List>
+                </Grid>
+                <Grid container item xs={12} md={6} justifyContent="flex-end">
+                    <List>
+                        <ListItemButton>
+                            <ListItemText
+                                primary={`© ${new Date().getFullYear()} - Movie Robot`}
+                            />
+                        </ListItemButton>
+                        <ListItemButton component="a" href="#">
+                            <ListItemText primary={"Version: " + version}/>
+                        </ListItemButton>
+                    </List>
+                </Grid>
+            </Grid>
+        </Wrapper>
+    );
 }
 
 export default Footer;
