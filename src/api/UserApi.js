@@ -35,3 +35,19 @@ export const updateUser = async (uid, username, nickname, new_password, role, do
     })
     return result;
 }
+export const getUnreadSysNotify = async () => {
+    const result = await axios.get("/api/user/get_unread_sys_notify")
+    return result.data;
+}
+export const countUnreadSysNotify = async () => {
+    const result = await axios.get("/api/user/count_unread_sys_notify")
+    return result.data;
+}
+export const getAllSysNotify = async () => {
+    const result = await axios.get("/api/user/get_all_sys_notify")
+    return result.data;
+}
+export const clearSysNotify = async () => {
+    const result = await axios.get("/api/user/clear_sys_notify")
+    return result;
+}

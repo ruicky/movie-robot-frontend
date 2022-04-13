@@ -48,10 +48,9 @@ function AuthProvider({ children }) {
             dispatch({ type: SIGN_OUT });
             return;
           }
-          const { user } = data;
           dispatch({
             type: INITIALIZE, payload: {
-              isAuthenticated: true, user: user
+              isAuthenticated: true, user: data
             }
           });
         } else {
