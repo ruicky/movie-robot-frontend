@@ -51,7 +51,7 @@ const UserConfigComponent = ({users, setUsers, submitting, setHasError}) => {
         <Card>
             {users.map((user, i) => (<Card mb={6} key={i}>
                 <Typography gutterBottom variant="h5" component="h2">
-                    监听用户 {user.nickname}
+                    监听用户 {user.id}
                     <Button
                         onClick={() => {
                             const temp = [...users];
