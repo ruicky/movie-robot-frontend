@@ -1,6 +1,5 @@
 import {Button, Card, CardActions, CardContent, Grid, Link, TextField, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
 
 const UserConfigComponent = ({users, setUsers, submitting, setHasError}) => {
     const [errors, setErrors] = useState({})
@@ -102,7 +101,7 @@ const UserConfigComponent = ({users, setUsers, submitting, setHasError}) => {
             </Card>))}
             <CardActions>
                 <Button size="small" color="primary" onClick={() => {
-                    setUsers([...users, {id: '', nickname: '', pull_time_range: 365, score_rule: 'compress'}]);
+                    setUsers([...users, {id: '', pull_time_range: 365}]);
                 }}>
                     加一个用户
                 </Button>
