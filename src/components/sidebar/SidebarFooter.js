@@ -50,17 +50,17 @@ const SidebarFooter = ({...rest}) => {
                         }}
                         variant="dot"
                     >
-                        {!!user && <Avatar alt={user.nickname}
+                        {user && <Avatar alt={user.nickname}
                                            src={user.avatar}>{user.nickname && user.nickname.substring(0, 1)}</Avatar>}
                     </FooterBadge>
                 </Grid>
                 <Grid item>
-                    {!!user && (
-                        <FooterText variant="body2">{user.nickname}</FooterText>
+                    {user && (
+                        <>
+                            <FooterText variant="body2">{user.nickname}</FooterText>
+                            <FooterSubText variant="caption">{user.role_name}</FooterSubText>
+                        </>
                     )}
-                    {/* Demo data */}
-                    {!user && <FooterText variant="body2">{user.nickname}</FooterText>}
-                    <FooterSubText variant="caption">{user.role_name}</FooterSubText>
                 </Grid>
             </Grid>
         </Footer>
