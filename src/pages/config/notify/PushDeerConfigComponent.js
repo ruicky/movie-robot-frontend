@@ -3,19 +3,9 @@ import {useNavigate} from "react-router-dom";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import axios from "../../../utils/request";
 import _ from 'lodash';
 
-import {
-    Alert as MuiAlert,
-    Button,
-    FormControl,
-    FormHelperText,
-    Link,
-    MenuItem,
-    Select,
-    TextField as MuiTextField
-} from "@mui/material";
+import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 import MessageTemplateComponent from "@/pages/config/notify/MessageTemplateComponent";
 
@@ -43,7 +33,8 @@ function PushDeerConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             pushkey: '',
             message_template: 'movie_completed',
             title: '${name} (${year}) 评分:${rating}',
-            message: '${nickname}添加的电影 ${name}(${year})下载完毕'
+            message: '${nickname}添加的电影 ${name}(${year})下载完毕',
+            enable: true
         }, validationSchema: Yup.object().shape({
             api: Yup.string().max(1000).required(),
             pushkey: Yup.string().max(500).required(),
@@ -76,10 +67,19 @@ function PushDeerConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
         if (data !== undefined && data !== null) {
             formik.setFieldValue('api', data.api)
             formik.setFieldValue('pushkey', data.pushkey)
-            const { title, message } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, { title: '', message: '' })
+            const {
+                title,
+                message
+            } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, {
+                title: '',
+                message: ''
+            })
             formik.setFieldValue('title', title)
             formik.setFieldValue('message', message)
             setMessageTemplate(data.message_template)
+            if (data.enable !== undefined || data.enable !== null) {
+                formik.setFieldValue('enable', data.enable)
+            }
         }
     }, [data]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
@@ -115,6 +115,14 @@ function PushDeerConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
         />
         <MessageTemplateComponent formik={formik} messageTemplate={messageTemplate}
                                   setMessageTemplate={setMessageTemplate}/>
+        <FormControlLabel
+            control={<Checkbox
+                checked={formik.values.enable}
+                name="enable"
+                onChange={formik.handleChange}
+            />}
+            label="启用这个通知（启用多个将推多个）"
+        />
         <Centered>
             <Button sx={{mr: 2}}
                     size="medium"

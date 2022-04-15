@@ -74,8 +74,8 @@ function NavbarUserDropdown() {
                     theme.toggle(true);
                     closeMenu()
                 }}>更换主题</MenuItem>
-                <MenuItem onClick={() => runTaskNow('sync_douban_wish_task')}>立即同步豆瓣想看</MenuItem>
                 <MenuItem onClick={() => runTaskNow('smart_download_task')}>执行智能下载任务</MenuItem>
+                <MenuItem onClick={() => runTaskNow('free_download_task')}>执行免费种子拉取</MenuItem>
                 <MenuItem onClick={handleSignOut}>退出</MenuItem>
             </Menu>
         </React.Fragment>

@@ -4,9 +4,7 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import _ from 'lodash';
 
-import {
-    Alert as MuiAlert, Button, FormControl, FormHelperText, Link, MenuItem, Select, TextField as MuiTextField
-} from "@mui/material";
+import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 import MessageTemplateComponent from "@/pages/config/notify/MessageTemplateComponent";
 
@@ -37,7 +35,8 @@ function QywxConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             title: '${name} (${year}) 评分:${rating}',
             message: '${nickname}添加的电影 ${name}(${year})下载完毕',
             token: '',
-            aes_key: ''
+            aes_key: '',
+            enable: true
         }, validationSchema: Yup.object().shape({
             touser: Yup.string().max(256).required(),
             corpid: Yup.string().max(256).required(),
@@ -79,7 +78,16 @@ function QywxConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             if (data.aes_key) {
                 formik.setFieldValue('aes_key', data.aes_key)
             }
-            const { title, message } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, { title: '', message: '' })
+            if (data.enable !== undefined || data.enable !== null) {
+                formik.setFieldValue('enable', data.enable)
+            }
+            const {
+                title,
+                message
+            } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, {
+                title: '',
+                message: ''
+            })
             formik.setFieldValue('title', title)
             formik.setFieldValue('message', message)
             setMessageTemplate(data.message_template)
@@ -165,6 +173,14 @@ function QywxConfigComponent({isInit, data, onSubmitEvent, onTestEvent}) {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
+        />
+        <FormControlLabel
+            control={<Checkbox
+                checked={formik.values.enable}
+                name="enable"
+                onChange={formik.handleChange}
+            />}
+            label="启用这个通知（启用多个将推多个）"
         />
         <Centered>
             <Button sx={{mr: 2}}

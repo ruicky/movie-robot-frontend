@@ -14,6 +14,7 @@ import {
 
 import { ReactComponent as Logo } from "../../vendor/logo.svg";
 import SidebarNav from "./SidebarNav";
+import Footer from "./SidebarFooter";
 
 const Box = styled(MuiBox)(spacing);
 
@@ -77,11 +78,11 @@ const Sidebar = ({ items, showFooter = true, ...rest }) => {
       <Brand component={NavLink} to="/">
         <BrandIcon />{" "}
         <Box ml={1}>
-          Movie Robot <BrandChip label="PRO" />
+          Movie Robot
         </Box>
       </Brand>
       <SidebarNav items={items} />
-      {/*{!!showFooter && <Footer />}*/}
+      {!!showFooter && <Footer />}
     </Drawer>
   );
 };

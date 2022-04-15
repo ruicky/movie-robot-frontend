@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
-import { Outlet } from "react-router-dom";
+import {Outlet} from "react-router-dom";
 
-import { Box, CssBaseline, Paper as MuiPaper } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import {Box, CssBaseline, Paper as MuiPaper} from "@mui/material";
+import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { spacing } from "@mui/system";
+import {spacing} from "@mui/system";
 
 import GlobalStyle from "../components/GlobalStyle";
 import Navbar from "../components/navbar/Navbar";
-import dashboardItems from "../components/sidebar/dashboardItems";
 import Sidebar from "../components/sidebar/Sidebar";
 import Footer from "../components/Footer";
 import Settings from "../components/Settings";
 
 import useStore from "@/store/index";
+import {getAppInfo} from "@/api/CommonApi";
+
 const drawerWidth = 258;
 
 const Root = styled.div`
@@ -51,48 +52,53 @@ const MainContent = styled(Paper)`
   }
 `;
 
-const Dashboard = ({ children }) => {
-  // const [mobileOpen, setMobileOpen] = useState(false);
-  const sideBar = useStore((state) => state.sideBar);
-  const handleDrawerToggle = () => {
-    sideBar.toggleOpen();
-  };
-
-  const theme = useTheme();
-  const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
-
-  return (
-    <Root>
-      <CssBaseline />
-      <GlobalStyle />
-      <Drawer>
-        <Box sx={{ display: { xs: "block", lg: "none" } }}>
-          <Sidebar
-            PaperProps={{ style: { width: drawerWidth } }}
-            variant="temporary"
-            open={sideBar.isOpen}
-            onClose={handleDrawerToggle}
-            items={dashboardItems}
-          />
-        </Box>
-        <Box sx={{ display: { xs: "none", md: "block" } }}>
-          <Sidebar
-            PaperProps={{ style: { width: drawerWidth } }}
-            items={dashboardItems}
-          />
-        </Box>
-      </Drawer>
-      <AppContent>
-        <Navbar onDrawerToggle={handleDrawerToggle} />
-        <MainContent p={isLgUp ? 12 : 5}>
-          {children}
-          <Outlet />
-        </MainContent>
-        <Footer />
-      </AppContent>
-      <Settings />
-    </Root>
-  );
+const Dashboard = ({children}) => {
+    const [appInfo, setAppInfo] = useState({version: 'version', menus: []})
+    // const [mobileOpen, setMobileOpen] = useState(false);
+    const sideBar = useStore((state) => state.sideBar);
+    const handleDrawerToggle = () => {
+        sideBar.toggleOpen();
+    };
+    const theme = useTheme();
+    const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
+    useEffect(async () => {
+        const appInfo = await getAppInfo()
+        if (appInfo) {
+            setAppInfo(appInfo)
+        }
+    }, [])
+    return (
+        <Root>
+            <CssBaseline/>
+            <GlobalStyle/>
+            <Drawer>
+                <Box sx={{display: {xs: "block", lg: "none"}}}>
+                    <Sidebar
+                        PaperProps={{style: {width: drawerWidth}}}
+                        variant="temporary"
+                        open={sideBar.isOpen}
+                        onClose={handleDrawerToggle}
+                        items={appInfo.menus}
+                    />
+                </Box>
+                <Box sx={{display: {xs: "none", md: "block"}}}>
+                    <Sidebar
+                        PaperProps={{style: {width: drawerWidth}}}
+                        items={appInfo.menus}
+                    />
+                </Box>
+            </Drawer>
+            <AppContent>
+                <Navbar onDrawerToggle={handleDrawerToggle}/>
+                <MainContent p={isLgUp ? 12 : 5}>
+                    {children}
+                    <Outlet/>
+                </MainContent>
+                <Footer version={appInfo?.version}/>
+            </AppContent>
+            <Settings/>
+        </Root>
+    );
 };
 
 export default Dashboard;

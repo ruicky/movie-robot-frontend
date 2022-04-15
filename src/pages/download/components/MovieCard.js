@@ -38,16 +38,16 @@ export default function MovieCard(props) {
         media_source,
         media_encoding,
         url,
-        hash
+        link_path
     } = props.data;
     const handleAnalyze = () => {
-        onAnalyze({open: true, year: year, id: id, name: title})
+        onAnalyze({open: true, year: year, id: id, name: title, link_path: link_path, movie_type: movie_type})
     };
     const handleDelete = () => {
         onDelete({open: true, id})
     }
 
-    const CardWrapper = useMediaQuery((theme) => theme.breakpoints.up('md'))?CardContainer:Card;
+    const CardWrapper = useMediaQuery((theme) => theme.breakpoints.up('md')) ? CardContainer : Card;
     return (
         <Grid item md={6} lg={4} xl={3} key={id} style={{width: '100%'}}>
             <CardWrapper>
@@ -65,13 +65,8 @@ export default function MovieCard(props) {
                     </CardMedia>
                 </CardActionArea>
                 <CardContent>
-                    {/*文件名*/}
-                    <Typography mb={2} color="h5" component="h2" noWrap>
-                        {site_name != 'unknown' && `[${site_name}]`}
-                        {tname}
-                    </Typography>
                     {/*进度条*/}
-                    {status_code == 0 && <DownloadBar downloading={downloading} id={id}/>}
+                    {status_code === 0 && downloading && <DownloadBar downloading={downloading} id={id}/>}
                     {/*标签*/}
                     <Stack direction="row" spacing={1}>
                         <Chip label={status} color={status_color}/>
@@ -86,7 +81,7 @@ export default function MovieCard(props) {
                 </CardContent>
                 <Divider my={1}/>
                 <CardActions container={true} sx={{justifyContent: 'flex-end'}}>
-                    {status_code !== 2 && <MovieInfoDialog torrent_hash={hash}/>}
+                    {status_code !== 2 && <MovieInfoDialog id={id}/>}
                     {
                         status_code !== 2 &&
                         <IconButton onClick={handleAnalyze} aria-label="重新识别" size="small" sx={{marginLeft: '9px'}}>

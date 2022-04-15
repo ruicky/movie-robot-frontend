@@ -1,8 +1,7 @@
 import {Button, Card, CardActions, CardContent, Grid, Link, TextField, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
 
-const UserConfigComponent = ({ruleData, users, setUsers, submitting, setHasError}) => {
+const UserConfigComponent = ({users, setUsers, submitting, setHasError}) => {
     const [errors, setErrors] = useState({})
     const handleOnChange = (index, e) => {
         let tmp = [...users];
@@ -51,7 +50,7 @@ const UserConfigComponent = ({ruleData, users, setUsers, submitting, setHasError
         <Card>
             {users.map((user, i) => (<Card mb={6} key={i}>
                 <Typography gutterBottom variant="h5" component="h2">
-                    监听用户 {user.nickname}
+                    监听用户 {user.id}
                     <Button
                         onClick={() => {
                             const temp = [...users];
@@ -85,19 +84,6 @@ const UserConfigComponent = ({ruleData, users, setUsers, submitting, setHasError
                         </Grid>
                         <Grid item md={6}>
                             <TextField
-                                name="nickname"
-                                label="自定义昵称"
-                                fullWidth
-                                variant="outlined"
-                                error={error(i, 'nickname')}
-                                helperText={helperText(i, 'nickname') || "这个昵称可以用作通知显示，随便定义。"}
-                                value={user.nickname}
-                                onChange={(e) => handleOnChange(i, e)}
-                                onBlur={(e) => handleOnBlur(i, e)}
-                            />
-                        </Grid>
-                        <Grid item md={6}>
-                            <TextField
                                 type="number"
                                 name="pull_time_range"
                                 label="拉取天数"
@@ -110,16 +96,12 @@ const UserConfigComponent = ({ruleData, users, setUsers, submitting, setHasError
                                 onBlur={(e) => handleOnBlur(i, e)}
                             />
                         </Grid>
-                        <Grid item md={6}>
-                            <ScoreRuleSelectComponent name='score_rule' value={user.score_rule} data={ruleData}
-                                                      onChange={(e) => handleOnChange(i, e)}/>
-                        </Grid>
                     </Grid>
                 </CardContent>
             </Card>))}
             <CardActions>
                 <Button size="small" color="primary" onClick={() => {
-                    setUsers([...users, {id: '', nickname: '', pull_time_range: 365, score_rule: 'compress'}]);
+                    setUsers([...users, {id: '', pull_time_range: 365}]);
                 }}>
                     加一个用户
                 </Button>

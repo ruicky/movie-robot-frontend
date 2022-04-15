@@ -6,9 +6,9 @@ import {STATUS} from "@/constants";
  * @param id
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const deleteRecord = async (id) => {
+export const deleteRecord = async (params) => {
     const result = await axios.get("/api/download/delete_record", {
-        params: {id: id}
+        params
     })
     return result;
 }
@@ -51,6 +51,7 @@ export const getRecordList = async () => {
             media_source: r.media_source,
             resolution: r.resolution,
             media_encoding: r.media_encoding,
+            link_path:r.link_path,
             url: r.url
         });
     }
@@ -69,9 +70,9 @@ export const reanalyze = async (params) => {
     return result;
 }
 
-export const getTorrentInfo = async (torrent_hash) => {
-    const result = await axios.get("/api/download/get_torrent_info", {
-        params: {torrent_hash}
+export const getRecord = async (id) => {
+    const result = await axios.get("/api/download/get_record", {
+        params: {id}
     });
     return result;
 }
