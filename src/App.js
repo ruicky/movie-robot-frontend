@@ -20,6 +20,7 @@ import useTheme from "./hooks/useTheme";
 import { store } from "./redux/store";
 
 import { AuthProvider } from "./contexts/JWTContext";
+import { InteractionProvider } from './contexts/InteractionContext';
 // import { AuthProvider } from "./contexts/FirebaseAuthContext";
 // import { AuthProvider } from "./contexts/Auth0Context";
 // import { AuthProvider } from "./contexts/CognitoContext";
@@ -41,18 +42,20 @@ function App() {
         defaultTitle="Movie Robot"
       />
       <Provider store={store}>
-        <StylesProvider jss={jss}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <StyledEngineProvider injectFirst>
-              <MuiThemeProvider theme={createTheme(theme)}>
-                <ThemeProvider theme={createTheme(theme)}>
-                  <GlobalSnackbars />
-                  <AuthProvider>{content}</AuthProvider>
-                </ThemeProvider>
-              </MuiThemeProvider>
-            </StyledEngineProvider>
-          </LocalizationProvider>
-        </StylesProvider>
+        <InteractionProvider>
+          <StylesProvider jss={jss}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <StyledEngineProvider injectFirst>
+                <MuiThemeProvider theme={createTheme(theme)}>
+                  <ThemeProvider theme={createTheme(theme)}>
+                    <GlobalSnackbars />
+                    <AuthProvider>{content}</AuthProvider>
+                  </ThemeProvider>
+                </MuiThemeProvider>
+              </StyledEngineProvider>
+            </LocalizationProvider>
+          </StylesProvider>
+        </InteractionProvider>
       </Provider>
     </HelmetProvider>
   );
