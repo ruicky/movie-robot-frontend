@@ -30,8 +30,12 @@ export default function DeleteConfirm(props) {
             add_blacklist: addBlacklist,
             delete_sub: deleteSub
         })
-        message.success(result.message || '操作成功')
-        removeDataById(id)
+        if (result.code === 0) {
+            message.success(result.message || '操作成功')
+            removeDataById(id)
+        } else {
+            message.error(result.message || '操作失败')
+        }
         onDelete({open: false})
     };
 

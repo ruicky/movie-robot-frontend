@@ -10,6 +10,7 @@ import {
 import { Menu as MenuIcon } from "@mui/icons-material";
 
 import NavbarUserDropdown from "./NavbarUserDropdown";
+import NavbarNotificationsDropdown from "@/components/navbar/NavbarNotificationsDropdown";
 
 const AppBar = styled(MuiAppBar)`
   background: ${(props) => props.theme.header.background};
@@ -42,7 +43,7 @@ const Navbar = ({ onDrawerToggle }) => {
             </Grid>
             <Grid item xs />
             <Grid item>
-              {/*<NavbarNotificationsDropdown />*/}
+              <NavbarNotificationsDropdown />
               <NavbarUserDropdown />
             </Grid>
           </Grid>

@@ -20,6 +20,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {Helmet} from "react-helmet-async";
 import {getUser, getUserOptions, registerUser, updateUser} from "@/api/UserApi";
 import message from "@/utils/message";
+import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -40,6 +41,7 @@ function EditUser({}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const [qywxUserList, setQywxUserList] = useState([])
     const [doubanUserList, setDoubanUserList] = useState([])
+    const [scoreRuleList, setScoreRuleList] = useState([])
     const op = searchParams.get("op") || "add";
     const id = searchParams.get('id');
     const formik = useFormik({
@@ -51,7 +53,8 @@ function EditUser({}) {
             qywxUser: '',
             doubanUser: '',
             pushdeerKey: '',
-            barkUrl: ''
+            barkUrl: '',
+            scoreRuleName: 'compress'
 
         }, validationSchema: Yup.object().shape({
             username: Yup.string().max(64, "用户名太长了").required("用户名不能为空"),
@@ -68,9 +71,9 @@ function EditUser({}) {
                 setSubmitting(true)
                 let r;
                 if (op === "add") {
-                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl)
+                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl,values.scoreRuleName)
                 } else {
-                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl)
+                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl,values.scoreRuleName)
                 }
                 if (r.code === 0) {
                     message.success(r.message)
@@ -95,6 +98,9 @@ function EditUser({}) {
             }
             if (userOptions.douban_user_list) {
                 setDoubanUserList(userOptions.douban_user_list);
+            }
+            if (userOptions.score_rule) {
+                setScoreRuleList(userOptions.score_rule)
             }
         }
         if (op === "edit") {
@@ -122,6 +128,9 @@ function EditUser({}) {
             }
             if (user.bark_url) {
                 formik.setFieldValue("barkUrl", user.bark_url)
+            }
+            if (user.score_rule_name) {
+                formik.setFieldValue("scoreRuleName", user.score_rule_name)
             }
         }
     }, [op])
@@ -196,6 +205,9 @@ function EditUser({}) {
                         </Select>
                         <FormHelperText>不同用户拥有不同的权限</FormHelperText>
                     </FormControl>
+                    <ScoreRuleSelectComponent name='scoreRuleName' value={formik.values.scoreRuleName}
+                                              data={scoreRuleList}
+                                              onChange={formik.handleChange}/>
                     <FormControl m={4} fullWidth>
                         {formik.values.doubanUser ? null : <InputLabel>豆瓣用户ID</InputLabel>}
                         <Select

@@ -83,10 +83,12 @@ export default function ReAnalyze(props) {
         });
         setSubmitting(false)
         handleClose();
-        if (onAnalyzeSuccess) {
+        if (onAnalyzeSuccess && result.code === 0) {
             onAnalyzeSuccess(result)
+            message.success(result.message || '操作成功')
+        } else {
+            message.error(result.message || '操作失败')
         }
-        message.success(result.message || '操作成功')
     }
     return (
         <Dialog
