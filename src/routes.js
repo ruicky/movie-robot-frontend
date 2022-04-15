@@ -25,6 +25,7 @@ const Notify = async(() => import("./pages/notify/index"));
 const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const UserManager = async(() => import("./pages/user/Index"));
 const EditUser = async(() => import("./pages/user/EditUser"));
+const Subscribe = async(() => import("./pages/subscribe"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -105,6 +106,10 @@ const routes = [{
         path: "index", element: <UserManager/>
     }, {
         path: "edit", element: <EditUser/>
+    }]
+}, {
+    path: "subscribe", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
+        path: "list", element: <Subscribe/>
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{

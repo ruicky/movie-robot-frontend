@@ -53,7 +53,7 @@ export default function MovieCard(props) {
             <CardWrapper>
                 {/*图片*/}
                 <CardActionArea target="_blank" href={url || '#'}>
-                    <CardMedia style={{height: '220px', display: 'flex'}} image={image || '/static/img/default.jpeg'}
+                    <CardMedia style={{height: '220px', display: 'flex'}} image={image || '/static/img/default.png'}
                                title={title}
                                act>
                         {
