@@ -135,7 +135,7 @@ function NavbarNotificationsDropdown() {
                         ))}
                     </List>
                     <Box p={1} display="flex" justifyContent="center">
-                        <Button size="small" component={Link} to="/notify/list">
+                        <Button size="small" onClick={handleClose} component={Link} to="/notify/list">
                             查看所有消息
                         </Button>
                     </Box>
