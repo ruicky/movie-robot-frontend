@@ -95,7 +95,9 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                 }
             })
             setSiteData(data)
-            setValues({...values, site_name: data[0].id})
+            if (data.length > 0) {
+                setValues({...values, site_name: data[0].id})
+            }
         } else {
             setSiteData(siteMeta)
         }
