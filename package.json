@@ -48,6 +48,7 @@
     "css-vendor": "2.0.8",
     "date-fns": "2.27.0",
     "deepmerge": "4.2.2",
+    "echarts": "^5.3.2",
     "echarts-for-react": "^3.0.2",
     "faker": "5.5.3",
     "firebase": "8.10.0",
