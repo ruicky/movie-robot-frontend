@@ -2,7 +2,7 @@ import {Grid, LinearProgress} from "@mui/material";
 import {ArrowDown, ArrowUp} from "react-feather";
 import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
-import {downloading, getDownloading} from "@/utils/download_record";
+import {downloading, getDownloading} from "@/api/DownloadApi";
 
 
 export default function DownloadBar(props) {

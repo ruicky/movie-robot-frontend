@@ -1,25 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Helmet} from "react-helmet-async";
-import {Button, Divider as MuiDivider, Grid, Typography} from "@mui/material";
+import {Divider as BtnDivider, Divider as MuiDivider, Grid, Stack, Typography} from "@mui/material";
 import MovieCard from "../components/MovieCard";
-import {getDownloading, getRecordList} from "@/utils/download_record";
+import {getDownloading, getRecordList} from "@/api/DownloadApi";
 import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import ReAnalyze from "@/pages/download/components/ReAnalyze";
 import DeleteConfirm from "@/pages/download/components/DeleteConfirm";
 import {useInterval} from "@/utils/hooks";
 import {Loop as LoopIcon} from "@mui/icons-material";
-
-const SmallButton = styled(Button)`
-  padding: 4px;
-  min-width: 0;
-
-  svg {
-    width: 0.9em;
-    height: 0.9em;
-  }
-`;
-
+import {SmallButton} from "@/components/core/SmallButton";
+import ChartDialogs from "@/pages/download/components/ChartDialogs";
+const Divider = styled(MuiDivider)(spacing);
 export default function DownloadRecords() {
     const [list, setList] = useState([]);
     const [analyzeData, setAnalyzeData] = useState({});
@@ -66,9 +58,12 @@ export default function DownloadRecords() {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <SmallButton size="small" mr={2} onClick={() => onUpdateClick()}>
-                        <LoopIcon/>
-                    </SmallButton>
+                    <Stack direction="row" divider={<BtnDivider orientation="vertical" flexItem/>} spacing={1}>
+                        <ChartDialogs/>
+                        <SmallButton size="small" mr={2} onClick={() => onUpdateClick()}>
+                            <LoopIcon/>
+                        </SmallButton>
+                    </Stack>
                 </Grid>
             </Grid>
             <Divider my={4}/>
@@ -92,4 +87,4 @@ export default function DownloadRecords() {
     );
 };
 
-const Divider = styled(MuiDivider)(spacing);
+

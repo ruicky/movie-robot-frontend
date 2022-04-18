@@ -7,6 +7,10 @@ import Overview from "./Overview";
 import axios from "../../utils/request";
 import SetSite from "./SetSite";
 import DeleteSite from "./DeleteSite";
+import {getSiteSharesData} from "@/api/SiteApi";
+import SiteSharesWeek from "@/pages/site/SiteSharesWeek";
+import {Skeleton} from "@mui/lab";
+import SiteSharesDay from "@/pages/site/SiteSharesDay";
 
 
 function SiteDashboard() {
@@ -30,6 +34,9 @@ function SiteDashboard() {
     const [edit, setEdit] = useState({open: false, opType: 'add'})
     const [deleteSite, setDeleteSite] = useState()
     const [siteMeta, setSiteMeta] = useState()
+    const [sharesWeekData, setSharesWeekData] = useState()
+    const [sharesTodayUploadData, setSharesTodayUploadData] = useState()
+    const [sharesTodayDownloadData, setSharesTodayDownloadData] = useState()
     const editOnClose = () => {
         setEdit({...edit, open: false});
     }
@@ -54,6 +61,13 @@ function SiteDashboard() {
             if (res.code === 0) {
                 setOverview(res.data)
             }
+        })
+    }
+    const fetchSharesWeekData = () => {
+        getSiteSharesData().then(r => {
+            setSharesWeekData(r.data?.week)
+            setSharesTodayUploadData(r.data?.today_upload)
+            setSharesTodayDownloadData(r.data?.today_download)
         })
     }
     const onDeleteSiteClick = (row) => {
@@ -89,6 +103,7 @@ function SiteDashboard() {
             }
             refreshOverview();
             refreshSites();
+            fetchSharesWeekData();
             setMessage("所有站点数据更新完毕！");
         } catch (error) {
             const message = error.message || "站点数据更新出错！";
@@ -102,6 +117,7 @@ function SiteDashboard() {
         setSiteMeta(res.data)
         refreshOverview();
         refreshSites();
+        fetchSharesWeekData();
     }, []);
     return (<React.Fragment>
         <Helmet title="站点管理"/>
@@ -119,6 +135,22 @@ function SiteDashboard() {
                  filterSiteNames={tableData.map(x => x.site_name)}
                  onEditSuccess={onEditSuccess} onClose={editOnClose}/>
         <Grid container spacing={6}>
+            <Grid item xs={12} lg={3}>
+                <Grid container spacing={6}>
+                    <Grid item xs={12}>
+                        {sharesTodayUploadData ? <SiteSharesDay title="今日上传" data={sharesTodayUploadData}/> :
+                            <Skeleton variant="rectangular"/>}
+                    </Grid>
+                    <Grid item xs={12}>
+                        {sharesTodayDownloadData ? <SiteSharesDay title="今日下载" data={sharesTodayDownloadData}/> :
+                            <Skeleton variant="rectangular"/>}
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid item xs={12} lg={9}>
+                {sharesWeekData ? <SiteSharesWeek data={sharesWeekData}/> :
+                    <Skeleton variant="rectangular"/>}
+            </Grid>
             <Grid item xs={12} lg={12}>
                 <DeleteSite deleteRecord={deleteSite} onClose={onDeleteSiteClose} onDelete={onDeleteSite}/>
                 <Table data={tableData}

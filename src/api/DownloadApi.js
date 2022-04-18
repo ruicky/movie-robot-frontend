@@ -1,4 +1,4 @@
-import axios from "./request";
+import axios from "../utils/request";
 import {STATUS} from "@/constants";
 
 /**
@@ -51,7 +51,7 @@ export const getRecordList = async () => {
             media_source: r.media_source,
             resolution: r.resolution,
             media_encoding: r.media_encoding,
-            link_path:r.link_path,
+            link_path: r.link_path,
             url: r.url
         });
     }
@@ -74,5 +74,10 @@ export const getRecord = async (id) => {
     const result = await axios.get("/api/download/get_record", {
         params: {id}
     });
+    return result;
+}
+
+export const getRecordDashboard = async () => {
+    const result = await axios.get("/api/download/record_dashboard");
     return result;
 }

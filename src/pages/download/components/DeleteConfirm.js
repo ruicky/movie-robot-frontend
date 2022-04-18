@@ -10,7 +10,7 @@ import {
     FormControlLabel,
     Grid
 } from "@mui/material";
-import {deleteRecord} from "@/utils/download_record";
+import {deleteRecord} from "@/api/DownloadApi";
 import message from "@/utils/message";
 
 export default function DeleteConfirm(props) {
