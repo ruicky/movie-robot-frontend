@@ -154,6 +154,7 @@ function SiteDashboard() {
             <Grid item xs={12} lg={12}>
                 <DeleteSite deleteRecord={deleteSite} onClose={onDeleteSiteClose} onDelete={onDeleteSite}/>
                 <Table data={tableData}
+                       siteMeta={siteMeta}
                        onUpdateClick={(site) => setEdit({open: true, opType: 'update', site})}
                        onAddClick={() => setEdit({open: true, opType: "add", site: null})}
                        onDeleteClick={onDeleteSiteClick}

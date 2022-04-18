@@ -14,11 +14,13 @@ import {
     TableCell,
     TableHead,
     TableRow,
+    Link,
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import {Add, Delete, Edit} from "@mui/icons-material";
 import {coverSize} from "../../utils/PtUtils";
 import {Eye, EyeOff} from "react-feather";
+import _ from 'lodash';
 
 const Card = styled(MuiCard)(spacing);
 
@@ -46,11 +48,15 @@ const getStatus = (status) => {
         return (<Chip label="未知" color="warning"/>)
     }
 }
-const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick}) => {
+const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick, siteMeta}) => {
     const [hideData, setHideData] = useState(false)
     const hideOnClick = () => {
         setHideData(!hideData)
     }
+    const siteMap = _.reduce(siteMeta, (result, value, key) => {
+        result[value.id] = value
+        return result
+    }, {})
     return (
         <Card mb={6}>
             <CardHeader
@@ -87,7 +93,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick}) => {
                             {data.map((row) => (
                                 <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">
-                                        {row.site_name}
+                                        <Link title={row.site_name} target={'_blank'} href={siteMap[row.site_name].domain}>{siteMap[row.site_name].name}</Link>
                                     </TableCell>
                                     <TableCell>{hideData ? "****" : row.username}</TableCell>
                                     <TableCell>{row.share_rate}</TableCell>
