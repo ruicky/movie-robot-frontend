@@ -138,11 +138,11 @@ function SiteDashboard() {
             <Grid item xs={12} lg={3}>
                 <Grid container spacing={6}>
                     <Grid item xs={12}>
-                        {sharesTodayUploadData ? <SiteSharesDay title="今日上传" data={sharesTodayUploadData}/> :
+                        {sharesTodayUploadData ? <SiteSharesDay title="今日上传" tooltip_title="上传" data={sharesTodayUploadData}/> :
                             <Skeleton variant="rectangular"/>}
                     </Grid>
                     <Grid item xs={12}>
-                        {sharesTodayDownloadData ? <SiteSharesDay title="今日下载" data={sharesTodayDownloadData}/> :
+                        {sharesTodayDownloadData ? <SiteSharesDay title="今日下载" tooltip_title="下载" data={sharesTodayDownloadData}/> :
                             <Skeleton variant="rectangular"/>}
                     </Grid>
                 </Grid>

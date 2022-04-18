@@ -3,7 +3,7 @@ import React from "react";
 import {Paper} from "@mui/material";
 import {coverSize} from "@/utils/PtUtils";
 
-function SiteSharesDay({data,title}) {
+function SiteSharesDay({data, title, tooltip_title}) {
     const option = {
         title: {
             text: title,
@@ -18,7 +18,7 @@ function SiteSharesDay({data,title}) {
             formatter: (params, ticket, callback) => {
                 console.log(params)
                 let tips = params.name + "<br/>";
-                tips += params.marker + "上传：" + coverSize(params.value) + "<br/>"
+                tips += params.marker + tooltip_title + "：" + coverSize(params.value) + "<br/>"
                 return tips
             }
         },
