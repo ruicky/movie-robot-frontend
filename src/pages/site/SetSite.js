@@ -26,7 +26,8 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
         web_search: true,
         smart_download: true,
         traffic_management_status: 0,
-        upload_kpi: 1024
+        upload_kpi: 1024,
+        proxies: ''
     });
     const [siteData, setSiteData] = useState(siteMeta)
     const [errors, setErrors] = React.useState({});
@@ -108,7 +109,8 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                 web_search: site.web_search === 1,
                 smart_download: site.smart_download === 1,
                 traffic_management_status: site.traffic_management_status,
-                upload_kpi: site.upload_kpi
+                upload_kpi: site.upload_kpi,
+                proxies: site?.proxies
             })
         } else {
             setValues({
@@ -117,7 +119,8 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                 web_search: true,
                 smart_download: true,
                 traffic_management_status: 0,
-                upload_kpi: 1024
+                upload_kpi: 1024,
+                proxies: ''
             })
         }
     }, [opType, site, filterSiteNames])
@@ -165,6 +168,19 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                               href="https://support.huaweicloud.com/vss_faq/vss_01_0146.html">
                                 去学习如何获取
                             </Link>
+                    </span>
+                )}
+            />
+            <TextField
+                type="text"
+                name="proxies"
+                label="代理设置"
+                defaultValue={values.proxies}
+                onChange={handleValueChange}
+                error={Boolean(showErrors.proxies && errors.proxies)}
+                helperText={(showErrors.proxies && errors.proxies) || (
+                    <span>
+                        留空则不使用代理。支持通过HTTP代理、SOCKS代理访问站点（分享数据、搜索、下种子文件）。示范：http://localhost:8030 或 socks5://user:pass@host:port
                     </span>
                 )}
             />
