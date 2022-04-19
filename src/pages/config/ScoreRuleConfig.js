@@ -61,13 +61,6 @@ function ScoreRuleConfig() {
                         </FormControl>
                         <TextField
                             type="text"
-                            name="username"
-                            label="用户名"
-                            my={3}
-                            fullWidth
-                        />
-                        <TextField
-                            type="text"
                             name="name_keywords"
                             label="自定义关键字"
                             my={3}
