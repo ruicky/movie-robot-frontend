@@ -27,6 +27,7 @@ const ListView = ({items, isLoading}) => {
         items?.map((title, index) => {
           return <li>
             <TitleCard
+              canExpand
               id={title.id}
               image={title?.poster_path}
               summary={title?.desc}
