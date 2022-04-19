@@ -14,7 +14,7 @@ import {
     Select,
     TextField
 } from "@mui/material";
-import {reanalyze} from "@/utils/download_record";
+import {reanalyze} from "@/api/DownloadApi";
 import message from "@/utils/message";
 
 export default function ReAnalyze(props) {

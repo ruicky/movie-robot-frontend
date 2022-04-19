@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import styled from "styled-components/macro";
 import {Info as InfoIcon} from '@mui/icons-material';
-import {getRecord} from "@/utils/download_record";
+import {getRecord} from "@/api/DownloadApi";
 
 const ListText = styled(ListItemText)`
     margin:0;

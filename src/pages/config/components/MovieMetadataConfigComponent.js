@@ -5,16 +5,7 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from "../../../utils/request";
 
-import {
-    Alert as MuiAlert,
-    Button,
-    FormControl,
-    FormHelperText,
-    Link,
-    MenuItem,
-    Select,
-    TextField as MuiTextField
-} from "@mui/material";
+import {Alert as MuiAlert, Button, Link, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 
 const Alert = styled(MuiAlert)(spacing);
@@ -42,11 +33,13 @@ function MovieMetadataConfigComponent({isInit}) {
     const formik = useFormik({
         initialValues: {
             tmdb_api_key: '',
-            fanart_api_key: ''
+            fanart_api_key: '',
+            proxies: ''
         }, validationSchema: Yup.object().shape({
             tmdb_api_key: Yup.string().max(256).required(),
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
+                setMessage(null);
                 await saveConfig(values);
             } catch (error) {
                 const message = error.message || "配置出错啦，容器能科学上网么？";
@@ -63,6 +56,9 @@ function MovieMetadataConfigComponent({isInit}) {
             if (data !== undefined && data !== null) {
                 formik.setFieldValue("tmdb_api_key", data.tmdb_api_key);
                 formik.setFieldValue("fanart_api_key", data.fanart_api_key);
+                if (data.proxies) {
+                    formik.setFieldValue("proxies", data.proxies)
+                }
             }
         });
     }, []);
@@ -107,6 +103,22 @@ function MovieMetadataConfigComponent({isInit}) {
                           href="https://fanart.tv/get-an-api-key/">
                             去申请API密钥
                         </Link>
+                </span>
+            )}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
+        <TextField
+            type="text"
+            name="proxies"
+            label="代理设置"
+            value={formik.values.proxies}
+            error={Boolean(formik.touched.proxies && formik.errors.proxies)}
+            fullWidth
+            helperText={(
+                <span>
+                    留空则不使用代理。支持通过HTTP代理、SOCKS代理访问TMDB和FanArt。示范：http://localhost:8030 或 socks5://user:pass@host:port
                 </span>
             )}
             onBlur={formik.handleBlur}
