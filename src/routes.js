@@ -26,6 +26,7 @@ const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const UserManager = async(() => import("./pages/user/Index"));
 const EditUser = async(() => import("./pages/user/EditUser"));
 const Subscribe = async(() => import("./pages/subscribe"));
+const SubscribeSearch = async(() => import("./pages/subscribe/search"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -110,6 +111,8 @@ const routes = [{
 }, {
     path: "subscribe", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
         path: "list", element: <Subscribe/>
+    }, {
+        path: "search", element: <SubscribeSearch/>
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{

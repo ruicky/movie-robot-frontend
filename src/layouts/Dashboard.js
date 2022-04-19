@@ -32,6 +32,7 @@ const Drawer = styled.div`
 
 const AppContent = styled.div`
   flex: 1;
+  width: 0;
   display: flex;
   flex-direction: column;
   max-width: 100%;

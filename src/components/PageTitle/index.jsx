@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Divider } from "@mui/material";
+import { Typography, Divider, Box } from "@mui/material";
 
 const PageTitle = ({
   children,
@@ -7,10 +7,17 @@ const PageTitle = ({
 }) => {
   return (
     <React.Fragment>
-      <Typography variant="h3" gutterBottom>
-        {text}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Typography variant="h3" gutterBottom>
+          {text}
+        </Typography>
         {children}
-      </Typography>
+      </Box>
       <Divider my={4}/>
     </React.Fragment>
   );
