@@ -26,6 +26,7 @@ const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const UserManager = async(() => import("./pages/user/Index"));
 const EditUser = async(() => import("./pages/user/EditUser"));
 const Subscribe = async(() => import("./pages/subscribe"));
+const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -38,7 +39,7 @@ const routes = [{
 }, {
     path: "setup", element: <AuthLayout/>, children: [{
         path: "admin", element: <InitAdminUser/>
-    },{
+    }, {
         path: "web", element: <InitWeb/>
     }, {
         path: "media-server", element: <AuthGuard><InitMediaServer/></AuthGuard>
@@ -66,6 +67,8 @@ const routes = [{
         path: "notify", element: <NotifyConfig/>
     }, {
         path: "free-download", element: <FreeDownloadConfig/>
+    }, {
+        path: "score-config", element: <ScoreRuleConfig/>
     }]
 }, {
     path: "smartDownload", element: <AuthGuard>
