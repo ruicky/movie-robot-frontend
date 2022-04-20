@@ -252,6 +252,7 @@ const ExpandCss = css`
 
 const CardWrapper = styled.div`
   width: ${props => props.canExpand ? '100%' : '144px'};
+  height: 100%;
   ${props => props.canExpand ? undefined : ExpandCss}
 `;
 
