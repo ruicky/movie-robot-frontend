@@ -10,6 +10,7 @@ import {
 } from '@mui/icons-material';
 import Placeholder from '../TitleCard/Placeholder';
 import Empty from '../Empty';
+import './slider.css';
 
 
 const Slider = ({
@@ -135,23 +136,19 @@ const Slider = ({
   };
 
   return (
-    <div style={{ position: 'relative' }}>
-      <ButtonWrapper>
-        <Button
-          isHover={scrollPos.isStart}
-          onClick={() => slide("LEFT")}
-          disabled={scrollPos.isStart}
-        >
-          <ChevronLeftIcon style={{ width: '24px', height: '24px' }}/>
-        </Button>
-        <Button
-          isHover={scrollPos.isEnd}
-          onClick={() => slide("RIGHT")}
-          disabled={scrollPos.isEnd}
-        >
-          <ChevronRightIcon style={{ width: '24px', height: '24px' }}/>
-        </Button>
-      </ButtonWrapper>
+    <SliderWrapper className="scrollbuttons-scroller">
+      <Box container id="scrollBtn" className="scrollbuttons">
+        <div className={`scrollbuttoncontainer scrollbuttoncontainer-left ${scrollPos.isStart && 'hide'}`}>
+          <ScrollLeftButton onClick={() => slide("LEFT")}>
+            <ChevronLeftIcon style={{ width: '50px', height: '50px', color: '#fff' }} />
+          </ScrollLeftButton>
+        </div>
+        <div className={`scrollbuttoncontainer scrollbuttoncontainer-right ${!scrollPos.isStart && 'hide'}`}>
+          <ScrollLeftButton onClick={() => slide("RIGHT")}>
+            <ChevronRightIcon  style={{ width: '50px', height: '50px', color: '#fff' }} />
+          </ScrollLeftButton>
+        </div>
+      </Box>
       <ListWrapper
         ref={containerRef}
         onScroll={onScroll}
@@ -183,20 +180,44 @@ const Slider = ({
 
         }
       </ListWrapper>
-    </div>
+    </SliderWrapper>
   );
 };
 
 export default Slider;
 
-const ButtonWrapper = styled.div`
-  position: absolute;
-  right: 0px;
-  margin-top: -40px;
-  display: flex;
-  color: #9CA3AF;
+const SliderWrapper = styled.div`
+  position: relative;
+  overflow: hidden;
+`;
 
-`
+const ScrollLeftButton = styled.button`
+  margin: 0;
+  outline: 0;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  background: 0 0;
+  text-align: center;
+  font-size: inherit;
+  cursor: pointer;
+  z-index: 0;
+  border: 0;
+  width: auto;
+  height: auto;
+  position: relative;
+  border: 0;
+  border-radius: 50%;
+  justify-content: center;
+  overflow: hidden;
+  @media(hover: hover) and (pointer:fine) {
+    -webkit-transition: -webkit-transform 160ms ease-in-out;
+    -o-transition: transform 160ms ease-in-out;
+    transition: transform 160ms ease-in-out
+  }
+`;
+
 const HoverCss = css`
   &:hover {
     color: white;
@@ -207,16 +228,6 @@ const ColorCss = css`
   color: #1F2937;
 `;
 
-const Button = styled.button`
-  -webkit-appearance: button;
-  background-color: transparent;
-  background-image: none;
-  text-transform: none;
-  border: none;
-  margin: 0;
-  padding: 0;
-  ${props => props.isHover ? ColorCss: HoverCss}
-`;
 
 const ListWrapper = styled.div`
   &::-webkit-scrollbar {
