@@ -14,6 +14,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import SubscribeDialog from '../SubscribeDialog';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
+import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 
 
 const ImgWrap = styled.img`
@@ -45,6 +46,7 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false);
+    const [showReNewModal, setShowReNewModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
 
@@ -56,7 +58,14 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
         setCurrentStatus(newStatus);
         setShowRequestModal(false);
     }, []);
-
+    const reNewComplete = useCallback((newStatus) => {
+        setCurrentStatus(newStatus);
+        setShowReNewModal(false);
+    }, []);
+    const deleteComplete = useCallback((newStatus) => {
+        setCurrentStatus(newStatus);
+        setShowDeleteModal(false);
+    }, []);
     // HACK: 目前已知都有底部操作按钮，不排除将来只做海报展示，故保留此配置项
     const isHaveBottom = true;
 
@@ -68,8 +77,15 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
                 handleClose={() => setShowRequestModal(false)}
                 data={({id: id, name: title, year})}
             />
+            <ReNewDialog
+                open={showReNewModal}
+                onComplete={reNewComplete}
+                handleClose={() => setShowReNewModal(false)}
+                data={({id: id, name: title, year, sub_id: sub_id})}
+            />
             <DeleteConfrimDialog
                 open={showDeleteModal}
+                onComplete={deleteComplete}
                 handleClose={() => setShowDeleteModal(false)}
                 data={({id: id, name: title, year, sub_id: sub_id})}
             />
@@ -238,6 +254,7 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
                                     size="small"
                                     onClick={(e) => {
                                         e.preventDefault();
+                                        setShowReNewModal(true);
                                     }}
                                 >
                                     洗版

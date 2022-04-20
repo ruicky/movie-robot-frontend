@@ -4,7 +4,7 @@ import {useDeleteSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
 
 
-const DeleteConfrimDialog = ({open, handleClose, data}) => {
+const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
     const {id, name, year, sub_id} = data;
     const {mutate: deleteSubscribe, isLoading} = useDeleteSubscribe();
 
@@ -14,6 +14,9 @@ const DeleteConfrimDialog = ({open, handleClose, data}) => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
                     message.success(`${name}已经取消订阅。`);
+                    if (onComplete) {
+                        onComplete(2);
+                    }
                     handleClose();
                 } else {
                     message.error(msg);

@@ -4,7 +4,7 @@ import {useAddSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
 
 
-const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
+const ReNewDialog = ({open, handleClose, data, onComplete}) => {
     const {id, name, year} = data;
     const {mutateAsync: addSubscribe, isLoading} = useAddSubscribe();
 
@@ -35,11 +35,11 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                提交订阅
+                洗版
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {`确定要订阅 ${name}（${year}） 吗？订阅后将立即开始下载！`}
+                    {`确定要重新开启订阅${name}（${year}）吗？（真正的洗版开发中，敬请期待）`}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>、
@@ -52,4 +52,4 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
     );
 }
 
-export default SubscribeDialog;
+export default ReNewDialog;
