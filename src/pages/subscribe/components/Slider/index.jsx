@@ -143,7 +143,7 @@ const Slider = ({
             <ChevronLeftIcon style={{ width: '50px', height: '50px', color: '#fff' }} />
           </ScrollLeftButton>
         </div>
-        <div className={`scrollbuttoncontainer scrollbuttoncontainer-right ${!scrollPos.isStart && 'hide'}`}>
+        <div className={`scrollbuttoncontainer scrollbuttoncontainer-right ${scrollPos.isEnd && 'hide'}`}>
           <ScrollLeftButton onClick={() => slide("RIGHT")}>
             <ChevronRightIcon  style={{ width: '50px', height: '50px', color: '#fff' }} />
           </ScrollLeftButton>
