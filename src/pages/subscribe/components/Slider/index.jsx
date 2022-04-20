@@ -138,12 +138,12 @@ const Slider = ({
   return (
     <SliderWrapper className="scrollbuttons-scroller">
       <Box container id="scrollBtn" className="scrollbuttons">
-        <div className={`scrollbuttoncontainer scrollbuttoncontainer-left ${scrollPos.isStart && 'hide'}`} isShow={!scrollPos.isStart} position="left">
+        <div className={`scrollbuttoncontainer scrollbuttoncontainer-left ${scrollPos.isStart && 'hide'}`}>
           <ScrollLeftButton onClick={() => slide("LEFT")}>
             <ChevronLeftIcon style={{ width: '50px', height: '50px', color: '#fff' }} />
           </ScrollLeftButton>
         </div>
-        <div className={`scrollbuttoncontainer scrollbuttoncontainer-right ${!scrollPos.isStart && 'hide'}`} isShow={scrollPos.isStart} position="right">
+        <div className={`scrollbuttoncontainer scrollbuttoncontainer-right ${!scrollPos.isStart && 'hide'}`}>
           <ScrollLeftButton onClick={() => slide("RIGHT")}>
             <ChevronRightIcon  style={{ width: '50px', height: '50px', color: '#fff' }} />
           </ScrollLeftButton>
