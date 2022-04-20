@@ -1,15 +1,15 @@
 import React from 'react';
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,} from '@mui/material';
-import {useAddSubscribe} from '@/utils/subscribe';
+import {useReNewSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
 
 
 const ReNewDialog = ({open, handleClose, data, onComplete}) => {
-    const {id, name, year} = data;
-    const {mutateAsync: addSubscribe, isLoading} = useAddSubscribe();
+    const {id, name, year, sub_id} = data;
+    const {mutateAsync: reNewSubscribe, isLoading} = useReNewSubscribe();
 
     const handleSubmit = async () => {
-        addSubscribe({id}, {
+        reNewSubscribe({id: sub_id}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -39,7 +39,7 @@ const ReNewDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {`确定要重新开启订阅${name}（${year}）吗？（真正的洗版开发中，敬请期待）`}
+                    {`确定要重新开启订阅${name}（${year}）吗？（暂时只是开启订阅可以再次被智能下载。真正的洗版开发中，敬请期待）`}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>、

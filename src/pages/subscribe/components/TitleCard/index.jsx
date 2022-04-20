@@ -15,6 +15,7 @@ import SubscribeDialog from '../SubscribeDialog';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
+import message from "@/utils/message";
 
 
 const ImgWrap = styled.img`
@@ -145,7 +146,7 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
                         </Box>
                     </Box>
                     <Box>
-                        {renderStatueIcon(status)}
+                        {renderStatueIcon(currentStatus)}
                     </Box>
                 </Box>
                 <ImgWrap
@@ -254,7 +255,7 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
                                     size="small"
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        setShowReNewModal(true);
+                                        message.info('设计研发中，敬请期待！')
                                     }}
                                 >
                                     洗版
