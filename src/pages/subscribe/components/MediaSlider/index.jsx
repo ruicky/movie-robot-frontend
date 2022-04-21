@@ -94,8 +94,6 @@ const LinkWrapper = styled.a`
   line-height: 28px;
   font-weight: 700;
   text-decoration: inherit;
-  /* color: #D1D5DB; */
-  color: ${(props) => props.theme.header.color};
   @media (min-width: 640px) {
     overflow: hidden;
     text-overflow: ellipsis;

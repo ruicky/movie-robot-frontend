@@ -188,7 +188,6 @@ export default Slider;
 
 const SliderWrapper = styled.div`
   position: relative;
-  overflow: hidden;
 `;
 
 const ScrollLeftButton = styled.button`
