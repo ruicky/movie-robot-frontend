@@ -277,12 +277,17 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
 export default TitleCard;
 
 const ExpandCss = css`
+  width: '144px';
+  height: 100%;
   @media (min-width: 640px) {
     width: 144px;
   }
   @media (min-width: 768px) {
     width: 176px;
   }
+`;
+const CanExpandCss = css`
+  width: 100%;
 `;
 const Inset0 = css`
   top: 0px;
@@ -292,9 +297,7 @@ const Inset0 = css`
 `;
 
 const CardWrapper = styled.div`
-  width: ${props => props.canExpand ? '100%' : '144px'};
-  height: 100%;
-  ${props => props.canExpand ? undefined : ExpandCss}
+  ${props => props.canExpand ? CanExpandCss : ExpandCss}
 `;
 
 const CardContainer = styled.div`
