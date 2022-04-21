@@ -40,7 +40,7 @@ function Footer({version}) {
                     md={6}
                 >
                     <List>
-                        <ListItemButton component="a" target="_blank" href="https://feather-purple-bdd.notion.site/Movie-Robot-4cb7aef2b9cb4236b409ae8742672985">
+                        <ListItemButton component="a" target="_blank" href="https://yee329.notion.site/Movie-Robot-Wiki-9abef8c648c840fca47a0bf308957f85">
                             <ListItemText primary="帮助文档"/>
                         </ListItemButton>
                     </List>

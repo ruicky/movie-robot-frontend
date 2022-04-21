@@ -38,3 +38,12 @@ export const useDeleteSubscribe = () => {
       }
   );
 };
+
+// 重新订阅
+export const useReNewSubscribe = () => {
+  const client = useHttp();
+  return useMutation(
+      (params) =>
+          client("/api/subscribe/renew", { params: params })
+  );
+};

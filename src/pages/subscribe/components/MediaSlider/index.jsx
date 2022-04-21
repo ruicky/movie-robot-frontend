@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { Grid } from "@mui/material";
+import React from 'react';
 import styled from "styled-components/macro";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Slider from '../Slider';
@@ -8,72 +7,74 @@ import PersonCard from '../PersonCard';
 
 
 const MediaSlider = ({
-  sliderKey,
-  title,
-  isLoading,
-  titles,
-  linkUrl
-}) => {
-  const finalTitles = titles.slice(0, 20).map((title) => {
-    // eslint-disable-next-line default-case
-    switch (title?.type?.toUpperCase()) {
-      case 'MOVIE':
-        return (
-          <TitleCard
-            id={title.id}
-            image={title?.poster_path}
-            summary={title?.desc}
-            title={title?.cn_name || title?.en_name}
-            year={title?.release_year}
-            mediaType={title?.type}
-            status={title?.status}
-          />
-        );
-      case 'TV':
-        return (
-          <TitleCard
-            id={title.id}
-            image={title?.poster_path}
-            summary={title?.desc}
-            title={title?.cn_name || title?.en_name}
-            year={title?.release_year}
-            mediaType={title?.type}
-            status={title?.status}
-          />
-        );
-      case 'PERSON':
-        return (
-          <PersonCard
-            personId={title.id}
-            name={title.name}
-            profilePath={title.profilePath}
-          />
-        );
-    }
-  });
-
-  return (
-    <>
-      <SliderHeader>
-        {
-          linkUrl
-          ? <LinkWrapper href={linkUrl}>
-              <span>{title}</span>
-              <ArrowForwardIcon style={{marginLeft: '8px'}} />
-            </LinkWrapper>
-          : <LinkWrapper>
-              <span>{title}</span>
-            </LinkWrapper>
+                         sliderKey,
+                         title,
+                         isLoading,
+                         titles,
+                         linkUrl
+                     }) => {
+    const finalTitles = titles.slice(0, 20).map((title) => {
+        // eslint-disable-next-line default-case
+        switch (title?.type?.toUpperCase()) {
+            case 'MOVIE':
+                return (
+                    <TitleCard
+                        sub_id={title?.sub_id}
+                        id={title.id}
+                        image={title?.poster_path}
+                        summary={title?.desc}
+                        title={title?.cn_name || title?.en_name}
+                        year={title?.release_year}
+                        mediaType={title?.type}
+                        status={title?.status}
+                    />
+                );
+            case 'TV':
+                return (
+                    <TitleCard
+                        sub_id={title?.sub_id}
+                        id={title.id}
+                        image={title?.poster_path}
+                        summary={title?.desc}
+                        title={title?.cn_name || title?.en_name}
+                        year={title?.release_year}
+                        mediaType={title?.type}
+                        status={title?.status}
+                    />
+                );
+            case 'PERSON':
+                return (
+                    <PersonCard
+                        personId={title.id}
+                        name={title.name}
+                        profilePath={title.profilePath}
+                    />
+                );
         }
-      </SliderHeader>
-      <Slider
-        sliderKey={sliderKey}
-        isLoading={isLoading}
-        isEmpty={false}
-        items={finalTitles}
-      />
-    </>
-  );
+    });
+
+    return (
+        <>
+            <SliderHeader>
+                {
+                    linkUrl
+                        ? <LinkWrapper href={linkUrl}>
+                            <span>{title}</span>
+                            <ArrowForwardIcon style={{marginLeft: '8px'}}/>
+                        </LinkWrapper>
+                        : <LinkWrapper>
+                            <span>{title}</span>
+                        </LinkWrapper>
+                }
+            </SliderHeader>
+            <Slider
+                sliderKey={sliderKey}
+                isLoading={isLoading}
+                isEmpty={false}
+                items={finalTitles}
+            />
+        </>
+    );
 }
 
 export default MediaSlider;
