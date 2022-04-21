@@ -117,17 +117,6 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
                 }}
             >
                 <ImgContainer>
-                    <ImgWrap
-                        referrerPolicy="no-referrer"
-                        decoding="async"
-                        data-nimg="fill"
-                        alt=''
-                        src={
-                            image
-                                ? image
-                                : '/static/img/poster_not_found_logo_top.png'
-                        }
-                    />
                     <Box sx={{
                         position: 'absolute',
                         left: 0,
@@ -161,6 +150,17 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
                             {renderStatueIcon(currentStatus)}
                         </Box>
                     </Box>
+                    <ImgWrap
+                        referrerPolicy="no-referrer"
+                        decoding="async"
+                        data-nimg="fill"
+                        alt=''
+                        src={
+                            image
+                                ? image
+                                : '/static/img/poster_not_found_logo_top.png'
+                        }
+                    />
                     <Transition
                         show={!image || showDetail}
                         enter="transition transform opacity-0"
@@ -277,12 +277,17 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
 export default TitleCard;
 
 const ExpandCss = css`
+  width: '144px';
+  height: 100%;
   @media (min-width: 640px) {
     width: 144px;
   }
   @media (min-width: 768px) {
     width: 176px;
   }
+`;
+const CanExpandCss = css`
+  width: 100%;
 `;
 const Inset0 = css`
   top: 0px;
@@ -292,9 +297,7 @@ const Inset0 = css`
 `;
 
 const CardWrapper = styled.div`
-  width: ${props => props.canExpand ? '100%' : '144px'};
-  height: 100%;
-  ${props => props.canExpand ? undefined : ExpandCss}
+  ${props => props.canExpand ? CanExpandCss : ExpandCss}
 `;
 
 const CardContainer = styled.div`
