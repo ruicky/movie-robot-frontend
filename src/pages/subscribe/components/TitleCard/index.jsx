@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useIsTouch} from '@/hooks/useIsTouch';
-import {Box, Button, Link, Rating, Typography} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
     AccessTimeFilled as AccessTimeFilledIcon,
@@ -15,8 +15,7 @@ import {cyan, green, grey, indigo, yellow} from "@mui/material/colors";
 import SubscribeDialog from '../SubscribeDialog';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
-import message from "@/utils/message";
-import { jumpUrl } from '@/utils/urlUtils';
+import {jumpUrl} from '@/utils/urlUtils';
 
 
 const ImgWrap = styled.img`
@@ -45,7 +44,10 @@ const renderStatueIcon = (status) => {
     return icon;
 }
 
-const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, status, url, canExpand = false, extra}) => {
+const TitleCard = ({
+                       sub_id, id, mediaType, year, subject, title, summary, image, status, url, canExpand = false,
+                       showBottomTitle = true, extra
+                   }) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false);
@@ -72,10 +74,10 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
     // HACK: 目前已知都有底部操作按钮，不排除将来只做海报展示，故保留此配置项
     const isHaveBottom = true;
     const openUrl = (httpUrl, appUrl) => {
-      if (!httpUrl || !appUrl) {
-        return;
-      }
-      jumpUrl(httpUrl, appUrl)
+        if (!httpUrl || !appUrl) {
+            return;
+        }
+        jumpUrl(httpUrl, appUrl)
     }
     return (
         <CardWrapper canExpand={canExpand}>
@@ -254,20 +256,8 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
 
             </CardContainer>
             <BottomTextContainer onClick={() => openUrl(extra?.url, extra?.app_url)}>
-              <h3>{title}</h3>
-              <RatingContainer>
-                { rating 
-                  ? <><Rating
-                        name="read-only"
-                        size="small"
-                        precision={0.5}
-                        value={Math.floor(rating/2)}
-                        readOnly />
-                      <span style={{marginLeft: '2px', color: '#e09015'}}>{rating}</span> 
-                    </>
-                  : "暂无评分"
-                }
-              </RatingContainer>
+                {showBottomTitle ? <h3>{title}</h3> : null}
+                {subject ? subject : null}
             </BottomTextContainer>
         </CardWrapper>
 
@@ -384,11 +374,4 @@ const BottomTextContainer = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-`;
-
-const RatingContainer = styled.div`
-  display: flex;
-  
-  align-items: center;
-  justify-content:center;
 `;
