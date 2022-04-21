@@ -29,6 +29,7 @@ const ListView = ({items, isLoading}) => {
             <TitleCard
               canExpand
               id={title.id}
+              rating={title?.rating}
               image={title?.poster_path}
               summary={title?.desc}
               title={title?.cn_name || title?.en_name}

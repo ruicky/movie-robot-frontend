@@ -21,6 +21,7 @@ const MediaSlider = ({
                     <TitleCard
                         sub_id={title?.sub_id}
                         id={title.id}
+                        rating={title?.rating}
                         image={title?.poster_path}
                         summary={title?.desc}
                         title={title?.cn_name || title?.en_name}
@@ -34,6 +35,7 @@ const MediaSlider = ({
                     <TitleCard
                         sub_id={title?.sub_id}
                         id={title.id}
+                        rating={title?.rating}
                         image={title?.poster_path}
                         summary={title?.desc}
                         title={title?.cn_name || title?.en_name}
@@ -94,8 +96,6 @@ const LinkWrapper = styled.a`
   line-height: 28px;
   font-weight: 700;
   text-decoration: inherit;
-  /* color: #D1D5DB; */
-  color: ${(props) => props.theme.header.color};
   @media (min-width: 640px) {
     overflow: hidden;
     text-overflow: ellipsis;

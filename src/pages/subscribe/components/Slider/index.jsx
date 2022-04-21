@@ -137,7 +137,7 @@ const Slider = ({
 
   return (
     <SliderWrapper className="scrollbuttons-scroller">
-      <Box container id="scrollBtn" className="scrollbuttons">
+      <Box container className="scrollbuttons">
         <div className={`scrollbuttoncontainer scrollbuttoncontainer-left ${scrollPos.isStart && 'hide'}`}>
           <ScrollLeftButton onClick={() => slide("LEFT")}>
             <ChevronLeftIcon style={{ width: '50px', height: '50px', color: '#fff' }} />
@@ -188,7 +188,6 @@ export default Slider;
 
 const SliderWrapper = styled.div`
   position: relative;
-  overflow: hidden;
 `;
 
 const ScrollLeftButton = styled.button`

@@ -1,18 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useIsTouch} from '@/hooks/useIsTouch';
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, Typography, Rating} from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
     AccessTimeFilled as AccessTimeFilledIcon,
     Autorenew,
     CheckCircle as CheckCircleIcon,
-    Notifications as NotificationsIcon
+    Notifications as NotificationsIcon,
+    FileDownload as FileDownloadIcon,
+    DeleteForever as DeleteForeverIcon,
 } from '@mui/icons-material';
 import Transition from '@/components/Transition';
 import {cyan, green, grey, indigo, yellow} from "@mui/material/colors";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import SubscribeDialog from '../SubscribeDialog';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 import message from "@/utils/message";
@@ -24,6 +24,7 @@ const ImgWrap = styled.img`
   height: 100%;
   min-height: 100%;
   max-height: 100%;
+  object-fit: cover;
 `;
 
 const renderStatueIcon = (status) => {
@@ -43,7 +44,7 @@ const renderStatueIcon = (status) => {
     return icon;
 }
 
-const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, canExpand = false}) => {
+const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, status, canExpand = false}) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false);
@@ -90,19 +91,12 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
                 handleClose={() => setShowDeleteModal(false)}
                 data={({id: id, name: title, year, sub_id: sub_id})}
             />
-            <Box
-                className={`transform duration-300 transition ${
+            <CardContainer
+                className={`${
                     showDetail
                         ? 'scale-105'
                         : 'scale-100'
                 }`}
-                sx={{
-                    width: '100%',
-                    height: '100%',
-                    minHeight: '176px',
-                    position: 'relative',
-                    cursor: 'pointer',
-                }}
                 onMouseEnter={() => {
                     if (!isTouch) {
                         setShowDetail(true);
@@ -116,7 +110,19 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
                     }
                 }}
             >
-                <Box sx={{
+                <ImgContainer>
+                  <ImgWrap
+                      referrerPolicy="no-referrer"
+                      decoding="async"
+                      data-nimg="fill"
+                      alt=''
+                      src={
+                          image
+                              ? image
+                              : '/static/img/poster_not_found_logo_top.png'
+                      }
+                  />
+                  <Box sx={{
                     position: 'absolute',
                     left: 0,
                     display: 'flex',
@@ -126,147 +132,136 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
                     boxShadow: 1,
                     cursor: 'default',
                     width: '100%'
-                }}>
-                    <Box sx={{
-                        bgcolor: mediaType?.toUpperCase() === 'MOVIE'
-                            ? cyan[500]
-                            : grey[800],
-                        borderRadius: '9999px'
-                    }}>
-                        <Box
-                            sx={{
-                                px: 2,
-                                color: '#fff',
-                                textAlign: 'center',
-                                fontWeight: 500,
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
-                            {mediaType?.toUpperCase() === 'TV' ? '电视节目' : '电影'}
-                        </Box>
-                    </Box>
-                    <Box>
-                        {renderStatueIcon(currentStatus)}
-                    </Box>
-                </Box>
-                <ImgWrap
-                    referrerPolicy="no-referrer"
-                    alt=''
-                    src={
-                        image
-                            ? image
-                            : '/static/img/poster_not_found_logo_top.png'
-                    }
-                />
-
-
-                <Transition
-                    show={showDetail}
+                  }}>
+                      <Box sx={{
+                          bgcolor: mediaType?.toUpperCase() === 'MOVIE'
+                              ? cyan[500]
+                              : grey[800],
+                          borderRadius: '9999px'
+                      }}>
+                          <Box
+                              sx={{
+                                  px: 2,
+                                  color: '#fff',
+                                  textAlign: 'center',
+                                  fontWeight: 500,
+                                  display: 'flex',
+                                  alignItems: 'center'
+                              }}>
+                              {mediaType?.toUpperCase() === 'TV' ? '电视节目' : '电影'}
+                          </Box>
+                      </Box>
+                      <Box>
+                          {renderStatueIcon(currentStatus)}
+                      </Box>
+                  </Box>
+                  <Transition
+                    show={!image || showDetail}
                     enter="transition transform opacity-0"
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
                     leave="transition transform opacity-100"
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
-                >
-                    <Box sx={{
-                        position: 'absolute',
-                        overflow: 'hidden',
-                        width: '100%',
-                        height: '100%',
-                        bottom: 0,
-                        top: 0,
-                        p: 2,
-                        color: '#fff',
-                        borderRadius: '10px',
-                        background: 'linear-gradient(180deg, rgba(45, 55, 72, 0.4) 0%, rgba(45, 55, 72, 0.9) 100%)',
-                    }}>
-                        <Box sx={{
-                            display: 'flex',
-                            width: '100%',
-                            height: '100%',
-                            justifyContent: 'flex-end',
-                            flexDirection: 'column',
-                            paddingBottom: isHaveBottom ? '44px' : '8px',
-                        }}>
-                            <Box>
-                                {
-                                    year && <Typography variant="h5" gutterBottom component="div">{year}</Typography>
-                                }
-                            </Box>
-                            <Typography variant="h3" sx={{
-                                WebkitLineClamp: 3,
-                                display: '-webkit-box',
-                                overflow: 'hidden',
-                                WebkitBoxOrient: 'vertical',
-                                wordBreak: 'break-word',
-                            }}>
-                                {title}
-                            </Typography>
-                            <Box sx={{
-                                whiteSpace: 'normal',
-                                lineHeight: '16px',
-                                fontSize: '12px',
-                                display: '-webkit-box',
-                                overflow: 'hidden',
-                                WebkitBoxOrient: 'vertical',
-                                wordBreak: 'break-word',
-                                WebkitLineClamp: isHaveBottom ? 3 : 5,
-                            }}>
-                                {summary}
-                            </Box>
-                        </Box>
-                        <RequestWrapper>
-                            {
-                                currentStatus === 2 && <Button
-                                    sx={{width: '100%'}}
-                                    variant="contained"
-                                    startIcon={<FileDownloadIcon/>}
-                                    size="small"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setShowRequestModal(true);
-                                    }}
-                                >
-                                    订阅
-                                </Button>
-                            }
-                            {
-                                currentStatus === 0 && <Button
-                                    color="error"
-                                    sx={{width: '100%'}}
-                                    variant="contained"
-                                    startIcon={<DeleteForeverIcon/>}
-                                    size="small"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setShowDeleteModal(true);
-                                    }}
-                                >
-                                    停止订阅
-                                </Button>
-                            }
-                            {
-                                currentStatus === 1 && <Button
-                                    color="success"
-                                    sx={{width: '100%'}}
-                                    variant="contained"
-                                    startIcon={<Autorenew/>}
-                                    size="small"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        message.info('设计研发中，敬请期待！')
-                                    }}
-                                >
-                                    洗版
-                                </Button>
-                            }
-                        </RequestWrapper>
-                    </Box>
-
-
-                </Transition>
-            </Box>
+                  >
+                      <ShadowContainer>
+                          <ShadowLinkContainer>
+                            <ShadowTextContainer isHaveBottom={isHaveBottom}>
+                              <Box>
+                                  {
+                                      year && <Typography variant="h5" gutterBottom component="div">{year}</Typography>
+                                  }
+                              </Box>
+                              <Typography variant="h3" sx={{
+                                  WebkitLineClamp: 3,
+                                  display: '-webkit-box',
+                                  overflow: 'hidden',
+                                  WebkitBoxOrient: 'vertical',
+                                  wordBreak: 'break-word',
+                              }}>
+                                  {title}
+                              </Typography>
+                              <Box sx={{
+                                  whiteSpace: 'normal',
+                                  lineHeight: '16px',
+                                  fontSize: '12px',
+                                  display: '-webkit-box',
+                                  overflow: 'hidden',
+                                  WebkitBoxOrient: 'vertical',
+                                  wordBreak: 'break-word',
+                                  WebkitLineClamp: isHaveBottom ? 3 : 5,
+                              }}>
+                                  {summary}
+                              </Box>
+                            </ShadowTextContainer>
+                          </ShadowLinkContainer>
+                          <RequestWrapper>
+                              {
+                                  currentStatus === 2 && <Button
+                                      sx={{width: '100%'}}
+                                      variant="contained"
+                                      startIcon={<FileDownloadIcon/>}
+                                      size="small"
+                                      onClick={(e) => {
+                                          e.preventDefault();
+                                          setShowRequestModal(true);
+                                      }}
+                                  >
+                                      订阅
+                                  </Button>
+                              }
+                              {
+                                  currentStatus === 0 && <Button
+                                      color="error"
+                                      sx={{width: '100%'}}
+                                      variant="contained"
+                                      startIcon={<DeleteForeverIcon/>}
+                                      size="small"
+                                      onClick={(e) => {
+                                          e.preventDefault();
+                                          setShowDeleteModal(true);
+                                      }}
+                                  >
+                                      停止订阅
+                                  </Button>
+                              }
+                              {
+                                  currentStatus === 1 && <Button
+                                      color="success"
+                                      sx={{width: '100%'}}
+                                      variant="contained"
+                                      startIcon={<Autorenew/>}
+                                      size="small"
+                                      onClick={(e) => {
+                                          e.preventDefault();
+                                          message.info('设计研发中，敬请期待！')
+                                      }}
+                                  >
+                                      洗版
+                                  </Button>
+                              }
+                          </RequestWrapper>
+                      </ShadowContainer>
+                  </Transition>
+                </ImgContainer>
+                
+            </CardContainer>
+            <BottomTextContainer>
+              <h3>{title}</h3>
+              <RatingContainer>
+                { rating 
+                  ? <><Rating
+                        name="read-only"
+                        size="small"
+                        precision={0.5}
+                        value={Math.floor(rating/2)}
+                        readOnly />
+                      <span style={{marginLeft: '2px', color: '#e09015'}}>{rating}</span> 
+                    </>
+                  : "暂无评分"
+                }
+              </RatingContainer>
+            </BottomTextContainer>
         </CardWrapper>
 
     );
@@ -282,12 +277,43 @@ const ExpandCss = css`
     width: 176px;
   }
 `;
+const Inset0 = css`
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+`;
 
 const CardWrapper = styled.div`
   width: ${props => props.canExpand ? '100%' : '144px'};
   height: 100%;
   ${props => props.canExpand ? undefined : ExpandCss}
 `;
+
+const CardContainer = styled.div`
+  position: relative;
+  cursor: default;
+  border-radius: 12px;
+  background-color: rgb(31 41 55);
+  background-size: cover;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+
+  width: 100%;
+  height: 100%;
+  min-height: 176px;
+  position: relative;
+  cursor: pointer;
+  padding-bottom: 150%;
+  background-color: rgb(31 41 55);
+  border
+`;
+
+
+
 
 const RequestWrapper = styled.div`
   position: absolute;
@@ -297,4 +323,62 @@ const RequestWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 8px;
+`;
+
+const ImgContainer = styled.div`
+  position: absolute;
+  ${Inset0};
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+`;
+
+const ShadowContainer = styled.div`
+  position: absolute;
+  ${Inset0};
+  overflow: hidden;
+  border-radius: 10px;
+`;
+
+const ShadowLinkContainer = styled.a`
+  position: absolute;
+  ${Inset0};
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+  background: linear-gradient(180deg, rgba(45, 55, 72, 0.4) 0%, rgba(45, 55, 72, 0.9) 100%);
+`;
+
+const ShadowTextContainer = styled.div`
+  color: #fff;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding-bottom: ${({isHaveBottom}) =>  isHaveBottom ? '44px' : '8px'};
+`;
+
+const BottomTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  h3 {
+    width: 100%;
+    margin: 2px auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+const RatingContainer = styled.div`
+  display: flex;
+  
+  align-items: center;
+  justify-content:center;
 `;
