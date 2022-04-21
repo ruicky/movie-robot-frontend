@@ -28,6 +28,7 @@ const MediaSlider = ({
                         year={title?.release_year}
                         mediaType={title?.type}
                         status={title?.status}
+                        extra={title}
                     />
                 );
             case 'TV':
@@ -42,6 +43,7 @@ const MediaSlider = ({
                         year={title?.release_year}
                         mediaType={title?.type}
                         status={title?.status}
+                        extra={title}
                     />
                 );
             case 'PERSON':
