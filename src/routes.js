@@ -26,6 +26,7 @@ const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const UserManager = async(() => import("./pages/user/Index"));
 const EditUser = async(() => import("./pages/user/EditUser"));
 const SubscribeRankingList = async(() => import("./pages/subscribe/rankingList"));
+const SubscribeList = async(() => import("./pages/subscribe/list"));
 const SubscribeSearch = async(() => import("./pages/subscribe/search"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
 
@@ -81,7 +82,7 @@ const routes = [{
     path: "/", element: (<AuthGuard>
         <DashboardLayout/>
     </AuthGuard>), children: [{
-        path: "", element: <DownloadRecord/>
+        path: "", element: <SubscribeRankingList/>
     }]
 }, {
     path: "movie", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
@@ -116,6 +117,8 @@ const routes = [{
         path: "rankingList", element: <SubscribeRankingList/>
     }, {
         path: "search", element: <SubscribeSearch/>
+    }, {
+        path: "list", element: <SubscribeList/>
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{
