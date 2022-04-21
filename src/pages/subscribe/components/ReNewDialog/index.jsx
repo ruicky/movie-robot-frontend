@@ -5,11 +5,16 @@ import message from "@/utils/message";
 
 
 const ReNewDialog = ({open, handleClose, data, onComplete}) => {
-    const {id, name, year, sub_id} = data;
+    const {name, year} = data;
     const {mutateAsync: reNewSubscribe, isLoading} = useReNewSubscribe();
-
+    let id;
+    if (data.sub_id) {
+        id = data.sub_id;
+    } else {
+        id = data.id;
+    }
     const handleSubmit = async () => {
-        reNewSubscribe({id: sub_id}, {
+        reNewSubscribe({id}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -39,10 +44,10 @@ const ReNewDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {`确定要重新开启订阅${name}（${year}）吗？（暂时只是开启订阅可以再次被智能下载。真正的洗版开发中，敬请期待）`}
+                    {`确定要立即重新下载${name}（${year}）吗？`}
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>、
+            <DialogActions>
                 <Button onClick={handleSubmit} autoFocus disabled={isLoading}>
                     确定
                 </Button>

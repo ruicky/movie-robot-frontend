@@ -27,6 +27,7 @@ const ListView = ({items, isLoading}) => {
                 items?.map((title, index) => {
                     return <li key={title.id}>
                         <TitleCard
+                            key={'card'+title.id}
                             canExpand
                             id={title.id}
                             rating={title?.rating}
@@ -49,7 +50,7 @@ export default ListView;
 
 const Ul = styled.ul`
   list-style: none;
-  margin: 0;
+  margin: '10px 0';
   padding: 0;
   display: grid;
   gap: 16px;

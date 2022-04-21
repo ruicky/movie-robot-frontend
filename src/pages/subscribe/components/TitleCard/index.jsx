@@ -241,10 +241,10 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
                                         size="small"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            message.info('设计研发中，敬请期待！')
+                                            setShowReNewModal(true)
                                         }}
                                     >
-                                        洗版
+                                        重新下载
                                     </Button>
                                 }
                             </RequestWrapper>
@@ -277,7 +277,7 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
 export default TitleCard;
 
 const ExpandCss = css`
-  width: '144px';
+  width: 144px;
   height: 100%;
   @media (min-width: 640px) {
     width: 144px;
