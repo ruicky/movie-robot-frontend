@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useIsTouch} from '@/hooks/useIsTouch';
-import {Box, Button, Typography, Rating} from "@mui/material";
+import {Box, Button, Link, Rating, Typography} from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
     AccessTimeFilled as AccessTimeFilledIcon,
     Autorenew,
     CheckCircle as CheckCircleIcon,
-    Notifications as NotificationsIcon,
-    FileDownload as FileDownloadIcon,
     DeleteForever as DeleteForeverIcon,
+    FileDownload as FileDownloadIcon,
+    Notifications as NotificationsIcon,
 } from '@mui/icons-material';
 import Transition from '@/components/Transition';
 import {cyan, green, grey, indigo, yellow} from "@mui/material/colors";
@@ -45,7 +45,7 @@ const renderStatueIcon = (status) => {
     return icon;
 }
 
-const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, status, canExpand = false, extra}) => {
+const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, status, url, canExpand = false, extra}) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false);
@@ -117,140 +117,141 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
                 }}
             >
                 <ImgContainer>
-                  <ImgWrap
-                      referrerPolicy="no-referrer"
-                      decoding="async"
-                      data-nimg="fill"
-                      alt=''
-                      src={
-                          image
-                              ? image
-                              : '/static/img/poster_not_found_logo_top.png'
-                      }
-                  />
-                  <Box sx={{
-                    position: 'absolute',
-                    left: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    p: 2,
-                    boxShadow: 1,
-                    cursor: 'default',
-                    width: '100%'
-                  }}>
-                      <Box sx={{
-                          bgcolor: mediaType?.toUpperCase() === 'MOVIE'
-                              ? cyan[500]
-                              : grey[800],
-                          borderRadius: '9999px'
-                      }}>
-                          <Box
-                              sx={{
-                                  px: 2,
-                                  color: '#fff',
-                                  textAlign: 'center',
-                                  fontWeight: 500,
-                                  display: 'flex',
-                                  alignItems: 'center'
-                              }}>
-                              {mediaType?.toUpperCase() === 'TV' ? '电视节目' : '电影'}
-                          </Box>
-                      </Box>
-                      <Box>
-                          {renderStatueIcon(currentStatus)}
-                      </Box>
-                  </Box>
-                  <Transition
-                    show={!image || showDetail}
-                    enter="transition transform opacity-0"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition transform opacity-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                      <ShadowContainer>
-                          <ShadowLinkContainer>
-                            <ShadowTextContainer isHaveBottom={isHaveBottom}>
-                              <Box>
-                                  {
-                                      year && <Typography variant="h5" gutterBottom component="div">{year}</Typography>
-                                  }
-                              </Box>
-                              <Typography variant="h3" sx={{
-                                  WebkitLineClamp: 3,
-                                  display: '-webkit-box',
-                                  overflow: 'hidden',
-                                  WebkitBoxOrient: 'vertical',
-                                  wordBreak: 'break-word',
-                              }}>
-                                  {title}
-                              </Typography>
-                              <Box sx={{
-                                  whiteSpace: 'normal',
-                                  lineHeight: '16px',
-                                  fontSize: '12px',
-                                  display: '-webkit-box',
-                                  overflow: 'hidden',
-                                  WebkitBoxOrient: 'vertical',
-                                  wordBreak: 'break-word',
-                                  WebkitLineClamp: isHaveBottom ? 3 : 5,
-                              }}>
-                                  {summary}
-                              </Box>
-                            </ShadowTextContainer>
-                          </ShadowLinkContainer>
-                          <RequestWrapper>
-                              {
-                                  currentStatus === 2 && <Button
-                                      sx={{width: '100%'}}
-                                      variant="contained"
-                                      startIcon={<FileDownloadIcon/>}
-                                      size="small"
-                                      onClick={(e) => {
-                                          e.preventDefault();
-                                          setShowRequestModal(true);
-                                      }}
-                                  >
-                                      订阅
-                                  </Button>
-                              }
-                              {
-                                  currentStatus === 0 && <Button
-                                      color="error"
-                                      sx={{width: '100%'}}
-                                      variant="contained"
-                                      startIcon={<DeleteForeverIcon/>}
-                                      size="small"
-                                      onClick={(e) => {
-                                          e.preventDefault();
-                                          setShowDeleteModal(true);
-                                      }}
-                                  >
-                                      停止订阅
-                                  </Button>
-                              }
-                              {
-                                  currentStatus === 1 && <Button
-                                      color="success"
-                                      sx={{width: '100%'}}
-                                      variant="contained"
-                                      startIcon={<Autorenew/>}
-                                      size="small"
-                                      onClick={(e) => {
-                                          e.preventDefault();
-                                          message.info('设计研发中，敬请期待！')
-                                      }}
-                                  >
-                                      洗版
-                                  </Button>
-                              }
-                          </RequestWrapper>
-                      </ShadowContainer>
-                  </Transition>
+                    <ImgWrap
+                        referrerPolicy="no-referrer"
+                        decoding="async"
+                        data-nimg="fill"
+                        alt=''
+                        src={
+                            image
+                                ? image
+                                : '/static/img/poster_not_found_logo_top.png'
+                        }
+                    />
+                    <Box sx={{
+                        position: 'absolute',
+                        left: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        p: 2,
+                        boxShadow: 1,
+                        cursor: 'default',
+                        width: '100%'
+                    }}>
+                        <Box sx={{
+                            bgcolor: mediaType?.toUpperCase() === 'MOVIE'
+                                ? cyan[500]
+                                : grey[800],
+                            borderRadius: '9999px'
+                        }}>
+                            <Box
+                                sx={{
+                                    px: 2,
+                                    color: '#fff',
+                                    textAlign: 'center',
+                                    fontWeight: 500,
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}>
+                                {mediaType?.toUpperCase() === 'TV' ? '电视节目' : '电影'}
+                            </Box>
+                        </Box>
+                        <Box>
+                            {renderStatueIcon(currentStatus)}
+                        </Box>
+                    </Box>
+                    <Transition
+                        show={!image || showDetail}
+                        enter="transition transform opacity-0"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="transition transform opacity-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <ShadowContainer>
+                            <ShadowLinkContainer>
+                                <ShadowTextContainer isHaveBottom={isHaveBottom}>
+                                    <Box>
+                                        {
+                                            year &&
+                                            <Typography variant="h5" gutterBottom component="div">{year}</Typography>
+                                        }
+                                    </Box>
+                                    <Typography variant="h3" sx={{
+                                        WebkitLineClamp: 3,
+                                        display: '-webkit-box',
+                                        overflow: 'hidden',
+                                        WebkitBoxOrient: 'vertical',
+                                        wordBreak: 'break-word',
+                                    }}>
+                                        {title}
+                                    </Typography>
+                                    <Box sx={{
+                                        whiteSpace: 'normal',
+                                        lineHeight: '16px',
+                                        fontSize: '12px',
+                                        display: '-webkit-box',
+                                        overflow: 'hidden',
+                                        WebkitBoxOrient: 'vertical',
+                                        wordBreak: 'break-word',
+                                        WebkitLineClamp: isHaveBottom ? 3 : 5,
+                                    }}>
+                                        {summary}
+                                    </Box>
+                                </ShadowTextContainer>
+                            </ShadowLinkContainer>
+                            <RequestWrapper>
+                                {
+                                    currentStatus === 2 && <Button
+                                        sx={{width: '100%'}}
+                                        variant="contained"
+                                        startIcon={<FileDownloadIcon/>}
+                                        size="small"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setShowRequestModal(true);
+                                        }}
+                                    >
+                                        订阅
+                                    </Button>
+                                }
+                                {
+                                    currentStatus === 0 && <Button
+                                        color="error"
+                                        sx={{width: '100%'}}
+                                        variant="contained"
+                                        startIcon={<DeleteForeverIcon/>}
+                                        size="small"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setShowDeleteModal(true);
+                                        }}
+                                    >
+                                        停止订阅
+                                    </Button>
+                                }
+                                {
+                                    currentStatus === 1 && <Button
+                                        color="success"
+                                        sx={{width: '100%'}}
+                                        variant="contained"
+                                        startIcon={<Autorenew/>}
+                                        size="small"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            message.info('设计研发中，敬请期待！')
+                                        }}
+                                    >
+                                        洗版
+                                    </Button>
+                                }
+                            </RequestWrapper>
+                        </ShadowContainer>
+                    </Transition>
                 </ImgContainer>
-                
+
             </CardContainer>
             <BottomTextContainer onClick={() => openUrl(extra?.url, extra?.app_url)}>
               <h3>{title}</h3>
@@ -319,8 +320,6 @@ const CardContainer = styled.div`
 `;
 
 
-
-
 const RequestWrapper = styled.div`
   position: absolute;
   bottom: 0;
@@ -366,7 +365,7 @@ const ShadowTextContainer = styled.div`
   padding-right: 8px;
   justify-content: flex-end;
   flex-direction: column;
-  padding-bottom: ${({isHaveBottom}) =>  isHaveBottom ? '44px' : '8px'};
+  padding-bottom: ${({isHaveBottom}) => isHaveBottom ? '44px' : '8px'};
 `;
 
 const BottomTextContainer = styled.div`
