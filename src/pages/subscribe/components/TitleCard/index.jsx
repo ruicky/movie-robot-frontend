@@ -16,6 +16,7 @@ import SubscribeDialog from '../SubscribeDialog';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 import message from "@/utils/message";
+import { jumpUrl } from '@/utils/urlUtils';
 
 
 const ImgWrap = styled.img`
@@ -44,7 +45,7 @@ const renderStatueIcon = (status) => {
     return icon;
 }
 
-const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, status, url, canExpand = false}) => {
+const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, status, url, canExpand = false, extra}) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false);
@@ -70,7 +71,12 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
     }, []);
     // HACK: 目前已知都有底部操作按钮，不排除将来只做海报展示，故保留此配置项
     const isHaveBottom = true;
-
+    const openUrl = (httpUrl, appUrl) => {
+      if (!httpUrl || !appUrl) {
+        return;
+      }
+      jumpUrl(httpUrl, appUrl)
+    }
     return (
         <CardWrapper canExpand={canExpand}>
             <SubscribeDialog
@@ -247,21 +253,21 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
                 </ImgContainer>
 
             </CardContainer>
-            <BottomTextContainer>
-                <h3><Link target="_blank" href={url}>{title}</Link></h3>
-                <RatingContainer>
-                    {rating
-                        ? <><Rating
-                            name="read-only"
-                            size="small"
-                            precision={0.5}
-                            value={Math.floor(rating / 2)}
-                            readOnly/>
-                            <span style={{marginLeft: '2px', color: '#e09015'}}>{rating}</span>
-                        </>
-                        : "暂无评分"
-                    }
-                </RatingContainer>
+            <BottomTextContainer onClick={() => openUrl(extra?.url, extra?.app_url)}>
+              <h3>{title}</h3>
+              <RatingContainer>
+                { rating 
+                  ? <><Rating
+                        name="read-only"
+                        size="small"
+                        precision={0.5}
+                        value={Math.floor(rating/2)}
+                        readOnly />
+                      <span style={{marginLeft: '2px', color: '#e09015'}}>{rating}</span> 
+                    </>
+                  : "暂无评分"
+                }
+              </RatingContainer>
             </BottomTextContainer>
         </CardWrapper>
 
@@ -368,6 +374,7 @@ const BottomTextContainer = styled.div`
   align-items: center;
   justify-content:center;
   h3 {
+    cursor: pointer;
     text-align: center;
     width: 100%;
     margin: 2px auto;

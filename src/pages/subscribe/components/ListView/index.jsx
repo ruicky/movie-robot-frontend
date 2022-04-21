@@ -36,6 +36,7 @@ const ListView = ({items, isLoading}) => {
               year={title?.release_year}
               mediaType={title?.type}
               status={title?.status}
+              extra={title}
             />
           </li>;
         })
