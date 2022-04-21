@@ -63,6 +63,7 @@ const ListView = ({items, isLoading}) => {
                             mediaType={title?.type}
                             status={title?.status}
                             extra={title}
+                            showBottomTitle={false}
                         />
                     </li>;
                 })
