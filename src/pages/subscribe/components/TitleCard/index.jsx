@@ -1,18 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useIsTouch} from '@/hooks/useIsTouch';
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, Typography, Rating} from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
     AccessTimeFilled as AccessTimeFilledIcon,
     Autorenew,
     CheckCircle as CheckCircleIcon,
-    Notifications as NotificationsIcon
+    Notifications as NotificationsIcon,
+    FileDownload as FileDownloadIcon,
+    DeleteForever as DeleteForeverIcon,
 } from '@mui/icons-material';
 import Transition from '@/components/Transition';
 import {cyan, green, grey, indigo, yellow} from "@mui/material/colors";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import SubscribeDialog from '../SubscribeDialog';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 import message from "@/utils/message";
@@ -44,7 +44,7 @@ const renderStatueIcon = (status) => {
     return icon;
 }
 
-const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, canExpand = false}) => {
+const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, status, canExpand = false}) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false);
@@ -244,7 +244,24 @@ const TitleCard = ({sub_id, id, mediaType, year, title, summary, image, status, 
                       </ShadowContainer>
                   </Transition>
                 </ImgContainer>
+                
             </CardContainer>
+            <BottomTextContainer>
+              <h3>{title}</h3>
+              <RatingContainer>
+                { rating 
+                  ? <><Rating
+                        name="read-only"
+                        size="small"
+                        precision={0.5}
+                        value={Math.floor(rating/2)}
+                        readOnly />
+                      <span style={{marginLeft: '2px', color: '#e09015'}}>{rating}</span> 
+                    </>
+                  : "暂无评分"
+                }
+              </RatingContainer>
+            </BottomTextContainer>
         </CardWrapper>
 
     );
@@ -270,7 +287,6 @@ const Inset0 = css`
 const CardWrapper = styled.div`
   width: ${props => props.canExpand ? '100%' : '144px'};
   height: 100%;
-  color: #fff;
   ${props => props.canExpand ? undefined : ExpandCss}
 `;
 
@@ -336,6 +352,7 @@ const ShadowLinkContainer = styled.a`
 `;
 
 const ShadowTextContainer = styled.div`
+  color: #fff;
   display: flex;
   height: 100%;
   width: 100%;
@@ -344,4 +361,24 @@ const ShadowTextContainer = styled.div`
   justify-content: flex-end;
   flex-direction: column;
   padding-bottom: ${({isHaveBottom}) =>  isHaveBottom ? '44px' : '8px'};
-`
+`;
+
+const BottomTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  h3 {
+    width: 100%;
+    margin: 2px auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+const RatingContainer = styled.div`
+  display: flex;
+  
+  align-items: center;
+  justify-content:center;
+`;

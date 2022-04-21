@@ -21,6 +21,7 @@ const MediaSlider = ({
                     <TitleCard
                         sub_id={title?.sub_id}
                         id={title.id}
+                        rating={title?.rating}
                         image={title?.poster_path}
                         summary={title?.desc}
                         title={title?.cn_name || title?.en_name}
@@ -34,6 +35,7 @@ const MediaSlider = ({
                     <TitleCard
                         sub_id={title?.sub_id}
                         id={title.id}
+                        rating={title?.rating}
                         image={title?.poster_path}
                         summary={title?.desc}
                         title={title?.cn_name || title?.en_name}
