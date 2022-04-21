@@ -368,6 +368,7 @@ const BottomTextContainer = styled.div`
   align-items: center;
   justify-content:center;
   h3 {
+    text-align: center;
     width: 100%;
     margin: 2px auto;
     overflow: hidden;
