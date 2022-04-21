@@ -1,16 +1,22 @@
+import CallApp from 'callapp-lib';
+import _ from 'lodash';
 
 export const jumpUrl = (httpUrl, appUrl) => {
   if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)){
-    var loadDateTime = new Date();
-    window.setTimeout(function () {
-      var timeOutDateTime = new Date();
-      if (timeOutDateTime - loadDateTime <6000) {
-        // 找不到app时执行的操作
-        window.location = httpUrl
-    }
-    }, 3000);
-    window.location = appUrl;
+    const temp = appUrl.split('://')
+    const options = {
+      scheme: {
+        protocol: _.get(temp, '[0]')
+      },
+      appstore: "",
+      fallback: httpUrl
+    };
+    const callLib = new CallApp(options);
+    callLib.open({
+      path: _.get(temp, '[1]'),
+      callback: () => window.open(httpUrl, '_blank')
+    });
   } else {
-    window.location = httpUrl
+    window.open(httpUrl, '_blank');
   }
 }

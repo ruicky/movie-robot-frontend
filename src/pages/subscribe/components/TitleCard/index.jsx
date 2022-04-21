@@ -117,17 +117,6 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
                 }}
             >
                 <ImgContainer>
-                    <ImgWrap
-                        referrerPolicy="no-referrer"
-                        decoding="async"
-                        data-nimg="fill"
-                        alt=''
-                        src={
-                            image
-                                ? image
-                                : '/static/img/poster_not_found_logo_top.png'
-                        }
-                    />
                     <Box sx={{
                         position: 'absolute',
                         left: 0,
@@ -161,6 +150,17 @@ const TitleCard = ({sub_id, id, mediaType, year, rating, title, summary, image, 
                             {renderStatueIcon(currentStatus)}
                         </Box>
                     </Box>
+                    <ImgWrap
+                        referrerPolicy="no-referrer"
+                        decoding="async"
+                        data-nimg="fill"
+                        alt=''
+                        src={
+                            image
+                                ? image
+                                : '/static/img/poster_not_found_logo_top.png'
+                        }
+                    />
                     <Transition
                         show={!image || showDetail}
                         enter="transition transform opacity-0"
