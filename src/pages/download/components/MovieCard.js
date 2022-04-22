@@ -20,6 +20,19 @@ import {ChevronRight as ChevronRightIcon, DeleteForever, Refresh as RefreshIcon}
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MovieInfoDialog from './MovieInfoDialog'
 
+function TitleLabel({title, year, season_index, season_year, movie_type}) {
+    console.log(season_index)
+    if (movie_type === "Movie") {
+        return (<span>
+            {title}({year})
+        </span>)
+    } else {
+        return (<span>
+            {title}{season_index ? " 第" + season_index + "季" : ""}({season_year ? season_year : year})
+        </span>)
+    }
+}
+
 export default function MovieCard(props) {
     const {onDelete, onAnalyze, downloading} = props
     const {
@@ -38,7 +51,9 @@ export default function MovieCard(props) {
         media_source,
         media_encoding,
         url,
-        link_path
+        link_path,
+        season_index,
+        season_year
     } = props.data;
     const handleAnalyze = () => {
         onAnalyze({open: true, year: year, id: id, name: title, link_path: link_path, movie_type: movie_type})
@@ -58,7 +73,8 @@ export default function MovieCard(props) {
                                act>
                         {
                             title && <TitleConainer variant="subtitle1" component="h3" noWrap>
-                                <span>{movie_type === "Movie" ? "电影" : "剧集"}&nbsp;{title ? `${title}(${year})` : ''} &nbsp;</span>
+                                <TitleLabel movie_type={movie_type} title={title} year={year}
+                                            season_index={season_index} season_year={season_year}/>
                                 <IconButton sx={{color: '#fff'}}><ChevronRightIcon/> </IconButton>
                             </TitleConainer>
                         }
