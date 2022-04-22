@@ -3,14 +3,17 @@ import ReactECharts from "echarts-for-react";
 import React from "react";
 import {coverSize} from "@/utils/PtUtils";
 import {Paper} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 function SiteSharesWeek({data}) {
+    const theme = useTheme();
     const siteOption = {
         title: {
             text: '近7天流量变化',
             padding: 15,
             textStyle: {
-                fontSize: '1rem'
+                fontSize: '1rem',
+                color: theme.palette.text.primary
             }
         },
         tooltip: {
