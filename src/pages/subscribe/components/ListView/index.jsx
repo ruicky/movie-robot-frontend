@@ -5,6 +5,32 @@ import styled from "styled-components/macro";
 import Empty from '../Empty';
 import CircularProgress from '@mui/material/CircularProgress';
 
+const Subject = ({media}) => {
+    if (media.type === "Movie") {
+        return (
+            <span> {media?.release_year}</span>
+        )
+    } else {
+        return (
+            <span>{media?.season_year}</span>
+        )
+    }
+
+}
+
+function getYear(media) {
+    if (!media) {
+        return "";
+    }
+
+    if (media?.type === "Movie") {
+        return media?.release_year;
+    } else {
+        if (media?.season_year) {
+            return "第" + media.season_index + "季(" + media?.season_year + ")"
+        }
+    }
+}
 
 const ListView = ({items, isLoading}) => {
     const isEmpty = isLoading === false && items?.length === 0;
@@ -27,16 +53,17 @@ const ListView = ({items, isLoading}) => {
                 items?.map((title, index) => {
                     return <li key={title.id}>
                         <TitleCard
+                            key={'card' + title.id}
                             canExpand
                             id={title.id}
-                            rating={title?.rating}
                             image={title?.poster_path}
                             summary={title?.desc}
                             title={title?.cn_name || title?.en_name}
-                            year={title?.release_year}
+                            year={getYear(title)}
                             mediaType={title?.type}
                             status={title?.status}
                             extra={title}
+                            showBottomTitle={false}
                         />
                     </li>;
                 })
@@ -49,7 +76,7 @@ export default ListView;
 
 const Ul = styled.ul`
   list-style: none;
-  margin: 0;
+  margin: '10px 0';
   padding: 0;
   display: grid;
   gap: 16px;

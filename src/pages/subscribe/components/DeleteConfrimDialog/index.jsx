@@ -5,11 +5,16 @@ import message from "@/utils/message";
 
 
 const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
-    const {id, name, year, sub_id} = data;
+    const {name, year} = data;
     const {mutate: deleteSubscribe, isLoading} = useDeleteSubscribe();
-
+    let id;
+    if (data.sub_id) {
+        id = data.sub_id;
+    } else {
+        id = data.id;
+    }
     const handleSubmit = async () => {
-        deleteSubscribe({id: sub_id}, {
+        deleteSubscribe({id}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
