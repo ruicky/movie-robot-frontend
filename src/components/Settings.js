@@ -3,6 +3,9 @@ import styled, { css } from "styled-components/macro";
 
 import { green, grey, indigo } from "@mui/material/colors";
 import { Alert } from "@mui/lab";
+import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
+import {blueGrey} from "@mui/material/colors";
+
 // import { Palette as PaletteIcon } from "@mui/icons-material";
 import {
   Box,
@@ -115,7 +118,11 @@ function Demo({ title, themeVariant }) {
         active={themeVariant === theme}
         onClick={() => setTheme(themeVariant)}
       >
-        <DemoButtonInner selectedTheme={themeVariant} />
+        {
+          themeVariant === THEMES.FLOW_SYSTEM
+          ? <SettingsBrightnessIcon sx={{width: '50px', height: '50px'}} htmlColor={blueGrey[300]}/>
+          : <DemoButtonInner selectedTheme={themeVariant} />
+        }
       </DemoButton>
       <DemoTitle variant="subtitle2" gutterBottom>
         {title}
@@ -144,6 +151,7 @@ function Demos() {
           <Demo title="Green" themeVariant={THEMES.GREEN} />
           <Demo title="Indigo" themeVariant={THEMES.INDIGO} />
           <Demo title="Deep_Dark" themeVariant={THEMES.DEEP_DARK} />
+          <Demo title="跟随系统" themeVariant={THEMES.FLOW_SYSTEM} />
         </Grid>
       </Box>
     </Wrapper>

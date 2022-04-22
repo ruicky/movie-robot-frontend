@@ -6,7 +6,8 @@ export const THEMES = {
   BLUE: "BLUE",
   GREEN: "GREEN",
   INDIGO: "INDIGO",
-  DEEP_DARK: "DEEP_DARK"
+  DEEP_DARK: "DEEP_DARK",
+  FLOW_SYSTEM: "FLOW_SYSTEM",
 };
 
 // 状态

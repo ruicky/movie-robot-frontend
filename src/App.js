@@ -18,9 +18,11 @@ import routes from "./routes";
 
 import useTheme from "./hooks/useTheme";
 import { store } from "./redux/store";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { AuthProvider } from "./contexts/JWTContext";
 import { InteractionProvider } from './contexts/InteractionContext';
+import { THEMES } from "./constants";
 // import { AuthProvider } from "./contexts/FirebaseAuthContext";
 // import { AuthProvider } from "./contexts/Auth0Context";
 // import { AuthProvider } from "./contexts/CognitoContext";
@@ -32,8 +34,13 @@ const jss = create({
 
 function App() {
   const content = useRoutes(routes);
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-  const { theme } = useTheme();
+  const { theme:localTheme } = useTheme();
+  let theme = localTheme;
+  if (localTheme === THEMES.FLOW_SYSTEM) {
+    theme = prefersDarkMode ? THEMES.DARK : THEMES.LIGHT
+  }
 
   return (
     <HelmetProvider>
