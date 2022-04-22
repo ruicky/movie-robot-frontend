@@ -42,7 +42,7 @@ const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {`确定要取消 ${name}(${year}) 的订阅吗？`}
+                    确定要取消 {name}{year ? "(" + year + ")" : ""} 的订阅吗？
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

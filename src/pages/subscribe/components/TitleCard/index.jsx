@@ -43,7 +43,9 @@ const renderStatueIcon = (status) => {
     }
     return icon;
 }
+const MediaTypeTag = ({mediaType}) => {
 
+}
 const TitleCard = ({
                        sub_id, id, mediaType, year, subject, title, summary, image, status, url, canExpand = false,
                        showBottomTitle = true, extra
@@ -54,7 +56,6 @@ const TitleCard = ({
     const [showReNewModal, setShowReNewModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
-
     useEffect(() => {
         setCurrentStatus(status);
     }, [status]);
@@ -136,7 +137,7 @@ const TitleCard = ({
                                 : grey[800],
                             borderRadius: '9999px'
                         }}>
-                            <Box
+                            {mediaType && <Box
                                 sx={{
                                     px: 2,
                                     color: '#fff',
@@ -146,7 +147,7 @@ const TitleCard = ({
                                     alignItems: 'center'
                                 }}>
                                 {mediaType?.toUpperCase() === 'TV' ? '电视节目' : '电影'}
-                            </Box>
+                            </Box>}
                         </Box>
                         <Box>
                             {renderStatueIcon(currentStatus)}

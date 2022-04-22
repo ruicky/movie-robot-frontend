@@ -10,10 +10,10 @@ export const useSubscribes = (param) => {
 }
 
 // 订阅搜索
-export const useSubscribeSearch = (param) => {
+export const useSubscribeSearch = () => {
   const client = useHttp();
-  return useQuery(['subscribes-search', param], () =>
-    client("/api/movie/search_douban", {params: param })
+  return useMutation( (params) =>
+    client("/api/movie/search_douban", {params: params })
   );
 };
 

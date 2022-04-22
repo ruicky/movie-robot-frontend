@@ -27,7 +27,7 @@ const UserManager = async(() => import("./pages/user/Index"));
 const EditUser = async(() => import("./pages/user/EditUser"));
 const SubscribeRankingList = async(() => import("./pages/subscribe/rankingList"));
 const SubscribeList = async(() => import("./pages/subscribe/list"));
-const SubscribeSearch = async(() => import("./pages/subscribe/search"));
+const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
 
 const routes = [{

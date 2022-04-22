@@ -44,7 +44,7 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {`确定要订阅 ${name}（${year}） 吗？订阅后将立即开始下载！`}
+                    确定要订阅 {name}{year ? "(" + year + ")" : ""} 吗？订阅后将立即开始下载！
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

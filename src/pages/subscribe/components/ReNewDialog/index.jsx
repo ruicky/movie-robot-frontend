@@ -44,7 +44,7 @@ const ReNewDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {`确定要立即重新下载${name}（${year}）吗？`}
+                    确定要立即重新下载 {name}{year ? "(" + year + ")" : ""} 吗？
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

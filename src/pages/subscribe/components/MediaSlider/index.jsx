@@ -4,31 +4,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Slider from '../Slider';
 import TitleCard from '../TitleCard';
 import PersonCard from '../PersonCard';
-import {Rating} from "@mui/material";
+import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 
-const RatingContainer = styled.div`
-  display: flex;
-  
-  align-items: center;
-  justify-content:center;
-`;
-const RatingLabel = ({rating}) => {
-    return (
-        <RatingContainer>
-            {rating
-                ? <><Rating
-                    name="read-only"
-                    size="small"
-                    precision={0.5}
-                    value={Math.floor(rating / 2)}
-                    readOnly/>
-                    <span style={{marginLeft: '2px', color: '#e09015'}}>{rating}</span>
-                </>
-                : "暂无评分"
-            }
-        </RatingContainer>
-    )
-}
 const MediaSlider = ({
                          sliderKey,
                          title,
