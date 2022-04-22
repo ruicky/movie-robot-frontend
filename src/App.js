@@ -39,7 +39,7 @@ function App() {
   const { theme:localTheme } = useTheme();
   let theme = localTheme;
   if (localTheme === THEMES.FLOW_SYSTEM) {
-    theme = prefersDarkMode ? THEMES.DARK : THEMES.LIGHT
+    theme = prefersDarkMode ? THEMES.DEEP_DARK : THEMES.LIGHT
   }
 
   return (
