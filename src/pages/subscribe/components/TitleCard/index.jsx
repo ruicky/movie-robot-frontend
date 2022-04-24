@@ -7,7 +7,8 @@ import {
     Autorenew,
     CheckCircle as CheckCircleIcon,
     DeleteForever as DeleteForeverIcon,
-    FileDownload as FileDownloadIcon, FilterList,
+    FileDownload as FileDownloadIcon,
+    FilterList,
     Notifications as NotificationsIcon,
 } from '@mui/icons-material';
 import Transition from '@/components/Transition';
@@ -212,7 +213,7 @@ const TitleCard = ({
                             </ShadowLinkContainer>
                             <RequestWrapper>
                                 {
-                                    !currentStatus && <Button
+                                    (currentStatus === undefined || currentStatus === null) && <Button
                                         sx={{width: '100%'}}
                                         variant="contained"
                                         startIcon={<FileDownloadIcon/>}
