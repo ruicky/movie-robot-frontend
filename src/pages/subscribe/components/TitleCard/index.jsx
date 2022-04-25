@@ -17,6 +17,7 @@ import SubscribeDialog from '../SubscribeDialog';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 import {jumpUrl} from '@/utils/urlUtils';
+import LinesEllipsis from 'react-lines-ellipsis'
 
 
 const ImgWrap = styled.img`
@@ -277,7 +278,7 @@ const TitleCard = ({
 
             </CardContainer>
             <BottomTextContainer onClick={() => openUrl(extra?.url, extra?.app_url)}>
-                {showBottomTitle ? <h3>{title}</h3> : null}
+                {showBottomTitle ? <h3><LinesEllipsis text={title} maxLine={1} style={{height: '24px'}}/></h3> : null}
                 {subject ? subject : null}
             </BottomTextContainer>
         </CardWrapper>

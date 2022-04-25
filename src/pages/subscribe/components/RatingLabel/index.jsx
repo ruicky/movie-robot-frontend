@@ -1,6 +1,7 @@
 import styled from "styled-components/macro";
 import {Rating} from "@mui/material";
 import React from "react";
+import {isNumeric} from '@/utils/common'
 
 const RatingContainer = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const RatingContainer = styled.div`
 const RatingLabel = ({rating}) => {
     return (
         <RatingContainer>
-            {rating
+            {rating && isNumeric(rating)
                 ? <><Rating
                     name="read-only"
                     size="small"
