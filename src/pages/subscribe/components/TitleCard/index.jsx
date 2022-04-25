@@ -8,10 +8,11 @@ import {
     CheckCircle as CheckCircleIcon,
     DeleteForever as DeleteForeverIcon,
     FileDownload as FileDownloadIcon,
+    FilterList,
     Notifications as NotificationsIcon,
 } from '@mui/icons-material';
 import Transition from '@/components/Transition';
-import {cyan, green, grey, indigo, yellow} from "@mui/material/colors";
+import {blue, cyan, green, grey, indigo, yellow} from "@mui/material/colors";
 import SubscribeDialog from '../SubscribeDialog';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
@@ -28,7 +29,8 @@ const ImgWrap = styled.img`
 `;
 
 const renderStatueIcon = (status) => {
-    // status: 0: 已订阅待处理，1: 已处理，2:未订阅
+    console.log(status)
+    // status: 0: 已订阅待处理，1: 已处理，2:洗版中
     let icon;
     // eslint-disable-next-line default-case
     switch (status) {
@@ -40,10 +42,16 @@ const renderStatueIcon = (status) => {
             break;
         case 1:
             icon = <CheckCircleIcon htmlColor={green[400]}/>
+            break;
+        case 2:
+            icon = <Autorenew htmlColor={blue[500]}/>
+            break;
     }
     return icon;
 }
+const MediaTypeTag = ({mediaType}) => {
 
+}
 const TitleCard = ({
                        sub_id, id, mediaType, year, subject, title, summary, image, status, url, canExpand = false,
                        showBottomTitle = true, extra
@@ -54,7 +62,6 @@ const TitleCard = ({
     const [showReNewModal, setShowReNewModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
-
     useEffect(() => {
         setCurrentStatus(status);
     }, [status]);
@@ -136,7 +143,7 @@ const TitleCard = ({
                                 : grey[800],
                             borderRadius: '9999px'
                         }}>
-                            <Box
+                            {mediaType && <Box
                                 sx={{
                                     px: 2,
                                     color: '#fff',
@@ -146,7 +153,7 @@ const TitleCard = ({
                                     alignItems: 'center'
                                 }}>
                                 {mediaType?.toUpperCase() === 'TV' ? '电视节目' : '电影'}
-                            </Box>
+                            </Box>}
                         </Box>
                         <Box>
                             {renderStatueIcon(currentStatus)}
@@ -206,7 +213,7 @@ const TitleCard = ({
                             </ShadowLinkContainer>
                             <RequestWrapper>
                                 {
-                                    currentStatus === 2 && <Button
+                                    (currentStatus === undefined || currentStatus === null) && <Button
                                         sx={{width: '100%'}}
                                         variant="contained"
                                         startIcon={<FileDownloadIcon/>}
@@ -247,6 +254,20 @@ const TitleCard = ({
                                         }}
                                     >
                                         重新下载
+                                    </Button>
+                                }
+                                {
+                                    currentStatus === 2 && <Button
+                                        color="success"
+                                        sx={{width: '100%'}}
+                                        variant="contained"
+                                        startIcon={<FilterList/>}
+                                        size="small"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                        }}
+                                    >
+                                        调整规格
                                     </Button>
                                 }
                             </RequestWrapper>

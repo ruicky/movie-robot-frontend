@@ -1,87 +1,85 @@
-import React, {useState, useEffect} from 'react';
-import { Box } from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Box} from "@mui/material";
 import styled from "styled-components/macro";
-import {
-  Search as SearchIcon,
-  HighlightOff as HighlightOffIcon,
-} from '@mui/icons-material';
+import {HighlightOff as HighlightOffIcon, Search as SearchIcon,} from '@mui/icons-material';
 
 
-const SearchInput = ({param, setParam,}) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  
-  const clear = () => {
-    setParam({...param, keyword: ''})
-  }
-  useEffect(() => {
-    const updateScrolled = () => {
-      if (window.pageYOffset > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+const SearchInput = ({default_keyword, onSearch}) => {
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [keyword, setKeyword] = useState(default_keyword)
+    const clear = () => {
+        setKeyword('')
+    }
+    useEffect(() => {
+        const updateScrolled = () => {
+            if (window.pageYOffset > 20) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
 
-    window.addEventListener('scroll', updateScrolled, { passive: true });
+        window.addEventListener('scroll', updateScrolled, {passive: true});
 
-    return () => {
-      window.removeEventListener('scroll', updateScrolled);
-    };
-  }, []);
+        return () => {
+            window.removeEventListener('scroll', updateScrolled);
+        };
+    }, []);
 
-  return(
-    <Box
-      sx={{
-        display: 'flex',
-        flex: '1 1 0%',
-        margin: '10px auto',
-        position: 'relative',
-        flexShrink: 0,
-        backgroundColor: isScrolled ? '#374151' : 'transparent',
-        backdropFilter: isScrolled ? 'blur(5px)' : undefined,
-        WebkitBackdropFilter: isScrolled ? 'blur(5px)' : undefined,
-      }}
-      className="transition duration-300"
-    >
-      <Box
-        sx ={{
-          display: 'flex',
-          width: '100%',
-        }}
-      >
-        <Label htmlFor="search_field">Search</Label>
-        <InputWrapper>
-          <SearchIconWrapper>
-            <SearchIcon  width='20px' height='20px'/>
-          </SearchIconWrapper>
-          <Input
-            id="search_field"
-            placeholder='搜索电影电视节目'
-            type="search"
-            autoComplete="off"
-            value={param?.keyword}
-            onChange={(e) => setParam({...param, keyword: e.target.value})}
-            onKeyUp={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                (e.target).blur();
-              }
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flex: '1 1 0%',
+                margin: '10px auto',
+                position: 'relative',
+                flexShrink: 0,
+                backgroundColor: isScrolled ? '#374151' : 'transparent',
+                backdropFilter: isScrolled ? 'blur(5px)' : undefined,
+                WebkitBackdropFilter: isScrolled ? 'blur(5px)' : undefined,
             }}
-          />
-          {param?.keyword?.length > 0 && (
-            <CloseButton
-              className="transition"
-              onClick={() => clear()}
+            className="transition duration-300"
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    width: '100%',
+                }}
             >
-              <HighlightOffIcon  style={{ width: '20px', height: '20px' }} />
-            </CloseButton>
-          )}
-        </InputWrapper>
+                <Label htmlFor="search_field">Search</Label>
+                <InputWrapper>
+                    <SearchIconWrapper>
+                        <SearchIcon width='20px' height='20px'/>
+                    </SearchIconWrapper>
+                    <Input
+                        id="search_field"
+                        placeholder='搜索电影电视节目'
+                        autoComplete="off"
+                        value={keyword}
+                        onChange={(e) => setKeyword(e.target.value)}
+                        onKeyUp={(e) => {
+                            if ((e.key === 'Enter' || e.key === "NumpadEnter") && keyword) {
+                                e.preventDefault();
+                                (e.target).blur();
+                                if (onSearch) {
+                                    onSearch(keyword);
+                                }
+                            }
+                        }}
+                    />
+                    {keyword?.length > 0 && (
+                        <CloseButton
+                            onClick={() => clear()}
+                        >
+                            <HighlightOffIcon style={{width: '20px', height: '20px'}}/>
+                        </CloseButton>
+                    )}
+                </InputWrapper>
 
-      </Box>
+            </Box>
 
-    </Box>
-  );
+        </Box>
+    );
 
 }
 
