@@ -56,6 +56,7 @@ const ListView = ({items, isLoading}) => {
                             key={'card' + title.id}
                             canExpand
                             id={title.id}
+                            sub_id={title.id}
                             image={title?.poster_path}
                             summary={title?.desc}
                             title={title?.cn_name || title?.en_name}

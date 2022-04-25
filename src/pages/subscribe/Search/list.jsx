@@ -54,6 +54,7 @@ const SearchListView = ({items, isLoading}) => {
                 items?.map((title, index) => {
                     return <li key={title.id}>
                         <TitleCard
+                            key={'card' + title.id}
                             sub_id={title?.sub_id}
                             key={'card' + title.id}
                             canExpand

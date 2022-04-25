@@ -95,8 +95,8 @@ const SearchBar = ({onSearch, ...props}) => {
                 onChange={({target: {value: v}}) => {
                     setValue(v);
                 }}
-                onKeyUp={({code}) => {
-                    if ((code === "Enter" || code === "NumpadEnter") && value) {
+                onKeyUp={(e) => {
+                    if ((e.key === 'Enter' || e.key === "NumpadEnter") && value) {
                         onSearch(value);
                     }
                 }}

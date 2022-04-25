@@ -17,6 +17,7 @@ import SubscribeDialog from '../SubscribeDialog';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 import {jumpUrl} from '@/utils/urlUtils';
+import {getSub} from "@/utils/subscribe";
 
 
 const ImgWrap = styled.img`
@@ -29,7 +30,6 @@ const ImgWrap = styled.img`
 `;
 
 const renderStatueIcon = (status) => {
-    console.log(status)
     // status: 0: 已订阅待处理，1: 已处理，2:洗版中
     let icon;
     // eslint-disable-next-line default-case
@@ -60,6 +60,7 @@ const TitleCard = ({
     const [showDetail, setShowDetail] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false);
     const [showReNewModal, setShowReNewModal] = useState(false);
+    const [renewFormData, setRenewFormData] = useState(null)
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
     useEffect(() => {
@@ -78,6 +79,12 @@ const TitleCard = ({
         setCurrentStatus(newStatus);
         setShowDeleteModal(false);
     }, []);
+    const resetFilter = async () => {
+        const data = await getSub(sub_id)
+        const values = data?.filter_config ? JSON.parse(data.filter_config) : null;
+        setRenewFormData(values)
+        setShowReNewModal(true);
+    }
     // HACK: 目前已知都有底部操作按钮，不排除将来只做海报展示，故保留此配置项
     const isHaveBottom = true;
     const openUrl = (httpUrl, appUrl) => {
@@ -97,6 +104,7 @@ const TitleCard = ({
             <ReNewDialog
                 open={showReNewModal}
                 onComplete={reNewComplete}
+                renewFormData={renewFormData}
                 handleClose={() => setShowReNewModal(false)}
                 data={({id: id, name: title, year, sub_id: sub_id})}
             />
@@ -253,7 +261,7 @@ const TitleCard = ({
                                             setShowReNewModal(true)
                                         }}
                                     >
-                                        重新下载
+                                        洗版
                                     </Button>
                                 }
                                 {
@@ -265,6 +273,7 @@ const TitleCard = ({
                                         size="small"
                                         onClick={(e) => {
                                             e.preventDefault();
+                                            resetFilter()
                                         }}
                                     >
                                         调整规格

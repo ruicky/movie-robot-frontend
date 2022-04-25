@@ -19,6 +19,7 @@ const MediaSlider = ({
             case 'MOVIE':
                 return (
                     <TitleCard
+                        key={'card' + title.id}
                         sub_id={title?.sub_id}
                         id={title.id}
                         image={title?.poster_path}
@@ -34,6 +35,7 @@ const MediaSlider = ({
             case 'TV':
                 return (
                     <TitleCard
+                        key={'card' + title.id}
                         sub_id={title?.sub_id}
                         id={title.id}
                         image={title?.poster_path}

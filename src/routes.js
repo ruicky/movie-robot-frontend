@@ -29,6 +29,8 @@ const SubscribeRankingList = async(() => import("./pages/subscribe/rankingList")
 const SubscribeList = async(() => import("./pages/subscribe/list"));
 const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
+const Selectors = async(() => import("./pages/selectors"));
+const SelectorsEditFilter = async(() => import("./pages/selectors/Filter/Edit"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -77,6 +79,10 @@ const routes = [{
         <DashboardLayout/>
     </AuthGuard>, children: [{
         path: "douban", element: <DoubanConfig/>
+    },{
+        path: "selectors", element: <Selectors/>
+    }, {
+        path: "edit-filter", element: <SelectorsEditFilter/>
     }]
 }, {
     path: "/", element: (<AuthGuard>
