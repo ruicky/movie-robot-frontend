@@ -197,8 +197,7 @@ function DownloadRecords(props) {
             setParam({keyword})
             axios.get("/api/movie/search_keyword", {
                 params: {
-                    keyword: keyword,
-                    rule_name: "compress"
+                    keyword: keyword
                 }
             }).then((res) => {
                 setLoading(false);
