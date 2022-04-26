@@ -6,7 +6,7 @@ import TitleCard from '../TitleCard';
 import PersonCard from '../PersonCard';
 import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 
-const MediaSlider = ({
+const   MediaSlider = ({
                          sliderKey,
                          title,
                          isLoading,
@@ -91,7 +91,7 @@ export default MediaSlider;
 
 const SliderHeader = styled.div`
   position: relative;
-  margin-top: 24px;
+  margin-top: 6px;
   margin-bottom: 16px;
   display: flex;
 `;
