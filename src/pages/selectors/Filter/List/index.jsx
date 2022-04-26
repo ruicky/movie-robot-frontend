@@ -17,6 +17,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import React, {useEffect, useState} from "react";
 import {Skeleton} from "@mui/lab";
 import {getFilterConfigList} from "@/api/ConfigApi";
+import {useNavigate} from "react-router-dom";
 import DeleteDialog from "@/pages/selectors/Filter/Delete";
 
 function FilterItem({filterName, mediaType, cate, area, onEdit, onDelete}) {
