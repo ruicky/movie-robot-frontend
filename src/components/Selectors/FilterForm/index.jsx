@@ -319,7 +319,7 @@ function FilterForm({
                             <FormHelperText>
                                 {formik.touched.download_mode && formik.errors.download_mode || (
                                     <span>
-                                匹配此过滤器时的下载模式
+                                匹配此过滤器时的下载模式，注意：剧集仅支持完全匹配
                             </span>
                                 )}
                             </FormHelperText>
