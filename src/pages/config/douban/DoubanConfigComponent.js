@@ -52,7 +52,7 @@ function DoubanConfigComponent({}) {
     };
     const formik = useFormik({
         initialValues: {
-            default_score_rule: 'compress', cron: '0,30 0-2,9-23 * * *', cookie: ''
+            default_score_rule: 'compress', cron: '15 3,16 * * *', cookie: ''
         }, validationSchema: Yup.object().shape({
             default_score_rule: Yup.string().max(256).required(),
             cron: Yup.string().max(256).required(),
@@ -113,7 +113,7 @@ function DoubanConfigComponent({}) {
             error={Boolean(formik.touched.cron && formik.errors.cron)}
             fullWidth
             helperText={(<span>
-                    Linux CRON表达式，默认每天上午9点至凌晨2点，每半小时一次
+                    Linux CRON表达式，决定智能下载任务运行时间
                     <Link target="_blank"
                           href="https://tool.lu/crontab/">
                             去测试表达式
