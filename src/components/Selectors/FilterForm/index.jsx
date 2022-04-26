@@ -581,7 +581,7 @@ function FilterForm({
                         <CardContent>
                             <TextField
                                 type="text"
-                                name="exclude_keyword"
+                                name="include_keyword"
                                 label="保留关键字"
                                 value={formik.values.include_keyword}
                                 error={Boolean(formik.touched.include_keyword && formik.errors.include_keyword)}
