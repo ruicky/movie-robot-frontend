@@ -46,10 +46,13 @@ function FilterForm({
                         onSubmit,
                         formValues,
                         showFilterName = true,
-                        showApplyInfo = true
+                        showApplyInfo = true,
+                        showDownloadMode = true,
                     }) {
     let initValues = {
         filter_name: '',
+        priority: 0,
+        download_mode: 2,
         apply_media_type: [],
         apply_cate: [],
         apply_area: [],
@@ -69,11 +72,15 @@ function FilterForm({
     };
     if (!showFilterName) {
         delete initValues.filter_name;
+        delete initValues.priority;
     }
     if (!showApplyInfo) {
         delete initValues.apply_media_type;
         delete initValues.apply_cate;
         delete initValues.apply_area;
+    }
+    if (!showDownloadMode) {
+        delete initValues.download_mode;
     }
     const formik = useFormik({
         initialValues: initValues,
@@ -98,6 +105,7 @@ function FilterForm({
         if (formValues) {
             if (showFilterName) {
                 await formik.setFieldValue("filter_name", formValues?.filter_name)
+                await formik.setFieldValue("priority", formValues?.priority ? formValues?.priority : 0)
             }
             if (showApplyInfo) {
                 await formik.setFieldValue("apply_media_type", formValues?.apply_media_type ? formValues?.apply_media_type : [])
@@ -105,6 +113,9 @@ function FilterForm({
                 await formik.setFieldValue("apply_area", formValues?.apply_area ? formValues?.apply_area : [])
             }
             await formik.setFieldValue("media_source", formValues?.media_source)
+            if (showDownloadMode) {
+                await formik.setFieldValue("download_mode", formValues?.download_mode ? formValues?.download_mode : 2)
+            }
             await formik.setFieldValue("resolution", formValues?.resolution)
             await formik.setFieldValue("media_codec", formValues?.media_codec)
             await formik.setFieldValue("has_cn", formValues?.has_cn)
@@ -130,22 +141,44 @@ function FilterForm({
                     过滤器名称
                 </Typography>
                 <CardContent>
-                    <TextField
-                        type="text"
-                        name="filter_name"
-                        label="过滤器名称"
-                        value={formik.values.filter_name}
-                        error={Boolean(formik.touched.filter_name && formik.errors.filter_name)}
-                        fullWidth
-                        helperText={formik.touched.filter_name && formik.errors.filter_name || (
-                            <span>
+                    <Grid container spacing={4}>
+                        <Grid item xs={12} md={8}>
+                            <TextField
+                                type="text"
+                                name="filter_name"
+                                label="过滤器名称"
+                                value={formik.values.filter_name}
+                                error={Boolean(formik.touched.filter_name && formik.errors.filter_name)}
+                                fullWidth
+                                helperText={formik.touched.filter_name && formik.errors.filter_name || (
+                                    <span>
                                             为过滤器随便起个名字，方便区分。
                                         </span>
-                        )}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        my={3}
-                    />
+                                )}
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                my={3}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <TextField
+                                type="number"
+                                name="priority"
+                                label="优先级"
+                                value={formik.values.priority}
+                                error={Boolean(formik.touched.priority && formik.errors.priority)}
+                                fullWidth
+                                helperText={formik.touched.priority && formik.errors.priority || (
+                                    <span>
+                                            匹配到多个过滤器时优先级，数字越大优先级越高
+                                        </span>
+                                )}
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                my={3}
+                            />
+                        </Grid>
+                    </Grid>
                 </CardContent>
             </Card> : null}
             {showApplyInfo ?
@@ -264,6 +297,33 @@ function FilterForm({
                                 </FormControl>
                             </Grid>
                         </Grid>
+                    </CardContent>
+                </Card> : null}
+            {showDownloadMode ?
+                <Card>
+                    <Typography component="h3" align="left">
+                        过滤下载模式
+                    </Typography>
+                    <CardContent>
+                        <FormControl m={4} fullWidth>
+                            <Select
+                                name="download_mode"
+                                value={formik.values.download_mode}
+                                onChange={formik.handleChange}
+                                error={Boolean(formik.touched.download_mode && formik.errors.download_mode)}
+                                MenuProps={MenuProps}
+                            >
+                                <MenuItem value={1}>完全符合过滤器要求时才下载</MenuItem>
+                                <MenuItem value={2}>先按排序规则下载，之后遇到符合规格再替换</MenuItem>
+                            </Select>
+                            <FormHelperText>
+                                {formik.touched.download_mode && formik.errors.download_mode || (
+                                    <span>
+                                匹配此过滤器时的下载模式
+                            </span>
+                                )}
+                            </FormHelperText>
+                        </FormControl>
                     </CardContent>
                 </Card> : null}
             <Card>
@@ -600,7 +660,7 @@ function FilterForm({
                     color="primary"
                     disabled={formik.isSubmitting}
                 >
-                    保存设置
+                    提交
                 </Button>
             </Centered>
 

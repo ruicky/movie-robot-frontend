@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton,} from '@mui/material';
+import {Dialog, DialogContent, DialogTitle, IconButton,} from '@mui/material';
 import FilterForm from "@/components/Selectors/FilterForm";
 import {getFilterOptions} from "@/api/CommonApi";
 import {useReVersionSubscribe} from "@/utils/subscribe";
@@ -7,7 +7,7 @@ import message from "@/utils/message";
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const ReNewDialog = ({open, handleClose, data, onComplete, renewFormData}) => {
+const ReNewDialog = ({open, handleClose, data, onComplete, renewFormData, showDownloadMode = true}) => {
     const {mutateAsync: reNewSub, isLoading} = useReVersionSubscribe()
     const {name, year, sub_id} = data;
     const [filterOptions, setFilterOptions] = useState();
@@ -15,11 +15,11 @@ const ReNewDialog = ({open, handleClose, data, onComplete, renewFormData}) => {
         values['sub_id'] = sub_id;
         reNewSub(values, {
             onSuccess: resData => {
-                const {code, message: msg} = resData;
+                const {code, message: msg, data: status} = resData;
                 if (code === 0) {
                     message.success(msg);
                     if (onComplete) {
-                        onComplete(2);
+                        onComplete(status);
                     }
                     handleClose();
                 } else {
@@ -46,7 +46,7 @@ const ReNewDialog = ({open, handleClose, data, onComplete, renewFormData}) => {
             maxWidth="md"
         >
             <DialogTitle id="alert-dialog-title">
-                {name}({year})洗版规格设置
+                {name}({year}) 过滤器设置
                 <IconButton
                     aria-label="close"
                     onClick={handleClose}
@@ -57,7 +57,7 @@ const ReNewDialog = ({open, handleClose, data, onComplete, renewFormData}) => {
                         color: (theme) => theme.palette.grey[500],
                     }}
                 >
-                    <CloseIcon />
+                    <CloseIcon/>
                 </IconButton>
             </DialogTitle>
             <DialogContent>
@@ -65,7 +65,7 @@ const ReNewDialog = ({open, handleClose, data, onComplete, renewFormData}) => {
                     onSubmit={onSubmit}
                     showFilterName={false}
                     showApplyInfo={false}
-                    showSubmit={true}
+                    showDownloadMode={showDownloadMode}
                     formValues={renewFormData}
                     filterOptions={filterOptions}
                 />

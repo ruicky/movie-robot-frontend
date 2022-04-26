@@ -11,7 +11,8 @@ const MediaSlider = ({
                          title,
                          isLoading,
                          titles,
-                         linkUrl
+                         linkUrl,
+                         filterNameList
                      }) => {
     const finalTitles = titles.slice(0, 20).map((title) => {
         // eslint-disable-next-line default-case
@@ -30,6 +31,7 @@ const MediaSlider = ({
                         status={title?.status}
                         extra={title}
                         subject={<RatingLabel rating={title?.rating}/>}
+                        filterNameList={filterNameList}
                     />
                 );
             case 'TV':
@@ -46,6 +48,7 @@ const MediaSlider = ({
                         status={title?.status}
                         extra={title}
                         subject={<RatingLabel rating={title?.rating}/>}
+                        filterNameList={filterNameList}
                     />
                 );
             case 'PERSON':

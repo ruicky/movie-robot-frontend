@@ -20,7 +20,7 @@ const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
                 if (code === 0) {
                     message.success(`${name}已经取消订阅。`);
                     if (onComplete) {
-                        onComplete(2);
+                        onComplete(null);
                     }
                     handleClose();
                 } else {
