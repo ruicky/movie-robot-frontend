@@ -13,19 +13,18 @@ import {
 } from "@mui/material";
 import {Add as AddIcon, FilterList as FilterListIcon} from "@mui/icons-material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 import React, {useEffect, useState} from "react";
 import {Skeleton} from "@mui/lab";
 import {getFilterConfigList} from "@/api/ConfigApi";
-import {useNavigate} from "react-router-dom";
 import DeleteDialog from "@/pages/selectors/Filter/Delete";
 
 function FilterItem({filterName, mediaType, cate, area, onEdit, onDelete}) {
     const mediaTypeMapping = {"Movie": "电影", "TV": "剧集"}
-    for (let i = 0; i < mediaType.length; i++) {
-        mediaType[i] = mediaTypeMapping[mediaType[i]];
+    if (mediaType) {
+        for (let i = 0; i < mediaType.length; i++) {
+            mediaType[i] = mediaTypeMapping[mediaType[i]];
+        }
     }
     return (
         <ListItem
@@ -39,7 +38,7 @@ function FilterItem({filterName, mediaType, cate, area, onEdit, onDelete}) {
                 </Avatar>
             </ListItemAvatar>
             <ListItemText primary={filterName}
-                          secondary={mediaType.join(" ") + " " + cate.join(" / ") + " " + area.join(" / ")}/>
+                          secondary={mediaType ? (mediaType.join(" ") + " ") : "" + cate.join(" / ") + " " + area.join(" / ")}/>
         </ListItem>
     )
 }
