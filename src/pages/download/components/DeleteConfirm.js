@@ -18,6 +18,7 @@ export default function DeleteConfirm(props) {
     const [deleteTorrent, setDeleteTorrent] = useState(true)
     const [addBlacklist, setAddBlacklist] = useState(false)
     const [deleteSub, setDeleteSub] = useState(false)
+    const [deleteMediaServer, setDeleteMediaServer] = useState(true)
     useEffect(() => {
         setDeleteTorrent(true);
         setAddBlacklist(false);
@@ -28,7 +29,8 @@ export default function DeleteConfirm(props) {
             id,
             delete_torrent: deleteTorrent,
             add_blacklist: addBlacklist,
-            delete_sub: deleteSub
+            delete_sub: deleteSub,
+            delete_media_server: deleteMediaServer
         })
         if (result.code === 0) {
             message.success(result.message || '操作成功')
@@ -70,11 +72,21 @@ export default function DeleteConfirm(props) {
                 <Grid item>
                     <FormControlLabel
                         control={<Checkbox
+                            checked={deleteMediaServer}
+                            name="deleteMediaServer"
+                            onChange={(e) => setDeleteMediaServer(e.target.checked)}
+                        />}
+                        label="删除媒体服务器对应资源（包括源文件）"
+                    />
+                </Grid>
+                <Grid item>
+                    <FormControlLabel
+                        control={<Checkbox
                             checked={deleteSub}
                             name="deleteSub"
                             onChange={(e) => setDeleteSub(e.target.checked)}
                         />}
-                        label="删除关联订阅记录(将不再参与智能下载,可以重新订阅)"
+                        label="删除关联订阅记录"
                     />
                 </Grid>
                 <Grid item>
@@ -84,7 +96,7 @@ export default function DeleteConfirm(props) {
                             name="addBlacklist"
                             onChange={(e) => setAddBlacklist(e.target.checked)}
                         />}
-                        label="加入黑名单(智能下载将会跳过这个种子)"
+                        label="加入种子黑名单"
                     />
                 </Grid>
             </Grid>
