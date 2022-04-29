@@ -1,10 +1,24 @@
-import React from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,} from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    FormControl,
+    FormHelperText,
+    MenuItem,
+    Select,
+} from '@mui/material';
 import {useAddSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
+import {getFilterConfigList} from "@/api/ConfigApi";
 
 
-const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
+const SubscribeDialog = ({open, handleClose, data, onComplete,filterNameList}) => {
+    const [filterName, setFilterName] = useState();
     const {name, year} = data;
     const {mutateAsync: addSubscribe, isLoading} = useAddSubscribe();
     let id;
@@ -14,7 +28,7 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
         id = data.id;
     }
     const handleSubmit = async () => {
-        addSubscribe({id}, {
+        addSubscribe({id, filter_name: filterName}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -31,7 +45,6 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             onError: error => message.error(error)
         });
     }
-
     return (
         <Dialog
             open={open}
@@ -40,11 +53,29 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                提交订阅
+                确定要订阅 {name}{year ? "(" + year + ")" : ""} 吗？
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    确定要订阅 {name}{year ? "(" + year + ")" : ""} 吗？订阅后将立即开始下载！
+                    <FormControl m={4} fullWidth>
+                        <Select
+                            name="filterName"
+                            value={filterName}
+                            onChange={(e) => setFilterName(e.target.value)}
+                            defaultValue="system:autoSelectFilter"
+                        >
+                            <MenuItem value="system:autoSelectFilter">自动根据分类选择过滤器</MenuItem>
+                            <MenuItem value="system:unUseFilter">不使用任何过滤器</MenuItem>
+                            <Divider/>
+                            {filterNameList ? filterNameList.map((value, i) => (
+                                <MenuItem key={value} value={value}>{value}</MenuItem>
+                            )) : <MenuItem>没有设置任何过滤器</MenuItem>}
+                        </Select>
+                        <FormHelperText>
+                <span>
+                    将按照设定的过滤器去选择资源
+                </span></FormHelperText>
+                    </FormControl>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

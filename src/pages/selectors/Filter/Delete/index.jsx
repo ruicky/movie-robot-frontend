@@ -1,26 +1,20 @@
 import React from 'react';
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,} from '@mui/material';
-import {useDeleteSubscribe} from '@/utils/subscribe';
+import {useDeleteFilterConfig} from "@/api/ConfigApi";
 import message from "@/utils/message";
 
 
-const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
-    const {name, year} = data;
-    const {mutate: deleteSubscribe, isLoading} = useDeleteSubscribe();
-    let id;
-    if (data.sub_id) {
-        id = data.sub_id;
-    } else {
-        id = data.id;
-    }
+const DeleteDialog = ({open, handleClose, onSuccess, filterName}) => {
+    const {mutate: deleteFilter, isLoading} = useDeleteFilterConfig();
+
     const handleSubmit = async () => {
-        deleteSubscribe({id}, {
+        deleteFilter({filter_name: filterName}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
-                    message.success(`${name}已经取消订阅。`);
-                    if (onComplete) {
-                        onComplete(null);
+                    message.success(`${filterName}已经删除。`);
+                    if (onSuccess) {
+                        onSuccess(resData)
                     }
                     handleClose();
                 } else {
@@ -28,7 +22,7 @@ const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
                 }
             },
             onError: error => message.error(error)
-        });
+        })
     }
     return (
         <Dialog
@@ -42,7 +36,7 @@ const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    确定要取消 {name}{year ? "(" + year + ")" : ""} 的订阅吗？
+                    确定要删除 {filterName} 这个过滤器吗，删除后将无法恢复！
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -55,4 +49,4 @@ const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
     );
 };
 
-export default DeleteConfrimDialog;
+export default DeleteDialog;

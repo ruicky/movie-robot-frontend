@@ -1,26 +1,25 @@
-import React from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,} from '@mui/material';
-import {useReNewSubscribe} from '@/utils/subscribe';
+import React, {useEffect, useState} from 'react';
+import {Dialog, DialogContent, DialogTitle, IconButton,} from '@mui/material';
+import FilterForm from "@/components/Selectors/FilterForm";
+import {getFilterOptions} from "@/api/CommonApi";
+import {useReVersionSubscribe} from "@/utils/subscribe";
 import message from "@/utils/message";
+import CloseIcon from '@mui/icons-material/Close';
 
 
-const ReNewDialog = ({open, handleClose, data, onComplete}) => {
-    const {name, year} = data;
-    const {mutateAsync: reNewSubscribe, isLoading} = useReNewSubscribe();
-    let id;
-    if (data.sub_id) {
-        id = data.sub_id;
-    } else {
-        id = data.id;
-    }
-    const handleSubmit = async () => {
-        reNewSubscribe({id}, {
+const ReNewDialog = ({open, handleClose, data, onComplete, renewFormData, showDownloadMode = true}) => {
+    const {mutateAsync: reNewSub, isLoading} = useReVersionSubscribe()
+    const {name, year, sub_id} = data;
+    const [filterOptions, setFilterOptions] = useState();
+    const onSubmit = async (values, setErrors) => {
+        values['sub_id'] = sub_id;
+        reNewSub(values, {
             onSuccess: resData => {
-                const {code, message: msg} = resData;
+                const {code, message: msg, data: status} = resData;
                 if (code === 0) {
                     message.success(msg);
                     if (onComplete) {
-                        onComplete(0);
+                        onComplete(status);
                     }
                     handleClose();
                 } else {
@@ -31,28 +30,46 @@ const ReNewDialog = ({open, handleClose, data, onComplete}) => {
             onError: error => message.error(error)
         });
     }
-
+    useEffect(async () => {
+        if (open) {
+            const filterOptions = await getFilterOptions()
+            setFilterOptions(filterOptions)
+        }
+    }, [open])
     return (
         <Dialog
             open={open}
-            onClose={handleClose}
+            onClose={() => handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            fullWidth={true}
+            maxWidth="md"
         >
             <DialogTitle id="alert-dialog-title">
-                洗版
+                {name}({year}) 过滤器设置
+                <IconButton
+                    aria-label="close"
+                    onClick={handleClose}
+                    sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <CloseIcon/>
+                </IconButton>
             </DialogTitle>
             <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    确定要立即重新下载 {name}{year ? "(" + year + ")" : ""} 吗？
-                </DialogContentText>
+                <FilterForm
+                    onSubmit={onSubmit}
+                    showFilterName={false}
+                    showApplyInfo={false}
+                    showDownloadMode={showDownloadMode}
+                    formValues={renewFormData}
+                    filterOptions={filterOptions}
+                />
             </DialogContent>
-            <DialogActions>
-                <Button onClick={handleSubmit} autoFocus disabled={isLoading}>
-                    确定
-                </Button>
-                <Button onClick={handleClose}>取消</Button>
-            </DialogActions>
         </Dialog>
     );
 }

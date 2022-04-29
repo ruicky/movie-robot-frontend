@@ -6,12 +6,13 @@ import TitleCard from '../TitleCard';
 import PersonCard from '../PersonCard';
 import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 
-const MediaSlider = ({
+const   MediaSlider = ({
                          sliderKey,
                          title,
                          isLoading,
                          titles,
-                         linkUrl
+                         linkUrl,
+                         filterNameList
                      }) => {
     const finalTitles = titles.slice(0, 20).map((title) => {
         // eslint-disable-next-line default-case
@@ -19,6 +20,7 @@ const MediaSlider = ({
             case 'MOVIE':
                 return (
                     <TitleCard
+                        key={'card' + title.id}
                         sub_id={title?.sub_id}
                         id={title.id}
                         image={title?.poster_path}
@@ -29,11 +31,13 @@ const MediaSlider = ({
                         status={title?.status}
                         extra={title}
                         subject={<RatingLabel rating={title?.rating}/>}
+                        filterNameList={filterNameList}
                     />
                 );
             case 'TV':
                 return (
                     <TitleCard
+                        key={'card' + title.id}
                         sub_id={title?.sub_id}
                         id={title.id}
                         image={title?.poster_path}
@@ -44,6 +48,7 @@ const MediaSlider = ({
                         status={title?.status}
                         extra={title}
                         subject={<RatingLabel rating={title?.rating}/>}
+                        filterNameList={filterNameList}
                     />
                 );
             case 'PERSON':
@@ -86,7 +91,7 @@ export default MediaSlider;
 
 const SliderHeader = styled.div`
   position: relative;
-  margin-top: 24px;
+  margin-top: 6px;
   margin-bottom: 16px;
   display: flex;
 `;

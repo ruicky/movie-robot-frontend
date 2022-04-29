@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import TitleCard from '../TitleCard';
 import {Box} from "@mui/material";
 import styled from "styled-components/macro";
 import Empty from '../Empty';
 import CircularProgress from '@mui/material/CircularProgress';
+import {getFilterConfigList} from "@/api/ConfigApi";
 
 const Subject = ({media}) => {
     if (media.type === "Movie") {
@@ -18,6 +19,18 @@ const Subject = ({media}) => {
 
 }
 
+function getTitle(media) {
+    if (!media) {
+        return "";
+    }
+
+    if (media?.type === "Movie") {
+        return media?.cn_name || media?.en_name;
+    } else {
+        return (media?.cn_name || media?.en_name) + " 第" + media.season_index + "季";
+    }
+}
+
 function getYear(media) {
     if (!media) {
         return "";
@@ -27,13 +40,26 @@ function getYear(media) {
         return media?.release_year;
     } else {
         if (media?.season_year) {
-            return "第" + media.season_index + "季(" + media?.season_year + ")"
+            return media?.season_year;
         }
     }
 }
 
 const ListView = ({items, isLoading}) => {
     const isEmpty = isLoading === false && items?.length === 0;
+    const [filterNameList, setFilterNameList] = useState([]);
+    const fetchFilterNameListList = () => {
+        getFilterConfigList().then(r => {
+            if (r.code === 0) {
+                setFilterNameList(r.data.map((item) => {
+                    return item.filter_name;
+                }))
+            }
+        })
+    }
+    useEffect(() => {
+        fetchFilterNameListList()
+    }, [])
     if (isLoading) {
         return (
             <Box sx={{display: 'grid', placeItems: 'center'}}>
@@ -55,15 +81,17 @@ const ListView = ({items, isLoading}) => {
                         <TitleCard
                             key={'card' + title.id}
                             canExpand
-                            id={title.id}
+                            id={title.douban_id}
+                            sub_id={title.id}
                             image={title?.poster_path}
                             summary={title?.desc}
-                            title={title?.cn_name || title?.en_name}
+                            title={getTitle(title)}
                             year={getYear(title)}
                             mediaType={title?.type}
                             status={title?.status}
                             extra={title}
                             showBottomTitle={false}
+                            filterNameList={filterNameList}
                         />
                     </li>;
                 })
