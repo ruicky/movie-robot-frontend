@@ -1,5 +1,15 @@
-import React from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,} from '@mui/material';
+import React, {useState} from 'react';
+import {
+    Button,
+    Checkbox,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    FormControlLabel,
+    Grid,
+} from '@mui/material';
 import {useDeleteSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
 
@@ -7,6 +17,8 @@ import message from "@/utils/message";
 const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
     const {name, year} = data;
     const {mutate: deleteSubscribe, isLoading} = useDeleteSubscribe();
+    const [deepDelete, setDeepDelete] = useState(true)
+
     let id;
     if (data.sub_id) {
         id = data.sub_id;
@@ -14,7 +26,7 @@ const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
         id = data.id;
     }
     const handleSubmit = async () => {
-        deleteSubscribe({id}, {
+        deleteSubscribe({id, deep_delete: deepDelete}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -44,6 +56,18 @@ const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
                 <DialogContentText id="alert-dialog-description">
                     确定要取消 {name}{year ? "(" + year + ")" : ""} 的订阅吗？
                 </DialogContentText>
+                <Grid>
+                    <Grid item>
+                        <FormControlLabel
+                            control={<Checkbox
+                                checked={deepDelete}
+                                name="deepDelete"
+                                onChange={(e) => setDeepDelete(e.target.checked)}
+                            />}
+                            label="深度删除（所有下载记录、源种子、媒体服务器资源及链接后文件）"
+                        />
+                    </Grid>
+                </Grid>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleSubmit} autoFocus disabled={isLoading}>
