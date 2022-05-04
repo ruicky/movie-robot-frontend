@@ -31,7 +31,7 @@ function MovieMetadata() {
             <Typography component="h2" variant="body1" align="center">
                 开启此功能后，还需要在站点设置中，设置对应站点的养护方式。
                 <Link target="_blank"
-                      href="https://feather-purple-bdd.notion.site/854f2ab70f394358b00b0ff9e2c1690a">学习如何使用</Link>
+                      href="https://yee329.notion.site/28702cf23a834c2380eb8ff34de68ea5">学习如何使用</Link>
             </Typography>
 
             <FreeDownloadConfigComponent isInit={isInit}/>

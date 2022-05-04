@@ -81,7 +81,7 @@ function MediaServerConfigComponent({isInit}) {
                 访问Emby接口查询数据时所用的密钥
                 {formik.values.url &&
                     <Link target="_blank"
-                          href={formik.values.url + "/web/index.html#!/apikeys"}>
+                          href="https://yee329.notion.site/EmbyToken-apikey-8797c1190103463eb86a024f3405dd1e">
                         去申请API密钥
                     </Link>}
             </span>

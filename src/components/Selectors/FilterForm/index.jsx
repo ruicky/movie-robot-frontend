@@ -56,6 +56,8 @@ function FilterForm({
         apply_media_type: [],
         apply_cate: [],
         apply_area: [],
+        apply_min_year: 0,
+        apply_max_year: 0,
         media_source: [],
         resolution: [],
         media_codec: [],
@@ -78,6 +80,8 @@ function FilterForm({
         delete initValues.apply_media_type;
         delete initValues.apply_cate;
         delete initValues.apply_area;
+        delete initValues.apply_min_year;
+        delete initValues.apply_max_year;
     }
     if (!showDownloadMode) {
         delete initValues.download_mode;
@@ -111,6 +115,8 @@ function FilterForm({
                 await formik.setFieldValue("apply_media_type", formValues?.apply_media_type ? formValues?.apply_media_type : [])
                 await formik.setFieldValue("apply_cate", formValues?.apply_cate ? formValues?.apply_cate : [])
                 await formik.setFieldValue("apply_area", formValues?.apply_area ? formValues?.apply_area : [])
+                await formik.setFieldValue("apply_min_year", formValues?.apply_min_year ? formValues?.apply_min_year : 0)
+                await formik.setFieldValue("apply_max_year", formValues?.apply_max_year ? formValues?.apply_max_year : 0)
             }
             await formik.setFieldValue("media_source", formValues?.media_source)
             if (showDownloadMode) {
@@ -188,113 +194,159 @@ function FilterForm({
                     </Typography>
                     <CardContent>
                         <Grid container spacing={4}>
-                            <Grid item xs={12} md={4}>
-                                <FormControl m={4} fullWidth>
-                                    <Select
-                                        name="apply_media_type"
-                                        value={formik.values.apply_media_type}
-                                        multiple
-                                        onChange={formik.handleChange}
-                                        renderValue={(selected) => (
-                                            <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
-                                                {selected.map((value) => (
-                                                    <Chip key={value} label={mediaType[value]}/>
+                            <Grid item xs={12}>
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12} md={4}>
+                                        <FormControl m={4} fullWidth>
+                                            <Select
+                                                name="apply_media_type"
+                                                value={formik.values.apply_media_type}
+                                                multiple
+                                                onChange={formik.handleChange}
+                                                renderValue={(selected) => (
+                                                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                                                        {selected.map((value) => (
+                                                            <Chip key={value} label={mediaType[value]}/>
+                                                        ))}
+                                                    </Box>
+                                                )}
+                                                error={Boolean(formik.touched.apply_media_type && formik.errors.apply_media_type)}
+                                                MenuProps={MenuProps}
+                                            >
+                                                {Object.keys(mediaType).map((key) => (
+                                                    <MenuItem key={key} value={key}>
+                                                        <Checkbox
+                                                            checked={formik.values.apply_media_type.indexOf(key) > -1}/>
+                                                        <ListItemText primary={mediaType[key]}/>
+                                                    </MenuItem>
                                                 ))}
-                                            </Box>
-                                        )}
-                                        error={Boolean(formik.touched.apply_media_type && formik.errors.apply_media_type)}
-                                        MenuProps={MenuProps}
-                                    >
-                                        {Object.keys(mediaType).map((key) => (
-                                            <MenuItem key={key} value={key}>
-                                                <Checkbox
-                                                    checked={formik.values.apply_media_type.indexOf(key) > -1}/>
-                                                <ListItemText primary={mediaType[key]}/>
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                    <FormHelperText>
-                                        {formik.touched.apply_media_type && formik.errors.apply_media_type || (
-                                            <span>
+                                            </Select>
+                                            <FormHelperText>
+                                                {formik.touched.apply_media_type && formik.errors.apply_media_type || (
+                                                    <span>
                                                 匹配媒体资源类型时，可留空，或的关系
                                             </span>
-                                        )}
-                                    </FormHelperText>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12} md={4}>
-                                <FormControl m={4} fullWidth>
-                                    <Select
-                                        name="apply_cate"
-                                        value={formik.values.apply_cate}
-                                        multiple
-                                        onChange={formik.handleChange}
-                                        error={Boolean(formik.touched.apply_cate && formik.errors.apply_cate)}
-                                        renderValue={(selected) => (
-                                            <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
-                                                {selected.map((value) => (
-                                                    <Chip key={value} label={value}/>
+                                                )}
+                                            </FormHelperText>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12} md={4}>
+                                        <FormControl m={4} fullWidth>
+                                            <Select
+                                                name="apply_cate"
+                                                value={formik.values.apply_cate}
+                                                multiple
+                                                onChange={formik.handleChange}
+                                                error={Boolean(formik.touched.apply_cate && formik.errors.apply_cate)}
+                                                renderValue={(selected) => (
+                                                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                                                        {selected.map((value) => (
+                                                            <Chip key={value} label={value}/>
+                                                        ))}
+                                                    </Box>
+                                                )}
+                                                MenuProps={MenuProps}
+                                            >
+                                                <MenuItem value="全部分类">
+                                                    <Checkbox checked={formik.values.apply_cate.indexOf("全部分类") > -1}/>
+                                                    <ListItemText primary="全部分类"/>
+                                                </MenuItem>
+                                                {filterOptions?.cate && filterOptions?.cate.map((item) => (
+                                                    <MenuItem key={item} value={item}>
+                                                        <Checkbox
+                                                            checked={formik.values.apply_cate.indexOf(item) > -1}/>
+                                                        <ListItemText primary={item}/>
+                                                    </MenuItem>
                                                 ))}
-                                            </Box>
-                                        )}
-                                        MenuProps={MenuProps}
-                                    >
-                                        <MenuItem value="全部分类">
-                                            <Checkbox checked={formik.values.apply_cate.indexOf("全部分类") > -1}/>
-                                            <ListItemText primary="全部分类"/>
-                                        </MenuItem>
-                                        {filterOptions?.cate && filterOptions?.cate.map((item) => (
-                                            <MenuItem key={item} value={item}>
-                                                <Checkbox checked={formik.values.apply_cate.indexOf(item) > -1}/>
-                                                <ListItemText primary={item}/>
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                    <FormHelperText>
-                                        {formik.touched.apply_cate && formik.errors.apply_cate || (
-                                            <span>
+                                            </Select>
+                                            <FormHelperText>
+                                                {formik.touched.apply_cate && formik.errors.apply_cate || (
+                                                    <span>
                                                 匹配设定分类时，可留空，或的关系
                                             </span>
-                                        )}
-                                    </FormHelperText>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12} md={4}>
-                                <FormControl m={4} fullWidth>
-                                    <Select
-                                        name="apply_area"
-                                        value={formik.values.apply_area}
-                                        multiple
-                                        onChange={formik.handleChange}
-                                        error={Boolean(formik.touched.apply_area && formik.errors.apply_area)}
-                                        renderValue={(selected) => (
-                                            <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
-                                                {selected.map((value) => (
-                                                    <Chip key={value} label={value}/>
+                                                )}
+                                            </FormHelperText>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12} md={4}>
+                                        <FormControl m={4} fullWidth>
+                                            <Select
+                                                name="apply_area"
+                                                value={formik.values.apply_area}
+                                                multiple
+                                                onChange={formik.handleChange}
+                                                error={Boolean(formik.touched.apply_area && formik.errors.apply_area)}
+                                                renderValue={(selected) => (
+                                                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                                                        {selected.map((value) => (
+                                                            <Chip key={value} label={value}/>
+                                                        ))}
+                                                    </Box>
+                                                )}
+                                                MenuProps={MenuProps}
+                                            >
+                                                <MenuItem value="全部区域">
+                                                    <Checkbox checked={formik.values.apply_area.indexOf("全部区域") > -1}/>
+                                                    <ListItemText primary="全部区域"/>
+                                                </MenuItem>
+                                                {filterOptions?.area && filterOptions?.area.map((item) => (
+                                                    <MenuItem key={item} value={item}>
+                                                        <Checkbox
+                                                            checked={formik.values.apply_area.indexOf(item) > -1}/>
+                                                        <ListItemText primary={item}/>
+                                                    </MenuItem>
                                                 ))}
-                                            </Box>
-                                        )}
-                                        MenuProps={MenuProps}
-                                    >
-                                        <MenuItem value="全部区域">
-                                            <Checkbox checked={formik.values.apply_area.indexOf("全部区域") > -1}/>
-                                            <ListItemText primary="全部区域"/>
-                                        </MenuItem>
-                                        {filterOptions?.area && filterOptions?.area.map((item) => (
-                                            <MenuItem key={item} value={item}>
-                                                <Checkbox checked={formik.values.apply_area.indexOf(item) > -1}/>
-                                                <ListItemText primary={item}/>
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                    <FormHelperText>
-                                        {formik.touched.apply_area && formik.errors.apply_area || (
-                                            <span>
+                                            </Select>
+                                            <FormHelperText>
+                                                {formik.touched.apply_area && formik.errors.apply_area || (
+                                                    <span>
                                                 匹配设定区域时，可留空，或的关系
                                             </span>
-                                        )}
-                                    </FormHelperText>
-                                </FormControl>
+                                                )}
+                                            </FormHelperText>
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Grid container spacing={4}>
+                                    <Grid item xs={6} md={6}>
+                                        <TextField
+                                            type="number"
+                                            name="apply_min_year"
+                                            label="最小年份"
+                                            value={formik.values.apply_min_year}
+                                            error={Boolean(formik.touched.apply_min_year && formik.errors.apply_min_year)}
+                                            fullWidth
+                                            helperText={formik.touched.apply_min_year && formik.errors.apply_min_year || (
+                                                <span>
+                                            匹配发行年份大于此年份值（剧集为季度年份），留0为不限制
+                                        </span>
+                                            )}
+                                            onBlur={formik.handleBlur}
+                                            onChange={formik.handleChange}
+                                            my={3}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} md={6}>
+                                        <TextField
+                                            type="number"
+                                            name="apply_max_year"
+                                            label="最大年份"
+                                            value={formik.values.apply_max_year}
+                                            error={Boolean(formik.touched.apply_max_year && formik.errors.apply_max_year)}
+                                            fullWidth
+                                            helperText={formik.touched.apply_max_year && formik.errors.apply_max_year || (
+                                                <span>
+                                            匹配发行年份小于此年份值，留0为不限制
+                                        </span>
+                                            )}
+                                            onBlur={formik.handleBlur}
+                                            onChange={formik.handleChange}
+                                            my={3}
+                                        />
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </CardContent>

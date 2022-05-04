@@ -19,7 +19,7 @@ const ScoreRuleSelectComponent = ({data, name, value, onChange}) => {
                 <span>
                     默认智能下载的选种策略
                     <Link target="_blank"
-                          href="https://feather-purple-bdd.notion.site/12f6d44243194c8c96a7e000b9dde023">
+                          href="https://yee329.notion.site/12f6d44243194c8c96a7e000b9dde023">
                             详细介绍
                         </Link>
                 </span></FormHelperText>
