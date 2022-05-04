@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
     Button,
     Dialog,
@@ -19,6 +19,7 @@ import {getFilterOptions} from "@/api/CommonApi";
 
 
 const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) => {
+    const myRef = useRef(null);
     const [filterName, setFilterName] = useState();
     const [formValues, setFormValues] = useState();
     const [filterOptions, setFilterOptions] = useState();
@@ -30,8 +31,15 @@ const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) 
     } else {
         id = data.id;
     }
+
     const handleSubmit = async () => {
-        addSubscribe({id, filter_name: filterName}, {
+        let filterConfig;
+        if (filterName && filterName === 'system:newFilter') {
+            await myRef.current.onSubmit()
+            filterConfig = await myRef.current.getVal()
+            console.log('filterConfig', filterConfig)
+        }
+        addSubscribe({id, filter_name: filterName, filter_config: filterConfig}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -85,7 +93,7 @@ const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) 
                 </span></FormHelperText>
                     </FormControl>
                     {filterName === 'system:newFilter' &&
-                    <FilterForm showFilterName={false} showApplyInfo={false} formValues={formValues} filterOptions={filterOptions} onSubmit={null}/>}
+                    <FilterForm showFilterName={false} showApplyInfo={false} formValues={formValues} filterOptions={filterOptions} onSubmit={null} myRef={myRef}/>}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
