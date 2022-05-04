@@ -14,11 +14,14 @@ import {
 } from '@mui/material';
 import {useAddSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
-import {getFilterConfigList} from "@/api/ConfigApi";
+import FilterForm from "@/components/Selectors/FilterForm";
+import {getFilterOptions} from "@/api/CommonApi";
 
 
-const SubscribeDialog = ({open, handleClose, data, onComplete,filterNameList}) => {
+const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) => {
     const [filterName, setFilterName] = useState();
+    const [formValues, setFormValues] = useState();
+    const [filterOptions, setFilterOptions] = useState();
     const {name, year} = data;
     const {mutateAsync: addSubscribe, isLoading} = useAddSubscribe();
     let id;
@@ -45,6 +48,10 @@ const SubscribeDialog = ({open, handleClose, data, onComplete,filterNameList}) =
             onError: error => message.error(error)
         });
     }
+    useEffect(async () => {
+        const filterOptions = await getFilterOptions()
+        setFilterOptions(filterOptions)
+    }, [])
     return (
         <Dialog
             open={open}
@@ -64,8 +71,9 @@ const SubscribeDialog = ({open, handleClose, data, onComplete,filterNameList}) =
                             onChange={(e) => setFilterName(e.target.value)}
                             defaultValue="system:autoSelectFilter"
                         >
-                            <MenuItem value="system:autoSelectFilter">自动根据分类选择过滤器</MenuItem>
+                            <MenuItem value="system:autoSelectFilter">自动选择过滤器</MenuItem>
                             <MenuItem value="system:unUseFilter">不使用任何过滤器</MenuItem>
+                            <MenuItem value="system:newFilter">独立设置过滤器</MenuItem>
                             <Divider/>
                             {filterNameList ? filterNameList.map((value, i) => (
                                 <MenuItem key={value} value={value}>{value}</MenuItem>
@@ -76,6 +84,8 @@ const SubscribeDialog = ({open, handleClose, data, onComplete,filterNameList}) =
                     将按照设定的过滤器去选择资源
                 </span></FormHelperText>
                     </FormControl>
+                    {filterName === 'system:newFilter' &&
+                    <FilterForm showFilterName={false} showApplyInfo={false} formValues={formValues} filterOptions={filterOptions} onSubmit={null}/>}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
