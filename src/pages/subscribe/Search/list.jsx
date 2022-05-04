@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import TitleCard from '../TitleCard';
+import React from 'react';
 import {Box} from "@mui/material";
 import styled from "styled-components/macro";
-import Empty from '../Empty';
 import CircularProgress from '@mui/material/CircularProgress';
-import {getFilterConfigList} from "@/api/ConfigApi";
+import TitleCard from "@/pages/subscribe/components/TitleCard";
+import RatingLabel from "@/pages/subscribe/components/RatingLabel";
+import Empty from "@/pages/subscribe/components/Empty";
 
 const Subject = ({media}) => {
     if (media.type === "Movie") {
@@ -19,18 +19,6 @@ const Subject = ({media}) => {
 
 }
 
-function getTitle(media) {
-    if (!media) {
-        return "";
-    }
-
-    if (media?.type === "Movie") {
-        return media?.cn_name || media?.en_name;
-    } else {
-        return (media?.cn_name || media?.en_name) + " 第" + media.season_index + "季";
-    }
-}
-
 function getYear(media) {
     if (!media) {
         return "";
@@ -40,26 +28,13 @@ function getYear(media) {
         return media?.release_year;
     } else {
         if (media?.season_year) {
-            return media?.season_year;
+            return "第" + media.season_index + "季(" + media?.season_year + ")"
         }
     }
 }
 
-const ListView = ({items, isLoading}) => {
+const SearchListView = ({items, isLoading, filterNameList}) => {
     const isEmpty = isLoading === false && items?.length === 0;
-    const [filterNameList, setFilterNameList] = useState([]);
-    const fetchFilterNameListList = () => {
-        getFilterConfigList().then(r => {
-            if (r.code === 0) {
-                setFilterNameList(r.data.map((item) => {
-                    return item.filter_name;
-                }))
-            }
-        })
-    }
-    useEffect(() => {
-        fetchFilterNameListList()
-    }, [])
     if (isLoading) {
         return (
             <Box sx={{display: 'grid', placeItems: 'center'}}>
@@ -80,17 +55,18 @@ const ListView = ({items, isLoading}) => {
                     return <li key={title.id}>
                         <TitleCard
                             key={'card' + title.id}
+                            sub_id={title?.sub_id}
+                            key={'card' + title.id}
                             canExpand
-                            id={title.douban_id}
-                            sub_id={title.id}
+                            id={title.id}
                             image={title?.poster_path}
                             summary={title?.desc}
-                            title={getTitle(title)}
+                            title={title?.cn_name || title?.en_name}
                             year={getYear(title)}
                             mediaType={title?.type}
                             status={title?.status}
                             extra={title}
-                            showBottomTitle={false}
+                            subject={<RatingLabel rating={title?.rating}/>}
                             filterNameList={filterNameList}
                         />
                     </li>;
@@ -100,7 +76,7 @@ const ListView = ({items, isLoading}) => {
     )
 }
 
-export default ListView;
+export default SearchListView;
 
 const Ul = styled.ul`
   list-style: none;

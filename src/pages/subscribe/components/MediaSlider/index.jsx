@@ -4,37 +4,15 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Slider from '../Slider';
 import TitleCard from '../TitleCard';
 import PersonCard from '../PersonCard';
-import {Rating} from "@mui/material";
+import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 
-const RatingContainer = styled.div`
-  display: flex;
-  
-  align-items: center;
-  justify-content:center;
-`;
-const RatingLabel = ({rating}) => {
-    return (
-        <RatingContainer>
-            {rating
-                ? <><Rating
-                    name="read-only"
-                    size="small"
-                    precision={0.5}
-                    value={Math.floor(rating / 2)}
-                    readOnly/>
-                    <span style={{marginLeft: '2px', color: '#e09015'}}>{rating}</span>
-                </>
-                : "暂无评分"
-            }
-        </RatingContainer>
-    )
-}
-const MediaSlider = ({
+const   MediaSlider = ({
                          sliderKey,
                          title,
                          isLoading,
                          titles,
-                         linkUrl
+                         linkUrl,
+                         filterNameList
                      }) => {
     const finalTitles = titles.slice(0, 20).map((title) => {
         // eslint-disable-next-line default-case
@@ -42,6 +20,7 @@ const MediaSlider = ({
             case 'MOVIE':
                 return (
                     <TitleCard
+                        key={'card' + title.id}
                         sub_id={title?.sub_id}
                         id={title.id}
                         image={title?.poster_path}
@@ -52,11 +31,13 @@ const MediaSlider = ({
                         status={title?.status}
                         extra={title}
                         subject={<RatingLabel rating={title?.rating}/>}
+                        filterNameList={filterNameList}
                     />
                 );
             case 'TV':
                 return (
                     <TitleCard
+                        key={'card' + title.id}
                         sub_id={title?.sub_id}
                         id={title.id}
                         image={title?.poster_path}
@@ -67,6 +48,7 @@ const MediaSlider = ({
                         status={title?.status}
                         extra={title}
                         subject={<RatingLabel rating={title?.rating}/>}
+                        filterNameList={filterNameList}
                     />
                 );
             case 'PERSON':
@@ -109,7 +91,7 @@ export default MediaSlider;
 
 const SliderHeader = styled.div`
   position: relative;
-  margin-top: 24px;
+  margin-top: 6px;
   margin-bottom: 16px;
   display: flex;
 `;

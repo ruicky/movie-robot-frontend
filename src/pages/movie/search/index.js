@@ -95,8 +95,8 @@ const SearchBar = ({onSearch, ...props}) => {
                 onChange={({target: {value: v}}) => {
                     setValue(v);
                 }}
-                onKeyUp={({code}) => {
-                    if ((code === "Enter" || code === "NumpadEnter") && value) {
+                onKeyUp={(e) => {
+                    if ((e.key === 'Enter' || e.key === "NumpadEnter") && value) {
                         onSearch(value);
                     }
                 }}
@@ -197,8 +197,7 @@ function DownloadRecords(props) {
             setParam({keyword})
             axios.get("/api/movie/search_keyword", {
                 params: {
-                    keyword: keyword,
-                    rule_name: "compress"
+                    keyword: keyword
                 }
             }).then((res) => {
                 setLoading(false);

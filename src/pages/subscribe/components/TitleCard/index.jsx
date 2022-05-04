@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useIsTouch} from '@/hooks/useIsTouch';
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, Stack, Typography} from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
     AccessTimeFilled as AccessTimeFilledIcon,
@@ -8,14 +8,18 @@ import {
     CheckCircle as CheckCircleIcon,
     DeleteForever as DeleteForeverIcon,
     FileDownload as FileDownloadIcon,
+    FilterList,
     Notifications as NotificationsIcon,
 } from '@mui/icons-material';
 import Transition from '@/components/Transition';
-import {cyan, green, grey, indigo, yellow} from "@mui/material/colors";
+import {blue, cyan, green, grey, indigo, yellow} from "@mui/material/colors";
 import SubscribeDialog from '../SubscribeDialog';
 import DeleteConfrimDialog from '../DeleteConfrimDialog';
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 import {jumpUrl} from '@/utils/urlUtils';
+import LinesEllipsis from 'react-lines-ellipsis'
+import {getSub} from "@/utils/subscribe";
+import {getFilterConfigList} from "@/api/ConfigApi";
 
 
 const ImgWrap = styled.img`
@@ -28,7 +32,7 @@ const ImgWrap = styled.img`
 `;
 
 const renderStatueIcon = (status) => {
-    // status: 0: 已订阅待处理，1: 已处理，2:未订阅
+    // status: 0: 已订阅待处理，1: 已处理，2:洗版中
     let icon;
     // eslint-disable-next-line default-case
     switch (status) {
@@ -40,18 +44,75 @@ const renderStatueIcon = (status) => {
             break;
         case 1:
             icon = <CheckCircleIcon htmlColor={green[400]}/>
+            break;
+        case 2:
+            icon = <Autorenew htmlColor={blue[500]}/>
+            break;
     }
     return icon;
 }
+const MediaTypeTag = ({mediaType}) => {
 
+}
+const DeleteSubButton = ({setShowDeleteModal}) => {
+    return (
+        <Button
+            color="error"
+            variant="contained"
+            startIcon={<DeleteForeverIcon/>}
+            size="small"
+            sx={{width: '100%'}}
+            onClick={(e) => {
+                e.preventDefault();
+                setShowDeleteModal(true);
+            }}
+        >
+            删除
+        </Button>
+    )
+}
+const SetFilterButton = ({
+                             status,
+                             sub_id,
+                             media_type,
+                             setRenewFormData,
+                             setShowReNewModal,
+                             setShowDownloadMode
+                         }) => {
+    const resetFilter = async () => {
+        const data = await getSub(sub_id)
+        const values = data?.filter_config ? JSON.parse(data?.filter_config) : null;
+        setRenewFormData(values)
+        setShowReNewModal(true);
+    }
+    const reVersion = status === 1;
+    return (
+        <Button
+            color={reVersion ? "info" : "success"}
+            sx={{width: '100%'}}
+            variant="contained"
+            startIcon={reVersion ? <Autorenew/> : <FilterList/>}
+            size="small"
+            onClick={async (e) => {
+                e.preventDefault();
+                setShowDownloadMode(!reVersion && media_type === "Movie" && status !== 2);
+                await resetFilter()
+            }}
+        >
+            {reVersion ? "洗版" : "过滤"}
+        </Button>
+    )
+}
 const TitleCard = ({
                        sub_id, id, mediaType, year, subject, title, summary, image, status, url, canExpand = false,
-                       showBottomTitle = true, extra
+                       showBottomTitle = true, extra,filterNameList
                    }) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
+    const [showDownloadMode, setShowDownloadMode] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false);
     const [showReNewModal, setShowReNewModal] = useState(false);
+    const [renewFormData, setRenewFormData] = useState(null)
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
 
@@ -86,10 +147,13 @@ const TitleCard = ({
                 onComplete={requestComplete}
                 handleClose={() => setShowRequestModal(false)}
                 data={({id: id, name: title, year})}
+                filterNameList={filterNameList}
             />
             <ReNewDialog
+                showDownloadMode={showDownloadMode}
                 open={showReNewModal}
                 onComplete={reNewComplete}
+                renewFormData={renewFormData}
                 handleClose={() => setShowReNewModal(false)}
                 data={({id: id, name: title, year, sub_id: sub_id})}
             />
@@ -136,7 +200,7 @@ const TitleCard = ({
                                 : grey[800],
                             borderRadius: '9999px'
                         }}>
-                            <Box
+                            {mediaType && <Box
                                 sx={{
                                     px: 2,
                                     color: '#fff',
@@ -146,7 +210,7 @@ const TitleCard = ({
                                     alignItems: 'center'
                                 }}>
                                 {mediaType?.toUpperCase() === 'TV' ? '电视节目' : '电影'}
-                            </Box>
+                            </Box>}
                         </Box>
                         <Box>
                             {renderStatueIcon(currentStatus)}
@@ -206,7 +270,7 @@ const TitleCard = ({
                             </ShadowLinkContainer>
                             <RequestWrapper>
                                 {
-                                    currentStatus === 2 && <Button
+                                    (currentStatus === undefined || currentStatus === null) && <Button
                                         sx={{width: '100%'}}
                                         variant="contained"
                                         startIcon={<FileDownloadIcon/>}
@@ -220,34 +284,44 @@ const TitleCard = ({
                                     </Button>
                                 }
                                 {
-                                    currentStatus === 0 && <Button
-                                        color="error"
-                                        sx={{width: '100%'}}
-                                        variant="contained"
-                                        startIcon={<DeleteForeverIcon/>}
-                                        size="small"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            setShowDeleteModal(true);
-                                        }}
-                                    >
-                                        停止订阅
-                                    </Button>
+                                    currentStatus === 0 && <Stack direction="row" spacing={1} sx={{width: '100%'}}>
+                                        <SetFilterButton
+                                            status={currentStatus}
+                                            sub_id={sub_id}
+                                            media_type={mediaType}
+                                            setRenewFormData={setRenewFormData}
+                                            setShowDownloadMode={setShowDownloadMode}
+                                            setShowReNewModal={setShowReNewModal}
+                                        />
+                                        <DeleteSubButton setShowDeleteModal={setShowDeleteModal}/>
+                                    </Stack>
                                 }
                                 {
-                                    currentStatus === 1 && <Button
-                                        color="success"
-                                        sx={{width: '100%'}}
-                                        variant="contained"
-                                        startIcon={<Autorenew/>}
-                                        size="small"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            setShowReNewModal(true)
-                                        }}
-                                    >
-                                        重新下载
-                                    </Button>
+                                    currentStatus === 1 &&
+                                    <Stack direction="row" spacing={1} sx={{width: '100%'}}>
+                                        <SetFilterButton
+                                            status={currentStatus}
+                                            sub_id={sub_id}
+                                            media_type={mediaType}
+                                            setRenewFormData={setRenewFormData}
+                                            setShowDownloadMode={setShowDownloadMode}
+                                            setShowReNewModal={setShowReNewModal}
+                                        />
+                                        <DeleteSubButton setShowDeleteModal={setShowDeleteModal}/>
+                                    </Stack>
+                                }
+                                {
+                                    currentStatus === 2 && <Stack direction="row" spacing={1} sx={{width: '100%'}}>
+                                        <SetFilterButton
+                                            status={currentStatus}
+                                            sub_id={sub_id}
+                                            media_type={mediaType}
+                                            setRenewFormData={setRenewFormData}
+                                            setShowDownloadMode={setShowDownloadMode}
+                                            setShowReNewModal={setShowReNewModal}
+                                        />
+                                        <DeleteSubButton setShowDeleteModal={setShowDeleteModal}/>
+                                    </Stack>
                                 }
                             </RequestWrapper>
                         </ShadowContainer>
@@ -256,7 +330,7 @@ const TitleCard = ({
 
             </CardContainer>
             <BottomTextContainer onClick={() => openUrl(extra?.url, extra?.app_url)}>
-                {showBottomTitle ? <h3>{title}</h3> : null}
+                {showBottomTitle ? <h3><LinesEllipsis text={title} maxLine={1} style={{height: '24px'}}/></h3> : null}
                 {subject ? subject : null}
             </BottomTextContainer>
         </CardWrapper>

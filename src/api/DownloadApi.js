@@ -52,7 +52,9 @@ export const getRecordList = async () => {
             resolution: r.resolution,
             media_encoding: r.media_encoding,
             link_path: r.link_path,
-            url: r.url
+            url: r.url,
+            season_index: r.season_index,
+            season_year: r.season_year
         });
     }
     return list;
