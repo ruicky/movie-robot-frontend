@@ -237,7 +237,7 @@ const TitleCard = ({
                         leaveTo="opacity-0"
                     >
                         <ShadowContainer>
-                            <ShadowLinkContainer onClick={() => openUrl(extra?.url, extra?.app_url)}>
+                            <ShadowLinkContainer>
                                 <ShadowTextContainer isHaveBottom={isHaveBottom}>
                                     <Box>
                                         {

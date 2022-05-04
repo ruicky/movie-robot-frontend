@@ -23,7 +23,7 @@ export const useAddSubscribe = () => {
     const client = useHttp();
     return useMutation(
         (params) =>
-            client("/api/subscribe/sub_douban", {params: params})
+            client("/api/subscribe/sub_douban", {params: params, method: "POST"})
     );
 };
 

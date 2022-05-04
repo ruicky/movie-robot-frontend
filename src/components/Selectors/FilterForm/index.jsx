@@ -23,7 +23,7 @@ import {
     Typography
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React, {useEffect} from "react";
+import React, {useEffect, useImperativeHandle} from "react";
 import styled from "styled-components/macro";
 
 const ITEM_HEIGHT = 48;
@@ -48,7 +48,12 @@ function FilterForm({
                         showFilterName = true,
                         showApplyInfo = true,
                         showDownloadMode = true,
+                        myRef
                     }) {
+    useImperativeHandle(myRef, ()=>({
+        onSubmit: formik.handleSubmit,
+        getVal : () => formik.values
+    }))
     let initValues = {
         filter_name: '',
         priority: 0,
@@ -703,7 +708,7 @@ function FilterForm({
                     </Card>
                 </AccordionDetails>
             </Accordion>
-            <Centered>
+            {!myRef && <Centered>
                 <Button
                     sx={{mr: 2}}
                     size="medium"
@@ -714,7 +719,7 @@ function FilterForm({
                 >
                     提交
                 </Button>
-            </Centered>
+            </Centered>}
 
         </form>
     )
