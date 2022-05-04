@@ -23,8 +23,9 @@ import {
     Typography
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React, {useEffect, useImperativeHandle} from "react";
+import React, {useContext, useEffect, useImperativeHandle} from "react";
 import styled from "styled-components/macro";
+import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -48,12 +49,15 @@ function FilterForm({
                         showFilterName = true,
                         showApplyInfo = true,
                         showDownloadMode = true,
+                        showFilterTemplate = false,
                         myRef
                     }) {
-    useImperativeHandle(myRef, ()=>({
+    useImperativeHandle(myRef, () => ({
         onSubmit: formik.handleSubmit,
-        getVal : () => formik.values
+        getVal: () => formik.values
     }))
+    const filterOptionsContextData = useContext(FilterOptionsContext)
+
     let initValues = {
         filter_name: '',
         priority: 0,
@@ -110,36 +114,51 @@ function FilterForm({
             }
         }
     });
+    const fillFormData = (data) => {
+        if (showFilterName) {
+            formik.setFieldValue("filter_name", data?.filter_name ? data?.filter_name : '')
+            formik.setFieldValue("priority", data?.priority ? data?.priority : 0)
+        }
+        if (showApplyInfo) {
+            formik.setFieldValue("apply_media_type", data?.apply_media_type ? data?.apply_media_type : [])
+            formik.setFieldValue("apply_cate", data?.apply_cate ? data?.apply_cate : [])
+            formik.setFieldValue("apply_area", data?.apply_area ? data?.apply_area : [])
+            formik.setFieldValue("apply_min_year", data?.apply_min_year ? data?.apply_min_year : 0)
+            formik.setFieldValue("apply_max_year", data?.apply_max_year ? data?.apply_max_year : 0)
+        }
+        formik.setFieldValue("media_source", data?.media_source ? data?.media_source : [])
+        if (showDownloadMode) {
+            formik.setFieldValue("download_mode", data?.download_mode ? data?.download_mode : 2)
+        }
+        formik.setFieldValue("resolution", data?.resolution ? data?.resolution : [])
+        formik.setFieldValue("media_codec", data?.media_codec ? data?.media_codec : [])
+        formik.setFieldValue("has_cn", data?.has_cn ? data?.has_cn : false)
+        formik.setFieldValue("has_special", data?.has_special ? data?.has_special : false)
+        formik.setFieldValue("min_size", data?.min_size ? data?.min_size : 0)
+        formik.setFieldValue("max_size", data?.max_size ? data?.max_size : 0)
+        formik.setFieldValue("min_seeders", data?.min_seeders ? data?.min_seeders : 0)
+        formik.setFieldValue("max_seeders", data?.max_seeders ? data?.max_seeders : 0)
+        formik.setFieldValue("free_only", data?.free_only ? data?.free_only : false)
+        formik.setFieldValue("pass_hr", data?.pass_hr ? data?.pass_hr : false)
+        formik.setFieldValue("exclude_keyword", data?.exclude_keyword ? data?.exclude_keyword : '')
+        formik.setFieldValue("include_keyword", data?.include_keyword ? data?.include_keyword : '')
+    }
+    const selectFilterTemplate = async (e) => {
+        if (e.target.value === "clear") {
+            fillFormData(null);
+        }
+        if (filterOptionsContextData?.filter_list) {
+            let result = filterOptionsContextData?.filter_list.filter((item, index) => {
+                return item.filter_name === e.target.value;
+            });
+            if (result) {
+                fillFormData(result[0])
+            }
+        }
+    }
     useEffect(async () => {
         if (formValues) {
-            if (showFilterName) {
-                await formik.setFieldValue("filter_name", formValues?.filter_name)
-                await formik.setFieldValue("priority", formValues?.priority ? formValues?.priority : 0)
-            }
-            if (showApplyInfo) {
-                await formik.setFieldValue("apply_media_type", formValues?.apply_media_type ? formValues?.apply_media_type : [])
-                await formik.setFieldValue("apply_cate", formValues?.apply_cate ? formValues?.apply_cate : [])
-                await formik.setFieldValue("apply_area", formValues?.apply_area ? formValues?.apply_area : [])
-                await formik.setFieldValue("apply_min_year", formValues?.apply_min_year ? formValues?.apply_min_year : 0)
-                await formik.setFieldValue("apply_max_year", formValues?.apply_max_year ? formValues?.apply_max_year : 0)
-            }
-            await formik.setFieldValue("media_source", formValues?.media_source)
-            if (showDownloadMode) {
-                await formik.setFieldValue("download_mode", formValues?.download_mode ? formValues?.download_mode : 2)
-            }
-            await formik.setFieldValue("resolution", formValues?.resolution)
-            await formik.setFieldValue("media_codec", formValues?.media_codec)
-            await formik.setFieldValue("has_cn", formValues?.has_cn)
-            await formik.setFieldValue("has_special", formValues?.has_special)
-            await formik.setFieldValue("min_size", formValues?.min_size)
-            await formik.setFieldValue("max_size", formValues?.max_size)
-            await formik.setFieldValue("min_seeders", formValues?.min_seeders)
-            await formik.setFieldValue("max_seeders", formValues?.max_seeders)
-            await formik.setFieldValue("free_only", formValues?.free_only)
-            await formik.setFieldValue("pass_hr", formValues?.pass_hr)
-            await formik.setFieldValue("exclude_keyword", formValues?.exclude_keyword)
-            await formik.setFieldValue("include_keyword", formValues?.include_keyword)
-
+            await fillFormData(formValues)
         }
     }, [formValues])
     return (
@@ -147,6 +166,28 @@ function FilterForm({
             {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
                 {formik.errors.submit}
             </Alert>)}
+            {showFilterTemplate ? <Card>
+                <Typography component="h3" align="left">
+                    选择现有参考
+                </Typography>
+                <CardContent>
+                    <FormControl m={4} fullWidth>
+                        <Select
+                            name="filterTemplate"
+                            onChange={selectFilterTemplate}
+                        >
+                            <MenuItem value="clear">清空设置</MenuItem>
+                            {filterOptionsContextData?.filter_name_list ? filterOptionsContextData?.filter_name_list.map((value, i) => (
+                                <MenuItem key={value} value={value}>{value}</MenuItem>
+                            )) : <MenuItem>没有设置任何过滤器</MenuItem>}
+                        </Select>
+                        <FormHelperText>
+                <span>
+                    将按照设定的过滤器去选择资源
+                </span></FormHelperText>
+                    </FormControl>
+                </CardContent>
+            </Card> : null}
             {showFilterName ? <Card>
                 <Typography component="h3" align="left">
                     过滤器名称

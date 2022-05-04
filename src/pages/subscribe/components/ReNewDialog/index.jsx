@@ -68,6 +68,7 @@ const ReNewDialog = ({open, handleClose, data, onComplete, renewFormData, showDo
                     showDownloadMode={showDownloadMode}
                     formValues={renewFormData}
                     filterOptions={filterOptions}
+                    showFilterTemplate={true}
                 />
             </DialogContent>
         </Dialog>

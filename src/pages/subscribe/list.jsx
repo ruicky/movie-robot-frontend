@@ -4,6 +4,7 @@ import ListView from "@/pages/subscribe/components/ListView";
 import {useSubscribes} from "@/utils/subscribe";
 import {Box, Button, Divider, Menu, MenuItem, Typography} from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
 
 const SubList = () => {
     const [status, setStatus] = useState(null);
@@ -76,11 +77,13 @@ const SubList = () => {
                 </Typography>
             </Box>
             <Divider my={4}/>
-            <ListView
-                items={sublist?.data}
-                isLoading={subIsLoading}
+            <FilterOptionsProvider>
+                <ListView
+                    items={sublist?.data}
+                    isLoading={subIsLoading}
 
-            />
+                />
+            </FilterOptionsProvider>
         </>
     );
 
