@@ -25,7 +25,10 @@ const Notify = async(() => import("./pages/notify/index"));
 const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const UserManager = async(() => import("./pages/user/Index"));
 const EditUser = async(() => import("./pages/user/EditUser"));
-const SubscribeRankingList = async(() => import("./pages/subscribe/rankingList"));
+const MovieRankingList = async(() => import("./pages/subscribe/MovieRankingList"));
+const TVRankingList = async(() => import("./pages/subscribe/TVRankingList"));
+const RecentPopularMovieList = async(() => import("./pages/subscribe/RecentPopularMovieList"));
+const RecentPopularTVList = async(() => import("./pages/subscribe/RecentPopularTVList"));
 const SubscribeList = async(() => import("./pages/subscribe/list"));
 const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
@@ -79,7 +82,7 @@ const routes = [{
         <DashboardLayout/>
     </AuthGuard>, children: [{
         path: "douban", element: <DoubanConfig/>
-    },{
+    }, {
         path: "selectors", element: <Selectors/>
     }, {
         path: "edit-filter", element: <SelectorsEditFilter/>
@@ -88,7 +91,7 @@ const routes = [{
     path: "/", element: (<AuthGuard>
         <DashboardLayout/>
     </AuthGuard>), children: [{
-        path: "", element: <SubscribeRankingList/>
+        path: "", element: <MovieRankingList/>
     }]
 }, {
     path: "movie", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
@@ -120,7 +123,13 @@ const routes = [{
     }]
 }, {
     path: "subscribe", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
-        path: "rankingList", element: <SubscribeRankingList/>
+        path: "movieRankingList", element: <MovieRankingList/>
+    }, {
+        path: "tvRankingList", element: <TVRankingList/>
+    }, {
+        path: "recentPopularMovieList", element: <RecentPopularMovieList/>
+    }, {
+        path: "recentPopularTVListList", element: <RecentPopularTVList/>
     }, {
         path: "search", element: <SubscribeSearch/>
     }, {
