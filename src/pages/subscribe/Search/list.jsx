@@ -33,7 +33,7 @@ function getYear(media) {
     }
 }
 
-const SearchListView = ({items, isLoading, filterNameList}) => {
+const SearchListView = ({items, isLoading}) => {
     const isEmpty = isLoading === false && items?.length === 0;
     if (isLoading) {
         return (
@@ -67,7 +67,6 @@ const SearchListView = ({items, isLoading, filterNameList}) => {
                             status={title?.status}
                             extra={title}
                             subject={<RatingLabel rating={title?.rating}/>}
-                            filterNameList={filterNameList}
                         />
                     </li>;
                 })

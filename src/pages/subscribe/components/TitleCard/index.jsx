@@ -105,7 +105,7 @@ const SetFilterButton = ({
 }
 const TitleCard = ({
                        sub_id, id, mediaType, year, subject, title, summary, image, status, url, canExpand = false,
-                       showBottomTitle = true, extra,filterNameList
+                       showBottomTitle = true, extra
                    }) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
@@ -147,7 +147,6 @@ const TitleCard = ({
                 onComplete={requestComplete}
                 handleClose={() => setShowRequestModal(false)}
                 data={({id: id, name: title, year})}
-                filterNameList={filterNameList}
             />
             <ReNewDialog
                 showDownloadMode={showDownloadMode}
@@ -237,7 +236,7 @@ const TitleCard = ({
                         leaveTo="opacity-0"
                     >
                         <ShadowContainer>
-                            <ShadowLinkContainer>
+                            <ShadowLinkContainer onClick={() => openUrl(extra?.url, extra?.app_url)}>
                                 <ShadowTextContainer isHaveBottom={isHaveBottom}>
                                     <Box>
                                         {

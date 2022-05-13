@@ -47,19 +47,6 @@ function getYear(media) {
 
 const ListView = ({items, isLoading}) => {
     const isEmpty = isLoading === false && items?.length === 0;
-    const [filterNameList, setFilterNameList] = useState([]);
-    const fetchFilterNameListList = () => {
-        getFilterConfigList().then(r => {
-            if (r.code === 0) {
-                setFilterNameList(r.data.map((item) => {
-                    return item.filter_name;
-                }))
-            }
-        })
-    }
-    useEffect(() => {
-        fetchFilterNameListList()
-    }, [])
     if (isLoading) {
         return (
             <Box sx={{display: 'grid', placeItems: 'center'}}>
@@ -91,7 +78,6 @@ const ListView = ({items, isLoading}) => {
                             status={title?.status}
                             extra={title}
                             showBottomTitle={false}
-                            filterNameList={filterNameList}
                         />
                     </li>;
                 })

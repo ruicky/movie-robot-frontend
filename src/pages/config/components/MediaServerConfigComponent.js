@@ -80,10 +80,22 @@ function MediaServerConfigComponent({isInit}) {
             <span>
                 访问Emby接口查询数据时所用的密钥
                 {formik.values.url &&
-                    <Link target="_blank"
-                          href="https://yee329.notion.site/EmbyToken-apikey-8797c1190103463eb86a024f3405dd1e">
-                        去申请API密钥
-                    </Link>}
+                <Link target="_blank"
+                      href="https://yee329.notion.site/EmbyToken-apikey-8797c1190103463eb86a024f3405dd1e">
+                    去申请API密钥
+                </Link>}
+            </span>
+        );
+    } else if (formik.values.type === "jellyfin") {
+        tokenLabel = "API密钥";
+        tokenHelpText = (
+            <span>
+                访问Jellyfin接口查询数据时所用的密钥
+                {formik.values.url &&
+                <Link target="_blank"
+                      href="https://yee329.notion.site/EmbyToken-apikey-8797c1190103463eb86a024f3405dd1e">
+                    去申请API密钥
+                </Link>}
             </span>
         );
     } else {
@@ -116,6 +128,7 @@ function MediaServerConfigComponent({isInit}) {
             >
                 <MenuItem value="emby">Emby</MenuItem>
                 <MenuItem value="plex">Plex</MenuItem>
+                <MenuItem value="jellyfin">Jellyfin</MenuItem>
             </Select>
             <FormHelperText>媒体服务类型</FormHelperText>
         </FormControl>

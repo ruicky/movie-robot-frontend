@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {
     Button,
     Dialog,
@@ -15,14 +15,14 @@ import {
 import {useAddSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
 import FilterForm from "@/components/Selectors/FilterForm";
-import {getFilterOptions} from "@/api/CommonApi";
+import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
 
 
-const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) => {
+const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
+    const filterOptionsContextData = useContext(FilterOptionsContext)
     const myRef = useRef(null);
     const [filterName, setFilterName] = useState();
-    const [formValues, setFormValues] = useState();
-    const [filterOptions, setFilterOptions] = useState();
+    const [showFilterForm, setShowFilterForm] = useState(false);
     const {name, year} = data;
     const {mutateAsync: addSubscribe, isLoading} = useAddSubscribe();
     let id;
@@ -31,7 +31,14 @@ const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) 
     } else {
         id = data.id;
     }
-
+    const onChange = (e) => {
+        setFilterName(e.target.value)
+        if (e.target.value === 'system:newFilter') {
+            setShowFilterForm(true)
+        } else {
+            setShowFilterForm(false)
+        }
+    }
     const handleSubmit = async () => {
         let filterConfig;
         if (filterName && filterName === 'system:newFilter') {
@@ -56,16 +63,14 @@ const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) 
             onError: error => message.error(error)
         });
     }
-    useEffect(async () => {
-        const filterOptions = await getFilterOptions()
-        setFilterOptions(filterOptions)
-    }, [])
     return (
         <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            maxWidth="md"
+            fullWidth={showFilterForm}
         >
             <DialogTitle id="alert-dialog-title">
                 确定要订阅 {name}{year ? "(" + year + ")" : ""} 吗？
@@ -76,14 +81,14 @@ const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) 
                         <Select
                             name="filterName"
                             value={filterName}
-                            onChange={(e) => setFilterName(e.target.value)}
+                            onChange={onChange}
                             defaultValue="system:autoSelectFilter"
                         >
                             <MenuItem value="system:autoSelectFilter">自动选择过滤器</MenuItem>
                             <MenuItem value="system:unUseFilter">不使用任何过滤器</MenuItem>
                             <MenuItem value="system:newFilter">独立设置过滤器</MenuItem>
                             <Divider/>
-                            {filterNameList ? filterNameList.map((value, i) => (
+                            {filterOptionsContextData?.filter_name_list ? filterOptionsContextData?.filter_name_list.map((value, i) => (
                                 <MenuItem key={value} value={value}>{value}</MenuItem>
                             )) : <MenuItem>没有设置任何过滤器</MenuItem>}
                         </Select>
@@ -92,8 +97,9 @@ const SubscribeDialog = ({open, handleClose, data, onComplete, filterNameList}) 
                     将按照设定的过滤器去选择资源
                 </span></FormHelperText>
                     </FormControl>
-                    {filterName === 'system:newFilter' &&
-                    <FilterForm showFilterName={false} showApplyInfo={false} formValues={formValues} filterOptions={filterOptions} onSubmit={null} myRef={myRef}/>}
+                    {showFilterForm &&
+                    <FilterForm showFilterName={false} showApplyInfo={false} showFilterTemplate={true}
+                                filterOptions={filterOptionsContextData} onSubmit={null} myRef={myRef}/>}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
