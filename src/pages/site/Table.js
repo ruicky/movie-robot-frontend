@@ -48,6 +48,18 @@ const getStatus = (status) => {
         return (<Chip label="未知" color="warning"/>)
     }
 }
+const getTrafficManagementStatus = (traffic_management_status) => {
+    switch(traffic_management_status) {
+        case 0:
+            return "关闭";
+        case 1:
+            return "主动";
+        case 2:
+            return "被动";
+        default:
+            return "关闭";
+    }
+}
 const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick, siteMeta}) => {
     const [hideData, setHideData] = useState(false)
     const hideOnClick = () => {
@@ -102,7 +114,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick, siteMet
                                     <TableCell>{getStatus(row.status)}</TableCell>
                                     <TableCell>{row.web_search === 1 ? '是' : '否'}</TableCell>
                                     <TableCell>{row.smart_download === 1 ? '是' : '否'}</TableCell>
-                                    <TableCell>{row.traffic_management_status !== undefined && row.traffic_management_status !== null && row.traffic_management_status !== 0 ? "开启" : "关闭"}</TableCell>
+                                    <TableCell>{getTrafficManagementStatus(row.traffic_management_status)}</TableCell>
                                     <TableCell>
                                         <IconButton
                                             color="info"
