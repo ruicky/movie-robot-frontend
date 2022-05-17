@@ -13,9 +13,10 @@ const RecentPopularMovieList = () => {
             <FilterOptionsProvider>
                 <DoubanRanking title="科幻" rankType="ECZYOJPLI"/>
                 <DoubanRanking title="喜剧" rankType="ECAYN54KI"/>
+                <DoubanRanking title="动画" rankType="EC3UOBDQY"/>
                 <DoubanRanking title="动作" rankType="ECBUOLQGY"/>
                 <DoubanRanking title="爱情" rankType="ECSAOJFTA"/>
-                <DoubanRanking title="动画" rankType="EC3UOBDQY"/>
+                <DoubanRanking title="悬疑" rankType="ECPQOJP5Q"/>
             </FilterOptionsProvider>
         </>
     )

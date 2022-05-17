@@ -42,7 +42,12 @@ function DownloadCLientConfigComponent({isInit}) {
     };
     const formik = useFormik({
         initialValues: {
-            type: "qbittorrent", url: "http://", username: "", password: "", need_login: true
+            type: "qbittorrent",
+            url: "http://",
+            username: "",
+            password: "",
+            need_login: true,
+            monitor_all_torrents: false
         }, validationSchema: Yup.object().shape({
             url: Yup.string().max(256).required("访问地址不能为空"),
             username: Yup.string().when("need_login", {
@@ -60,7 +65,8 @@ function DownloadCLientConfigComponent({isInit}) {
                     url: values.url,
                     username: values.username,
                     password: values.password,
-                    need_login: values.need_login
+                    need_login: values.need_login,
+                    monitor_all_torrents: values.monitor_all_torrents
                 });
             } catch (error) {
                 const message = error.message || "配置出错啦";
@@ -90,6 +96,9 @@ function DownloadCLientConfigComponent({isInit}) {
                 }
                 if (data.need_login !== undefined && data.need_login !== null) {
                     formik.setFieldValue("need_login", data.need_login);
+                }
+                if (data.monitor_all_torrents) {
+                    formik.setFieldValue('monitor_all_torrents', data.monitor_all_torrents)
                 }
             }
         });
@@ -160,6 +169,14 @@ function DownloadCLientConfigComponent({isInit}) {
             />}
             label="需要登陆(没配置内网免登必须勾选)"
         />}
+        <FormControlLabel
+            control={<Checkbox
+                checked={formik.values.monitor_all_torrents}
+                onChange={formik.handleChange}
+                name="monitor_all_torrents"
+            />}
+            label="监控手动提交到下载器指定目录的种子"
+        />
         <Centered>
             {isInit && (<Button sx={{mr: 2}}
                                 size="medium"

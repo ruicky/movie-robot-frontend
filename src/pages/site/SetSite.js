@@ -52,11 +52,6 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
         } else {
             setErrorMessage(undefined);
         }
-        if (values.cookie === undefined || values.cookie === "") {
-            setErrors({...errors, cookie: "必须填写Cookie"});
-            setShowErrors({...errors, cookie: true});
-            hasError = true;
-        }
         if (hasError) {
             setSubmitting(false)
             return;
