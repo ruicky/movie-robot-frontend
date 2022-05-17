@@ -53,3 +53,11 @@ export const getSub = async (id) => {
     let res = await axios.get("/api/subscribe/get_sub", {params: {id}})
     return res.data;
 }
+
+export const useRunSubDownload = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/run_download", {params: params, method: "POST"})
+    );
+};

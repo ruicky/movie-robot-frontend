@@ -117,9 +117,8 @@ const SearchBar = ({onSearch, ...props}) => {
     );
 };
 
-const PathPicker = ({downloadInfo, onClose: close}) => {
+const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
     const [paths, setPaths] = useState([]);
-    const [message, setMessage] = useState(false);
     useEffect(() => {
         axios.get("/api/download/paths", {
             params: {}
@@ -140,14 +139,6 @@ const PathPicker = ({downloadInfo, onClose: close}) => {
     }, [downloadInfo]);
     return (
         <>
-            <Snackbar
-                open={!!message}
-                autoHideDuration={3000}
-                onClose={() => {
-                    setMessage(null);
-                }}
-                message={message}
-            ></Snackbar>
             <SwipeableDrawer
                 anchor="bottom"
                 open={!!downloadInfo}
@@ -189,6 +180,7 @@ function DownloadRecords(props) {
     const [downloadInfo, setDownloadInfo] = useState();
     const [tagVersion, setTagVersion] = useState(Date.now());
     const [param, setParam] = useUrlQueryParam(["keyword"]);
+    const [message, setMessage] = useState(false);
 
     const searchData = (keyword) => {
         if (keyword && !loading) {
@@ -205,7 +197,13 @@ function DownloadRecords(props) {
                     const encode = {"全部": "全部"};
                     const source = {"全部": "全部"};
                     const resolution = {"全部": "全部"};
-                    res.data.forEach(({media_encoding, media_source, resolution: _rs}) => {
+                    const torrents = res.data.torrents;
+                    let tips = `在${res.data.site_names.length}个站点搜索到${torrents.length}条结果，其中${res.data.max_run_site_name}最慢，耗费${res.data.max_run_time}秒`;
+                    if (res.data.run_timeout_names && res.data.run_timeout_names.length > 0) {
+                        tips += "(" + res.data.run_timeout_names.join(';') + "超时无结果)"
+                    }
+                    setMessage(tips);
+                    torrents.forEach(({media_encoding, media_source, resolution: _rs}) => {
                         if (media_encoding) {
                             encode[media_encoding] = media_encoding;
                         }
@@ -221,7 +219,7 @@ function DownloadRecords(props) {
                         source,
                         resolution
                     });
-                    setRecords(res.data);
+                    setRecords(torrents);
                 }
             }).catch(() => {
                 setLoading(false);
@@ -301,6 +299,19 @@ function DownloadRecords(props) {
                 onClose={() => {
                     setDownloadInfo(null);
                 }}
+                setMessage={setMessage}
+            />
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                }}
+                open={!!message}
+                autoHideDuration={3500}
+                onClose={() => {
+                    setMessage(null);
+                }}
+                message={message}
             />
         </React.Fragment>
     );

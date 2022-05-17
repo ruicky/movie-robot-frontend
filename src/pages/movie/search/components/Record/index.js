@@ -11,6 +11,7 @@ import {ArrowDown, ArrowUp, Download, File} from "react-feather";
 import React from "react";
 import {rgba} from "polished";
 import {deepOrange, green} from "@mui/material/colors";
+import {coverSize} from "@/utils/PtUtils";
 
 const Chip = styled(MuiChip)`
   height: 20px;
@@ -77,7 +78,7 @@ const COM = ({
     return (<Card>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                    <Link target="_blank" href={details_url} color="inherit">{subject}</Link>
+                    <Link target="_blank" href={details_url} color="inherit">{subject ? subject : name}</Link>
                 </Typography>
                 <div>
                     <Stack direction="row" spacing={1}>
@@ -108,7 +109,7 @@ const COM = ({
                             </IconHolder>
                         </Grid>
                         <Grid item>
-                            {file_size / 1024} GB
+                            {coverSize(file_size)}
                         </Grid>
                         <Grid item>
                             <IconHolder>
