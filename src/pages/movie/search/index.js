@@ -11,14 +11,14 @@ import {
     Box,
     CircularProgress,
     Divider,
-    FormControl, FormHelperText,
+    FormControl,
     Grid,
     IconButton,
     InputAdornment,
     List,
     ListItem,
-    ListItemText, MenuItem,
-    OutlinedInput, Select,
+    ListItemText,
+    OutlinedInput,
     Snackbar,
     SwipeableDrawer
 } from "@mui/material";
@@ -61,15 +61,7 @@ const TagFileter = ({filter, data, onFilter}) => {
 const SearchBar = ({onSearch, ...props}) => {
     const [value, setValue] = useState();
     return (
-        <>
         <FormControl fullWidth sx={{flexDirection: "row"}}>
-            <Select
-                name="type"
-                defaultValue="remote"
-            >
-                <MenuItem value="local">本地</MenuItem>
-                <MenuItem value="remote">远程</MenuItem>
-            </Select>
             <OutlinedInput
                 autoFocus
                 sx={{paddingRight: 0}}
@@ -98,7 +90,6 @@ const SearchBar = ({onSearch, ...props}) => {
                     </InputAdornment>}
             />
         </FormControl>
-            </>
     );
 };
 
