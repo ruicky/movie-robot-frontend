@@ -9,7 +9,7 @@ const MediaCard = () => {
     <Card sx={{ display: 'flex' }}>
       <CardMedia
         component="img"
-        sx={{ width: 151 }}
+        sx={{ width: 151, borderRadius: '6px' }}
         image="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/kj5SQ0PzfnDHkyu2ZbfGTFvndvN.jpg"
         alt="Live from space album cover"
       />
