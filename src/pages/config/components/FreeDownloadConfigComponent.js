@@ -59,11 +59,11 @@ function FreeDownloadConfigComponent({isInit}) {
         await axios.get("/api/config/get_free_download").then((res) => {
             const data = res.data;
             if (data !== undefined && data !== null) {
-                formik.setFieldValue("enable", data.enable);
-                formik.setFieldValue("save_path", data.save_path);
-                formik.setFieldValue("available_space", data.available_space);
-                formik.setFieldValue("avg_statistics_period", data.avg_statistics_period);
-                formik.setFieldValue("upload_mbps_maximum", data.upload_mbps_maximum);
+                formik.setFieldValue("enable", data.enable ? data.enable : false);
+                formik.setFieldValue("save_path", data.save_path ? data.save_path : '');
+                formik.setFieldValue("available_space", data.available_space ? data.available_space : 1024);
+                formik.setFieldValue("avg_statistics_period", data.avg_statistics_period ? data.avg_statistics_period : 5);
+                formik.setFieldValue("upload_mbps_maximum", data.upload_mbps_maximum ? data.upload_mbps_maximum : 30);
             }
         });
     }, []);

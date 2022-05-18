@@ -15,16 +15,12 @@ import {
     Grid,
     IconButton,
     InputAdornment,
-    InputLabel,
     List,
     ListItem,
     ListItemText,
-    MenuItem,
     OutlinedInput,
-    Select,
     Snackbar,
-    SwipeableDrawer,
-    Typography
+    SwipeableDrawer
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import Record from "./components/Record";
@@ -33,9 +29,10 @@ const StyledDivider = styled(Divider)(spacing);
 
 const TagFileter = ({filter, data, onFilter}) => {
     const list = [
-        {name: '来源', dataKey:'source'},
-        {name: '分辨率', dataKey:'resolution'},
-        {name: '编码', dataKey:'encode'},
+        {name: '站点', dataKey: 'sites'},
+        {name: '来源', dataKey: 'source'},
+        {name: '分辨率', dataKey: 'resolution'},
+        {name: '编码', dataKey: 'encode'},
     ]
     const obj2Array = obj => {
         return Object.keys(obj).map(key => ({name: key, value: obj[key]}))
@@ -150,11 +147,12 @@ const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
 function DownloadRecords(props) {
     const [records, setRecords] = useState();
     const [tagResource, setTagResource] = useState({
+        sites: {"全部": "全部"},
         encode: {"全部": "全部"},
         source: {"全部": "全部"},
         resolution: {"全部": "全部"}
     });
-    const [filter, setFilter] = useState({encode: "全部", source: "全部", resolution: "全部"});
+    const [filter, setFilter] = useState({sites: "全部", encode: "全部", source: "全部", resolution: "全部"});
     const [loading, setLoading] = useState(false);
     const [downloadInfo, setDownloadInfo] = useState();
     const [tagVersion, setTagVersion] = useState(Date.now());
@@ -173,6 +171,7 @@ function DownloadRecords(props) {
             }).then((res) => {
                 setLoading(false);
                 if (!res.error) {
+                    const sites = {"全部": "全部"};
                     const encode = {"全部": "全部"};
                     const source = {"全部": "全部"};
                     const resolution = {"全部": "全部"};
@@ -182,7 +181,10 @@ function DownloadRecords(props) {
                         tips += "(" + res.data.run_timeout_names.join(';') + "超时无结果)"
                     }
                     setMessage(tips);
-                    torrents.forEach(({media_encoding, media_source, resolution: _rs}) => {
+                    torrents.forEach(({site_id, media_encoding, media_source, resolution: _rs}) => {
+                        if (sites) {
+                            sites[site_id] = site_id;
+                        }
                         if (media_encoding) {
                             encode[media_encoding] = media_encoding;
                         }
@@ -194,6 +196,7 @@ function DownloadRecords(props) {
                         }
                     });
                     setTagResource({
+                        sites,
                         encode,
                         source,
                         resolution
@@ -225,7 +228,7 @@ function DownloadRecords(props) {
                 }}
             />
             {
-                isHaveData &&<>
+                isHaveData && <>
                     <TagFileter
                         key={tagVersion}
                         filter={filter}
@@ -240,11 +243,11 @@ function DownloadRecords(props) {
                 isHaveData &&
                 <Grid container spacing={4}>
                     {
-                        records.filter(({resolution, media_source, media_encoding}) => {
+                        records.filter(({site_id, resolution, media_source, media_encoding}) => {
                             let bool = true;
                             Object.keys(filter).forEach((key) => {
                                 const item = filter[key];
-                                bool = bool && (!item || item === "全部" || item === resolution || item === media_source || item === media_encoding);
+                                bool = bool && (!item || item === "全部" || item === site_id || item === resolution || item === media_source || item === media_encoding);
                             });
                             return bool;
                         }).map((row) => (
@@ -276,7 +279,7 @@ function DownloadRecords(props) {
                 </Grid>
             }
             {
-                records && records.length === 0 && <Empty message="没有找到任何结果!" />
+                records && records.length === 0 && <Empty message="没有找到任何结果!"/>
             }
             <PathPicker
                 downloadInfo={downloadInfo}
