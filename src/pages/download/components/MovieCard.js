@@ -19,6 +19,7 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import {ChevronRight as ChevronRightIcon, DeleteForever, Refresh as RefreshIcon} from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MovieInfoDialog from './MovieInfoDialog'
+import {STATUS} from "@/constants";
 
 function TitleLabel({title, year, season_index, season_year, movie_type}) {
     console.log(season_index)
@@ -85,7 +86,12 @@ export default function MovieCard(props) {
                     {status_code === 0 && downloading && <DownloadBar downloading={downloading} id={id}/>}
                     {/*标签*/}
                     <Stack direction="row" spacing={1}>
-                        <Chip label={status} color={status_color}/>
+                        {
+                            // 如果当前状态码是进行中，并且下载正好完成，就修改为已完成
+                            status_code === 0 && !downloading
+                                ? <Chip label={STATUS[1].msg} color={STATUS[1].color}/>
+                                : <Chip label={status} color={status_color}/>
+                        }
                         {media_source && <Chip label={media_source} color="primary"/>}
                         {resolution && <Chip label={resolution} color="success"/>}
                         {media_encoding && <Chip label={media_encoding} color="info"/>}
