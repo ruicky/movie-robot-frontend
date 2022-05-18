@@ -4,6 +4,8 @@ import {Search as SearchIcon} from "@mui/icons-material";
 import {Helmet} from "react-helmet-async";
 import axios from "../../../utils/request";
 import {useUrlQueryParam} from '@/hooks/useUrlQueryParam';
+import DropDownBox from '@/components/DropDownBox';
+import Empty from '@/components/Empty';
 
 import {
     Box,
@@ -21,63 +23,40 @@ import {
     OutlinedInput,
     Select,
     Snackbar,
-    SwipeableDrawer
+    SwipeableDrawer,
+    Typography
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import Record from "./components/Record";
 
 const StyledDivider = styled(Divider)(spacing);
-const SelectTag = ({label, value, data, onChange}) => {
-    const Items = Object.keys(data || {}).map((key) => {
-        return (
-            <MenuItem value={key} key={key}>
-                {key}
-            </MenuItem>);
-    });
-    return (
-        <FormControl variant="outlined" sx={{m: 1, width: "30%", margin: 0}}>
-            <InputLabel>{label}</InputLabel>
-            <Select
-                displayEmpty
-                value={value}
-                onChange={({target: {value}}) => {
-                    onChange(value);
-                }}
-                label={label}
-            >
-                {Items}
-            </Select>
-        </FormControl>
-    );
-};
 
 const TagFileter = ({filter, data, onFilter}) => {
+    const list = [
+        {name: '来源', dataKey:'source'},
+        {name: '分辨率', dataKey:'resolution'},
+        {name: '编码', dataKey:'encode'},
+    ]
+    const obj2Array = obj => {
+        return Object.keys(obj).map(key => ({name: key, value: obj[key]}))
+    }
     return (
-        <Box sx={{display: "flex", justifyContent: "space-between", marginTop: "10px"}}>
-            <SelectTag
-                label="来源"
-                data={data.source}
-                value={filter.source}
-                onChange={(value) => {
-                    onFilter({...filter, source: value});
-                }}
-            />
-            <SelectTag
-                label="分辨率"
-                data={data.resolution}
-                value={filter.resolution}
-                onChange={(value) => {
-                    onFilter({...filter, resolution: value});
-                }}
-            />
-            <SelectTag
-                label="编码"
-                data={data.encode}
-                value={filter.encode}
-                onChange={(value) => {
-                    onFilter({...filter, encode: value});
-                }}
-            />
+        <Box sx={{display: "flex", my: 2}}>
+            {
+                list.map((item) => {
+                    return (
+                        <DropDownBox
+                            key={item.dataKey}
+                            label={item.name}
+                            value={filter[item.dataKey]}
+                            data={obj2Array(data[item.dataKey])}
+                            onChange={(value) => {
+                                onFilter({...filter, [item.dataKey]: value});
+                            }}
+                        />
+                    )
+                })
+            }
         </Box>
     );
 };
@@ -234,6 +213,7 @@ function DownloadRecords(props) {
     const search = useCallback((keyword) => {
         searchData(keyword)
     });
+    const isHaveData = records && records.length > 0;
     return (<React.Fragment>
             <Helmet title="搜索"/>
             <SearchBar
@@ -244,16 +224,20 @@ function DownloadRecords(props) {
                     search(value);
                 }}
             />
-            <TagFileter
-                key={tagVersion}
-                filter={filter}
-                data={tagResource}
-                onFilter={setFilter}
-            />
-            <StyledDivider my={4}/>
+            {
+                isHaveData &&<>
+                    <TagFileter
+                        key={tagVersion}
+                        filter={filter}
+                        data={tagResource}
+                        onFilter={setFilter}
+                    />
+                    <StyledDivider my={4}/>
+                </>
+            }
             {loading && <CircularProgress sx={{position: "absolute", top: "50%", left: "50%", marginLeft: "-20px"}}/>}
             {
-                (records && records.length > 0) &&
+                isHaveData &&
                 <Grid container spacing={4}>
                     {
                         records.filter(({resolution, media_source, media_encoding}) => {
@@ -292,7 +276,7 @@ function DownloadRecords(props) {
                 </Grid>
             }
             {
-                records && records.length === 0 && <div>没有找到任何结果!</div>
+                records && records.length === 0 && <Empty message="没有找到任何结果!" />
             }
             <PathPicker
                 downloadInfo={downloadInfo}
