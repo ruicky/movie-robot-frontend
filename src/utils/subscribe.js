@@ -17,6 +17,12 @@ export const useSubscribeSearch = () => {
         client("/api/movie/search_douban", {params: params})
     );
 };
+export const useSubscribeSearchQuery = (param) => {
+    const client = useHttp();
+    return useQuery(['subscribesSearchQuery', param], () =>
+        client("/api/movie/search_douban", {params: param})
+    );
+};
 
 // 添加订阅
 export const useAddSubscribe = () => {

@@ -56,6 +56,22 @@ const   MediaSlider = ({
                         profilePath={title.profilePath}
                     />
                 );
+            default:
+                return (
+                    <TitleCard
+                        key={'card' + title.id}
+                        sub_id={title?.sub_id}
+                        id={title.id}
+                        image={title?.poster_path}
+                        summary={title?.desc}
+                        title={title?.cn_name || title?.en_name}
+                        year={title?.release_year}
+                        mediaType={title?.type}
+                        status={title?.status}
+                        extra={title}
+                        subject={<RatingLabel rating={title?.rating}/>}
+                    />
+                );
         }
     });
 
