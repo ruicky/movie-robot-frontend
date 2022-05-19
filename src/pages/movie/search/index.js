@@ -244,49 +244,52 @@ function DownloadRecords(props) {
             {param?.keyword && <MediaServerSearch keyword={param?.keyword}/>}
             {/* 订阅滑动列表 */}
             {param?.keyword && <SubscribeList keyword={param?.keyword}/>}
-
-            {loading && <CircularProgress sx={{position: "absolute", top: "50%", left: "50%", marginLeft: "-20px"}}/>}
-            {
-                isHaveData &&
-                <Grid container spacing={4}>
-
-                    {
-                        (records || []).filter(({site_id, resolution, media_source, media_encoding}) => {
-                            let bool = true;
-                            Object.keys(filter).forEach((key) => {
-                                const item = filter[key];
-                                bool = bool && (!item || item === "全部" || item === site_id || item === resolution || item === media_source || item === media_encoding);
-                            });
-                            return bool;
-                        }).map((row) => (
-                            <Grid key={row.id} item xs={12} lg={12} xl={12}>
-                                <Record
-                                    subjecDownloadRecordst={row.subject}
-                                    name={row.name}
-                                    details_url={row.details_url}
-                                    site_name={row.site_id}
-                                    upload={row.upload_count}
-                                    download={row.download_count}
-                                    media_source={row.media_source}
-                                    media_encoding={row.media_encoding}
-                                    resolution={row.resolution}
-                                    file_size={row.size_mb}
-                                    download_volume_factor={row.download_volume_factor}
-                                    upload_volume_factor={row.upload_volume_factor}
-                                    free_desc={row.free_desc}
-                                    minimum_ratio={row.minimum_ratio}
-                                    onDownload={() => {
-                                        const {id, site_id} = row;
-                                        setDownloadInfo({id, site_id});
-                                    }}
-                                />
-                                {/* 这里可以显示本地库的搜索结果 */}
-                                {/* <MediaCard /> */}
-                            </Grid>
-                        ))
-                    }
-                </Grid>
-            }
+            <Grid container spacing={4}>
+                {
+                    (loading ? Array.from(new Array(3)) : records || []).filter((item) => {
+                        if(!item){
+                            return true;
+                        }
+                        const {
+                            site_id,
+                            resolution,
+                            media_source,
+                            media_encoding
+                        } = item;
+                        let bool = true;
+                        Object.keys(filter).forEach((key) => {
+                            const item = filter[key];
+                            bool = bool && (!item || item === "全部" || item === site_id || item === resolution || item === media_source || item === media_encoding);
+                        });
+                        return bool;
+                    }).map((row, index) => (
+                        <Grid key={index} item xs={12} lg={12} xl={12}>
+                            <Record
+                                name={row?.name}
+                                subject={row?.subject}
+                                details_url={row?.details_url}
+                                site_name={row?.site_id}
+                                upload={row?.upload_count}
+                                download={row?.download_count}
+                                media_source={row?.media_source}
+                                media_encoding={row?.media_encoding}
+                                resolution={row?.resolution}
+                                file_size={row?.size_mb}
+                                download_volume_factor={row?.download_volume_factor}
+                                upload_volume_factor={row?.upload_volume_factor}
+                                free_desc={row?.free_desc}
+                                minimum_ratio={row?.minimum_ratio}
+                                onDownload={() => {
+                                    const {id, site_id} = row;
+                                    setDownloadInfo({id, site_id});
+                                }}
+                            />
+                            {/* 这里可以显示本地库的搜索结果 */}
+                            {/* <MediaCard /> */}
+                        </Grid>
+                    ))
+                }
+            </Grid>
             {
                 records && records.length === 0 && <Empty message="没有找到任何结果!"/>
             }
