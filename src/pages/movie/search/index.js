@@ -6,7 +6,6 @@ import axios from "../../../utils/request";
 import {useUrlQueryParam} from '@/hooks/useUrlQueryParam';
 import DropDownBox from '@/components/DropDownBox';
 import Empty from '@/components/Empty';
-import MediaCard from './components/MediaCard';
 import SubscribeList from './components/SubscribeList';
 
 import {
@@ -26,6 +25,7 @@ import {
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import Record from "./components/Record";
+import MediaServerSearch from "@/pages/movie/search/MediaServerSearch";
 
 const StyledDivider = styled(Divider)(spacing);
 
@@ -241,21 +241,17 @@ function DownloadRecords(props) {
                 </>
             }
             {/* 本地库的搜索结果 */}
-            {/* <Grid container spacing={4} my={4}>
-                <Grid item xs={12} lg={12} xl={12}>
-                    <MediaCard />
-                </Grid>
-            </Grid> */}
+            {param?.keyword && <MediaServerSearch keyword={param?.keyword}/>}
             {/* 订阅滑动列表 */}
-            {/* {param?.keyword && <SubscribeList keyword={param?.keyword} />} */}
+            {param?.keyword && <SubscribeList keyword={param?.keyword}/>}
 
             {loading && <CircularProgress sx={{position: "absolute", top: "50%", left: "50%", marginLeft: "-20px"}}/>}
             {
                 isHaveData &&
                 <Grid container spacing={4}>
-                    
+
                     {
-                        (records||[]).filter(({site_id, resolution, media_source, media_encoding}) => {
+                        (records || []).filter(({site_id, resolution, media_source, media_encoding}) => {
                             let bool = true;
                             Object.keys(filter).forEach((key) => {
                                 const item = filter[key];
@@ -263,10 +259,9 @@ function DownloadRecords(props) {
                             });
                             return bool;
                         }).map((row) => (
-                            <Grid item xs={12} lg={12} xl={12}>
+                            <Grid key={row.id} item xs={12} lg={12} xl={12}>
                                 <Record
-                                    subject={row.subject}
-                                    key={row.id}
+                                    subjecDownloadRecordst={row.subject}
                                     name={row.name}
                                     details_url={row.details_url}
                                     site_name={row.site_id}
