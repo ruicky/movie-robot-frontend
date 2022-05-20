@@ -31,7 +31,7 @@ const DropDownBox = ({data, value, label, onChange}) => {
       >
         {
           data.map(item => (
-            <MenuItem onClick={() => {
+            <MenuItem key={item.value} onClick={() => {
               handleClose()
               onChange(item.value)
             }

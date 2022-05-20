@@ -1,4 +1,4 @@
-import {Box, Chip as MuiChip, Grid, Link, Stack, Typography as MuiTypography} from "@mui/material";
+import {Box, Chip as MuiChip, Grid, Link, Skeleton, Stack, Typography as MuiTypography} from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
     StyledCard as Card,
@@ -78,19 +78,23 @@ const COM = ({
     return (<Card>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                    <Link target="_blank" href={details_url} color="inherit">{subject ? subject : name}</Link>
+                    {subject || name ?
+                        <Link target="_blank" href={details_url} color="inherit">{subject ? subject : name}</Link> :
+                        <Skeleton/>}
                 </Typography>
                 <div>
                     <Stack direction="row" spacing={1}>
-                        {media_source ? <Chip label={media_source} color="primary"/> : null}
-                        {resolution ? <Chip label={resolution} color="success"/> : null}
-                        {media_encoding ? <Chip label={media_encoding} color="info"/> : null}
+                        {media_source ? <Chip label={media_source} color="primary"/> :
+                            <Skeleton height={20} width={80}/>}
+                        {resolution ? <Chip label={resolution} color="success"/> : <Skeleton height={20} width={80}/>}
+                        {media_encoding ? <Chip label={media_encoding} color="info"/> :
+                            <Skeleton height={20} width={80}/>}
                     </Stack>
                 </div>
                 <Typography mb={4} color="textSecondary" component="p">
-                    [{site_name}]{name}
+                    {name ? `[${site_name}]${name}` : <Skeleton/>}
                 </Typography>
-                <Box sx={{display: "flex", alignItems: "flex-end"}}>
+                {upload?<Box sx={{display: "flex", alignItems: "flex-end"}}>
                     <Grid container alignItems="center" spacing={1}>
                         <Grid item>
                             {upload}
@@ -138,7 +142,20 @@ const COM = ({
                         </Grid>) : null}
                     </Grid>
                     <Download onClick={onDownload}/>
-                </Box>
+                </Box>:<Box sx={{display: "flex", alignItems: "flex-end"}}>
+                    <Grid container alignItems="center" spacing={1}>
+                        <Grid item>
+                            <Skeleton width={30}/>
+                        </Grid>
+                        <Grid item>
+                            <Skeleton width={30}/>
+                        </Grid>
+                        <Grid item>
+                            <Skeleton width={30}/>
+                        </Grid>
+                    </Grid>
+                    <Skeleton width={20} height={20}/>
+                </Box>}
             </CardContent>
         </Card>
     );
