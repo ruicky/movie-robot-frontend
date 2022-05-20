@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, ButtonGroup, CardContent, CardMedia, Link, Typography} from "@mui/material";
+import {Box, Button, ButtonGroup, CardContent, CardMedia, Link, Tooltip, Typography} from "@mui/material";
 import DropDownBox from "@/components/DropDownBox";
 import MediaTag from "@/pages/movie/search/components/MediaCard/MediaTag";
 import Stream from "@/pages/movie/search/components/MediaCard/Stream";
@@ -9,11 +9,13 @@ import message from "@/utils/message";
 
 const TVCard = ({media}) => {
     const {mutateAsync: getMediaStreams, isLoading} = useGetMediaStreams();
-    const [seasonName, setSeasonName] = useState()
-    const [seasons, setSeasons] = useState([])
-    const [episodes, setEpisodes] = useState([])
-    const [audioStreams, setAudioStreams] = useState([])
-    const [subtitleStreams, setSubtitleStreams] = useState([])
+    const [selectEpisodeId, setSelectEpisodeId] = useState();
+    const [posterUrl, setPosterUrl] = useState();
+    const [seasonName, setSeasonName] = useState();
+    const [seasons, setSeasons] = useState([]);
+    const [episodes, setEpisodes] = useState([]);
+    const [audioStreams, setAudioStreams] = useState([]);
+    const [subtitleStreams, setSubtitleStreams] = useState([]);
     const [mediaTag, setMediaTag] = useState({codec: '编码', resolution: '分辨率', container: '格式'})
     const onSeasonChange = (value) => {
         const season = findSeason(value);
@@ -23,6 +25,7 @@ const TVCard = ({media}) => {
         setMediaInfo(season);
     }
     const setMediaInfo = (season, updateSeasonName = true, updateEpisodesValue = true) => {
+        setPosterUrl(season?.poster_url)
         if (updateSeasonName) {
             setSeasonName(`第${season.index}季`);
         }
@@ -51,6 +54,7 @@ const TVCard = ({media}) => {
         if (episode.status === 0) {
             return;
         }
+        setSelectEpisodeId(episode.id)
         getMediaStreams({id: episode.id}, {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
@@ -75,7 +79,7 @@ const TVCard = ({media}) => {
             <CardMedia
                 component="img"
                 sx={{width: 151, borderRadius: '12px'}}
-                image={media.poster_url}
+                image={posterUrl}
             />
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                 <CardContent sx={{flex: '1 0 auto'}}>
@@ -95,12 +99,15 @@ const TVCard = ({media}) => {
                     {episodes && episodes.length > 0 && (
                         <ButtonGroup size="small" aria-label="分集">
                             {episodes.map((item, index) => (
-                                <Button
-                                    key={index}
-                                    variant="text"
-                                    color={item.status === 0 ? "error" : "secondary"}
-                                    onClick={() => episodeOnClick(item)}
-                                >{item.index}</Button>
+                                <Tooltip title={item?.name ? item.name : `第${item.index}集`}>
+                                    <Button
+                                        key={index}
+                                        variant="text"
+                                        color={item.status === 0 ? "error" : "secondary"}
+                                        onClick={() => episodeOnClick(item)}
+                                        disabled={selectEpisodeId && item?.id && selectEpisodeId === item.id}
+                                    >{item.index}</Button>
+                                </Tooltip>
                             ))}
                         </ButtonGroup>
                     )}

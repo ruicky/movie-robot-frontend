@@ -48,7 +48,7 @@ const StreamInfoDialog = ({title, streams}) => {
 
 const Stream = ({title, streams}) => {
     if (!streams || streams.length === 0) {
-        streams = ['无']
+        return null;
     }
     const streamSet = new Set(streams.map((s) => {
         return s.display_title;

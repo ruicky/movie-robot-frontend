@@ -23,11 +23,6 @@ const MovieCard = ({media}) => {
                     <Stream title="音频" streams={media.audio_streams}/>
                     <Stream title="字幕" streams={media.subtitle_streams}/>
                 </CardContent>
-                <CardContent>
-                    <Button variant="outlined" startIcon={<Autorenew/>}>
-                        洗版
-                    </Button>
-                </CardContent>
             </Box>
         </MediaView>
     )
