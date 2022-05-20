@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Box, Button, ButtonGroup, CardContent, CardMedia, Link, Typography} from "@mui/material";
 import DropDownBox from "@/components/DropDownBox";
-import {Autorenew} from "@mui/icons-material";
 import MediaTag from "@/pages/movie/search/components/MediaCard/MediaTag";
 import Stream from "@/pages/movie/search/components/MediaCard/Stream";
 import MediaView from "@/pages/movie/search/components/MediaCard/MediaView";
@@ -49,6 +48,9 @@ const TVCard = ({media}) => {
         }
     }
     const episodeOnClick = (episode) => {
+        if (episode.status === 0) {
+            return;
+        }
         getMediaStreams({id: episode.id}, {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
@@ -78,20 +80,25 @@ const TVCard = ({media}) => {
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                 <CardContent sx={{flex: '1 0 auto'}}>
                     <Typography component="div" variant="h5">
-                        <Link target="_blank" href={media.url}>{media.name}</Link>
-                        <DropDownBox
+                        <Link target="_blank"
+                              href={media.url}>{seasons && seasons.length === 1 ? `${media.name} ${seasonName}` : media.name}</Link>
+                        {seasons && seasons.length > 1 ? <DropDownBox
                             value={seasonName}
                             data={seasons}
                             onChange={onSeasonChange}
-                        />
+                        /> : null}
                     </Typography>
+                    {media && media.sub_items && media.sub_items.length > 0 && media.next_episode_to_air && seasonName === `第${media.sub_items[media.sub_items.length - 1].index}季` ?
+                        <Typography component="div" variant="subtitle2">
+                            第{media.next_episode_to_air.episode_index}集播出时间{media.next_episode_to_air.air_date}
+                        </Typography> : null}
                     {episodes && episodes.length > 0 && (
                         <ButtonGroup size="small" aria-label="分集">
-                            {episodes.map((item) => (
+                            {episodes.map((item, index) => (
                                 <Button
-                                    key={item.id}
+                                    key={index}
                                     variant="text"
-                                    color="secondary"
+                                    color={item.status === 0 ? "error" : "secondary"}
                                     onClick={() => episodeOnClick(item)}
                                 >{item.index}</Button>
                             ))}
@@ -102,13 +109,7 @@ const TVCard = ({media}) => {
                     <Stream title="音频" streams={audioStreams}/>
                     <Stream title="字幕" streams={subtitleStreams}/>
                 </CardContent>
-                <CardContent>
-                    <Button variant="outlined" startIcon={<Autorenew/>}>
-                        洗版
-                    </Button>
-                </CardContent>
             </Box>
-
         </MediaView>
     )
 }
