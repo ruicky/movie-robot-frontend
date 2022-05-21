@@ -39,8 +39,20 @@ const TagFileter = ({filter, data, onFilter}) => {
     const obj2Array = obj => {
         return Object.keys(obj).map(key => ({name: key, value: obj[key]}))
     }
+    const FilterWrapper = styled(Box)`
+        position: sticky;
+        top: 56px;
+        ${(props) => props.theme.breakpoints.up("sm")} {
+            top: 64px;
+        }
+        z-index: 100;
+        background: ${(props) => props.theme.header.background};
+    `;
     return (
-        <Box sx={{display: "flex", my: 2}}>
+        <FilterWrapper sx={{
+            display: "flex",
+            my: 2,
+        }}>
             {
                 list.map((item) => {
                     return (
@@ -56,7 +68,7 @@ const TagFileter = ({filter, data, onFilter}) => {
                     )
                 })
             }
-        </Box>
+        </FilterWrapper>
     );
 };
 
