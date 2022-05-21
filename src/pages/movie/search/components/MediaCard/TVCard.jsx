@@ -112,8 +112,9 @@ const TVCard = ({media}) => {
         <MediaView image={media.backdrop_url}>
             <CardMediaWrapper
                 component="img"
-                sx={{ borderRadius: '6px'}}
+                sx={{ borderRadius: '6px', cursor: 'pointer'}}
                 image={posterUrl}
+                onClick={() => window.open(media.url)}
             />
             <Box sx={{display: 'flex', flexDirection: 'column', overflow: 'hidden'}}>
                 <CardContent sx={{flex: '1 0 auto'}}>
@@ -140,7 +141,7 @@ const TVCard = ({media}) => {
             <Dialog onClose={()=>setShowEpisodeDialog(false)} open={showEpisodeDialog}>
                 <DialogTitle>剧集列表</DialogTitle>
                 <DialogContent>
-                    {renderEpisodes(episodes, false)}
+                    {episodes && episodes.length > 0 && renderEpisodes(episodes, false)}
                 </DialogContent>
             </Dialog>
         </MediaView>

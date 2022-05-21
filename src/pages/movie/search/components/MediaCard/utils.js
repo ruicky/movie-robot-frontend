@@ -27,9 +27,7 @@ export const useEpisodesDisplay = (episodes) => {
       } else {
         diff = sizeEnum['lg'];
       }
-      console.log('diff-->', diff);
       const count = Math.floor(_divide(_subtract(windowWidth, diff), 40)) 
-      console.log('count-->', count);
       setCalcCount(count)
       setIsOver(count < episodes.length)
   }, [windowWidth, episodes.length])

@@ -11,8 +11,9 @@ const MovieCard = ({media}) => {
         <MediaView image={media.backdrop_url}>
             <CardMediaWrapper
                 component="img"
-                sx={{borderRadius: '6px'}}
+                sx={{ borderRadius: '6px', cursor: 'pointer'}}
                 image={media.poster_url}
+                onClick={() => window.open(media.url)}
             />
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
                 <CardContent sx={{flex: '1 0 auto'}}>
