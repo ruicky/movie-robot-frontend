@@ -10,7 +10,6 @@ import SubscribeList from './components/SubscribeList';
 
 import {
     Box,
-    CircularProgress,
     Divider,
     FormControl,
     Grid,
@@ -158,7 +157,7 @@ const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
 };
 
 
-function DownloadRecords(props) {
+function SearchRecords(props) {
     const [records, setRecords] = useState();
     const [tagResource, setTagResource] = useState({
         sites: {"全部": "全部"},
@@ -224,23 +223,25 @@ function DownloadRecords(props) {
     }
 
     useEffect(() => {
+        setFilter({encode: "全部", source: "全部", resolution: "全部"});
+        setTagVersion(Date.now());
         searchData(param.keyword)
-    }, [])
+    }, [param.keyword])
 
     const search = useCallback((keyword) => {
         searchData(keyword)
     });
     const isHaveData = records && records.length > 0;
     return (<React.Fragment>
-            <Helmet title="搜索"/>
-            <SearchBar
-                defaultValue={param?.keyword}
-                onSearch={(value) => {
-                    setFilter({encode: "全部", source: "全部", resolution: "全部"});
-                    setTagVersion(Date.now());
-                    search(value);
-                }}
-            />
+            <Helmet title={param?.keyword ? param.keyword + " - 搜索结果" : "搜索"}/>
+            {/*<SearchBar*/}
+            {/*    defaultValue={param?.keyword}*/}
+            {/*    onSearch={(value) => {*/}
+            {/*        setFilter({encode: "全部", source: "全部", resolution: "全部"});*/}
+            {/*        setTagVersion(Date.now());*/}
+            {/*        search(value);*/}
+            {/*    }}*/}
+            {/*/>*/}
             {
                 isHaveData && <>
                     <TagFileter
@@ -259,7 +260,7 @@ function DownloadRecords(props) {
             <Grid container spacing={4}>
                 {
                     (loading ? Array.from(new Array(3)) : records || []).filter((item) => {
-                        if(!item){
+                        if (!item) {
                             return true;
                         }
                         const {
@@ -328,4 +329,4 @@ function DownloadRecords(props) {
     );
 }
 
-export default DownloadRecords;
+export default SearchRecords;

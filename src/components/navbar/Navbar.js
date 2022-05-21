@@ -93,7 +93,7 @@ const Navbar = ({onDrawerToggle}) => {
                                 <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="搜索进行订阅"
                                        onKeyUp={(e) => {
                                            if ((e.key === 'Enter' || e.key === "NumpadEnter") && keyword) {
-                                               navigate("/subscribe/search?keyword=" + keyword)
+                                               navigate("/movie/search?keyword=" + keyword)
                                            }
                                        }}/>
                             </Search>

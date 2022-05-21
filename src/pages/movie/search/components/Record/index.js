@@ -84,17 +84,20 @@ const COM = ({
                 </Typography>
                 <div>
                     <Stack direction="row" spacing={1}>
-                        {media_source ? <Chip label={media_source} color="primary"/> :
+                        {media_source !== undefined ? (media_source ?
+                                <Chip label={media_source} color="primary"/> : null) :
                             <Skeleton height={20} width={80}/>}
-                        {resolution ? <Chip label={resolution} color="success"/> : <Skeleton height={20} width={80}/>}
-                        {media_encoding ? <Chip label={media_encoding} color="info"/> :
+                        {resolution !== undefined ? (resolution ? <Chip label={resolution} color="success"/> : null) :
+                            <Skeleton height={20} width={80}/>}
+                        {media_encoding !== undefined ? (media_encoding ?
+                                <Chip label={media_encoding} color="info"/> : null) :
                             <Skeleton height={20} width={80}/>}
                     </Stack>
                 </div>
                 <Typography mb={4} color="textSecondary" component="p">
                     {name ? `[${site_name}]${name}` : <Skeleton/>}
                 </Typography>
-                {upload?<Box sx={{display: "flex", alignItems: "flex-end"}}>
+                {upload !== undefined ? <Box sx={{display: "flex", alignItems: "flex-end"}}>
                     <Grid container alignItems="center" spacing={1}>
                         <Grid item>
                             {upload}
@@ -142,7 +145,7 @@ const COM = ({
                         </Grid>) : null}
                     </Grid>
                     <Download onClick={onDownload}/>
-                </Box>:<Box sx={{display: "flex", alignItems: "flex-end"}}>
+                </Box> : <Box sx={{display: "flex", alignItems: "flex-end"}}>
                     <Grid container alignItems="center" spacing={1}>
                         <Grid item>
                             <Skeleton width={30}/>
