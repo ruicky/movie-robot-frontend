@@ -6,6 +6,7 @@ import Stream from "@/pages/movie/search/components/MediaCard/Stream";
 import MediaView from "@/pages/movie/search/components/MediaCard/MediaView";
 import {useGetMediaStreams} from "@/api/MediaServerApi";
 import message from "@/utils/message";
+import styled from "styled-components/macro";
 
 const TVCard = ({media}) => {
     const {mutateAsync: getMediaStreams, isLoading} = useGetMediaStreams();
@@ -76,12 +77,12 @@ const TVCard = ({media}) => {
     }, [media])
     return (
         <MediaView image={media.backdrop_url}>
-            <CardMedia
+            <CardMediaWrapper
                 component="img"
-                sx={{width: 151, borderRadius: '12px'}}
+                sx={{ borderRadius: '6px'}}
                 image={posterUrl}
             />
-            <Box sx={{display: 'flex', flexDirection: 'column'}}>
+            <Box sx={{display: 'flex', flexDirection: 'column', overflow: 'hidden'}}>
                 <CardContent sx={{flex: '1 0 auto'}}>
                     <Typography component="div" variant="h5">
                         <Link target="_blank"
@@ -94,7 +95,7 @@ const TVCard = ({media}) => {
                     </Typography>
                     {media && media.sub_items && media.sub_items.length > 0 && media.next_episode_to_air && seasonName === `第${media.sub_items[media.sub_items.length - 1].index}季` ?
                         <Typography component="div" variant="subtitle2">
-                            第{media.next_episode_to_air.episode_index}集播出时间{media.next_episode_to_air.air_date}
+                            第 {media.next_episode_to_air.episode_index} 集播出时间 {media.next_episode_to_air.air_date}
                         </Typography> : null}
                     {episodes && episodes.length > 0 && (
                         <ButtonGroup size="small" aria-label="分集">
@@ -120,4 +121,14 @@ const TVCard = ({media}) => {
         </MediaView>
     )
 }
+
+const CardMediaWrapper = styled(CardMedia)`
+    width: 116px;
+    @media (min-width: 640px) {
+        width: 116px;
+    }
+    @media (min-width: 768px) {
+        width: 176px;
+    }
+`;
 export default TVCard;

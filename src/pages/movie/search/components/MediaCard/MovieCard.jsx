@@ -4,13 +4,14 @@ import React from "react";
 import MediaView from "@/pages/movie/search/components/MediaCard/MediaView";
 import MediaTag from "@/pages/movie/search/components/MediaCard/MediaTag";
 import Stream from "@/pages/movie/search/components/MediaCard/Stream";
+import styled from "styled-components/macro";
 
 const MovieCard = ({media}) => {
     return (
         <MediaView image={media.backdrop_url}>
-            <CardMedia
+            <CardMediaWrapper
                 component="img"
-                sx={{width: 151, borderRadius: '6px'}}
+                sx={{borderRadius: '6px'}}
                 image={media.poster_url}
             />
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
@@ -27,4 +28,13 @@ const MovieCard = ({media}) => {
         </MediaView>
     )
 }
+const CardMediaWrapper = styled(CardMedia)`
+    width: 144px;
+    @media (min-width: 640px) {
+        width: 144px;
+    }
+    @media (min-width: 768px) {
+        width: 176px;
+    }
+`;
 export default MovieCard;
