@@ -226,7 +226,7 @@ function SearchRecords(props) {
         setFilter({encode: "全部", source: "全部", resolution: "全部"});
         setTagVersion(Date.now());
         searchData(param.keyword)
-    }, [param])
+    }, [param.keyword])
 
     const search = useCallback((keyword) => {
         searchData(keyword)
