@@ -9,6 +9,7 @@ const MediaView = (props) => (
         display: 'flex',
         backgroundSize: "cover",
         backgroundPosition: "center",
+        color: '#fff !important',
     }}>
         {props.children}
     </Card>
