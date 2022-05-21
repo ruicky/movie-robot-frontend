@@ -1,5 +1,17 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, ButtonGroup, CardContent, CardMedia, Link, Tooltip, Typography, Dialog, DialogTitle, DialogContent} from "@mui/material";
+import {
+    Box,
+    Button,
+    ButtonGroup,
+    CardContent,
+    CardMedia,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Link,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import DropDownBox from "@/components/DropDownBox";
 import MediaTag from "@/pages/movie/search/components/MediaCard/MediaTag";
 import Stream from "@/pages/movie/search/components/MediaCard/Stream";
@@ -7,7 +19,9 @@ import MediaView from "@/pages/movie/search/components/MediaCard/MediaView";
 import {useGetMediaStreams} from "@/api/MediaServerApi";
 import message from "@/utils/message";
 import styled from "styled-components/macro";
-import { useEpisodesDisplay } from './utils';
+import {useEpisodesDisplay} from './utils';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {SmallButton} from "@/components/core/SmallButton";
 
 const TVCard = ({media}) => {
     const {mutateAsync: getMediaStreams, isLoading} = useGetMediaStreams();
@@ -20,7 +34,7 @@ const TVCard = ({media}) => {
     const [subtitleStreams, setSubtitleStreams] = useState([]);
     const [mediaTag, setMediaTag] = useState({codec: '编码', resolution: '分辨率', container: '格式'})
     const [showEpisodeDialog, setShowEpisodeDialog] = useState(false);
-
+    const [episodeStatusCount, setEpisodeStatusCount] = useState({noAir: 0, aired: 0, total: 0})
     const onSeasonChange = (value) => {
         const season = findSeason(value);
         if (!season) {
@@ -36,7 +50,22 @@ const TVCard = ({media}) => {
         setAudioStreams(season.audio_streams)
         setSubtitleStreams(season.subtitle_streams)
         if (updateEpisodesValue) {
-            setEpisodes(season.sub_items)
+            const eps = new Set();
+            const epStatusCnt = {noAir: 0, aired: 0, total: 0}
+            for (let item of season.sub_items) {
+                if (eps.has(item.index)) {
+                    continue;
+                }
+                if (item.status === 0) {
+                    epStatusCnt.noAir++;
+                } else {
+                    epStatusCnt.aired++;
+                }
+                eps.add(item.index);
+            }
+            epStatusCnt.total = eps.size;
+            setEpisodeStatusCount(epStatusCnt);
+            setEpisodes(season.sub_items);
         }
         setMediaTag({
             codec: season.video_codec,
@@ -64,6 +93,7 @@ const TVCard = ({media}) => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
                     setMediaInfo(data, false, false);
+                    setShowEpisodeDialog(false)
                 }
             },
             onError: error => message.error(error)
@@ -83,7 +113,7 @@ const TVCard = ({media}) => {
 
     const renderEpisodes = (episodes, isShowMoreBtn) => {
         return (
-            <ButtonGroup size="small" aria-label="分集" sx= {{ flexWrap: isShowMoreBtn ? 'nowrap' : 'wrap' }}>
+            <ButtonGroup size="small" aria-label="分集" sx={{flexWrap: isShowMoreBtn ? 'nowrap' : 'wrap'}}>
                 {episodes.map((item, index) => (
                     <Tooltip title={item?.name ? item.name : `第${item.index}集`}>
                         <Button
@@ -95,24 +125,16 @@ const TVCard = ({media}) => {
                         >{item.index}</Button>
                     </Tooltip>
                 ))}
-                {(isOver && isShowMoreBtn) && <Tooltip title={'点击查看更多'}>
-                    <Button
-                        key={'more'}
-                        variant="text"
-                        onClick={() => setShowEpisodeDialog(true)}
-                        color={"secondary"}
-                    >...</Button>
-                </Tooltip>}
             </ButtonGroup>
         )
     }
-    
+
 
     return (
         <MediaView image={media.backdrop_url}>
             <CardMediaWrapper
                 component="img"
-                sx={{ borderRadius: '6px', cursor: 'pointer'}}
+                sx={{borderRadius: '6px', cursor: 'pointer'}}
                 image={posterUrl}
                 onClick={() => window.open(media.url)}
             />
@@ -127,19 +149,40 @@ const TVCard = ({media}) => {
                             onChange={onSeasonChange}
                         /> : null}
                     </Typography>
+
+                    {episodes && episodes.length > 0 && (
+                        <>
+                            {episodeStatusCount.noAir > 0 && (
+                                "有" + episodeStatusCount.aired + "集,缺" + episodeStatusCount.noAir + "集 / "
+                            )}
+                            {episodeStatusCount.noAir === 0 && (
+                                "有" + episodeStatusCount.aired + "集 / 全" + episodeStatusCount.total + "集 / "
+                            )}
+                            <Tooltip title={'点击查看全集'}>
+                                <SmallButton
+                                    key={'more'}
+                                    variant="text"
+                                    onClick={() => setShowEpisodeDialog(true)}
+                                    color={"secondary"}
+                                >
+                                    {"全" + episodeStatusCount.total + "集"}
+                                    <ExpandMoreIcon/>
+                                </SmallButton>
+                            </Tooltip>
+                        </>
+                    )}
                     {media && media.sub_items && media.sub_items.length > 0 && media.next_episode_to_air && seasonName === `第${media.sub_items[media.sub_items.length - 1].index}季` ?
                         <Typography component="div" variant="subtitle2">
                             第 {media.next_episode_to_air.episode_index} 集播出时间 {media.next_episode_to_air.air_date}
                         </Typography> : null}
-                    {episodes && episodes.length > 0 && renderEpisodes(episodes.slice(0, calcCount), true)}
                     <MediaTag video_codec={mediaTag.codec} video_resolution={mediaTag.resolution}
                               video_container={mediaTag.container}/>
                     <Stream title="音频" streams={audioStreams}/>
                     <Stream title="字幕" streams={subtitleStreams}/>
                 </CardContent>
             </Box>
-            <Dialog onClose={()=>setShowEpisodeDialog(false)} open={showEpisodeDialog}>
-                <DialogTitle>剧集列表</DialogTitle>
+            <Dialog onClose={() => setShowEpisodeDialog(false)} open={showEpisodeDialog}>
+                <DialogTitle>点集号可以查看当集视频格式</DialogTitle>
                 <DialogContent>
                     {episodes && episodes.length > 0 && renderEpisodes(episodes, false)}
                 </DialogContent>
