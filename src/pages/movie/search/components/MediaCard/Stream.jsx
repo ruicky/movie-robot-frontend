@@ -56,7 +56,7 @@ const Stream = ({title, streams}) => {
     const streamList = Array.from(streamSet)
     return (
         <>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
+            <Typography variant="subtitle1" color="text.secondary" component="div" sx={{color: '#fff'}}>
                 {title}: {streamList.length === 1 ? streamList[0] :
                 <StreamInfoDialog title={"全部" + title} streams={streamList}/>}
             </Typography>

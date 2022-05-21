@@ -45,7 +45,7 @@ const TagFileter = ({filter, data, onFilter}) => {
             top: 64px;
         }
         z-index: 100;
-        background: ${(props) => props.theme.header.background};
+        background: ${(props) => props.theme.palette.background.default};
     `;
     return (
         <FilterWrapper sx={{
