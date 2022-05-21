@@ -29,11 +29,9 @@ const MovieCard = ({media}) => {
     )
 }
 const CardMediaWrapper = styled(CardMedia)`
-    width: 144px;
-    @media (min-width: 640px) {
-        width: 144px;
-    }
-    @media (min-width: 768px) {
+    width: 0;
+    color: #fff;
+    ${(props) => props.theme.breakpoints.up("sm")} {
         width: 176px;
     }
 `;

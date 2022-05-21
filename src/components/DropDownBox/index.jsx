@@ -48,6 +48,7 @@ const DropDownBox = ({data, value, label, onChange}) => {
           aria-expanded={open ? 'true' : undefined}
           aria-haspopup="true"
           onClick={handleClick}
+          sx={{px: 2}}
           endIcon={<ArrowDropDownIcon/>}
           variant="h3"
       >
