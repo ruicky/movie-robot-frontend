@@ -156,7 +156,7 @@ const TVCard = ({media}) => {
                                 "有" + episodeStatusCount.aired + "集,缺" + episodeStatusCount.noAir + "集 / "
                             )}
                             {episodeStatusCount.noAir === 0 && (
-                                "有" + episodeStatusCount.aired + "集 / 全" + episodeStatusCount.total + "集 / "
+                                "有" + episodeStatusCount.aired + "集 / "
                             )}
                             <Tooltip title={'点击查看全集'}>
                                 <SmallButton
