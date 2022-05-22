@@ -86,7 +86,7 @@ const Navbar = ({onDrawerToggle}) => {
                             </IconButton>
                         </Grid>
                         <Grid item xs>
-                            <Search>
+                            {/* <Search>
                                 <SearchIconWrapper>
                                     <SearchIcon/>
                                 </SearchIconWrapper>
@@ -96,10 +96,18 @@ const Navbar = ({onDrawerToggle}) => {
                                                navigate("/movie/search?keyword=" + keyword)
                                            }
                                        }}/>
-                            </Search>
+                            </Search> */}
                         </Grid>
                         {/*<Grid item xs />*/}
                         <Grid item>
+                            <IconButton
+                                  color="inherit"
+                                  aria-label="Open search"
+                                  onClick={()=>{navigate("/")}}
+                                  size="large"
+                              >
+                                <SearchIcon/>
+                            </IconButton>
                             <NavbarNotificationsDropdown/>
                             <NavbarUserDropdown/>
                         </Grid>

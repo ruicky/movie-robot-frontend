@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
-import {Outlet} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 
 import {Box, CssBaseline, Paper as MuiPaper} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
@@ -68,6 +68,8 @@ const Dashboard = ({children}) => {
             setAppInfo(appInfo)
         }
     }, [])
+    const location = useLocation();
+    const isIndex = location.pathname === '/';
     return (
         <Root>
             <CssBaseline/>
@@ -91,7 +93,7 @@ const Dashboard = ({children}) => {
             </Drawer>
             <AppContent>
                 <Navbar onDrawerToggle={handleDrawerToggle}/>
-                <MainContent p={isLgUp ? 12 : 5}>
+                <MainContent p={isIndex ? 0 : (isLgUp ? 12 : 5)}>
                     {children}
                     <Outlet/>
                 </MainContent>
