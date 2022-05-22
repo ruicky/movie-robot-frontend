@@ -234,14 +234,14 @@ function SearchRecords(props) {
     const isHaveData = records && records.length > 0;
     return (<React.Fragment>
             <Helmet title={param?.keyword ? param.keyword + " - 搜索结果" : "搜索"}/>
-            {/*<SearchBar*/}
-            {/*    defaultValue={param?.keyword}*/}
-            {/*    onSearch={(value) => {*/}
-            {/*        setFilter({encode: "全部", source: "全部", resolution: "全部"});*/}
-            {/*        setTagVersion(Date.now());*/}
-            {/*        search(value);*/}
-            {/*    }}*/}
-            {/*/>*/}
+            <SearchBar
+                defaultValue={param?.keyword}
+                onSearch={(value) => {
+                    setFilter({encode: "全部", source: "全部", resolution: "全部"});
+                    setTagVersion(Date.now());
+                    search(value);
+                }}
+            />
             {
                 isHaveData && <>
                     <TagFileter
