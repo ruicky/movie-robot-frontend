@@ -1,68 +1,90 @@
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components/macro";
-import {Paper, OutlinedInput, InputAdornment, IconButton, Typography, Box, Card, CardContent} from "@mui/material";
+import {Button, Card, CardContent, IconButton, InputAdornment, OutlinedInput, Paper, Typography} from "@mui/material";
 import {Search as SearchIcon} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
-
+import {useGetJuzi} from "@/api/CommonApi";
+import message from "@/utils/message";
+import {SmallButton} from "@/components/core/SmallButton";
 
 
 const SearchPage = () => {
-  const navigate = useNavigate();
-  const [value, setValue] = useState();
+    const navigate = useNavigate();
+    const [value, setValue] = useState();
+    const [randomMedia, setRandomMedia] = useState({});
+    const {mutateAsync: getJuzi, isLoading} = useGetJuzi();
+    const refreshRandomMedia = () => {
+        getJuzi({}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    setRandomMedia(data);
+                }
+            },
+            onError: error => message.error(error)
+        });
+    }
+    useEffect(() => {
+        refreshRandomMedia();
+    }, [])
+    const onSearch = (keyword) => {
+        navigate("/movie/search?keyword=" + keyword)
+    }
+    return (
+        <PageWrapper backdropUrl={randomMedia?.backdrop_url|| '/static/img/default_backdrop.jpeg'}>
+            <Inputwrapper>
+                <Input
 
-  const onSearch = (keyword) => {
-    navigate("/movie/search?keyword=" + keyword)
-  }
-  return (
-      <PageWrapper>
-          <Inputwrapper>
-            <Input
-              id="input-with-icon-adornment"
-              placeholder="搜索"
-              sx={{
-                mx: 2
-              }}
-              onChange={({target: {value: v}}) => {
-                setValue(v);
-              }}
-              onKeyUp={(e) => {
-                  if ((e.key === 'Enter' || e.key === "NumpadEnter") && value) {
-                      onSearch(value);
-                  }
-              }}
-              value={value}
-              fullwidth
-              endAdornment={
-                <InputAdornment sx={{minWidth: '28px', height: '45%'}}>
-                    <IconButton type="submit" sx={{p: "10px"}} aria-label="search" onClick={() => {
-                            if (value) {
-                                onSearch(value);
-                            }
-                        }}>
-                        <SearchIcon sx={{color: '#00809d'}}/>
-                    </IconButton>
-                </InputAdornment>
-              }
-            />
-          </Inputwrapper>
-          <TextWrapper>
-            <Card sx={{margin: '0 8px 8px'}}>
-              <CardContent>
-                <Typography variant="h5" color="text.secondary">
-                  贾维斯，在我们学会走之前，要先学会跑！
-                  <div style={{textAlign: 'right'}}>--《钢铁侠》</div>
-                </Typography>
-              </CardContent>
-            </Card>
-          </TextWrapper>
+                    id="input-with-icon-adornment"
+                    placeholder="搜索"
+                    sx={{
+                        mx: 2
+                    }}
+                    onChange={({target: {value: v}}) => {
+                        setValue(v);
+                    }}
+                    onKeyUp={(e) => {
+                        if ((e.key === 'Enter' || e.key === "NumpadEnter") && value) {
+                            onSearch(value);
+                        }
+                    }}
+                    value={value}
+                    fullwidth
+                    autoFocus
+                    endAdornment={
+                        <InputAdornment sx={{minWidth: '28px', height: '45%'}}>
+                            <IconButton type="submit" sx={{p: "10px"}} aria-label="search" onClick={() => {
+                                if (value) {
+                                    onSearch(value);
+                                }
+                            }}>
+                                <SearchIcon sx={{color: '#00809d'}}/>
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                />
+            </Inputwrapper>
+            <TextWrapper>
+                <Card sx={{margin: '0 8px 8px'}}>
+                    <CardContent>
+                        <Typography variant="h5" color="text.secondary">
+                            {randomMedia.juzi}
+                            <div style={{textAlign: 'right'}}><Button variant="text"
+                                                                        onClick={() => onSearch(randomMedia.name)}>《{randomMedia.name}》</Button>
+                                <SmallButton onClick={()=>refreshRandomMedia()}>换一句</SmallButton>
+                            </div>
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </TextWrapper>
 
-      </PageWrapper>
-  );
+        </PageWrapper>
+    );
 }
 
 const PageWrapper = styled(Paper)`
-  background-image: url(https://www.themoviedb.org/t/p/original/2ymO6kST1wwtuSlHifAoG2n2fe5.jpg);
-  opacity: 1;
+  background-image: ${(props) => "url(" + props.backdropUrl + ")"};
+  opacity: 0.8;
   background-position: center;
   background-size: cover;
   position: relative;
