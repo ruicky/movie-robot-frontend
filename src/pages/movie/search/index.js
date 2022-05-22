@@ -25,6 +25,7 @@ import {
 import {spacing} from "@mui/system";
 import Record from "./components/Record";
 import MediaServerSearch from "@/pages/movie/search/MediaServerSearch";
+import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
 
 const StyledDivider = styled(Divider)(spacing);
 
@@ -256,7 +257,7 @@ function SearchRecords(props) {
             {/* 本地库的搜索结果 */}
             {param?.keyword && <MediaServerSearch keyword={param?.keyword}/>}
             {/* 订阅滑动列表 */}
-            {param?.keyword && <SubscribeList keyword={param?.keyword}/>}
+            {param?.keyword && <FilterOptionsProvider><SubscribeList keyword={param?.keyword}/></FilterOptionsProvider>}
             <Grid container spacing={4}>
                 {
                     (loading ? Array.from(new Array(3)) : records || []).filter((item) => {
