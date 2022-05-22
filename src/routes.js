@@ -34,6 +34,7 @@ const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
 const Selectors = async(() => import("./pages/selectors"));
 const SelectorsEditFilter = async(() => import("./pages/selectors/Filter/Edit"));
+const SearchPage = async(() => import("./pages/search/index"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -91,7 +92,7 @@ const routes = [{
     path: "/", element: (<AuthGuard>
         <DashboardLayout/>
     </AuthGuard>), children: [{
-        path: "", element: <MovieRankingList/>
+        path: "", element: <SearchPage/>
     }]
 }, {
     path: "movie", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
