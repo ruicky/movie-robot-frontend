@@ -43,9 +43,9 @@ const TVCard = ({media}) => {
         setMediaInfo(season);
     }
     const setMediaInfo = (season, updateSeasonName = true, updateEpisodesValue = true) => {
-        setPosterUrl(season?.poster_url)
         if (updateSeasonName) {
             setSeasonName(`第${season.index}季`);
+            setPosterUrl(season?.poster_url)
         }
         setAudioStreams(season.audio_streams)
         setSubtitleStreams(season.subtitle_streams)
