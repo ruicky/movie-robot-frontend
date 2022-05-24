@@ -13,6 +13,8 @@ const SearchPage = () => {
     const [value, setValue] = useState();
     const [randomMedia, setRandomMedia] = useState({});
     const {mutateAsync: getJuzi, isLoading} = useGetJuzi();
+    const [isFoucs, setIsFoucs] = useState(false);
+
     const refreshRandomMedia = () => {
         getJuzi({}, {
             onSuccess: resData => {
@@ -32,9 +34,8 @@ const SearchPage = () => {
     }
     return (
         <PageWrapper backdropUrl={randomMedia?.backdrop_url|| '/static/img/default_backdrop.jpeg'}>
-            <Inputwrapper>
+            <Inputwrapper isFoucs={isFoucs || value}>
                 <Input
-
                     id="input-with-icon-adornment"
                     placeholder="搜索"
                     sx={{
@@ -48,6 +49,8 @@ const SearchPage = () => {
                             onSearch(value);
                         }
                     }}
+                    onFocus={() => setIsFoucs(true)}
+                    onBlur={() => setIsFoucs(false)}
                     value={value}
                     fullwidth
                     autoFocus
@@ -77,7 +80,6 @@ const SearchPage = () => {
                     </CardContent>
                 </Card>
             </TextWrapper>
-
         </PageWrapper>
     );
 }
@@ -102,6 +104,16 @@ const Inputwrapper = styled.div`
     position: relative;
     margin: auto;
     z-index: 2;
+    opacity: ${(props) => props.isFoucs ? 0.8 : 0.5};
+    ${(props) => props.theme.breakpoints.up("md")} {
+      width: 78%;
+      min-height: 40px;
+      max-height: 52px;
+      height: 100%;
+      min-width: 580px;
+      max-width: 596px;
+      top: 15%;
+    }
 `;
 
 const Input = styled(OutlinedInput)`
@@ -118,6 +130,9 @@ const Input = styled(OutlinedInput)`
   color: black;
   background-color: #fff;
   box-shadow: 0 0 0 1px rgb(0 0 0 / 10%), 0 2px 4px 1px rgb(0 0 0 / 18%);
+  input {
+    padding: 0;
+  }
 `;
 
 const TextWrapper = styled.div`
