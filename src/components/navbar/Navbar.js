@@ -6,10 +6,9 @@ import {darken} from "polished";
 import {Search as SearchIcon} from "react-feather";
 
 import {Menu as MenuIcon} from "@mui/icons-material";
-
+import {useLocation, useNavigate} from 'react-router-dom'
 import NavbarUserDropdown from "./NavbarUserDropdown";
 import NavbarNotificationsDropdown from "@/components/navbar/NavbarNotificationsDropdown";
-import {useNavigate} from "react-router-dom";
 import {useUrlQueryParam} from "@/hooks/useUrlQueryParam";
 
 const AppBar = styled(MuiAppBar)`
@@ -64,6 +63,7 @@ const Input = styled(InputBase)`
 `;
 
 const Navbar = ({onDrawerToggle}) => {
+    const location = useLocation();
     const [param, setParam] = useUrlQueryParam(["keyword"]);
     const navigate = useNavigate();
     const [keyword, setKeyword] = useState(param.keyword)
@@ -100,14 +100,17 @@ const Navbar = ({onDrawerToggle}) => {
                         </Grid>
                         {/*<Grid item xs />*/}
                         <Grid item>
-                            <IconButton
-                                  color="inherit"
-                                  aria-label="Open search"
-                                  onClick={()=>{navigate("/")}}
-                                  size="large"
-                              >
+                            {["/movie/search", "/"].includes(location.pathname) ? null : <IconButton
+                                color="inherit"
+                                aria-label="Open search"
+                                onClick={() => {
+                                    navigate("/")
+                                }}
+                                size="large"
+                            >
                                 <SearchIcon/>
-                            </IconButton>
+                            </IconButton>}
+
                             <NavbarNotificationsDropdown/>
                             <NavbarUserDropdown/>
                         </Grid>

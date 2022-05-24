@@ -7,33 +7,73 @@ import {useGetJuzi} from "@/api/CommonApi";
 import message from "@/utils/message";
 import {SmallButton} from "@/components/core/SmallButton";
 
+Date.prototype.format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1,                 //月份
+        "d+": this.getDate(),                    //日
+        "h+": this.getHours(),                   //小时
+        "m+": this.getMinutes(),                 //分
+        "s+": this.getSeconds(),                 //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds()             //毫秒
+    };
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        }
+    }
+    return fmt;
+}
 
 const SearchPage = () => {
     const navigate = useNavigate();
     const [value, setValue] = useState();
+    const [backdropUrl, setBackdropUrl] = useState(null);
     const [randomMedia, setRandomMedia] = useState({});
     const {mutateAsync: getJuzi, isLoading} = useGetJuzi();
     const [isFoucs, setIsFoucs] = useState(false);
 
-    const refreshRandomMedia = () => {
+    const refreshRandomMedia = (localBackdropUrl) => {
         getJuzi({}, {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
                     setRandomMedia(data);
+                    if (localBackdropUrl) {
+                        setBackdropUrl(localBackdropUrl);
+                    } else {
+                        setBackdropUrl(data.backdrop_url);
+                        localStorage.setItem('backdropUrlJson', JSON.stringify({
+                            backdropUrl: data.backdrop_url,
+                            date: new Date().format('yyyy-MM-dd')
+                        }))
+                    }
                 }
             },
             onError: error => message.error(error)
         });
     }
     useEffect(() => {
-        refreshRandomMedia();
+        const backdropUrlJson = JSON.parse(window.localStorage.getItem("backdropUrlJson"));
+        let backdropUrl = null;
+        if (backdropUrlJson) {
+            if (backdropUrlJson.date === new Date().format('yyyy-MM-dd')) {
+                backdropUrl = backdropUrlJson.backdropUrl;
+            } else {
+                localStorage.removeItem('backdropUrlJson');
+            }
+        }
+        refreshRandomMedia(backdropUrl);
+
     }, [])
     const onSearch = (keyword) => {
         navigate("/movie/search?keyword=" + keyword)
     }
     return (
-        <PageWrapper backdropUrl={randomMedia?.backdrop_url|| '/static/img/default_backdrop.jpeg'}>
+        <PageWrapper backdropUrl={backdropUrl || '/static/img/default_backdrop.jpeg'}>
             <Inputwrapper isFoucs={isFoucs || value}>
                 <Input
                     id="input-with-icon-adornment"
@@ -73,8 +113,8 @@ const SearchPage = () => {
                         <Typography variant="h5" color="text.secondary">
                             {randomMedia.juzi}
                             <div style={{textAlign: 'right'}}><Button variant="text"
-                                                                        onClick={() => onSearch(randomMedia.name)}>《{randomMedia.name}》</Button>
-                                <SmallButton onClick={()=>refreshRandomMedia()}>换一句</SmallButton>
+                                                                      onClick={() => onSearch(randomMedia.name)}>《{randomMedia.name}》</Button>
+                                <SmallButton onClick={() => refreshRandomMedia(null)}>换一个</SmallButton>
                             </div>
                         </Typography>
                     </CardContent>
