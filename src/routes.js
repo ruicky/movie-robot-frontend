@@ -7,6 +7,7 @@ import AuthLayout from "./layouts/Auth";
 import SignIn from "./pages/auth/SignIn";
 import Page404 from "./pages/auth/Page404";
 import Page500 from "./pages/auth/Page500";
+import DownloadClient from "@/pages/config/DownloadClient";
 
 const DashboardLayout = async(() => import("./layouts/Dashboard"));
 const MovieAnalyze = async(() => import("./pages/movie/analyze"));
@@ -36,6 +37,12 @@ const Selectors = async(() => import("./pages/selectors"));
 const SelectorsEditFilter = async(() => import("./pages/selectors/Filter/Edit"));
 const SearchPage = async(() => import("./pages/search/index"));
 const Setting = async(() => import("./pages/setting"));
+const EditMediaServer = async(() => import("./pages/setting/MediaServer/EditMediaServer"));
+const EditDownloadClient = async(() => import("./pages/setting/DownloadClient/Edit"));
+const EditTmdb = async(() => import("./pages/setting/MovieMetadata/EditTmdb"));
+const EditFanArt = async(() => import("./pages/setting/MovieMetadata/EditFanArt"));
+const EditDouban = async(() => import("./pages/setting/MovieMetadata/EditDouban"));
+const EditWeb = async(() => import("./pages/setting/Base/EditWeb"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -79,13 +86,31 @@ const routes = [{
     }, {
         path: "score-config", element: <ScoreRuleConfig/>
     }]
-},{
-    path: "setting",element: <AuthGuard>
+}, {
+    path: "setting", element: <AuthGuard>
         <DashboardLayout/>
-    </AuthGuard>,children: [
+    </AuthGuard>, children: [
         {
-            path: "",
+            path: "index",
             element: <Setting/>
+        }, {
+            path: 'edit-media-server',
+            element: <EditMediaServer/>
+        }, {
+            path: 'edit-download-client',
+            element: <EditDownloadClient/>
+        }, {
+            path: 'edit-tmdb',
+            element: <EditTmdb/>
+        }, {
+            path: 'edit-fanart',
+            element: <EditFanArt/>
+        }, {
+            path: 'edit-douban',
+            element: <EditDouban/>
+        }, {
+            path: 'edit-web',
+            element: <EditWeb/>
         }
     ]
 }, {
