@@ -70,10 +70,10 @@ const DeleteConfrimDialog = ({open, handleClose, data, onComplete}) => {
                 </Grid>
             </DialogContent>
             <DialogActions>
+                <Button onClick={handleClose}>取消</Button>
                 <Button onClick={handleSubmit} autoFocus disabled={isLoading}>
                     确定
                 </Button>
-                <Button onClick={handleClose}>取消</Button>
             </DialogActions>
         </Dialog>
     );

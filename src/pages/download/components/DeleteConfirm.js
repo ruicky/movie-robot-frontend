@@ -18,7 +18,7 @@ export default function DeleteConfirm(props) {
     const [deleteTorrent, setDeleteTorrent] = useState(true)
     const [addBlacklist, setAddBlacklist] = useState(false)
     const [deleteSub, setDeleteSub] = useState(false)
-    const [deleteMediaServer, setDeleteMediaServer] = useState(true)
+    const [deleteMediaServer, setDeleteMediaServer] = useState(false)
     useEffect(() => {
         setDeleteTorrent(true);
         setAddBlacklist(false);
@@ -66,7 +66,7 @@ export default function DeleteConfirm(props) {
                             name="deleteTorrent"
                             onChange={(e) => setDeleteTorrent(e.target.checked)}
                         />}
-                        label="删除下载器任务及文件(如果种子还在)"
+                        label="删除下载器任务及文件"
                     />
                 </Grid>
                 <Grid item>
@@ -76,7 +76,7 @@ export default function DeleteConfirm(props) {
                             name="deleteMediaServer"
                             onChange={(e) => setDeleteMediaServer(e.target.checked)}
                         />}
-                        label="删除媒体服务器对应资源（包括源文件）"
+                        label="删除媒体服务器对应资源"
                     />
                 </Grid>
                 <Grid item>
@@ -102,11 +102,11 @@ export default function DeleteConfirm(props) {
             </Grid>
         </DialogContent>
         <DialogActions>
-            <Button onClick={handleOk} color="primary" autoFocus>
-                确认
-            </Button>
             <Button onClick={handleClose} color="primary">
                 取消
+            </Button>
+            <Button onClick={handleOk} color="primary" autoFocus>
+                确认
             </Button>
         </DialogActions>
     </Dialog>);

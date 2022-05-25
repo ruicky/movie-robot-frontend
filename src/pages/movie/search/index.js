@@ -10,8 +10,16 @@ import SubscribeList from './components/SubscribeList';
 
 import {
     Box,
+    Button,
+    Checkbox,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Divider,
     FormControl,
+    FormControlLabel,
     Grid,
     IconButton,
     InputAdornment,
@@ -20,7 +28,8 @@ import {
     ListItemText,
     OutlinedInput,
     Snackbar,
-    SwipeableDrawer
+    SwipeableDrawer,
+    Typography
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import Record from "./components/Record";
@@ -109,6 +118,8 @@ const SearchBar = ({onSearch, ...props}) => {
 
 const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
     const [paths, setPaths] = useState([]);
+    const [betterVersion, setBetterVersion] = useState(false);
+    const [confirmPath, setConfirmPath] = useState(null);
     useEffect(() => {
         axios.get("/api/download/paths", {
             params: {}
@@ -118,17 +129,57 @@ const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
         });
     }, []);
 
-    const downloadRequest = useCallback((path) => {
+    const downloadRequest = useCallback((path, betterVersion) => {
         const {id, site_id} = downloadInfo;
         axios.get("/api/download/torrent", {
-            params: {id, site_id, save_path: path}
+            params: {id, site_id, save_path: path, better_version: betterVersion}
         }).then(({code, message}) => {
+            setConfirmPath(null);
+            close();
             setMessage(message);
         });
 
     }, [downloadInfo]);
     return (
         <>
+            <Dialog
+                open={!!confirmPath}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    确认要下载吗?
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <Typography variant="h5">
+                            保存路径: {confirmPath}
+                        </Typography>
+                    </DialogContentText>
+                    <Grid>
+                        <Grid item>
+                            <FormControlLabel
+                                control={<Checkbox
+                                    checked={betterVersion}
+                                    name="betterVersion"
+                                    onChange={(e) => setBetterVersion(e.target.checked)}
+                                />}
+                                label="下载完成后自动替换掉媒体服务器的旧版"
+                            />
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        setConfirmPath(null);
+                    }}>取消</Button>
+                    <Button onClick={() => {
+                        downloadRequest(confirmPath, betterVersion)
+                    }}>
+                        确定
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <SwipeableDrawer
                 anchor="bottom"
                 open={!!downloadInfo}
@@ -142,10 +193,7 @@ const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
                             <ListItem
                                 button
                                 key={text}
-                                onClick={() => {
-                                    downloadRequest(text);
-                                    close();
-                                }}
+                                onClick={() => setConfirmPath(text)}
                             >
                                 <ListItemText primary={text}/>
                             </ListItem>
