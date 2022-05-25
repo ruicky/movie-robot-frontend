@@ -103,10 +103,10 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
+                <Button onClick={handleClose}>取消</Button>
                 <Button onClick={handleSubmit} autoFocus disabled={isLoading}>
                     确定
                 </Button>
-                <Button onClick={handleClose}>取消</Button>
             </DialogActions>
         </Dialog>
     );
