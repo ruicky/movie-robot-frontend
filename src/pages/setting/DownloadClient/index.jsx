@@ -4,7 +4,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import {Chip, ListItemButton, SvgIcon} from "@mui/material";
+import {Chip, ListItemButton, SvgIcon, Divider} from "@mui/material";
 import {ReactComponent as QbitIcon} from "../Icon/qbit.svg";
 import {ReactComponent as TransmissionIcon} from "../Icon/transmission.svg";
 import {Add as AddIcon} from "@mui/icons-material";
@@ -35,20 +35,22 @@ function DownloadSettingList() {
                     </ListItemIcon>
                     <ListItemText primary={<TextLabel text="qBittorrent" chipLabel="默认"/>}
                                   secondary={"http://192.168.1.17:8080"}/>
-                    <Chip size="small" label="可连接" color="success"/>
+                    <Chip sx={{mr: 2}} size="small" label="可连接" color="success"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItemButton>
             </ListItem>
+            <Divider />
             <ListItem>
                 <ListItemButton>
                     <ListItemIcon>
                         <SvgIcon fontSize="large" component={TransmissionIcon} viewBox="0 0 400 400"/>
                     </ListItemIcon>
                     <ListItemText primary="Transmission"/>
-                    <Chip size="small" label="异常" color="error"/>
+                    <Chip sx={{mr: 2}} size="small" label="异常" color="error"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItemButton>
             </ListItem>
+            <Divider />
             <ListItem>
                 <ListItemButton onClick={() => navigate("/smartDownload/edit-filter")}>
                     <ListItemIcon>

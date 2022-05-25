@@ -4,7 +4,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import {Chip, ListItemButton, Paper, SvgIcon} from "@mui/material";
+import {Chip, ListItemButton, Paper, SvgIcon, Divider} from "@mui/material";
 import {ReactComponent as EmbyIcon} from "../Icon/emby.svg";
 import {ReactComponent as JellyfinIcon} from "../Icon/jellyfin.svg";
 import {ReactComponent as PlexIcon} from "../Icon/plex.svg";
@@ -25,27 +25,29 @@ function MediaServerSettingList() {
                         </ListItemIcon>
                         <ListItemText primary={"Emby"}
                                       secondary={"http://192.168.1.17:8080"}/>
-                        <Chip size="small" label="可连接" color="success"/>
+                        <Chip sx={{mr: 2}} size="small" label="可连接" color="success"/>
                         <ArrowForwardIosOutlinedIcon color="disabled"/>
                     </ListItemButton>
                 </ListItem>
+                <Divider />
                 <ListItem>
                     <ListItemButton>
                         <ListItemIcon>
                             <SvgIcon fontSize="large" component={JellyfinIcon} viewBox="0 0 400 400"/>
                         </ListItemIcon>
                         <ListItemText primary="Jellyfin"/>
-                        <Chip size="small" label="异常" color="error"/>
+                        <Chip sx={{mr: 2}} size="small" label="异常" color="error"/>
                         <ArrowForwardIosOutlinedIcon color="disabled"/>
                     </ListItemButton>
                 </ListItem>
+                <Divider />
                 <ListItem>
                     <ListItemButton>
                         <ListItemIcon>
                             <SvgIcon fontSize="large" component={PlexIcon} viewBox="0 0 400 400"/>
                         </ListItemIcon>
                         <ListItemText primary="Transmission"/>
-                        <Chip size="small" label="异常" color="error"/>
+                        <Chip sx={{mr: 2}} size="small" label="异常" color="error"/>
                         <ArrowForwardIosOutlinedIcon color="disabled"/>
                     </ListItemButton>
                 </ListItem>
