@@ -57,7 +57,6 @@ const EditNotify = () => {
     }
     useEffect( () => {
         const type = getTypeStr(searchParams.get("type"));
-        console.log(notifySetting)
         setTitle(`设置${type}`)
         if (notifySetting && notifySetting.data) {
             const setting = {};

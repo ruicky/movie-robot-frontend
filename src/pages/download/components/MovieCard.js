@@ -22,7 +22,6 @@ import MovieInfoDialog from './MovieInfoDialog'
 import {STATUS} from "@/constants";
 
 function TitleLabel({title, year, season_index, season_year, movie_type}) {
-    console.log(season_index)
     if (movie_type === "Movie") {
         return (<span>
             {title}({year})

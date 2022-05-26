@@ -25,3 +25,10 @@ export const useGetJuzi = () => {
             client("/api/common/juzi", {method: "GET"})
     );
 };
+export const useRestartApp = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/common/restart_app", {params: params, method: "GET"})
+    );
+};

@@ -9,7 +9,6 @@ function UserManager() {
     const [userList, setUserList] = useState([])
     useEffect(async () => {
         const userList = await getUserList()
-        console.log(userList)
         setUserList(userList)
     }, [])
     return (<React.Fragment>
