@@ -7,7 +7,6 @@ import AuthLayout from "./layouts/Auth";
 import SignIn from "./pages/auth/SignIn";
 import Page404 from "./pages/auth/Page404";
 import Page500 from "./pages/auth/Page500";
-import DownloadClient from "@/pages/config/DownloadClient";
 
 const DashboardLayout = async(() => import("./layouts/Dashboard"));
 const MovieAnalyze = async(() => import("./pages/movie/analyze"));
@@ -42,7 +41,10 @@ const EditDownloadClient = async(() => import("./pages/setting/DownloadClient/Ed
 const EditTmdb = async(() => import("./pages/setting/MovieMetadata/EditTmdb"));
 const EditFanArt = async(() => import("./pages/setting/MovieMetadata/EditFanArt"));
 const EditDouban = async(() => import("./pages/setting/MovieMetadata/EditDouban"));
-const EditWeb = async(() => import("./pages/setting/Base/EditWeb"));
+const EditWeb = async(() => import("./pages/setting/Advanced/EditWeb"));
+const EditNotify = async(() => import("./pages/setting/Notify/Edit"));
+const EditFreeDownload = async(() => import("./pages/setting/Advanced/EditFreeDownload"));
+const EditSubtitle = async(() => import("./pages/setting/Advanced/EditSubtitle"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -111,6 +113,15 @@ const routes = [{
         }, {
             path: 'edit-web',
             element: <EditWeb/>
+        }, {
+            path: 'edit-notify',
+            element: <EditNotify/>
+        }, {
+            path: 'edit-free-download',
+            element: <EditFreeDownload/>
+        }, {
+            path: 'edit-subtitle',
+            element: <EditSubtitle/>
         }
     ]
 }, {

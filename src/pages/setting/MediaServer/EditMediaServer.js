@@ -151,7 +151,7 @@ function MediaServerConfigForm({type}) {
             value={formik.values.url}
             error={Boolean(formik.touched.url && formik.errors.url)}
             fullWidth
-            helperText="Emby网站服务的访问地址，带协议类型和端口号"
+            helperText="媒体服务的访问地址，带协议类型和端口号"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}

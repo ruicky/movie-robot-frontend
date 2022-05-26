@@ -84,3 +84,76 @@ export const useSaveWeb = (param) => {
             client("/api/setting/save_web", {params: params, method: "POST"})
     );
 };
+export const useGetNotifySetting = (param) => {
+    const client = useHttp();
+    return useQuery(['getNotifySetting', param], () =>
+        client("/api/setting/get_notify", {params: param, method: "GET"})
+    );
+};
+export const useSaveNotify = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_notify", {params: params, method: "POST"})
+    );
+};
+export const useSetNotifyEnable = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/set_notify_enable", {params: params, method: "POST"})
+    );
+};
+export const useTestNotify = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/test_notify", {params: params, method: "POST"})
+    );
+};
+export const useSetFreeDownloadEnable = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/set_free_download_enable", {params: params, method: "POST"})
+    );
+};
+export const useSaveFreeDownload = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_free_download", {params: params, method: "POST"})
+    );
+};
+export const useGetFreeDownloadSetting = (param) => {
+    const client = useHttp();
+    return useQuery(['getFreeDownloadSetting', param], () =>
+        client("/api/setting/get_free_download", {params: param, method: "GET"})
+    );
+};
+export const useGetSettingStatus = (param) => {
+    const client = useHttp();
+    return useQuery(['getSettingStatus', param], () =>
+        client("/api/setting/get_status", {params: param, method: "GET"})
+    );
+};
+export const useSetSubtitleEnable = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/set_subtitle_enable", {params: params, method: "POST"})
+    );
+};
+export const useGetSubtitleSetting = (param) => {
+    const client = useHttp();
+    return useQuery(['getSubtitleSetting', param], () =>
+        client("/api/setting/get_subtitle", {params: param, method: "GET"})
+    );
+};
+export const useSaveSubtitle = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_subtitle", {params: params, method: "POST"})
+    );
+};

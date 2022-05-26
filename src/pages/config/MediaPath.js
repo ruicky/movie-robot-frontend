@@ -2,19 +2,15 @@ import React from "react";
 import styled from "styled-components/macro";
 import {Helmet} from "react-helmet-async";
 
-import {Paper, Typography} from "@mui/material";
+import {Breadcrumbs, Divider as MuiDivider, Link, Typography} from "@mui/material";
 
 import MediaPathConfigComponent from "./components/MediaPathConfigComponent";
-import {useLocation} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
+import {spacing} from "@mui/system";
 
 
-const Wrapper = styled(Paper)`
-  padding: ${(props) => props.theme.spacing(6)};
+const Divider = styled(MuiDivider)(spacing);
 
-  ${(props) => props.theme.breakpoints.up("md")} {
-    padding: ${(props) => props.theme.spacing(10)};
-  }
-`;
 
 function MediaPath() {
     const location = useLocation();
@@ -23,18 +19,20 @@ function MediaPath() {
         isInit = true
     }
     return (<React.Fragment>
-        <Wrapper>
-            <Helmet title={isInit ? "媒体文件夹设置 - 初始化" : "媒体文件夹设置"}/>
+        <Helmet title="设置媒体文件夹"/>
+        <Typography variant="h3" gutterBottom display="inline">
+            设置媒体文件夹
+        </Typography>
 
-            <Typography component="h1" variant="h4" align="center" gutterBottom>
-                媒体文件夹设置
-            </Typography>
-            <Typography component="h2" variant="body1" align="left">
-                设置你存放影视文件的路径后，系统可以帮你对新下载的影视自动整理"刮削"。这个路径，也将作为你提交下载的保存路径，web下载和豆瓣下载都会使用。
-            </Typography>
+        <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+            <Link component={NavLink} to="/setting/index">
+                设置
+            </Link>
+            <Typography>媒体文件夹</Typography>
+        </Breadcrumbs>
+        <Divider my={6}/>
 
-            <MediaPathConfigComponent isInit={isInit}/>
-        </Wrapper>
+        <MediaPathConfigComponent isInit={isInit}/>
     </React.Fragment>);
 }
 

@@ -32,7 +32,7 @@ function MovieMetadataSettingList() {
     return (
         <List
             sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
-            subheader={<ListSubheader>媒体识别</ListSubheader>}
+            subheader={<ListSubheader>媒体数据</ListSubheader>}
         >
             <ListItem divider>
                 <ListItemButton onClick={() => navigate("/setting/edit-tmdb")}>
@@ -79,7 +79,7 @@ const grayStyle = css`
 
 const ImgWrapper = styled.img`
     /* 默认宽为 260px */
-    width: 260px;
+    width: 180px;
     /* 这里是只要是比 md 小的就设置宽慰 110 像素 */
     ${(props) => props.theme.breakpoints.down("md")} {
         width: 110px;

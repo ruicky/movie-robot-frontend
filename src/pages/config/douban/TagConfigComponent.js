@@ -34,10 +34,10 @@ const TagConfigComponent = ({ruleData, tags, setTags}) => {
     }
     return (
         <React.Fragment>
-            <Card>
+            <Card sx={{mt:4}}>
                 {tags.map((tag, i) => (
                     <Card mb={6} key={i}>
-                        <Typography gutterBottom variant="h5" component="h2">
+                        <Typography gutterBottom variant="h5" component="h2" component="h2" ml={4} mt={2}>
                             标签 {tag.tag_name}
                             <Button
                                 onClick={() => {

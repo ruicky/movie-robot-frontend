@@ -66,9 +66,9 @@ const DownloadPathConfigComponent = ({data, setData, submitting, setHasError, do
         }
     }, [submitting])
     return (<React.Fragment>
-        <Card>
+        <Card sx={{mt:4}}>
             {data.map((item, i) => (<Card mb={6} key={i}>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h5" component="h2" ml={4} mt={2}>
                     下载保存规则 {i + 1}
                     <Button
                         onClick={() => {
