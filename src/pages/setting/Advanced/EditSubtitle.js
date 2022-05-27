@@ -47,7 +47,8 @@ const MenuProps = {
 const SUBTITLE_TYPES = ["srt", "ass", "sup"]
 const SUBTITLE_FINDERS = ["zimuku", "subhd"]
 const SYNC_LANGUAGES = ["zh-cn", "zh-tw"]
-const AREAS = ["中国大陆","中国台湾","中国香港","日本","韩国","美国","英国","泰国","意大利"];
+const AREAS = ["中国大陆", "中国台湾", "中国香港", "日本", "韩国", "美国", "英国", "泰国", "意大利"];
+
 function EditForm({}) {
     const navigate = useNavigate();
     const {data: setting, isLoading: isLoading} = useGetSubtitleSetting();
@@ -61,7 +62,8 @@ function EditForm({}) {
             finder_type: ["zimuku", "subhd"],
             sync_language: ["zh-cn", "zh-tw"],
             subhd_check_code: "",
-            exclude_area: ["中国大陆", "中国台湾"]
+            exclude_area: ["中国大陆", "中国台湾"],
+            not_found_stop_minutes: 4320
         }, validationSchema: Yup.object().shape({
             file_name_template: Yup.string().max(2000).required("字幕文件名模版不能为空")
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
@@ -70,6 +72,7 @@ function EditForm({}) {
                     onSuccess: res => {
                         const {code, message: msg, data} = res;
                         if (code === 0) {
+                            message.success('更改配置成功，需要重启后才能生效。')
                             navigate("/setting/index");
                         } else {
                             message.error(msg)
@@ -95,12 +98,29 @@ function EditForm({}) {
             formik.setFieldValue("sync_language", data.sync_language ? data.sync_language : ['zh-cn', 'zh-tw']);
             formik.setFieldValue("exclude_area", data.exclude_area ? data.exclude_area : ["中国大陆", "中国台湾"]);
             formik.setFieldValue("subhd_check_code", data.subhd_check_code ? data.subhd_check_code : '');
+            formik.setFieldValue("not_found_stop_minutes", data.not_found_stop_minutes !== null && data.not_found_stop_minutes !== undefined ? data.not_found_stop_minutes : 4320);
         }
     }, [setting]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
         </Alert>)}
+        <TextField
+            type="text"
+            name="not_found_stop_minutes"
+            label="无字幕时等待时间上限"
+            value={formik.values.not_found_stop_minutes}
+            error={Boolean(formik.touched.not_found_stop_minutes && formik.errors.not_found_stop_minutes)}
+            fullWidth
+            helperText={formik.touched.not_found_stop_minutes && formik.errors.not_found_stop_minutes || (
+                <span>
+                    单位分钟，默认3天。再此设置的期限内，会持续查找字幕，但频率不会很高，后期可能1天1次
+                </span>
+            )}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
         <TextField
             type="text"
             name="file_name_template"

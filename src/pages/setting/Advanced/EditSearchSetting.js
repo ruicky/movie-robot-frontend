@@ -14,13 +14,12 @@ import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {useGetWeb, useSaveWeb} from "@/api/SettingApi";
+import {useGetServerSetting, useGetWeb, useSaveServerSetting, useSaveWeb} from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const Divider = styled(MuiDivider)(spacing);
 
 const Alert = styled(MuiAlert)(spacing);
-
 const TextField = styled(MuiTextField)(spacing);
 const Centered = styled.div`
   text-align: center;
@@ -29,25 +28,23 @@ const Centered = styled.div`
 
 function EditForm({isInit}) {
     const navigate = useNavigate();
-    const {data: webSetting, isLoading: isLoading} = useGetWeb();
-    const {mutateAsync: saveWeb, isSaving} = useSaveWeb();
+    const {data: setting, isLoading: isLoading} = useGetServerSetting();
+    const {mutateAsync: save, isSaving} = useSaveServerSetting();
     const formik = useFormik({
         initialValues: {
-            host: "::", port: 1329, server_url: "http://"
+            site_max_workers: 0,
+            web_search_timeout: 10,
+            web_search_result_limit:0
         }, validationSchema: Yup.object().shape({
-            host: Yup.string().max(64).required("主机地址必须填写"),
-            port: Yup.string().max(5).required("网站服务端口号必须填写"),
+            site_max_workers: Yup.number().required("最大搜索线程不能为空"),
+            web_search_timeout: Yup.number().required("搜索超时时间不能为空")
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
-                saveWeb({
-                    host: values.host,
-                    port: values.port,
-                    server_url: values.server_url
-                }, {
+                save(values, {
                     onSuccess: res => {
                         const {code, message: msg, data} = res;
                         if (code === 0) {
-                            message.success('更改应用访问设置成功，重启后才能生效。')
+                            message.success('搜索设置保存成功，已经生效了。')
                             navigate("/setting/index");
                         } else {
                             message.error(msg)
@@ -65,48 +62,48 @@ function EditForm({isInit}) {
     });
 
     useEffect(async () => {
-        if (webSetting?.data) {
-            formik.setFieldValue("server_url", webSetting.data?.server_url ? webSetting.data?.server_url : '');
-            formik.setFieldValue("port", webSetting.data?.port ? webSetting.data?.port : 1329);
-            formik.setFieldValue("host", webSetting.data?.host ? webSetting.data?.host : '::');
+        if (setting?.data) {
+            formik.setFieldValue("site_max_workers", setting.data?.site_max_workers ? setting.data?.site_max_workers : 0);
+            formik.setFieldValue("web_search_timeout", setting.data?.web_search_timeout ? setting.data?.web_search_timeout : 10);
+            formik.setFieldValue("web_search_result_limit", setting.data?.web_search_result_limit ? setting.data?.web_search_result_limit : 0);
         }
-    }, [webSetting]);
+    }, [setting]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
         </Alert>)}
         <TextField
-            type="text"
-            name="server_url"
-            label="站点访问地址"
-            value={formik.values.server_url}
-            error={Boolean(formik.touched.server_url && formik.errors.server_url)}
+            type="number"
+            name="site_max_workers"
+            label="最大搜索线程数"
+            value={formik.values.site_max_workers}
+            error={Boolean(formik.touched.site_max_workers && formik.errors.site_max_workers)}
             fullWidth
-            helperText="该地址适用于未来分享应用链接时访问，一般为外网可访问的地址，不开外网访问可以不填"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            my={3}
-        />
-        <TextField
-            type="text"
-            name="host"
-            label="主机"
-            value={formik.values.host}
-            error={Boolean(formik.touched.host && formik.errors.host)}
-            fullWidth
-            helperText=":: 支持IPV6，不懂不要改这个值"
+            helperText="多站点搜索是IO密集型操作，所以这个值建议是你的cpu核心数*1.5"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
         />
         <TextField
             type="number"
-            name="port"
-            label="端口"
-            value={formik.values.port}
-            error={Boolean(formik.touched.port && formik.errors.port)}
+            name="web_search_timeout"
+            label="连接网站超时时间(秒)"
+            value={formik.values.web_search_timeout}
+            error={Boolean(formik.touched.web_search_timeout && formik.errors.web_search_timeout)}
             fullWidth
-            helperText={(formik.touched.port && formik.errors.port) || "web服务启动端口，没有特殊需求不用改"}
+            helperText="连接网络的超时时间，越大意味着你在网页等的越久，不要超过60秒"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
+        <TextField
+            type="number"
+            name="web_search_result_limit"
+            label="返回给页面的最大结果条数"
+            value={formik.values.web_search_result_limit}
+            error={Boolean(formik.touched.web_search_result_limit && formik.errors.web_search_result_limit)}
+            fullWidth
+            helperText="页面展示太多，网页也会卡，可以通过这个参数限制结果数，0为不限制，默认不限制"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
@@ -124,21 +121,21 @@ function EditForm({isInit}) {
     </form>);
 }
 
-const EditWeb = () => {
+const EditSearchSetting = () => {
     return (<React.Fragment>
-        <Helmet title="网站访问设置"/>
+        <Helmet title="搜索设置"/>
         <Typography variant="h3" gutterBottom display="inline">
-            网站访问设置
+            搜索设置
         </Typography>
 
         <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Link component={NavLink} to="/setting/index">
                 设置
             </Link>
-            <Typography>网站访问</Typography>
+            <Typography>搜索设置</Typography>
         </Breadcrumbs>
         <Divider my={6}/>
         <EditForm/>
     </React.Fragment>);
 }
-export default EditWeb;
+export default EditSearchSetting;

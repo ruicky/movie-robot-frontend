@@ -13,6 +13,7 @@ import ClosedCaptionIcon from "@mui/icons-material/ClosedCaption";
 import {useGetSettingStatus, useSetFreeDownloadEnable, useSetSubtitleEnable} from "@/api/SettingApi";
 import message from "@/utils/message";
 import LanguageIcon from "@mui/icons-material/Language";
+import SearchIcon from '@mui/icons-material/Search';
 
 function AdvancedSettingList() {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ function AdvancedSettingList() {
             onSuccess: res => {
                 const {code, message: msg, data} = res;
                 if (code === 0) {
+                    message.success('更改配置成功，需要重启后才能生效。')
                     refetch();
                 } else {
                     message.error(msg);
@@ -86,11 +88,20 @@ function AdvancedSettingList() {
                 </ListItemButton>
             </ListItem>
             <ListItem>
+                <ListItemButton onClick={() => navigate("/setting/edit-search-setting")}>
+                    <ListItemIcon>
+                        <SearchIcon fontSize={"large"}/>
+                    </ListItemIcon>
+                    <ListItemText primary="网页搜索结果"/>
+                    <ArrowForwardIosOutlinedIcon color="disabled"/>
+                </ListItemButton>
+            </ListItem>
+            <ListItem>
                 <ListItemButton onClick={() => navigate("/setting/edit-web")}>
                     <ListItemIcon>
                         <LanguageIcon fontSize={"large"}/>
                     </ListItemIcon>
-                    <ListItemText primary="Web应用访问"/>
+                    <ListItemText primary="应用访问"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItemButton>
             </ListItem>

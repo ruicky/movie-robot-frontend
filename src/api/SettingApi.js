@@ -157,3 +157,16 @@ export const useSaveSubtitle = (param) => {
             client("/api/setting/save_subtitle", {params: params, method: "POST"})
     );
 };
+export const useGetServerSetting = (param) => {
+    const client = useHttp();
+    return useQuery(['getWebSetting', param], () =>
+        client("/api/setting/get_server_setting", {params: param, method: "GET"})
+    );
+};
+export const useSaveServerSetting = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_server_setting", {params: params, method: "POST"})
+    );
+};

@@ -46,6 +46,7 @@ function EditForm({}) {
                     onSuccess: res => {
                         const {code, message: msg, data} = res;
                         if (code === 0) {
+                            message.success('更改配置成功，需要重启后才能生效。')
                             navigate("/setting/index");
                         } else {
                             message.error(msg)

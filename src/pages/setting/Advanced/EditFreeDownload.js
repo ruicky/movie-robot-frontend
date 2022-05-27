@@ -51,6 +51,7 @@ function EditForm({}) {
                     onSuccess:res=>{
                         const {code, message: msg, data} = res;
                         if (code === 0) {
+                            message.success('设置流量管理成功，已经生效了。')
                             navigate("/setting/index");
                         } else {
                             message.error(msg)

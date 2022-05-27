@@ -45,6 +45,7 @@ const EditWeb = async(() => import("./pages/setting/Advanced/EditWeb"));
 const EditNotify = async(() => import("./pages/setting/Notify/Edit"));
 const EditFreeDownload = async(() => import("./pages/setting/Advanced/EditFreeDownload"));
 const EditSubtitle = async(() => import("./pages/setting/Advanced/EditSubtitle"));
+const EditSearchSetting = async(() => import("./pages/setting/Advanced/EditSearchSetting"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -122,6 +123,9 @@ const routes = [{
         }, {
             path: 'edit-subtitle',
             element: <EditSubtitle/>
+        }, {
+            path: 'edit-search-setting',
+            element: <EditSearchSetting/>
         }
     ]
 }, {
