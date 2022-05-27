@@ -33,7 +33,7 @@ function DoubanConfig() {
                 <Typography>豆瓣想看与智能下载保存规则</Typography>
             </Breadcrumbs>
             <Divider my={6}/>
-            <DoubanConfigComponent isInit={isInit}/>
+            <DoubanConfigComponent/>
     </React.Fragment>);
 }
 

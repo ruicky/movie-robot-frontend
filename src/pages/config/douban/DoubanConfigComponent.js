@@ -54,8 +54,7 @@ function DoubanConfigComponent({}) {
         initialValues: {
             default_score_rule: 'compress'
         }, validationSchema: Yup.object().shape({
-            default_score_rule: Yup.string().max(256).required(),
-            cookie: Yup.string().required()
+            default_score_rule: Yup.string().max(256).required()
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             if (userFormHasError || pathFormHasError) {
                 return
