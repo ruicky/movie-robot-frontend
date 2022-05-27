@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 import {Button, Card, CardContent, IconButton, InputAdornment, OutlinedInput, Paper, Typography} from "@mui/material";
 import {Search as SearchIcon} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
-import {useGetJuzi} from "@/api/CommonApi";
+import {useGetDailyMedia, useGetJuzi} from "@/api/CommonApi";
 import message from "@/utils/message";
 import {SmallButton} from "@/components/core/SmallButton";
 
@@ -31,49 +31,46 @@ Date.prototype.format = function (fmt) {
 const SearchPage = () => {
     const navigate = useNavigate();
     const [value, setValue] = useState();
-    const [backdropUrl, setBackdropUrl] = useState(null);
-    const [randomMedia, setRandomMedia] = useState({});
-    const {mutateAsync: getJuzi, isLoading} = useGetJuzi();
+    const [media, setMedia] = useState({});
+    const {mutateAsync: getDailyMedia, isLoading} = useGetDailyMedia();
     const [isFoucs, setIsFoucs] = useState(false);
 
-    const refreshRandomMedia = (localBackdropUrl) => {
-        getJuzi({}, {
+    const refreshRandomMedia = () => {
+        getDailyMedia({}, {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
-                    setRandomMedia(data);
-                    if (localBackdropUrl) {
-                        setBackdropUrl(localBackdropUrl);
-                    } else {
-                        setBackdropUrl(data.backdrop_url);
-                        localStorage.setItem('backdropUrlJson', JSON.stringify({
-                            backdropUrl: data.backdrop_url,
-                            date: new Date().format('yyyy-MM-dd')
-                        }))
-                    }
+                    setMedia(data);
+                    localStorage.setItem('dailyMedia', JSON.stringify({
+                        data: data,
+                        date: new Date().format('yyyy-MM-dd')
+                    }))
                 }
             },
             onError: error => message.error(error)
         });
     }
     useEffect(() => {
-        const backdropUrlJson = JSON.parse(window.localStorage.getItem("backdropUrlJson"));
-        let backdropUrl = null;
-        if (backdropUrlJson) {
-            if (backdropUrlJson.date === new Date().format('yyyy-MM-dd')) {
-                backdropUrl = backdropUrlJson.backdropUrl;
+        const data = JSON.parse(window.localStorage.getItem("dailyMedia"));
+        let dailyMedia = null;
+        if (data) {
+            if (data.date === new Date().format('yyyy-MM-dd')) {
+                dailyMedia = data.data;
             } else {
                 localStorage.removeItem('backdropUrlJson');
             }
         }
-        refreshRandomMedia(backdropUrl);
-
+        if (dailyMedia === null) {
+            refreshRandomMedia();
+        }else{
+            setMedia(dailyMedia);
+        }
     }, [])
     const onSearch = (keyword) => {
         navigate("/movie/search?keyword=" + keyword)
     }
     return (
-        <PageWrapper backdropUrl={backdropUrl || '/static/img/default_backdrop.jpeg'}>
+        <PageWrapper backdropUrl={media?.backdrop_url || '/static/img/default_backdrop.jpeg'}>
             <Inputwrapper isFoucs={isFoucs || value}>
                 <Input
                     id="input-with-icon-adornment"
@@ -111,9 +108,9 @@ const SearchPage = () => {
                 <Card sx={{margin: '0 8px 8px'}}>
                     <CardContent>
                         <Typography variant="h5" color="text.secondary">
-                            {randomMedia.juzi}
+                            {media.comment}
                             <div style={{textAlign: 'right'}}><Button variant="text"
-                                                                      onClick={() => onSearch(randomMedia.name)}>《{randomMedia.name}》</Button>
+                                                                      onClick={() => onSearch(media.name)}>《{media.name}》</Button>
                                 <SmallButton onClick={() => refreshRandomMedia(null)}>换一个</SmallButton>
                             </div>
                         </Typography>

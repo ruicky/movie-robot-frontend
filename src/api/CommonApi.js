@@ -14,15 +14,11 @@ export const getFilterOptions = async () => {
     let res = await axios.get("/api/common/filter_options")
     return res.data;
 }
-export const getJuzi = async () => {
-    let res = await axios.get("/api/common/juzi")
-    return res.data;
-}
-export const useGetJuzi = () => {
+export const useGetDailyMedia = () => {
     const client = useHttp();
     return useMutation(
         (params) =>
-            client("/api/common/juzi", {method: "GET"})
+            client("/api/common/daily_media", {method: "GET"})
     );
 };
 export const useRestartApp = (param) => {
