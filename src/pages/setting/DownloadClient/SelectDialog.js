@@ -6,14 +6,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {SvgIcon} from "@mui/material";
-import {ReactComponent as EmbyIcon} from "@/pages/setting/Icon/emby.svg";
-import {ReactComponent as JellyfinIcon} from "@/pages/setting/Icon/jellyfin.svg";
-import {ReactComponent as PlexIcon} from "@/pages/setting/Icon/plex.svg";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import {useNavigate} from "react-router-dom";
 import {ReactComponent as QbitIcon} from "@/pages/setting/Icon/qbit.svg";
 import {ReactComponent as TransmissionIcon} from "@/pages/setting/Icon/transmission.svg";
-import AddIcon from '@mui/icons-material/Add';
+import {ReactComponent as Aria2Icon} from "@/pages/setting/Icon/aria2.svg";
 
 function SelectDialog({open, handleClose, configured = []}) {
     const navigate = useNavigate();
@@ -28,11 +25,18 @@ function SelectDialog({open, handleClose, configured = []}) {
                     <ListItemText primary="qBittorrent"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItem>
-                <ListItem  button onClick={() => navigate("/setting/edit-download-client?type=transmission")}>
+                <ListItem button onClick={() => navigate("/setting/edit-download-client?type=transmission")}>
                     <ListItemIcon>
                         <SvgIcon fontSize="large" component={TransmissionIcon} viewBox="0 0 400 400"/>
                     </ListItemIcon>
                     <ListItemText primary="Transmission"/>
+                    <ArrowForwardIosOutlinedIcon color="disabled"/>
+                </ListItem>
+                <ListItem button onClick={() => navigate("/setting/edit-download-client?type=aria2")}>
+                    <ListItemIcon>
+                        <SvgIcon fontSize="large" component={Aria2Icon} viewBox="0 0 400 400"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Aria2"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItem>
             </List>
