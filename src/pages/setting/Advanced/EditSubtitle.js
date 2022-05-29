@@ -235,7 +235,7 @@ function EditForm({}) {
         </FormControl>
         <FormControl m={4} fullWidth>
             <Select
-                name="filter_type"
+                name="sync_language"
                 value={formik.values.sync_language}
                 multiple
                 onChange={formik.handleChange}
@@ -274,7 +274,7 @@ function EditForm({}) {
             fullWidth
             helperText={formik.touched.subhd_check_code && formik.errors.subhd_check_code || (
                 <span>
-                    SubHD定期下载验证码，需要去他们的微信公众号获取，每个月好像都会更新；使用SubHD时必填；
+                    SubHD定期下载验证码，需要去他们的微信公众号"火星影剧"获取，每个月好像都会更新；使用SubHD时必填；
                 </span>
             )}
             onBlur={formik.handleBlur}

@@ -8,6 +8,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import {Chip, ListItemButton, SvgIcon} from "@mui/material";
 import {ReactComponent as QbitIcon} from "../Icon/qbit.svg";
 import {ReactComponent as TransmissionIcon} from "../Icon/transmission.svg";
+import {ReactComponent as Aria2Icon} from "@/pages/setting/Icon/aria2.svg";
 import {Add as AddIcon} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
@@ -15,6 +16,7 @@ import {useGetDownloadClient} from "@/api/SettingApi";
 import message from "@/utils/message";
 import HealthStatus from "@/pages/setting/components/HealthStatus";
 import SelectDialog from "@/pages/setting/DownloadClient/SelectDialog";
+import axios from "@/utils/request";
 
 function TextLabel({text, chipLabel = null, chipColor = "success"}) {
     return (
@@ -28,10 +30,13 @@ function TextLabel({text, chipLabel = null, chipColor = "success"}) {
 
 function DownloadSettingList() {
     const navigate = useNavigate();
+    const [siteMeta, setSiteMeta] = useState([]);
     const [showSelect, setShowSelect] = useState(false);
     const [downloadClient, setdownloadClient] = useState([]);
     const {mutateAsync: getDownloadClient, isLoading} = useGetDownloadClient();
-    useEffect(() => {
+    useEffect(async () => {
+        let res = await axios.get('/api/common/sites')
+        setSiteMeta(res.data);
         getDownloadClient({}, {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
@@ -64,9 +69,16 @@ function DownloadSettingList() {
                                 {item.type === "transmission" ?
                                     <SvgIcon fontSize="large" component={TransmissionIcon}
                                              viewBox="0 0 400 400"/> : null}
+                                {item.type === "aria2" ?
+                                    <SvgIcon fontSize="large" component={Aria2Icon}
+                                             viewBox="0 0 400 400"/> : null}
                             </ListItemIcon>
                             <ListItemText
-                                primary={<TextLabel text={item.name} chipLabel={item.is_default ? "默认" : null}/>}/>
+                                primary={<TextLabel text={item.name} chipLabel={item.is_default ? "默认" : null}/>}
+                                secondary={item.site_id ? item.site_id.map((value) => {
+                                    return siteMeta && siteMeta.find(item => item.id === value).name
+                                }).join(" / ") : "所有站点"}
+                            />
                             <HealthStatus status={item.status}/>
                             <ArrowForwardIosOutlinedIcon color="disabled"/>
                         </ListItemButton>
