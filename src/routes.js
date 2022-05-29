@@ -36,6 +36,16 @@ const Selectors = async(() => import("./pages/selectors"));
 const SelectorsEditFilter = async(() => import("./pages/selectors/Filter/Edit"));
 const SearchPage = async(() => import("./pages/search/index"));
 const Setting = async(() => import("./pages/setting"));
+const EditMediaServer = async(() => import("./pages/setting/MediaServer/EditMediaServer"));
+const EditDownloadClient = async(() => import("./pages/setting/DownloadClient/Edit"));
+const EditTmdb = async(() => import("./pages/setting/MovieMetadata/EditTmdb"));
+const EditFanArt = async(() => import("./pages/setting/MovieMetadata/EditFanArt"));
+const EditDouban = async(() => import("./pages/setting/MovieMetadata/EditDouban"));
+const EditWeb = async(() => import("./pages/setting/Advanced/EditWeb"));
+const EditNotify = async(() => import("./pages/setting/Notify/Edit"));
+const EditFreeDownload = async(() => import("./pages/setting/Advanced/EditFreeDownload"));
+const EditSubtitle = async(() => import("./pages/setting/Advanced/EditSubtitle"));
+const EditSearchSetting = async(() => import("./pages/setting/Advanced/EditSearchSetting"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -79,13 +89,43 @@ const routes = [{
     }, {
         path: "score-config", element: <ScoreRuleConfig/>
     }]
-},{
-    path: "setting",element: <AuthGuard>
+}, {
+    path: "setting", element: <AuthGuard>
         <DashboardLayout/>
-    </AuthGuard>,children: [
+    </AuthGuard>, children: [
         {
-            path: "",
+            path: "index",
             element: <Setting/>
+        }, {
+            path: 'edit-media-server',
+            element: <EditMediaServer/>
+        }, {
+            path: 'edit-download-client',
+            element: <EditDownloadClient/>
+        }, {
+            path: 'edit-tmdb',
+            element: <EditTmdb/>
+        }, {
+            path: 'edit-fanart',
+            element: <EditFanArt/>
+        }, {
+            path: 'edit-douban',
+            element: <EditDouban/>
+        }, {
+            path: 'edit-web',
+            element: <EditWeb/>
+        }, {
+            path: 'edit-notify',
+            element: <EditNotify/>
+        }, {
+            path: 'edit-free-download',
+            element: <EditFreeDownload/>
+        }, {
+            path: 'edit-subtitle',
+            element: <EditSubtitle/>
+        }, {
+            path: 'edit-search-setting',
+            element: <EditSearchSetting/>
         }
     ]
 }, {

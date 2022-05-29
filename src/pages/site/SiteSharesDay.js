@@ -20,7 +20,6 @@ function SiteSharesDay({data, title, tooltip_title}) {
         tooltip: {
             trigger: 'item',
             formatter: (params, ticket, callback) => {
-                console.log(params)
                 let tips = params.name + "<br/>";
                 tips += params.marker + tooltip_title + "：" + coverSize(params.value) + "<br/>"
                 return tips

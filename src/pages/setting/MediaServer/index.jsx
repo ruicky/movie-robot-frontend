@@ -1,57 +1,80 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import {Chip, ListItemButton, Paper, SvgIcon, Divider} from "@mui/material";
+import {ListItemButton, SvgIcon} from "@mui/material";
 import {ReactComponent as EmbyIcon} from "../Icon/emby.svg";
 import {ReactComponent as JellyfinIcon} from "../Icon/jellyfin.svg";
 import {ReactComponent as PlexIcon} from "../Icon/plex.svg";
-import {Add as AddIcon} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
+import {useGetMediaServer} from "@/api/SettingApi";
+import message from "@/utils/message";
+import HealthStatus from "@/pages/setting/components/HealthStatus";
+import {Add as AddIcon} from "@mui/icons-material";
+import SelectDialog from "@/pages/setting/MediaServer/SelectDialog";
+
 function MediaServerSettingList() {
     const navigate = useNavigate();
+    const [showSelectMediaServer, setShowSelectMediaServer] = useState(false);
+    const [mediaServer, setMediaServer] = useState([]);
+    const {mutateAsync: getMediaServer, isLoading} = useGetMediaServer();
+    useEffect(() => {
+        getMediaServer({}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    setMediaServer(data);
+                }
+            },
+            onError: error => message.error(error)
+        });
+    }, [])
     return (
+        <>
+            <SelectDialog
+                open={showSelectMediaServer}
+                handleClose={() => {
+                    setShowSelectMediaServer(false);
+                }}
+                configured={mediaServer.map((item) => {
+                    return item.type
+                })}
+            />
             <List
-                sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper',mb:4}}
-                subheader={<ListSubheader>媒体服务器设置</ListSubheader>}
+                sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
+                subheader={<ListSubheader>媒体服务器</ListSubheader>}
             >
-                <ListItem>
-                    <ListItemButton>
+                {mediaServer && mediaServer.map((item, index) => (
+                    <ListItem key={index} divider={index !== mediaServer.length - 1}>
+                        <ListItemButton onClick={() => navigate("/setting/edit-media-server?type=" + item.type)}>
+                            <ListItemIcon>
+                                {item.type === "emby" ?
+                                    <SvgIcon fontSize="large" component={EmbyIcon} viewBox="0 0 400 400"/> : null}
+                                {item.type === "jellyfin" ?
+                                    <SvgIcon fontSize="large" component={JellyfinIcon} viewBox="0 0 400 400"/> : null}
+                                {item.type === "plex" ?
+                                    <SvgIcon fontSize="large" component={PlexIcon} viewBox="0 0 400 400"/> : null}
+                            </ListItemIcon>
+                            <ListItemText primary={item.type ? item.type.replace(/^\S/, s => s.toUpperCase()) : null}/>
+                            <HealthStatus status={item.status}/>
+                            <ArrowForwardIosOutlinedIcon color="disabled"/>
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+                {!mediaServer || mediaServer.length === 0 ? <ListItem>
+                    <ListItemButton onClick={() => setShowSelectMediaServer(true)}>
                         <ListItemIcon>
-                            <SvgIcon fontSize="large" component={EmbyIcon} viewBox="0 0 400 400"/>
+                            <AddIcon/>
                         </ListItemIcon>
-                        <ListItemText primary={"Emby"}
-                                      secondary={"http://192.168.1.17:8080"}/>
-                        <Chip sx={{mr: 2}} size="small" label="可连接" color="success"/>
-                        <ArrowForwardIosOutlinedIcon color="disabled"/>
+                        <ListItemText primary="添加"/>
                     </ListItemButton>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <SvgIcon fontSize="large" component={JellyfinIcon} viewBox="0 0 400 400"/>
-                        </ListItemIcon>
-                        <ListItemText primary="Jellyfin"/>
-                        <Chip sx={{mr: 2}} size="small" label="异常" color="error"/>
-                        <ArrowForwardIosOutlinedIcon color="disabled"/>
-                    </ListItemButton>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <SvgIcon fontSize="large" component={PlexIcon} viewBox="0 0 400 400"/>
-                        </ListItemIcon>
-                        <ListItemText primary="Transmission"/>
-                        <Chip sx={{mr: 2}} size="small" label="异常" color="error"/>
-                        <ArrowForwardIosOutlinedIcon color="disabled"/>
-                    </ListItemButton>
-                </ListItem>
+                </ListItem> : null}
             </List>
+        </>
     );
 }
 

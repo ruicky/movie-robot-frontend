@@ -47,9 +47,9 @@ const UserConfigComponent = ({users, setUsers, submitting, setHasError}) => {
         }
     }, [submitting])
     return (<React.Fragment>
-        <Card>
+        <Card sx={{mt:4}}>
             {users.map((user, i) => (<Card mb={6} key={i}>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h5" component="h2" ml={4} mt={2}>
                     监听用户 {user.id}
                     <Button
                         onClick={() => {

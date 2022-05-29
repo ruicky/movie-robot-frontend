@@ -28,7 +28,6 @@ const Centered = styled.div`
 
 function MediaPathConfigComponent({isInit}) {
     const navigate = useNavigate();
-    const [message, setMessage] = useState();
     const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
     const [paths, setPaths] = useState([{download_path: "", source_dir: "", target_dir: "", qbit_cate: "", type: "movie", file_process_mode: "link"}]);
@@ -66,12 +65,7 @@ function MediaPathConfigComponent({isInit}) {
             if (code === undefined || code === 1) {
                 throw new Error(message);
             }
-            if (isInit) {
-                navigate(data.next);
-            } else {
-                setMessage(message);
-                pageMessage.success(message)
-            }
+            navigate("/setting/index");
         } catch (error) {
             const message = error.message || "配置出错啦";
             setErrorMessage(message);
@@ -131,9 +125,6 @@ function MediaPathConfigComponent({isInit}) {
     return (<Card>
         {errorMessage && (<Alert mt={2} mb={1} severity="warning">
             {errorMessage}
-        </Alert>)}
-        {message && (<Alert severity="success" my={3}>
-            {message}
         </Alert>)}
         {paths && paths.length > 0 ? (paths.map((p, i) => (<Card mb={6} key={i}>
             <CardContent>
@@ -226,16 +217,6 @@ function MediaPathConfigComponent({isInit}) {
             </Button>
         </CardActions>
         <Centered>
-            {isInit && (<Button sx={{mr: 2}}
-                                size="medium"
-                                variant="contained"
-                                color="primary"
-                                onClick={() => {
-                                    navigate("/setup/download-client");
-                                }}
-            >
-                返回下载工具设置
-            </Button>)}
             <Button
                 mr={2}
                 size="medium"
@@ -247,7 +228,7 @@ function MediaPathConfigComponent({isInit}) {
                 disabled={nextButtonDisabled}
                 fullWidth={!isInit}
             >
-                {isInit ? "保存进入下一步" : "保存"}
+                保存
             </Button>
         </Centered>
     </Card>);

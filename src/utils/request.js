@@ -3,7 +3,7 @@ import message from "@/utils/message";
 
 const axiosInstance = axios.create({
     baseURL: '',
-    timeout: 30000,
+    timeout: 60000,
     headers: {},
 });
 axiosInstance.interceptors.response.use(

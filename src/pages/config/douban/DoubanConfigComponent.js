@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from "../../../utils/request";
 
-import {Alert as MuiAlert, Button, Link, TextField as MuiTextField} from "@mui/material";
+import {Alert as MuiAlert, Box, Button, Link, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
 import UserConfigComponent from "@/pages/config/douban/UserConfigComponent";
@@ -52,10 +52,9 @@ function DoubanConfigComponent({}) {
     };
     const formik = useFormik({
         initialValues: {
-            default_score_rule: 'compress', cookie: ''
+            default_score_rule: 'compress'
         }, validationSchema: Yup.object().shape({
-            default_score_rule: Yup.string().max(256).required(),
-            cookie: Yup.string().required()
+            default_score_rule: Yup.string().max(256).required()
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             if (userFormHasError || pathFormHasError) {
                 return
@@ -103,24 +102,6 @@ function DoubanConfigComponent({}) {
         {formMessage && (<Alert severity="success" my={3}>
             {formMessage}
         </Alert>)}
-        <TextField
-            type="text"
-            name="cookie"
-            label="Cookie"
-            value={formik.values.cookie}
-            error={Boolean(formik.touched.cookie && formik.errors.cookie)}
-            fullWidth
-            helperText={(<span>
-                    任意用户访问豆瓣的Cookie，一些电影不登陆读不到详情
-                    <Link target="_blank"
-                          href="https://movie.douban.com/">
-                            去获取Cookie
-                        </Link>
-                </span>)}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            my={3}
-        />
         <ScoreRuleSelectComponent name="default_score_rule" value={formik.values.default_score_rule} data={ruleData}
                                   onChange={formik.handleChange}/>
         <UserConfigComponent users={users} setUsers={setUsers}
@@ -133,27 +114,29 @@ function DoubanConfigComponent({}) {
             setTestDownloadPath({...testDownloadPath, open: false})
         }}/>
         <Centered>
-            <Button
-                sx={{mr: 2}}
-                size="medium"
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={formik.isSubmitting}
-            >
-                保存设置
-            </Button>
-            <Button
-                size="medium"
-                variant="contained"
-                color="primary"
-                disabled={testDownloadPath.disabled}
-                onClick={() => {
-                    setTestDownloadPath({...testDownloadPath, open: true})
-                }}
-            >
-                测试一下保存规则
-            </Button>
+            <Box mt={4}>
+                <Button
+                    sx={{mr: 2}}
+                    size="medium"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={formik.isSubmitting}
+                >
+                    保存设置
+                </Button>
+                <Button
+                    size="medium"
+                    variant="contained"
+                    color="primary"
+                    disabled={testDownloadPath.disabled}
+                    onClick={() => {
+                        setTestDownloadPath({...testDownloadPath, open: true})
+                    }}
+                >
+                    测试一下保存规则
+                </Button>
+            </Box>
         </Centered>
 
     </form>);
