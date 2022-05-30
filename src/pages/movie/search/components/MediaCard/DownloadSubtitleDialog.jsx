@@ -1,10 +1,10 @@
 import ClosedCaptionIcon from "@mui/icons-material/ClosedCaption";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useSubmitDownloadSubtitle} from "@/api/TaskApi";
 import message from "@/utils/message";
 
-function DownloadSubtitleDialog({tmdb_id, media_type, season_index = null, episode_index = null}) {
+function DownloadSubtitleDialog({media_name, tmdb_id, media_type, season_index = null, episode_index = null}) {
     const [open, setOpen] = useState(false);
     const {mutate: submitTask, isLoading} = useSubmitDownloadSubtitle();
     const handleSubmit = () => {
@@ -42,7 +42,8 @@ function DownloadSubtitleDialog({tmdb_id, media_type, season_index = null, episo
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        确定要立即启动一个新的字幕下载任务么？
+                        {media_type === "Movie" && `确定要发起${media_name}的字幕下载任务么？`}
+                        {media_type === "TV" && `确定要发起${media_name} 第${season_index}季 ${episode_index}集 的字幕下载任务么？`}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

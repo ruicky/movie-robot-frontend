@@ -26,7 +26,7 @@ const MovieCard = ({media}) => {
                     <Stream title="音频" streams={media.audio_streams}/>
                     <Stream title="字幕" streams={media.subtitle_streams}/>
                     <Box>
-                        <DownloadSubtitleDialog tmdb_id={media.tmdb_id}
+                        <DownloadSubtitleDialog media_name={media.name} tmdb_id={media.tmdb_id}
                                                 media_type="Movie"/>
                     </Box>
                 </CardContent>

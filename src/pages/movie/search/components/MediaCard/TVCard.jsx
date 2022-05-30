@@ -183,7 +183,7 @@ const TVCard = ({media}) => {
                     <Stream title="音频" streams={audioStreams}/>
                     <Stream title="字幕" streams={subtitleStreams}/>
                     <Box>
-                        <DownloadSubtitleDialog tmdb_id={media.tmdb_id}
+                        <DownloadSubtitleDialog media_name={media.name} tmdb_id={media.tmdb_id}
                                                 season_index={currentSeason && currentSeason.index}
                                                 media_type="TV"
                                                 episode_index={currentSeason && currentSeason.sub_items.filter((item) => {
