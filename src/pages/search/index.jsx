@@ -73,6 +73,8 @@ const SearchPage = () => {
         <PageWrapper backdropUrl={media?.backdrop_url || '/static/img/default_backdrop.jpeg'}>
             <Inputwrapper isFoucs={isFoucs || value}>
                 <Input
+                    isFoucs={isFoucs || value}
+                    backdropUrl={media?.backdrop_url || '/static/img/default_backdrop.jpeg'}
                     id="input-with-icon-adornment"
                     placeholder="搜索"
                     sx={{
@@ -90,7 +92,6 @@ const SearchPage = () => {
                     onBlur={() => setIsFoucs(false)}
                     value={value}
                     fullwidth
-                    autoFocus
                     endAdornment={
                         <InputAdornment sx={{minWidth: '28px', height: '45%'}}>
                             <IconButton type="submit" sx={{p: "10px"}} aria-label="search" onClick={() => {
@@ -161,15 +162,47 @@ const Input = styled(OutlinedInput)`
   align-items: center;
   display: flex;
   transition: box-shadow .2s;
+  ${(props) => props.theme.breakpoints.up("md")} {
+    border-radius: 24px;    
+    /* background-color: #fff; */
+  }
+  
   border-radius: 6px;
   height: 100%;
   position: relative;
   color: black;
-  background-color: #fff;
+  z-index: 2;
+  box-sizing: border-box;
+  /* background-color: #fff; */
   box-shadow: 0 0 0 1px rgb(0 0 0 / 10%), 0 2px 4px 1px rgb(0 0 0 / 18%);
-  input {
-    padding: 0;
+  ${(props) => props.theme.breakpoints.down("md")} {
+    input {
+        padding: 0;
+    }
+   
   }
+  overflow: hidden;
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        -webkit-filter: blur(50px);
+        -moz-filter: blur(50px);
+        -ms-filter: blur(50px);
+        -o-filter: blur(50px);
+        filter: blur(50px);
+        z-index: -3;
+        margin: -30px;
+        background-color: ${(props)=> props.isFoucs ? '#fff' : ''};
+        background-image: ${(props) => props.isFoucs ? '' : "url(" + props.backdropUrl + ")"};
+        background-position: center top;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+  
 `;
 
 const TextWrapper = styled.div`
