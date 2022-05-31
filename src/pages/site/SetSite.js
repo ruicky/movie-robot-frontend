@@ -27,7 +27,8 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
         smart_download: true,
         traffic_management_status: 0,
         upload_kpi: 1024,
-        proxies: ''
+        proxies: '',
+        user_agent: ''
     });
     const [siteData, setSiteData] = useState(siteMeta)
     const [errors, setErrors] = React.useState({});
@@ -105,7 +106,8 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                 smart_download: site.smart_download === 1,
                 traffic_management_status: site.traffic_management_status,
                 upload_kpi: site.upload_kpi,
-                proxies: site?.proxies
+                proxies: site?.proxies,
+                user_agent: site?.user_agent ? site.user_agent : ''
             })
         } else {
             setValues({
@@ -115,7 +117,8 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                 smart_download: true,
                 traffic_management_status: 0,
                 upload_kpi: 1024,
-                proxies: ''
+                proxies: '',
+                user_agent: ''
             })
         }
     }, [opType, site, filterSiteNames])
@@ -163,6 +166,21 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                               href="https://support.huaweicloud.com/vss_faq/vss_01_0146.html">
                                 去学习如何获取
                             </Link>
+                    </span>
+                )}
+            />
+            <TextField
+                type="text"
+                name="user_agent"
+                margin="dense"
+                label="User-Agent"
+                fullWidth
+                defaultValue={values.user_agent}
+                onChange={handleValueChange}
+                error={Boolean(showErrors.user_agent && errors.user_agent)}
+                helperText={(showErrors.user_agent && errors.user_agent) || (
+                    <span>
+                        保持和你浏览器登录时相同的UserAgent，有助于绕开某些站点的安全防护
                     </span>
                 )}
             />
