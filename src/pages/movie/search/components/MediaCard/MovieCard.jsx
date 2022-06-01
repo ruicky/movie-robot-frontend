@@ -5,6 +5,7 @@ import MediaView from "@/pages/movie/search/components/MediaCard/MediaView";
 import MediaTag from "@/pages/movie/search/components/MediaCard/MediaTag";
 import Stream from "@/pages/movie/search/components/MediaCard/Stream";
 import styled from "styled-components/macro";
+import DownloadSubtitleDialog from "@/pages/movie/search/components/MediaCard/DownloadSubtitleDialog";
 
 const MovieCard = ({media}) => {
     return (
@@ -24,6 +25,10 @@ const MovieCard = ({media}) => {
                                video_container={media.video_container}/>
                     <Stream title="音频" streams={media.audio_streams}/>
                     <Stream title="字幕" streams={media.subtitle_streams}/>
+                    <Box>
+                        <DownloadSubtitleDialog media_name={media.name} tmdb_id={media.tmdb_id}
+                                                media_type="Movie"/>
+                    </Box>
                 </CardContent>
             </Box>
         </MediaView>

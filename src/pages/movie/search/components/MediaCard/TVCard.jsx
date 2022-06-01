@@ -22,12 +22,14 @@ import styled from "styled-components/macro";
 import {useEpisodesDisplay} from './utils';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {SmallButton} from "@/components/core/SmallButton";
+import DownloadSubtitleDialog from "@/pages/movie/search/components/MediaCard/DownloadSubtitleDialog";
 
 const TVCard = ({media}) => {
     const {mutateAsync: getMediaStreams, isLoading} = useGetMediaStreams();
     const [selectEpisodeId, setSelectEpisodeId] = useState();
     const [posterUrl, setPosterUrl] = useState();
     const [seasonName, setSeasonName] = useState();
+    const [currentSeason, setCurrentSeason] = useState();
     const [seasons, setSeasons] = useState([]);
     const [episodes, setEpisodes] = useState([]);
     const [audioStreams, setAudioStreams] = useState([]);
@@ -44,6 +46,7 @@ const TVCard = ({media}) => {
     }
     const setMediaInfo = (season, updateSeasonName = true, updateEpisodesValue = true) => {
         if (updateSeasonName) {
+            setCurrentSeason(season);
             setSeasonName(`第${season.index}季`);
             setPosterUrl(season?.poster_url)
         }
@@ -179,6 +182,14 @@ const TVCard = ({media}) => {
                               video_container={mediaTag.container}/>
                     <Stream title="音频" streams={audioStreams}/>
                     <Stream title="字幕" streams={subtitleStreams}/>
+                    <Box>
+                        <DownloadSubtitleDialog media_name={media.name} tmdb_id={media.tmdb_id}
+                                                season_index={currentSeason && currentSeason.index}
+                                                media_type="TV"
+                                                episode_index={currentSeason && currentSeason.sub_items.filter((item) => {
+                                                    return item.status === 1
+                                                }).map(item => item.index)}/>
+                    </Box>
                 </CardContent>
             </Box>
             <Dialog onClose={() => setShowEpisodeDialog(false)} open={showEpisodeDialog}>
