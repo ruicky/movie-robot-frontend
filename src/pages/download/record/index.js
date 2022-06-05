@@ -23,7 +23,7 @@ export default function DownloadRecords() {
     const [downloadQueueSize, setDownloadQueueSize] = useState(0);
     const fetchData = async () => {
         const result = await getRecordList();
-        setDownloadQueueSize(result.download_queue_size);
+        setDownloadQueueSize(result?.data?.download_queue_size);
         const list = [];
         if (!result.data?.result) {
             return;
@@ -104,7 +104,7 @@ export default function DownloadRecords() {
             </Grid>
             <Divider my={4}/>
             {downloadQueueSize && downloadQueueSize > 0 ? <Stack sx={{width: '100%', mb: 4}} spacing={2}>
-                <Alert variant="filled" severity="warning">有{downloadQueueSize}个下载请求等待提交，不必过快下载，也不要重启程序！</Alert>
+                <Alert variant="filled" severity="warning">有{downloadQueueSize}个下载请求排队处理中</Alert>
             </Stack> : null}
             <Grid container={true} spacing={6}>
                 {
