@@ -37,6 +37,7 @@ const defaultVariant = {
     background: "#FFF",
     search: {
       color: grey[800],
+      background: "rgba(0, 0, 0, 0.05)",
     },
     indicator: {
       background: customBlue[600],
@@ -92,6 +93,7 @@ const darkVariant = merge(defaultVariant, {
     background: "#1B2635",
     search: {
       color: grey[200],
+      background: "rgba(255, 255, 255, 0.05)",
     },
   },
   footer: {
@@ -110,6 +112,7 @@ const lightVariant = merge(defaultVariant, {
     background: customBlue[800],
     search: {
       color: grey[100],
+      background: "rgba(0, 0, 0, 0.05)",
     },
     indicator: {
       background: red[700],
@@ -281,7 +284,8 @@ const deepDarkVariant = merge(defaultVariant, {
     color: "#FFF",
     background: "rgb(23, 23, 23)",
     search: {
-      color: grey[800],
+      color: grey[50],
+      background: "rgba(255, 255, 255, 0.05)",
     },
     indicator: {
       background: "rgba(0, 0, 0, 0.6)",

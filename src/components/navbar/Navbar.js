@@ -10,6 +10,9 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import NavbarUserDropdown from "./NavbarUserDropdown";
 import NavbarNotificationsDropdown from "@/components/navbar/NavbarNotificationsDropdown";
 import {useUrlQueryParam} from "@/hooks/useUrlQueryParam";
+import SearchBox from "@/pages/search/SearchBox";
+import {useTheme} from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const AppBar = styled(MuiAppBar)`
   background: ${(props) => props.theme.header.background};
@@ -70,6 +73,10 @@ const Navbar = ({onDrawerToggle}) => {
     useEffect(() => {
         setKeyword(param.keyword)
     }, [param])
+    const theme = useTheme();
+    const isSearchPath = location.pathname === '/movie/search';
+    const isShowSearch = useMediaQuery(theme.breakpoints.up("md")) && !isSearchPath;
+
     return (
         <React.Fragment>
             <AppBar position="sticky" elevation={0}>
@@ -97,6 +104,7 @@ const Navbar = ({onDrawerToggle}) => {
                                            }
                                        }}/>
                             </Search> */}
+                            {isShowSearch && <SearchBox />}
                         </Grid>
                         {/*<Grid item xs />*/}
                         <Grid item>
