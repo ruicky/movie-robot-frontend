@@ -5,20 +5,22 @@ import {Search as SearchIcon} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 
 
-const SearchBox = () => {
+const SearchBox = ({defaultValue=''}) => {
   const navigate = useNavigate();
   const [value, setValue] = useState();
   const [isFoucs, setIsFoucs] = useState(false);
   const onSearch = (keyword) => {
     navigate("/movie/search?keyword=" + keyword)
   }
-
+  useEffect(()=>{
+      setValue(defaultValue);
+  },[defaultValue])
   return (
     <Inputwrapper isFoucs={isFoucs || value}>
       <Input
           isFoucs={isFoucs || value}
           id="input-with-icon-adornment"
-          placeholder="搜索喜欢的一切"
+          placeholder="搜索"
           onChange={({target: {value: v}}) => {
               setValue(v);
           }}

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import {Search as SearchIcon} from "@mui/icons-material";
 import {Helmet} from "react-helmet-async";
@@ -35,6 +35,7 @@ import {spacing} from "@mui/system";
 import Record from "./components/Record";
 import MediaServerSearch from "@/pages/movie/search/MediaServerSearch";
 import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
+import {AppInfoContext} from "@/contexts/AppSetting";
 
 const StyledDivider = styled(Divider)(spacing);
 
@@ -207,6 +208,7 @@ const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
 
 
 function SearchRecords(props) {
+    const appInfo = useContext(AppInfoContext)
     const [records, setRecords] = useState();
     const [tagResource, setTagResource] = useState({
         sites: {"全部": "全部"},
@@ -224,8 +226,8 @@ function SearchRecords(props) {
     const searchData = (keyword) => {
         if (keyword && !loading) {
             setLoading(true);
-            setRecords();
-            setParam({keyword})
+            setRecords(null);
+            setParam({keyword});
             axios.get("/api/movie/search_keyword", {
                 params: {
                     keyword: keyword
@@ -274,11 +276,18 @@ function SearchRecords(props) {
     useEffect(() => {
         setFilter({encode: "全部", source: "全部", resolution: "全部"});
         setTagVersion(Date.now());
-        searchData(param.keyword)
+        if (appInfo.server_config.auth_search_result) {
+            searchData(param.keyword)
+        }
     }, [param.keyword])
 
     const search = useCallback((keyword) => {
-        searchData(keyword)
+        if (appInfo.server_config.auth_search_result) {
+            searchData(param.keyword)
+        }else{
+            setRecords(null);
+            setParam({keyword});
+        }
     });
     const isHaveData = records && records.length > 0;
     return (<React.Fragment>
@@ -353,7 +362,17 @@ function SearchRecords(props) {
                 }
             </Grid>
             {
-                records && records.length === 0 && <Empty message="没有找到任何结果!"/>
+                records && records.length === 0 && <Empty message="没有索索到任何资源"/>
+            }
+            {
+                !appInfo.server_config.auth_search_result && !records && !loading && <Box mt={6}>
+                    <Button
+                        variant="contained" color="info" fullWidth
+                        onClick={() => searchData(param.keyword)}
+                    >
+                        立即搜索资源
+                    </Button>
+                </Box>
             }
             <PathPicker
                 downloadInfo={downloadInfo}

@@ -10,7 +10,6 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import NavbarUserDropdown from "./NavbarUserDropdown";
 import NavbarNotificationsDropdown from "@/components/navbar/NavbarNotificationsDropdown";
 import {useUrlQueryParam} from "@/hooks/useUrlQueryParam";
-import SearchBox from "@/pages/search/SearchBox";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -75,7 +74,7 @@ const Navbar = ({onDrawerToggle}) => {
     }, [param])
     const theme = useTheme();
     const isSearchPath = location.pathname === '/movie/search';
-    const isShowSearch = useMediaQuery(theme.breakpoints.up("md")) && !isSearchPath;
+    const isShowSearch = useMediaQuery(theme.breakpoints.up("sm")) && !isSearchPath;
 
     return (
         <React.Fragment>
@@ -93,32 +92,21 @@ const Navbar = ({onDrawerToggle}) => {
                             </IconButton>
                         </Grid>
                         <Grid item xs>
-                            {/* <Search>
+                            {!["/movie/search", "/"].includes(location.pathname) && <Search>
                                 <SearchIconWrapper>
                                     <SearchIcon/>
                                 </SearchIconWrapper>
-                                <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="搜索进行订阅"
+                                <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="搜索"
                                        onKeyUp={(e) => {
                                            if ((e.key === 'Enter' || e.key === "NumpadEnter") && keyword) {
                                                navigate("/movie/search?keyword=" + keyword)
                                            }
                                        }}/>
-                            </Search> */}
-                            {isShowSearch && <SearchBox />}
+                            </Search>}
+                            {/*{isShowSearch && <SearchBox />}*/}
                         </Grid>
                         {/*<Grid item xs />*/}
                         <Grid item>
-                            {["/movie/search", "/"].includes(location.pathname) ? null : <IconButton
-                                color="inherit"
-                                aria-label="Open search"
-                                onClick={() => {
-                                    navigate("/")
-                                }}
-                                size="large"
-                            >
-                                <SearchIcon/>
-                            </IconButton>}
-
                             <NavbarNotificationsDropdown/>
                             <NavbarUserDropdown/>
                         </Grid>

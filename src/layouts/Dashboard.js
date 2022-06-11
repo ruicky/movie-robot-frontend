@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext} from "react";
 import styled from "styled-components/macro";
 import {Outlet, useLocation} from "react-router-dom";
 
@@ -14,7 +14,7 @@ import Footer from "../components/Footer";
 import Settings from "../components/Settings";
 
 import useStore from "@/store/index";
-import {getAppInfo} from "@/api/CommonApi";
+import {AppInfoContext} from "@/contexts/AppSetting";
 
 const drawerWidth = 258;
 
@@ -54,7 +54,7 @@ const MainContent = styled(Paper)`
 `;
 
 const Dashboard = ({children}) => {
-    const [appInfo, setAppInfo] = useState({version: 'version', menus: []})
+    const appInfo = useContext(AppInfoContext)
     // const [mobileOpen, setMobileOpen] = useState(false);
     const sideBar = useStore((state) => state.sideBar);
     const handleDrawerToggle = () => {
@@ -62,12 +62,6 @@ const Dashboard = ({children}) => {
     };
     const theme = useTheme();
     const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
-    useEffect(async () => {
-        const appInfo = await getAppInfo()
-        if (appInfo) {
-            setAppInfo(appInfo)
-        }
-    }, [])
     const location = useLocation();
     const isIndex = location.pathname === '/';
     return (

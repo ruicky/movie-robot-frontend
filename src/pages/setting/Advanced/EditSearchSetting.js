@@ -5,7 +5,10 @@ import {
     Alert as MuiAlert,
     Breadcrumbs,
     Button,
+    Checkbox,
     Divider as MuiDivider,
+    FormControlLabel,
+    FormGroup, FormLabel,
     Link,
     TextField as MuiTextField,
     Typography
@@ -14,7 +17,7 @@ import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {useGetServerSetting, useGetWeb, useSaveServerSetting, useSaveWeb} from "@/api/SettingApi";
+import {useGetServerSetting, useSaveServerSetting} from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -34,7 +37,8 @@ function EditForm({isInit}) {
         initialValues: {
             site_max_workers: 0,
             web_search_timeout: 10,
-            web_search_result_limit:0
+            web_search_result_limit: 0,
+            auth_search_result: false
         }, validationSchema: Yup.object().shape({
             site_max_workers: Yup.number().required("最大搜索线程不能为空"),
             web_search_timeout: Yup.number().required("搜索超时时间不能为空")
@@ -66,6 +70,7 @@ function EditForm({isInit}) {
             formik.setFieldValue("site_max_workers", setting.data?.site_max_workers ? setting.data?.site_max_workers : 0);
             formik.setFieldValue("web_search_timeout", setting.data?.web_search_timeout ? setting.data?.web_search_timeout : 10);
             formik.setFieldValue("web_search_result_limit", setting.data?.web_search_result_limit ? setting.data?.web_search_result_limit : 0);
+            formik.setFieldValue("auth_search_result", setting.data?.auth_search_result != undefined && setting.data?.auth_search_result != null ? setting.data?.auth_search_result : false);
         }
     }, [setting]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
@@ -108,6 +113,17 @@ function EditForm({isInit}) {
             onChange={formik.handleChange}
             my={3}
         />
+        <FormLabel component="legend">以下配置变更后需要强制刷新浏览器页面才可以生效</FormLabel>
+        <FormGroup>
+            <FormControlLabel
+                control={<Checkbox
+                    checked={formik.values.auth_search_result}
+                    onChange={formik.handleChange}
+                    name="auth_search_result"
+                />}
+                label="搜索时自动去站点进行资源搜索"
+            />
+        </FormGroup>
         <Button
             type="submit"
             fullWidth

@@ -118,9 +118,8 @@ const TVCard = ({media}) => {
         return (
             <ButtonGroup size="small" aria-label="分集" sx={{flexWrap: isShowMoreBtn ? 'nowrap' : 'wrap'}}>
                 {episodes.map((item, index) => (
-                    <Tooltip title={item?.name ? item.name : `第${item.index}集`}>
+                    <Tooltip key={index} title={item?.name ? item.name : `第${item.index}集`}>
                         <Button
-                            key={index}
                             variant="text"
                             color={item.status === 0 ? "error" : "secondary"}
                             onClick={() => episodeOnClick(item)}
