@@ -1,4 +1,5 @@
 import {
+    Box,
     Card as MuiCard,
     CardActionArea,
     CardActions,
@@ -21,15 +22,20 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import MovieInfoDialog from './MovieInfoDialog'
 import {STATUS} from "@/constants";
 
-function TitleLabel({title, year, season_index, season_year, movie_type}) {
+function TitleLabel({title, year, season_index, season_year, movie_type, episode}) {
     if (movie_type === "Movie") {
         return (<span>
             {title}({year})
         </span>)
     } else {
-        return (<span>
-            {title}{season_index ? " 第" + season_index + "季" : ""}({season_year ? season_year : year})
-        </span>)
+        return (<Box sx={{
+            display: 'flex',
+            justifyContent: "space-between",
+        }}>
+            <Box>
+                {title}{season_index ? " 第" + season_index + "季" : ""}{episode ? " 第" + episode : episode}
+            </Box>
+        </Box>);
     }
 }
 
@@ -53,8 +59,18 @@ export default function MovieCard(props) {
         url,
         link_path,
         season_index,
-        season_year
+        season_year,
+        episode
     } = props.data;
+    const getEpisodeStr = (episode) => {
+        if (episode) {
+            if (episode.length <= 2) {
+                return episode.join(",") + "集";
+            } else {
+                return episode[0] + "-" + episode[episode.length - 1] + "集"
+            }
+        }
+    }
     const handleAnalyze = () => {
         onAnalyze({open: true, year: year, id: id, name: title, link_path: link_path, movie_type: movie_type})
     };
@@ -74,7 +90,8 @@ export default function MovieCard(props) {
                         {
                             title && <TitleConainer variant="subtitle1" component="h3" noWrap>
                                 <TitleLabel movie_type={movie_type} title={title} year={year}
-                                            season_index={season_index} season_year={season_year}/>
+                                            season_index={season_index} season_year={season_year}
+                                            episode={getEpisodeStr(episode)}/>
                                 <IconButton sx={{color: '#fff'}}><ChevronRightIcon/> </IconButton>
                             </TitleConainer>
                         }
