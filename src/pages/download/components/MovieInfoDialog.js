@@ -69,6 +69,16 @@ function InfoList({data}) {
             <ListItem>
                 <Grid container spacing={2}>
                     <Grid item>
+                        <Typography>创建时间：</Typography>
+                    </Grid>
+                    <Grid item xs>
+                        <ListText>{data?.record.gmt_create ? data?.record.gmt_create : "未知"}</ListText>
+                    </Grid>
+                </Grid>
+            </ListItem>
+            <ListItem>
+                <Grid container spacing={2}>
+                    <Grid item>
                         <Typography>种子名称：</Typography>
                     </Grid>
                     <Grid item xs>
