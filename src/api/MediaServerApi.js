@@ -14,3 +14,17 @@ export const useGetMediaStreams = (param) => {
             client("/api/media/get_media_streams", {params: params, method: "GET"})
     );
 };
+export const useGetMediaLibrary = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/media/get_media_library", {params: params, method: "GET"})
+    );
+};
+export const useLinkMedia = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/media/link_media", {params: params, method: "POST"})
+    );
+};
