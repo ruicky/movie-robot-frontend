@@ -1,4 +1,4 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, OutlinedInput, Box} from "@mui/material";
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, OutlinedInput} from "@mui/material";
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -9,6 +9,7 @@ import {TreeItem} from "@mui/lab";
 import LinesEllipsis from "react-lines-ellipsis";
 
 function PathSelectDialog({
+                              disabled = false,
                               defaultSelected,
                               rootPath = "/",
                               placeholder = "请选择路径",
@@ -58,10 +59,12 @@ function PathSelectDialog({
                     } else {
                         const tmp = [...treeData];
                         const node = findNode(tmp, path);
-                        node.children = data;
+                        if (node) {
+                            node.children = data;
+                        }
                         setTreeData(tmp);
                     }
-                    if(defaultSelected){
+                    if (defaultSelected) {
                         setSelected(defaultSelected);
                     }
                 } else {
@@ -92,6 +95,7 @@ function PathSelectDialog({
         </>
     );
     useEffect(() => {
+        setInputValue(defaultSelected);
         setDirs(rootPath, defaultSelected);
     }, [defaultSelected, rootPath])
     return (
@@ -101,11 +105,16 @@ function PathSelectDialog({
                 fullWidth
                 placeholder={placeholder}
                 variant="outlined"
-                onClick={() => setOpen(true)}
+                onClick={() => {
+                    if (!disabled) {
+                        setOpen(true)
+                    }
+                }}
                 value={inputValue}
                 InputProps={{
                     readOnly: true,
                 }}
+                disabled={disabled}
             />
             <Dialog onClose={handleClose} open={open} fullWidth>
                 <DialogTitle>{title}</DialogTitle>
@@ -123,7 +132,7 @@ function PathSelectDialog({
                     >
                         {treeData && renderTree(treeData)}
                     </TreeView>
-                    <Box sx={{ my: 1}}>
+                    <Box sx={{my: 1}}>
                         <LinesEllipsis text={selected} maxLine={4} style={{weight: "100%"}}/>
                     </Box>
                 </DialogContent>

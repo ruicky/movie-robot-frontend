@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styled from "styled-components/macro";
 import CircularProgress from '@mui/material/CircularProgress';
-import { alpha } from '@mui/material/styles';
+import {alpha} from '@mui/material/styles';
 import {
     Breadcrumbs as MuiBreadcrumbs,
     Button,
@@ -20,13 +20,12 @@ import {
     TableRow,
     TableSortLabel,
     Toolbar,
-    Box,
     Tooltip,
     Typography,
 } from "@mui/material";
 import {Edit,} from "@mui/icons-material";
 import {spacing} from "@mui/system";
-import {useGetMediaLibrary} from "@/api/MediaServerApi";
+import {useLinkMedia} from "@/api/MediaServerApi";
 import message from "@/utils/message";
 import RefreshIcon from '@mui/icons-material/Refresh';
 
@@ -101,7 +100,7 @@ const headCells = [
     {id: "media_name", numeric: true, disablePadding: false, label: "影片名", sort: true},
     {id: "release_date", numeric: true, disablePadding: false, label: "发行日期", sort: true},
     {id: "status", numeric: true, disablePadding: false, label: "状态", sort: true},
-    {id: "option", numeric: true, disablePadding: false, label: "操作", sort: false},
+    {id: "option", numeric: true, disablePadding: false, label: "纠错", sort: false},
 ];
 
 const EnhancedTableHead = (props) => {
@@ -112,6 +111,7 @@ const EnhancedTableHead = (props) => {
         numSelected,
         rowCount,
         onRequestSort,
+        disabled
     } = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
@@ -126,6 +126,7 @@ const EnhancedTableHead = (props) => {
                         checked={rowCount > 0 && numSelected === rowCount}
                         onChange={onSelectAllClick}
                         inputProps={{"aria-label": "select all desserts"}}
+                        disabled={disabled}
                     />
                 </TableCell>
                 {headCells.map((headCell) => (
@@ -155,13 +156,13 @@ const EnhancedTableToolbar = (props) => {
 
     return (
         <Toolbar sx={{
-            pl: { sm: 2 },
-            pr: { xs: 1, sm: 1 },
+            pl: {sm: 2},
+            pr: {xs: 1, sm: 1},
             ...(numSelected > 0 && {
-              bgcolor: (theme) =>
-                alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+                bgcolor: (theme) =>
+                    alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
             }),
-          }}>
+        }}>
             {numSelected > 0 ? (
                 <Typography color="inherit" variant="subtitle1" width={120}>
                     选中{numSelected}个
@@ -185,14 +186,13 @@ const EnhancedTableToolbar = (props) => {
     );
 };
 
-function MediaTable({path, linkPath}) {
-    const [rows, setRows] = React.useState([]);
-    const [order, setOrder] = React.useState("asc");
-    const [orderBy, setOrderBy] = React.useState("calories");
+function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = null, disabled = false}) {
+    const [order, setOrder] = React.useState("desc");
+    const [orderBy, setOrderBy] = React.useState("status");
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const {mutateAsync: getMediaLibrary, isLoading} = useGetMediaLibrary();
+    const {mutateAsync: linkMedia, isLinking} = useLinkMedia();
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -200,6 +200,9 @@ function MediaTable({path, linkPath}) {
     };
 
     const handleSelectAllClick = (event) => {
+        if (disabled) {
+            return;
+        }
         if (event.target.checked) {
             const newSelecteds = rows.map((n) => n.path);
             setSelected(newSelecteds);
@@ -209,6 +212,9 @@ function MediaTable({path, linkPath}) {
     };
 
     const handleClick = (event, path) => {
+        if (disabled) {
+            return;
+        }
         const selectedIndex = selected.indexOf(path);
         let newSelected = [];
 
@@ -237,7 +243,6 @@ function MediaTable({path, linkPath}) {
         setPage(0);
     };
     const isSelected = (name) => selected.indexOf(name) !== -1;
-
     const emptyRows =
         rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     const onLink = () => {
@@ -245,33 +250,21 @@ function MediaTable({path, linkPath}) {
             message.error('请选择整理后的路径，才能开始整理！')
             return;
         }
-        console.log(selected);
-    }
-    useEffect(() => {
-        if (path) {
-            getMediaLibrary({path: path}, {
-                onSuccess: resData => {
-                    const {code, message: msg, data} = resData;
-                    if (code === 0) {
-                        setRows((data || []).map((item) => {
-                            return {
-                                name: item.name,
-                                file_type_desc: item.file_type_desc,
-                                status: item.status,
-                                release_date: item?.recognition_result?.metadata ? item.recognition_result.metadata.release_date : "未知",
-                                media_name: item?.recognition_result?.metadata ? item.recognition_result.metadata.name : "未知",
-                                media_type: item?.recognition_result?.metadata ? item.recognition_result.metadata.media_type : "未知",
-                                path: item.path
-                            }
-                        }));
-                    } else {
-                        message.error(msg);
-                    }
-                },
-                onError: error => message.error(error)
-            });
+        if (onLinkStart) {
+            onLinkStart(selected);
         }
-    }, [path])
+        linkMedia({paths: selected, root_path: path, media_type: mediaType, link_path: linkPath}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    message.success(msg)
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error)
+        })
+    }
     return (
         <Paper>
             <EnhancedTableToolbar numSelected={selected.length} onLink={onLink}/>
@@ -288,6 +281,7 @@ function MediaTable({path, linkPath}) {
                         onSelectAllClick={handleSelectAllClick}
                         onRequestSort={handleRequestSort}
                         rowCount={rows.length}
+                        disabled={disabled}
                     />
                     <TableBody>
                         {
@@ -317,6 +311,7 @@ function MediaTable({path, linkPath}) {
                                             <Checkbox
                                                 checked={isItemSelected}
                                                 inputProps={{"aria-labelledby": labelId}}
+                                                disabled={disabled}
                                             />
                                         </TableCell>
                                         <TableCell
@@ -330,12 +325,20 @@ function MediaTable({path, linkPath}) {
                                             </Tooltip>
                                         </TableCell>
                                         <TableCell
-                                            align="right">{row.media_type === "Movie" ? "电影" : "剧集"}</TableCell>
+                                            align="right">
+                                            {row.media_type === undefined || row.media_type == null || row.media_type === '未知' && "未知"}
+                                            {row.media_type === "Movie" && "电影"}
+                                            {row.media_type === "TV" && "剧集"}
+                                        </TableCell>
                                         <TableCell
                                             align="right">{row.media_name}</TableCell>
                                         <TableCell
                                             align="right">{row.release_date}</TableCell>
-                                        <TableCell align="right">{getStatus(row.status)}</TableCell>
+                                        <TableCell align="right">
+                                            {row.err_msg ? <Tooltip
+                                                title={row.err_msg}
+                                                arrow>{getStatus(row.status)}</Tooltip> : getStatus(row.status)}
+                                        </TableCell>
                                         <TableCell align="right">
                                             <IconButton
                                                 color="info"
