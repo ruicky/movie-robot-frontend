@@ -92,7 +92,7 @@ function AdvancedSettingList() {
                     <ListItemIcon>
                         <SearchIcon fontSize={"large"}/>
                     </ListItemIcon>
-                    <ListItemText primary="网页搜索结果"/>
+                    <ListItemText primary="网页搜索设置"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItemButton>
             </ListItem>

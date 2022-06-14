@@ -46,6 +46,7 @@ const EditNotify = async(() => import("./pages/setting/Notify/Edit"));
 const EditFreeDownload = async(() => import("./pages/setting/Advanced/EditFreeDownload"));
 const EditSubtitle = async(() => import("./pages/setting/Advanced/EditSubtitle"));
 const EditSearchSetting = async(() => import("./pages/setting/Advanced/EditSearchSetting"));
+const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -185,6 +186,10 @@ const routes = [{
         path: "search", element: <SubscribeSearch/>
     }, {
         path: "list", element: <SubscribeList/>
+    }]
+}, {
+    path: "media", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
+        path: "link-index", element: <MediaLinkIndex/>
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{

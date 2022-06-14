@@ -28,3 +28,10 @@ export const useRestartApp = (param) => {
             client("/api/common/restart_app", {params: params, method: "GET"})
     );
 };
+export const useGetDirs = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/common/get_dirs", {params: params, method: "GET"})
+    );
+};
