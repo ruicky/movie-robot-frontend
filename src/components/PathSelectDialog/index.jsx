@@ -1,4 +1,4 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, OutlinedInput} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, OutlinedInput, Box} from "@mui/material";
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -109,7 +109,7 @@ function PathSelectDialog({
             />
             <Dialog onClose={handleClose} open={open} fullWidth>
                 <DialogTitle>{title}</DialogTitle>
-                <DialogContent>
+                <DialogContent sx={{overflow: 'hidden'}}>
                     <TreeView
                         aria-label="multi-select"
                         defaultCollapseIcon={<ExpandMoreIcon/>}
@@ -123,7 +123,9 @@ function PathSelectDialog({
                     >
                         {treeData && renderTree(treeData)}
                     </TreeView>
-                    <LinesEllipsis text={selected} maxLine={4} style={{weight: "100%"}}/>
+                    <Box sx={{ my: 1}}>
+                        <LinesEllipsis text={selected} maxLine={4} style={{weight: "100%"}}/>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>取消</Button>

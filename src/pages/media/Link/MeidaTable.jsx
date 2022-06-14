@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import styled from "styled-components/macro";
-
+import CircularProgress from '@mui/material/CircularProgress';
+import { alpha } from '@mui/material/styles';
 import {
     Breadcrumbs as MuiBreadcrumbs,
     Button,
@@ -19,6 +20,7 @@ import {
     TableRow,
     TableSortLabel,
     Toolbar,
+    Box,
     Tooltip,
     Typography,
 } from "@mui/material";
@@ -152,30 +154,33 @@ const EnhancedTableToolbar = (props) => {
     const {numSelected, onLink} = props;
 
     return (
-        <Toolbar>
-            <div>
-                {numSelected > 0 ? (
-                    <Typography color="inherit" variant="subtitle1" width={80}>
-                        选中{numSelected}个
-                    </Typography>
-                ) : (
-                    <Typography variant="h6" id="tableTitle" width={80}>
-                        本地资源
-                    </Typography>
-                )}
-            </div>
+        <Toolbar sx={{
+            pl: { sm: 2 },
+            pr: { xs: 1, sm: 1 },
+            ...(numSelected > 0 && {
+              bgcolor: (theme) =>
+                alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+            }),
+          }}>
+            {numSelected > 0 ? (
+                <Typography color="inherit" variant="subtitle1" width={120}>
+                    选中{numSelected}个
+                </Typography>
+            ) : (
+                <Typography variant="h6" id="tableTitle" width={120}>
+                    本地资源
+                </Typography>
+            )}
             <Spacer/>
-            <div>
-                {numSelected > 0 ? (
-                    <Stack direction="row" spacing={2}>
-                        <Tooltip title="开始分析选中的资源影视信息，然后整理到对应目录">
-                            <Button variant="contained" startIcon={<RefreshIcon/>} onClick={onLink}>
-                                整理
-                            </Button>
-                        </Tooltip>
-                    </Stack>
-                ) : null}
-            </div>
+            {numSelected > 0 ? (
+                <Stack direction="row" spacing={2} sx={{width: '100px'}}>
+                    <Tooltip title="开始分析选中的资源影视信息，然后整理到对应目录">
+                        <Button variant="contained" startIcon={<RefreshIcon/>} onClick={onLink}>
+                            整理
+                        </Button>
+                    </Tooltip>
+                </Stack>
+            ) : null}
         </Toolbar>
     );
 };
@@ -285,7 +290,14 @@ function MediaTable({path, linkPath}) {
                         rowCount={rows.length}
                     />
                     <TableBody>
-                        {stableSort(rows, getComparator(order, orderBy))
+                        {
+                            isLoading && <TableRow>
+                                <TableCell colspan={7} align={'center'} sx={{border: 'none'}}>
+                                    <CircularProgress/>
+                                </TableCell>
+                            </TableRow>
+                        }
+                        {!isLoading && stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                                 const isItemSelected = isSelected(row.path);
