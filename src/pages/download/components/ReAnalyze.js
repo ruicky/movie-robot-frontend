@@ -36,7 +36,6 @@ export default function ReAnalyze(props) {
     const [movieType, setMovieType] = useState();
     const [seasonIndex, setSeasonIndex] = useState();
     const [tmdbId, setTmdbId] = useState();
-    const [notify, setNotify] = useState(propsNotify);
     const [submitting, setSubmitting] = useState(false)
     useEffect(() => {
         setYear(propsYear)
@@ -92,8 +91,7 @@ export default function ReAnalyze(props) {
             movie_type: movieType,
             link_path: linkPath,
             name,
-            year,
-            send_notify: notify ? 1 : 0
+            year
         });
         setSubmitting(false)
         handleClose();
@@ -178,14 +176,6 @@ export default function ReAnalyze(props) {
                     onChange={(e) => setLinkPath(e.target.value)}
                     error={!!validResult?.linkPath?.error}
                     helperText={validResult?.linkPath?.helperText}
-                />
-                <FormControlLabel
-                    control={<Checkbox
-                        checked={notify}
-                        name="notify"
-                        onChange={(e) => setNotify(e.target.checked)}
-                    />}
-                    label="结束发推送"
                 />
             </DialogContent>
             <DialogActions>
