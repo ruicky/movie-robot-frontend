@@ -34,6 +34,8 @@ export default function ReAnalyze(props) {
     const [year, setYear] = useState();
     const [linkPath, setLinkPath] = useState();
     const [movieType, setMovieType] = useState();
+    const [seasonIndex, setSeasonIndex] = useState();
+    const [tmdbId, setTmdbId] = useState();
     const [notify, setNotify] = useState(propsNotify);
     const [submitting, setSubmitting] = useState(false)
     useEffect(() => {
@@ -48,6 +50,16 @@ export default function ReAnalyze(props) {
     useEffect(() => {
         setMovieType(movie_type)
     }, [movie_type])
+    useEffect(()=>{
+        if(!tmdbId){
+            return;
+        }
+        if (tmdbId.indexOf("/movie/") !== -1) {
+            setMovieType("Movie");
+        } else {
+            setMovieType("Series");
+        }
+    },[tmdbId]);
     const handleClose = () => {
         onAnalyze({open: false})
     }
@@ -75,6 +87,8 @@ export default function ReAnalyze(props) {
         setSubmitting(true)
         const result = await reanalyze({
             id,
+            tmdb_id: tmdbId,
+            season_index: seasonIndex,
             movie_type: movieType,
             link_path: linkPath,
             name,
@@ -113,6 +127,24 @@ export default function ReAnalyze(props) {
                     </Select>
                     <FormHelperText>内容类型</FormHelperText>
                 </FormControl>
+                <TextField
+                    type="text"
+                    name="tmdbId"
+                    margin="dense"
+                    label="TMDBID或访问地址"
+                    fullWidth
+                    defaultValue={tmdbId}
+                    onChange={(e) => setTmdbId(e.target.value)}
+                />
+                {movieType && movieType === "Series" && <TextField
+                    type="number"
+                    name="seasonIndex"
+                    margin="dense"
+                    label="季度数"
+                    fullWidth
+                    defaultValue={seasonIndex}
+                    onChange={(e) => setSeasonIndex(e.target.value)}
+                />}
                 <TextField
                     autoFocus
                     type="text"
