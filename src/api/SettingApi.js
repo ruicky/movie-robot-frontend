@@ -163,6 +163,19 @@ export const useGetServerSetting = (param) => {
         client("/api/setting/get_server_setting", {params: param, method: "GET"})
     );
 };
+export const useGetLinkSetting = (param) => {
+    const client = useHttp();
+    return useQuery(['getWebSetting', param], () =>
+        client("/api/setting/get_link_setting", {params: param, method: "GET"})
+    );
+};
+export const useSaveLinkSetting = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_link_setting", {params: params, method: "POST"})
+    );
+};
 export const useSaveServerSetting = (param) => {
     const client = useHttp();
     return useMutation(

@@ -18,7 +18,7 @@ import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {useGetServerSetting, useSaveServerSetting} from "@/api/SettingApi";
+import {useGetLinkSetting, useGetServerSetting, useSaveLinkSetting, useSaveServerSetting} from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -32,8 +32,8 @@ const Centered = styled.div`
 
 function EditForm({}) {
     const navigate = useNavigate();
-    const {data: setting, isLoading: isLoading} = useGetServerSetting();
-    const {mutateAsync: save, isSaving} = useSaveServerSetting();
+    const {data: setting, isLoading: isLoading} = useGetLinkSetting();
+    const {mutateAsync: save, isSaving} = useSaveLinkSetting();
     const formik = useFormik({
         initialValues: {
             movie_filename_format: "",
@@ -54,7 +54,7 @@ function EditForm({}) {
                     onSuccess: res => {
                         const {code, message: msg, data} = res;
                         if (code === 0) {
-                            message.success('搜索设置保存成功，已经生效了。')
+                            message.success('识别与整理设置保存成功，已经生效了。')
                             navigate("/setting/index");
                         } else {
                             message.error(msg)
@@ -77,9 +77,9 @@ function EditForm({}) {
             formik.setFieldValue("movie_folder_format", setting.data?.movie_folder_format ? setting.data?.movie_folder_format : "");
             formik.setFieldValue("tv_filename_format", setting.data?.tv_filename_format ? setting.data?.tv_filename_format : "");
             formik.setFieldValue("tv_folder_format", setting.data?.tv_folder_format ? setting.data?.tv_folder_format : "");
-            formik.setFieldValue("recognize", setting.data?.recognize != undefined && setting.data?.recognize != null ? setting.data?.recognize : true);
-            formik.setFieldValue("exact_year", setting.data?.exact_year != undefined && setting.data?.exact_year != null ? setting.data?.exact_year : true);
-            formik.setFieldValue("use_unknown_dir", setting.data?.use_unknown_dir != undefined && setting.data?.use_unknown_dir != null ? setting.data?.use_unknown_dir : true);
+            formik.setFieldValue("recognize", setting.data?.recognize !== undefined && setting.data?.recognize !== null ? setting.data?.recognize : true);
+            formik.setFieldValue("exact_year", setting.data?.exact_year !== undefined && setting.data?.exact_year !== null ? setting.data?.exact_year : true);
+            formik.setFieldValue("use_unknown_dir", setting.data?.use_unknown_dir !== undefined && setting.data?.use_unknown_dir !== null ? setting.data?.use_unknown_dir : true);
         }
     }, [setting]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
@@ -165,7 +165,7 @@ function EditForm({}) {
                     onChange={formik.handleChange}
                     name="use_unknown_dir"
                 />}
-                label="对未识别的影片是否归类到.unknown目录，False时原样1:1链接到目标目录"
+                label="对未识别的影片是否归类到.unknown目录，关闭后将原样1:1链接到目标目录"
             />
         </FormGroup>
         <Button

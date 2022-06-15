@@ -46,6 +46,7 @@ const EditNotify = async(() => import("./pages/setting/Notify/Edit"));
 const EditFreeDownload = async(() => import("./pages/setting/Advanced/EditFreeDownload"));
 const EditSubtitle = async(() => import("./pages/setting/Advanced/EditSubtitle"));
 const EditSearchSetting = async(() => import("./pages/setting/Advanced/EditSearchSetting"));
+const EditLink = async(() => import("./pages/setting/Advanced/EditLink"));
 const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 
 const routes = [{
@@ -127,6 +128,9 @@ const routes = [{
         }, {
             path: 'edit-search-setting',
             element: <EditSearchSetting/>
+        }, {
+            path: 'edit-link',
+            element: <EditLink/>
         }
     ]
 }, {
