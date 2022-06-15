@@ -45,7 +45,7 @@ function Index() {
     });
     const [linkStart, setLinkStart] = useState(false);
     const [rows, setRows] = useState([]);
-    const [tips, setTips] = useState("选择媒体路径后，可以加载该路径下待处理的影视资源。通过选个单个或全选资源，作出整理操作。");
+    const [tips, setTips] = useState("");
     const {mutateAsync: getMediaLibrary, isLoading} = useGetMediaLibrary();
 
     const {
@@ -92,7 +92,7 @@ function Index() {
         }
     }, [sourcePath])
     useEffect(() => {
-        if (mediaLinkStatusData?.data) {
+        if (mediaLinkStatusData?.data && (mediaLinkStatusData.data.root_path === sourcePath || !sourcePath)) {
             setLinkStart(mediaLinkStatusData.data.running);
             if (!sourcePath && !linkStart) {
                 setSourcePath(mediaLinkStatusData.data.root_path);
@@ -105,7 +105,11 @@ function Index() {
             }
             if (mediaLinkStatusData.data.progress === 100) {
                 setLinkStart(false);
-                setTips(`${sourcePath}已经整理完毕 成功：${mediaLinkStatusData.data.success_count} 识别失败：${mediaLinkStatusData.data.failed_count}`);
+                let errMsg = '';
+                if (mediaLinkStatusData.data.failed_count) {
+                    errMsg = "（鼠标滑动到错误状态，可以看到失败原因）";
+                }
+                setTips(`${sourcePath}已经整理完毕 成功：${mediaLinkStatusData.data.success_count} 识别失败：${mediaLinkStatusData.data.failed_count}${errMsg}`);
                 fetchGetMediaLibrary(sourcePath);
             } else {
                 setProgress({
@@ -116,6 +120,7 @@ function Index() {
             }
         } else {
             setLinkStart(false);
+            setTips("选择媒体路径后，可以加载该路径下待处理的影视资源。通过选个单个或全选资源，作出整理操作。");
         }
     }, [sourcePath, mediaLinkStatusData])
     return (

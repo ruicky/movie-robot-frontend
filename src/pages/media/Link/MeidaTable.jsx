@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components/macro";
 import CircularProgress from '@mui/material/CircularProgress';
 import {alpha} from '@mui/material/styles';
@@ -8,7 +8,6 @@ import {
     Checkbox,
     Chip as MuiChip,
     Divider as MuiDivider,
-    IconButton,
     Paper as MuiPaper,
     Stack,
     Table,
@@ -23,11 +22,10 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import {Edit,} from "@mui/icons-material";
 import {spacing} from "@mui/system";
 import {useLinkMedia} from "@/api/MediaServerApi";
 import message from "@/utils/message";
-import RefreshIcon from '@mui/icons-material/Refresh';
+import CorrectDialog from "@/pages/media/Link/CorrectDialog";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -100,7 +98,6 @@ const headCells = [
     {id: "media_name", numeric: true, disablePadding: false, label: "影片名", sort: true},
     {id: "release_date", numeric: true, disablePadding: false, label: "发行日期", sort: true},
     {id: "status", numeric: true, disablePadding: false, label: "状态", sort: true},
-    {id: "option", numeric: true, disablePadding: false, label: "纠错", sort: false},
 ];
 
 const EnhancedTableHead = (props) => {
@@ -152,7 +149,7 @@ const EnhancedTableHead = (props) => {
 
 const EnhancedTableToolbar = (props) => {
     // Here was 'let'
-    const {numSelected, onLink} = props;
+    const {numSelected, onLink, onCorrect} = props;
 
     return (
         <Toolbar sx={{
@@ -174,10 +171,15 @@ const EnhancedTableToolbar = (props) => {
             )}
             <Spacer/>
             {numSelected > 0 ? (
-                <Stack direction="row" spacing={2} sx={{width: '100px'}}>
+                <Stack direction="row" spacing={2}>
+                    <Tooltip title="对识别错误的资源，输入准确信息后重新整理">
+                        <Button variant="contained" onClick={onCorrect}>
+                            纠错
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="开始分析选中的资源影视信息，然后整理到对应目录">
-                        <Button variant="contained" startIcon={<RefreshIcon/>} onClick={onLink}>
-                            整理
+                        <Button variant="contained" onClick={onLink}>
+                            自动整理
                         </Button>
                     </Tooltip>
                 </Stack>
@@ -193,6 +195,7 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const {mutateAsync: linkMedia, isLinking} = useLinkMedia();
+    const [correctDialogData, setCorrectDialogData] = useState({open: false});
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -250,6 +253,10 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             message.error('请选择整理后的路径，才能开始整理！')
             return;
         }
+        if (path === linkPath) {
+            message.error('整理后的目标路径最好和原始分开！')
+            return;
+        }
         if (onLinkStart) {
             onLinkStart(selected);
         }
@@ -265,9 +272,51 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             onError: error => message.error(error)
         })
     }
+    const onCorrect = () => {
+        if (!linkPath) {
+            message.error('请选择整理后的路径，才能开始整理！')
+            return;
+        }
+        if (path === linkPath) {
+            message.error('整理后的目标路径最好和原始分开！')
+            return;
+        }
+        setCorrectDialogData({
+            open: true,
+            path: selected,
+            mediaType: mediaType
+        })
+    }
+    const onCorrectSubmit = (values) => {
+        if (onLinkStart) {
+            onLinkStart(selected);
+        }
+        linkMedia({
+            tmdb_id: values.tmdbId,
+            media_name: values.name,
+            media_year: values.year,
+            paths: values.path,
+            root_path: path,
+            media_type: values.mediaType,
+            link_path: linkPath,
+            season_inbdex: values.seasonIndex
+        }, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    message.success(msg)
+                    setCorrectDialogData({open: false});
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error)
+        })
+    }
     return (
         <Paper>
-            <EnhancedTableToolbar numSelected={selected.length} onLink={onLink}/>
+            <CorrectDialog data={correctDialogData} setData={setCorrectDialogData} onSubmit={onCorrectSubmit}/>
+            <EnhancedTableToolbar numSelected={selected.length} onLink={onLink} onCorrect={onCorrect}/>
             <TableContainer>
                 <Table
                     aria-labelledby="tableTitle"
@@ -338,16 +387,6 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
                                             {row.err_msg ? <Tooltip
                                                 title={row.err_msg}
                                                 arrow>{getStatus(row.status)}</Tooltip> : getStatus(row.status)}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <IconButton
-                                                color="info"
-                                                aria-label="编辑"
-                                                size="small"
-                                                disabled={[0, 1].includes(row.status)}
-                                            >
-                                                <Edit/>
-                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 );

@@ -16,6 +16,7 @@ function PathSelectDialog({
                               title = "点击选择路径",
                               onChange
                           }) {
+    const [defaultExpanded, setDefaultExpanded] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [open, setOpen] = useState(false);
     const [expanded, setExpanded] = useState([]);
@@ -64,9 +65,6 @@ function PathSelectDialog({
                         }
                         setTreeData(tmp);
                     }
-                    if (defaultSelected) {
-                        setSelected(defaultSelected);
-                    }
                 } else {
                     message.error(msg)
                 }
@@ -95,9 +93,23 @@ function PathSelectDialog({
         </>
     );
     useEffect(() => {
-        setInputValue(defaultSelected);
+        console.log(defaultSelected)
+        if (defaultSelected) {
+            setInputValue(defaultSelected);
+            const e = []
+            let prePath = '/'
+            for (const path of defaultSelected.split("/")) {
+                if(path===''){
+                    continue;
+                }
+                e.push(prePath+path);
+                prePath += path + "/";
+            }
+            setSelected(defaultSelected);
+            setExpanded(e);
+        }
         setDirs(rootPath, defaultSelected);
-    }, [defaultSelected, rootPath])
+    }, [rootPath, defaultSelected])
     return (
         <>
             <OutlinedInput
@@ -125,6 +137,8 @@ function PathSelectDialog({
                         defaultExpandIcon={<ChevronRightIcon/>}
                         onNodeSelect={handleSelect}
                         onNodeToggle={handleToggle}
+                        defaultSelected={defaultSelected}
+                        defaultExpanded={defaultExpanded}
                         expanded={expanded}
                         selected={selected}
                         disableSelection={isLoading}
