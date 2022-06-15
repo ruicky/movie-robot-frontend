@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {
     Button,
-    Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
     FormControl,
-    FormControlLabel,
     FormHelperText,
     MenuItem,
     Select,
@@ -49,8 +47,8 @@ export default function ReAnalyze(props) {
     useEffect(() => {
         setMovieType(movie_type)
     }, [movie_type])
-    useEffect(()=>{
-        if(!tmdbId){
+    useEffect(() => {
+        if (!tmdbId) {
             return;
         }
         if (tmdbId.indexOf("/movie/") !== -1) {
@@ -58,24 +56,26 @@ export default function ReAnalyze(props) {
         } else {
             setMovieType("Series");
         }
-    },[tmdbId]);
+    }, [tmdbId]);
     const handleClose = () => {
         onAnalyze({open: false})
     }
 
     const handleSubmit = async () => {
-        // 验证
-        if (!name) {
-            setValidResult({
-                name: {error: true, helperText: '必须填写影视名称'}
-            })
-            return;
-        }
-        if (!year) {
-            setValidResult({
-                year: {error: true, helperText: '必须填写发行年份'}
-            })
-            return;
+        if (!tmdbId) {
+            // 验证
+            if (!name) {
+                setValidResult({
+                    name: {error: true, helperText: '必须填写影视名称'}
+                })
+                return;
+            }
+            if (!year) {
+                setValidResult({
+                    year: {error: true, helperText: '必须填写发行年份'}
+                })
+                return;
+            }
         }
         if (!linkPath) {
             setValidResult({
