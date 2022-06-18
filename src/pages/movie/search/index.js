@@ -283,7 +283,7 @@ function SearchRecords(props) {
 
     const search = useCallback((keyword) => {
         if (appInfo.server_config.auth_search_result) {
-            searchData(param.keyword)
+            searchData(keyword)
         }else{
             setRecords(null);
             setParam({keyword});
