@@ -9,7 +9,31 @@ export const useSubscribes = (param) => {
         client("/api/subscribe/list", {params: param})
     );
 }
-
+export const useSubCustomList = (param) => {
+    const client = useHttp();
+    return useQuery(['get_sub_custom_list', param], () =>
+        client("/api/subscribe/get_sub_custom_list", {params: param})
+    );
+}
+export const useSubCustom = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/sub_custom", {params: params, method: "POST"})
+    );
+};
+export const useGetSubCustom = (param) => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/get_sub_custom", {params: params})
+    );
+};
+export const useDeleteSubCustom = () => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/delete_sub_custom", {params: params})
+    );
+};
 // 订阅搜索
 export const useSubscribeSearch = () => {
     const client = useHttp();

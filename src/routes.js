@@ -30,6 +30,7 @@ const TVRankingList = async(() => import("./pages/subscribe/TVRankingList"));
 const RecentPopularMovieList = async(() => import("./pages/subscribe/RecentPopularMovieList"));
 const RecentPopularTVList = async(() => import("./pages/subscribe/RecentPopularTVList"));
 const SubscribeList = async(() => import("./pages/subscribe/list"));
+const EditSubCustomFilter = async(() => import("./pages/subscribe/Custom/EditCustomFilter"));
 const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
 const Selectors = async(() => import("./pages/selectors"));
@@ -190,6 +191,8 @@ const routes = [{
         path: "search", element: <SubscribeSearch/>
     }, {
         path: "list", element: <SubscribeList/>
+    }, {
+        path: "edit-custom-filter", element: <EditSubCustomFilter/>
     }]
 }, {
     path: "media", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
