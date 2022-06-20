@@ -117,6 +117,7 @@ function FilterForm({
         formik.setFieldValue("include_keyword", filter_config?.include_keyword ? filter_config?.include_keyword : '')
         formik.setFieldValue("save_path", data?.save_path ? data?.save_path : '')
         formik.setFieldValue("site_id", filter_config?.site_id ? filter_config?.site_id : [])
+        formik.setFieldValue("release_team", filter_config?.release_team ? filter_config?.release_team : [])
     }
     useEffect(() => {
         axios.get("/api/config/get_media_path").then((res) => {

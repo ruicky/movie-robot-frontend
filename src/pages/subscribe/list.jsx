@@ -78,40 +78,36 @@ const SubList = () => {
                     已完成
                 </MenuItem>
             </Menu>
-            <Grid justifyContent="space-between" container spacing={6}>
+            <Grid justifyContent="space-between" container>
                 <Grid item>
-                    <Box sx={{width: '100%'}}>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            textColor="secondary"
-                            indicatorColor="secondary"
-                            aria-label="secondary tabs example"
-                        >
-                            <Tab value="media" label={(<Typography variant="h3" gutterBottom>
-                                影片订阅
-                                <Button
-                                    edge="end"
-                                    id="basic-button"
-                                    aria-controls={open ? 'basic-menu' : undefined}
-                                    aria-expanded={open ? 'true' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={handleClick}
-                                    endIcon={<ArrowDropDownIcon/>}
-                                    variant="h3"
-                                >
-                                    {status == null && "全部"}
-                                    {status === 0 && "订阅中"}
-                                    {status === 1 && "已完成"}
-                                    {status === 2 && "洗版中"}
-                                </Button>
-                            </Typography>)}/>
-                            <Tab value="custom" label={<Typography variant="h3" gutterBottom>
-                                自定义订阅
-                            </Typography>}/>
-                        </Tabs>
-                    </Box>
-
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        textColor="secondary"
+                        indicatorColor="secondary"
+                    >
+                        <Tab value="media" label={(<Typography variant="h4" gutterBottom>
+                            影片订阅
+                            <Button
+                                edge="end"
+                                id="basic-button"
+                                aria-controls={open ? 'basic-menu' : undefined}
+                                aria-expanded={open ? 'true' : undefined}
+                                aria-haspopup="true"
+                                onClick={handleClick}
+                                endIcon={<ArrowDropDownIcon/>}
+                                variant="h3"
+                            >
+                                {status == null && "全部"}
+                                {status === 0 && "订阅中"}
+                                {status === 1 && "已完成"}
+                                {status === 2 && "洗版中"}
+                            </Button>
+                        </Typography>)}/>
+                        <Tab value="custom" label={<Typography variant="h4" gutterBottom>
+                            自定义订阅
+                        </Typography>}/>
+                    </Tabs>
                 </Grid>
                 <Grid item>
                     {value === "media" &&
