@@ -351,6 +351,8 @@ function SearchRecords(props) {
                                 upload_volume_factor={row?.upload_volume_factor}
                                 free_desc={row?.free_desc}
                                 minimum_ratio={row?.minimum_ratio}
+                                poster_url={row?.poster_url}
+                                cate_level1={row?.cate_level1}
                                 onDownload={() => {
                                     const {id, site_id} = row;
                                     setDownloadInfo({id, site_id});

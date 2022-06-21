@@ -1,4 +1,4 @@
-import {Box, Chip as MuiChip, Grid, Link, Skeleton, Stack, Typography as MuiTypography} from "@mui/material";
+import {Box, CardMedia, Chip as MuiChip, Grid, Link, Skeleton, Stack, Typography as MuiTypography} from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
     StyledCard as Card,
@@ -13,6 +13,11 @@ import {rgba} from "polished";
 import {deepOrange, green} from "@mui/material/colors";
 import {coverSize} from "@/utils/PtUtils";
 
+const CardMediaWrapper = styled(CardMedia)`
+    ${(props) => props.theme.breakpoints.up("sm")} {
+        height: 400;
+    }
+`;
 const Chip = styled(MuiChip)`
   height: 20px;
   padding: 4px 0;
@@ -53,7 +58,9 @@ const COM = ({
                  download_volume_factor,
                  upload_volume_factor,
                  minimum_ratio,
-                 free_desc
+                 free_desc,
+                 poster_url,
+                 cate_level1
              }) => {
     let free = ''
     if (upload_volume_factor === 2) {
@@ -76,6 +83,10 @@ const COM = ({
         }
     }
     return (<Card>
+            {cate_level1 && cate_level1 === "AV" && poster_url && <CardMedia
+                component="img"
+                image={poster_url}
+            />}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {subject || name ?

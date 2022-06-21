@@ -42,7 +42,7 @@ const MenuProps = {
         },
     },
 };
-const SearchCates = ['Movie', 'TV', 'Anime', 'Documentary', 'AV'];
+const SearchCates = ['Movie', 'TV', 'Anime', 'Documentary','Music'];
 
 function EditForm({isInit}) {
     const navigate = useNavigate();
