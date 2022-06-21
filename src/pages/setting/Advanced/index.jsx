@@ -14,7 +14,7 @@ import {useGetSettingStatus, useSetFreeDownloadEnable, useSetSubtitleEnable} fro
 import message from "@/utils/message";
 import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from '@mui/icons-material/Search';
-
+import CheckIcon from '@mui/icons-material/Check';
 function AdvancedSettingList() {
     const navigate = useNavigate();
     const {data: settingStatus, isLoading: isLoading, refetch} = useGetSettingStatus();
@@ -97,11 +97,20 @@ function AdvancedSettingList() {
                 </ListItemButton>
             </ListItem>
             <ListItem>
+                <ListItemButton onClick={() => navigate("/setting/edit-link")}>
+                    <ListItemIcon>
+                        <CheckIcon fontSize={"large"}/>
+                    </ListItemIcon>
+                    <ListItemText primary="识别与整理设置"/>
+                    <ArrowForwardIosOutlinedIcon color="disabled"/>
+                </ListItemButton>
+            </ListItem>
+            <ListItem>
                 <ListItemButton onClick={() => navigate("/setting/edit-web")}>
                     <ListItemIcon>
                         <LanguageIcon fontSize={"large"}/>
                     </ListItemIcon>
-                    <ListItemText primary="应用访问"/>
+                    <ListItemText primary="网络设置"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItemButton>
             </ListItem>

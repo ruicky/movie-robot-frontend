@@ -21,6 +21,12 @@ export const useGetMediaLibrary = (param) => {
             client("/api/media/get_media_library", {params: params, method: "GET"})
     );
 };
+export const useGetMediaLinkStatus = (param) => {
+    const client = useHttp();
+    return useQuery(['get_media_link_status', param], () =>
+        client("/api/media/get_media_link_status", {params: param})
+    );
+};
 export const useLinkMedia = (param) => {
     const client = useHttp();
     return useMutation(

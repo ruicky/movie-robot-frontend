@@ -1,9 +1,27 @@
 import React, {useEffect} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import axios from "../../../utils/request";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    FormControl,
+    MenuItem,
+    Select,
+    TextField,
+    Typography
+} from "@mui/material";
 
-const ReAnalyze = ({data, setAnalyze, setMessage}) => {
-    const [values, setValues] = React.useState({tmdbId: null, id: null, name: "", year: "", seasonIndex: null});
+const CorrectDialog = ({data, setData, onSubmit}) => {
+    const [values, setValues] = React.useState({
+        path: null,
+        mediaType: "Movie",
+        tmdbId: null,
+        name: "",
+        year: "",
+        seasonIndex: null
+    });
     const [errors, setErrors] = React.useState({});
     const [showErrors, setShowErrors] = React.useState({});
     const handleValueChange = (e) => {
@@ -11,6 +29,13 @@ const ReAnalyze = ({data, setAnalyze, setMessage}) => {
             setValues({...values, [e.target.name]: e.target.checked});
         } else {
             setValues({...values, [e.target.name]: e.target.value});
+        }
+        if (e.target.name === "tmdbId" && e.target.value && e.target.value.indexOf("themoviedb.org") !== -1) {
+            if (e.target.value.indexOf("/movie/") !== -1) {
+                setValues({...values, mediaType: "Movie", tmdbId: e.target.value})
+            } else {
+                setValues({...values, mediaType: "TV", tmdbId: e.target.value})
+            }
         }
     };
     const onReAnalyze = (values) => {
@@ -33,37 +58,61 @@ const ReAnalyze = ({data, setAnalyze, setMessage}) => {
             setErrors({});
             setShowErrors({});
         }
-        axios.get("/api/download/reanalyse", {
-            params: {
-                id: data.id,
-                tmdb_id: values.tmdbId,
-                name: values.name,
-                year: values.year,
-                season_index: values.seasonIndex
-            }
-        }).then((res) => {
-            setMessage(res.message);
-            setAnalyze({name: "", open: false, year: "", id: undefined});
-        });
+        if (onSubmit) {
+            onSubmit(values);
+        }
     };
     const handleClose = () => {
-        setAnalyze({open: false});
+        if (setData) {
+            setData({open: false});
+        }
         setErrors({});
         setShowErrors({});
     };
     useEffect(() => {
-        setValues({...values, name: data.name, id: data.id, year: data.year});
+        setValues({
+            ...values,
+            tmdbId: data?.tmdbId,
+            seasonIndex: data?.seasonIndex,
+            mediaType: data?.mediaType,
+            path: data?.path,
+            name: data?.name ? data.name : "",
+            year: data?.year ? data.year : ""
+        });
     }, [data]);
     return (<Dialog
         open={data.open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
     >
-        <DialogTitle id="form-dialog-title">重新识别</DialogTitle>
+        <DialogTitle id="form-dialog-title">手动输入信息进行整理</DialogTitle>
         <DialogContent>
             <DialogContentText>
-                提供正确的影视名称和年份，提交后，机器人将重新识别整理、通知。
+                {data && data?.path && data.path.length > 1 && <Typography variant="h6">
+                    注意：你选种了多个要处理的内容，这些内容都将会使用你提供的信息进行整理。
+                </Typography>}
             </DialogContentText>
+            <FormControl fullWidth>
+                <Select
+                    name="mediaType"
+                    value={values.mediaType}
+                    onChange={handleValueChange}
+                >
+                    <MenuItem value="Movie">电影</MenuItem>
+                    <MenuItem value="TV">剧集</MenuItem>
+                </Select>
+            </FormControl>
+            {values?.mediaType && values.mediaType === "TV" && <TextField
+                type="number"
+                name="seasonIndex"
+                margin="dense"
+                label="季度数"
+                error={Boolean(showErrors.seasonIndex && errors.seasonIndex)}
+                helperText={showErrors.seasonIndex && errors.seasonIndex}
+                fullWidth
+                defaultValue={values.seasonIndex}
+                onChange={handleValueChange}
+            />}
             <TextField
                 type="text"
                 name="tmdbId"
@@ -76,7 +125,6 @@ const ReAnalyze = ({data, setAnalyze, setMessage}) => {
                 onChange={handleValueChange}
             />
             <TextField
-                autoFocus
                 type="text"
                 name="name"
                 margin="dense"
@@ -98,17 +146,6 @@ const ReAnalyze = ({data, setAnalyze, setMessage}) => {
                 error={Boolean(showErrors.year && errors.year)}
                 helperText={showErrors.year && errors.year}
             />
-            <TextField
-                type="number"
-                name="seasonIndex"
-                margin="dense"
-                label="季度数"
-                error={Boolean(showErrors.seasonIndex && errors.seasonIndex)}
-                helperText={showErrors.seasonIndex && errors.seasonIndex}
-                fullWidth
-                defaultValue={values.seasonIndex}
-                onChange={handleValueChange}
-            />
         </DialogContent>
         <DialogActions>
             <Button color="primary" onClick={() => onReAnalyze(values)}>
@@ -121,4 +158,4 @@ const ReAnalyze = ({data, setAnalyze, setMessage}) => {
     </Dialog>);
 };
 
-export default ReAnalyze;
+export default CorrectDialog;

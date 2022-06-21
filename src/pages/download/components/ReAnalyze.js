@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {
     Button,
-    Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
     FormControl,
-    FormControlLabel,
     FormHelperText,
     MenuItem,
     Select,
@@ -34,7 +32,8 @@ export default function ReAnalyze(props) {
     const [year, setYear] = useState();
     const [linkPath, setLinkPath] = useState();
     const [movieType, setMovieType] = useState();
-    const [notify, setNotify] = useState(propsNotify);
+    const [seasonIndex, setSeasonIndex] = useState();
+    const [tmdbId, setTmdbId] = useState();
     const [submitting, setSubmitting] = useState(false)
     useEffect(() => {
         setYear(propsYear)
@@ -48,23 +47,35 @@ export default function ReAnalyze(props) {
     useEffect(() => {
         setMovieType(movie_type)
     }, [movie_type])
+    useEffect(() => {
+        if (!tmdbId) {
+            return;
+        }
+        if (tmdbId.indexOf("/movie/") !== -1) {
+            setMovieType("Movie");
+        } else {
+            setMovieType("Series");
+        }
+    }, [tmdbId]);
     const handleClose = () => {
         onAnalyze({open: false})
     }
 
     const handleSubmit = async () => {
-        // 验证
-        if (!name) {
-            setValidResult({
-                name: {error: true, helperText: '必须填写影视名称'}
-            })
-            return;
-        }
-        if (!year) {
-            setValidResult({
-                year: {error: true, helperText: '必须填写发行年份'}
-            })
-            return;
+        if (!tmdbId) {
+            // 验证
+            if (!name) {
+                setValidResult({
+                    name: {error: true, helperText: '必须填写影视名称'}
+                })
+                return;
+            }
+            if (!year) {
+                setValidResult({
+                    year: {error: true, helperText: '必须填写发行年份'}
+                })
+                return;
+            }
         }
         if (!linkPath) {
             setValidResult({
@@ -75,11 +86,12 @@ export default function ReAnalyze(props) {
         setSubmitting(true)
         const result = await reanalyze({
             id,
+            tmdb_id: tmdbId,
+            season_index: seasonIndex,
             movie_type: movieType,
             link_path: linkPath,
             name,
-            year,
-            send_notify: notify ? 1 : 0
+            year
         });
         setSubmitting(false)
         handleClose();
@@ -114,6 +126,24 @@ export default function ReAnalyze(props) {
                     <FormHelperText>内容类型</FormHelperText>
                 </FormControl>
                 <TextField
+                    type="text"
+                    name="tmdbId"
+                    margin="dense"
+                    label="TMDBID或访问地址"
+                    fullWidth
+                    defaultValue={tmdbId}
+                    onChange={(e) => setTmdbId(e.target.value)}
+                />
+                {movieType && movieType === "Series" && <TextField
+                    type="number"
+                    name="seasonIndex"
+                    margin="dense"
+                    label="季度数"
+                    fullWidth
+                    defaultValue={seasonIndex}
+                    onChange={(e) => setSeasonIndex(e.target.value)}
+                />}
+                <TextField
                     autoFocus
                     type="text"
                     name="name"
@@ -146,14 +176,6 @@ export default function ReAnalyze(props) {
                     onChange={(e) => setLinkPath(e.target.value)}
                     error={!!validResult?.linkPath?.error}
                     helperText={validResult?.linkPath?.helperText}
-                />
-                <FormControlLabel
-                    control={<Checkbox
-                        checked={notify}
-                        name="notify"
-                        onChange={(e) => setNotify(e.target.checked)}
-                    />}
-                    label="结束发推送"
                 />
             </DialogContent>
             <DialogActions>
