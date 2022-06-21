@@ -84,14 +84,11 @@ const COM = ({
                 </Typography>
                 <div>
                     <Stack direction="row" spacing={1}>
-                        {media_source !== undefined ? (media_source ?
-                                <Chip label={media_source} color="primary"/> : null) :
-                            <Skeleton height={20} width={80}/>}
-                        {resolution !== undefined ? (resolution ? <Chip label={resolution} color="success"/> : null) :
-                            <Skeleton height={20} width={80}/>}
-                        {media_encoding !== undefined ? (media_encoding ?
-                                <Chip label={media_encoding} color="info"/> : null) :
-                            <Skeleton height={20} width={80}/>}
+                        {media_source ?
+                            <Chip label={media_source} color="primary"/> : null}
+                        {resolution ? <Chip label={resolution} color="success"/> : null}
+                        {media_encoding ?
+                            <Chip label={media_encoding} color="info"/> : null}
                     </Stack>
                 </div>
                 <Typography mb={4} color="textSecondary" component="p">

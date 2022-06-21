@@ -3,13 +3,21 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {Helmet} from "react-helmet-async";
 import {
     Alert as MuiAlert,
+    Box,
     Breadcrumbs,
     Button,
     Checkbox,
+    Chip,
     Divider as MuiDivider,
+    FormControl,
     FormControlLabel,
-    FormGroup, FormLabel,
+    FormGroup,
+    FormHelperText,
+    FormLabel,
     Link,
+    ListItemText,
+    MenuItem,
+    Select,
     TextField as MuiTextField,
     Typography
 } from "@mui/material";
@@ -24,10 +32,17 @@ const Divider = styled(MuiDivider)(spacing);
 
 const Alert = styled(MuiAlert)(spacing);
 const TextField = styled(MuiTextField)(spacing);
-const Centered = styled.div`
-  text-align: center;
-`;
-
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+const SearchCates = ['Movie', 'TV', 'Anime', 'Documentary', 'AV'];
 
 function EditForm({isInit}) {
     const navigate = useNavigate();
@@ -38,6 +53,7 @@ function EditForm({isInit}) {
             site_max_workers: 0,
             web_search_timeout: 10,
             web_search_result_limit: 0,
+            web_search_default_cates: [],
             auth_search_result: false
         }, validationSchema: Yup.object().shape({
             site_max_workers: Yup.number().required("最大搜索线程不能为空"),
@@ -48,7 +64,7 @@ function EditForm({isInit}) {
                     onSuccess: res => {
                         const {code, message: msg, data} = res;
                         if (code === 0) {
-                            message.success('搜索设置保存成功，已经生效了。')
+                            message.success('搜索设置保存成功，需要强制刷新浏览器页面才会生效。')
                             navigate("/setting/index");
                         } else {
                             message.error(msg)
@@ -71,12 +87,41 @@ function EditForm({isInit}) {
             formik.setFieldValue("web_search_timeout", setting.data?.web_search_timeout ? setting.data?.web_search_timeout : 10);
             formik.setFieldValue("web_search_result_limit", setting.data?.web_search_result_limit ? setting.data?.web_search_result_limit : 0);
             formik.setFieldValue("auth_search_result", setting.data?.auth_search_result != undefined && setting.data?.auth_search_result != null ? setting.data?.auth_search_result : false);
+            formik.setFieldValue("web_search_default_cates", setting.data?.web_search_default_cates ? setting.data?.web_search_default_cates : ['Movie', 'TV', 'Anime', 'Documentary']);
         }
     }, [setting]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
         </Alert>)}
+        <FormControl m={4} fullWidth>
+            <Select
+                name="web_search_default_cates"
+                value={formik.values.web_search_default_cates}
+                multiple
+                onChange={formik.handleChange}
+                renderValue={(selected) => (
+                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                        {selected.map((value, index) => (
+                            <Chip key={index}
+                                  label={SearchCates.find(item => item === value)}/>
+                        ))}
+                    </Box>
+                )}
+                error={Boolean(formik.touched.web_search_default_cates && formik.errors.web_search_default_cates)}
+                MenuProps={MenuProps}
+            >
+                {SearchCates.map((item, index) => (
+                    <MenuItem key={index} value={item}>
+                        <Checkbox checked={formik.values.web_search_default_cates.indexOf(item) > -1}/>
+                        <ListItemText primary={item}/>
+                    </MenuItem>
+                ))}
+            </Select>
+            <FormHelperText>
+                搜索时默认的分类设置
+            </FormHelperText>
+        </FormControl>
         <TextField
             type="number"
             name="site_max_workers"

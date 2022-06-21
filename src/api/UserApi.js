@@ -1,4 +1,6 @@
 import axios from "../utils/request";
+import useHttp from "@/hooks/useHttp";
+import {useMutation} from "react-query";
 
 export const getUserList = async () => {
     const result = await axios.get("/api/user/get_user_list")
@@ -51,3 +53,11 @@ export const clearSysNotify = async () => {
     const result = await axios.get("/api/user/clear_sys_notify")
     return result;
 }
+
+export const useInviteEmail = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/auth/invite_email", {params: params, method: "POST"})
+    );
+};
