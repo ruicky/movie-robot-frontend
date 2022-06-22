@@ -109,7 +109,7 @@ const SubList = () => {
                         </Typography>}/>
                     </Tabs>
                 </Grid>
-                <Grid item>
+                <Grid item sx={{display: 'grid', placeContent: 'end'}}>
                     {value === "media" &&
                     <Stack direction="row" divider={<BtnDivider orientation="vertical" flexItem/>} spacing={1}>
                         <SubDownloadDialog/>

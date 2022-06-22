@@ -50,6 +50,7 @@ const EditSubtitle = async(() => import("./pages/setting/Advanced/EditSubtitle")
 const EditSearchSetting = async(() => import("./pages/setting/Advanced/EditSearchSetting"));
 const EditLink = async(() => import("./pages/setting/Advanced/EditLink"));
 const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
+const HomePage = async(() => import("./pages/home"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -150,6 +151,12 @@ const routes = [{
         <DashboardLayout/>
     </AuthGuard>), children: [{
         path: "", element: <SearchPage/>
+    }]
+},{
+    path: "/home", element: (<AuthGuard>
+        <DashboardLayout/>
+    </AuthGuard>), children: [{
+        path: "", element: <HomePage/>
     }]
 }, {
     path: "movie", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
