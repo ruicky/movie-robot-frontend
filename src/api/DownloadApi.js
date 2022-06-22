@@ -1,5 +1,7 @@
 import axios from "../utils/request";
 import {STATUS} from "@/constants";
+import useHttp from "@/hooks/useHttp";
+import {useMutation} from "react-query";
 
 /**
  * 删除记录
@@ -54,3 +56,11 @@ export const getRecordDashboard = async () => {
     const result = await axios.get("/api/download/record_dashboard");
     return result;
 }
+
+export const useReLink = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/download/relink", {params: params, method: "GET"})
+    );
+};
