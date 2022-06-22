@@ -82,7 +82,8 @@ export default function MovieCard(props) {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
-                    message.success(msg)
+                    message.success(msg);
+                    setShowConfirmReLink(false);
                 } else {
                     message.error(msg);
                 }
