@@ -12,28 +12,28 @@ const DailyRecommend = (data) => {
   const date = getToday();
   const {week, month, day, lunar_date} = date;
   return (
-    <PageWrapper  background={background} sx={{mx: 2}}>
+    <PageWrapper  background={background} sx={{m:4}}>
       <Grid container spacing={2} alignItems="flex-end" flexWrap="nowrap" sx={{ position: 'absolute', bottom: '10px', px: 2 }}>
         <Grid item spacing={2} sx={{minWidth: '90px'}}>
-          <Typography variant="h1" component="div" sx={{fontSize: '3rem', fontWeight: '200'}}>
+          <Typography variant="h1" component="div" sx={{fontSize: '3rem', fontWeight: '200',color: '#fff'}}>
             {day}
           </Typography>
-          <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1.5}>
+          <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1.5} sx={{color: '#fff'}}>
             <span>{month}</span>
             <span>{week}</span>
           </Stack>
-          <Typography  component="div">
+          <Typography  component="div" sx={{color: '#fff'}}>
             {lunar_date}
           </Typography>
         </Grid>
         <Grid item xs={12} sm container direction="column" sx={{ml: 3}}>
           <Grid item>
-            <Typography variant="h4" component="div" gutterBottom>
+            <Typography variant="h4" component="div" gutterBottom  sx={{color: '#fff'}}>
               {title}
             </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="subtitle1" component="div" gutterBottom>
+            <Typography variant="subtitle1" component="div" gutterBottom  sx={{color: '#fff'}}>
               {desc}
             </Typography>
           </Grid>
@@ -54,7 +54,7 @@ const PageWrapper = styled(Paper)`
     background-position: 50% 20% ;
     background-size: cover;
     width: 100%;
-    height: 200px;
+    height: 180px;
     color: #fff;
     border-radius: 30px;
   }
