@@ -35,7 +35,7 @@ function HealthDataDialog({open, handleClose}) {
                         <CloseIcon/>
                     </IconButton>
                     <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                        系统外部依赖健康状态
+                        核心依赖健康状态
                     </Typography>
                     <Button autoFocus color="inherit" onClick={() => refetchHealth()}>
                         刷新

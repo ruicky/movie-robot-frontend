@@ -87,6 +87,7 @@ function AuthProvider({ children }) {
         user: data.user
       }
     });
+    window.location.href = '/';
   };
 
   const signOut = async () => {

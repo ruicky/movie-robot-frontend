@@ -1,99 +1,96 @@
 import ReactECharts from "echarts-for-react";
 import React, {useEffect, useState} from "react";
-import {useGetHealthIndicator} from "@/api/HealthApi";
+import {coverSize} from "@/utils/PtUtils";
+import {useTheme} from "@mui/material/styles";
 
-function HealthDataChart({healthData}) {
-    const [hours, setHours] = useState([]);
-    const [serviceNames, setServiceNames] = useState([]);
-    const [data, setData] = useState([])
-    const [idxData, setIdxData] = useState(new Map())
-    const option = {
-        tooltip: {
-            position: 'top',
-            formatter: function (params) {
-                const key = params.value[0] + '' + params.value[1];
-                const val = idxData.get(key);
-                return `${val.hour}时<br/>${val.status.DOWN}/${val.status.UP}（失败/成功）`;
-            }
-        },
-        grid: {
-            left: 2,
-            bottom: 10,
-            right: 10,
-            containLabel: true
-        },
-        xAxis: {
-            type: 'category',
-            data: hours,
-            boundaryGap: true,
-            splitLine: {
-                show: true
-            },
-            axisLine: {
-                show: true
-            }
-        },
-        yAxis: {
-            type: 'category',
-            data: serviceNames,
-            axisLine: {
-                show: true
-            }
-        },
-        series: [
-            {
-                name: 'Punch Card',
-                type: 'scatter',
-                symbolSize: 30,
-                data: data,
-                animationDelay: function (idx) {
-                    return idx * 5;
-                },
-                itemStyle: {
-                    opacity: 1,
-                    color: function (params) {
-                        if (params.value[2] === 100) {
-                            return '#228B22'
-                        } else {
-                            return '#E3170D'
-                        }
-                    }
-                }
-            }
-        ]
-    };
+function HealthDataChart1({healthData}) {
+    const [option, setOption] = useState(null);
     useEffect(() => {
         if (healthData?.data) {
-            const hourSet = new Set()
-            const serviceNames = new Array();
-            const items = new Array();
-            const idx = new Map();
+            const title = [];
+            const singleAxis = [];
+            const series = [];
             for (let i = 0; i < healthData.data.length; i++) {
                 const item = healthData.data[i];
                 if (!item?.hours) {
                     continue;
                 }
-                serviceNames.push(item.service_name);
+                const seriesDataItems = new Array();
+                const hourAxis = new Array();
+                item.hours.sort(function(a,b){
+                    return (a.time - b.time);
+                })
                 for (let j = 0; j < item.hours.length; j++) {
                     const h = item.hours[j];
-                    items.push([j, i, h.rate]);
-                    idx.set(j + '' + i, h);
-                    hourSet.add(h.hour+'时');
+                    seriesDataItems.push([j, h.rate,h.status]);
+                    hourAxis.push(h.hour + '时');
+                    // idx.set(j + '' + i, h);
                 }
+                title.push({
+                    textBaseline: 'middle',
+                    top: ((i + 0.5) * 100) / 7 + '%',
+                    text: item.service_name,
+                    textStyle:{
+                        fontSize:13,
+                        width:2
+                    },
+                    left: '1%'
+                });
+                singleAxis.push({
+                    left: 150,
+                    type: 'category',
+                    boundaryGap: false,
+                    data: hourAxis,
+                    top: (i * 100) / 7 + 5 + '%',
+                    height: 100 / 7 - 10 + '%',
+                    axisLabel: {
+                        interval: 0,
+                        rotate: 60
+                    }
+                });
+                series.push({
+                    singleAxisIndex: i,
+                    coordinateSystem: 'singleAxis',
+                    type: 'scatter',
+                    data: seriesDataItems,
+                    symbolSize: function (dataItem) {
+                        return 25;
+                    },
+                    itemStyle:{
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(120, 36, 50, 0.5)',
+                        shadowOffsetY: 5,
+                        color: function (params) {
+                            if (params.value[1] === 100) {
+                                return '#32CD32'
+                            } else {
+                                return '#E3170D'
+                            }
+                        }
+                    }
+                });
             }
-            setIdxData(idx);
-            setServiceNames(serviceNames);
-            setHours(Array.from(hourSet));
-            setData(items);
-            console.log(items)
+            setOption({
+                tooltip: {
+                    position: 'top',
+                    formatter: function (params) {
+                        return `${params.name}<br/>${params.marker}${params.value[2].DOWN}/${params.value[2].UP}（失败/成功）`;
+                    }
+                },
+                title: title,
+                singleAxis: singleAxis,
+                series: series
+            });
         }
     }, [healthData])
     return (
-        <ReactECharts
-            option={option}
-            style={{height: '100%'}}
-        />
+        <>
+            {option && <ReactECharts
+                option={option}
+                style={{height: '100%'}}
+            />}
+        </>
     )
 }
 
-export default HealthDataChart;
+export default HealthDataChart1;
