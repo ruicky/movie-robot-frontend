@@ -4,11 +4,11 @@ import {Helmet} from "react-helmet-async";
 import {Breadcrumbs, Divider as MuiDivider, Link, Typography} from "@mui/material";
 import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
-import QywxConfigComponent from "@/pages/config/notify/QywxConfigComponent";
 import BarkConfigComponent from "@/pages/config/notify/BarkConfigComponent";
 import PushDeerConfigComponent from "@/pages/config/notify/PushDeerConfigComponent";
 import message from "@/utils/message";
 import {useGetNotifySetting, useSaveNotify, useTestNotify} from "@/api/SettingApi";
+import QywxConfigForm from "@/pages/setting/Notify/components/QywxConfigForm";
 
 const Divider = styled(MuiDivider)(spacing);
 const getTypeStr = (type) => {
@@ -81,7 +81,7 @@ const EditNotify = () => {
         </Breadcrumbs>
         <Divider my={6}/>
         {searchParams.get("type") === 'qywx' &&
-        <QywxConfigComponent data={config.qywx} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
+        <QywxConfigForm data={config.qywx} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
         {searchParams.get("type") === 'bark' &&
         <BarkConfigComponent data={config.bark} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
         {searchParams.get("type") === 'pushdeer' &&
