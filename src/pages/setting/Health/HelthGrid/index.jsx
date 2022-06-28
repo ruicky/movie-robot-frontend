@@ -20,7 +20,6 @@ const HealthGrid = ({healthData}) => {
       }
     })
     const btnIsSuccess = hours.filter(x => x.rate === 100).length === hours.length;
-    console.log('btnIsSuccess', btnIsSuccess);
     return (
       <Card sx={{ bgcolor: 'background.default', borderRadius: '10px', my: 2}}>
       <CardContent>
