@@ -1,37 +1,60 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ListItem from './ListItem';
-import styled from "styled-components/macro";
-import { Grid, Stack, Typography, Divider } from "@mui/material";
+import {Button, Divider, Grid, Stack, Typography} from "@mui/material";
+import {useGetDoubanSuggestion} from "@/api/MovieApi";
+import message from "@/utils/message";
 
 
 const DataFlowList = () => {
-  // TODO：获取数据
-  const list = [
-    {
-      name: '奇异博士2：疯狂多元宇宙',
-      imgUrl: '/static/img/default_backdrop.jpeg',
-      desc: '充满无限未知的疯狂多元宇宙即将展开，一切皆有可能。'
-    }, {
-      name: '侏罗纪世界3',
-      imgUrl: '/static/img/default_backdrop.jpeg',
-      desc: '故事的开篇设定在纳布拉尔岛被摧毁的四年后。如今，恐龙在世界各地与人类共同生活、共同捕猎'
+    const {mutateAsync: getMedia, isLoading} = useGetDoubanSuggestion();
+    const [hasMore, setHasMore] = useState(true);
+    const [mediaList, setMediaList] = useState([]);
+    const [currentStart, setCurrentStart] = useState(0);
+    const fetchMediaList = (start = 0) => {
+        getMedia({start}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    if (data && data.length > 0) {
+                        let newList = [...mediaList];
+                        newList = newList.concat(data);
+                        setMediaList(newList);
+                    } else {
+                        setHasMore(false);
+                    }
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error)
+        });
     }
-  ]
-  return (
-    <Grid spacing={6}>
-      <Grid item>
-        <Typography variant="h3" gutterBottom>
-          数据
-        </Typography>
-      </Grid>
-      <Divider sx={{my:3 }}/>
-      <Stack spacing={2}>
-        {
-          list.map(item => <ListItem data={item} />)
-        }
-      </Stack>
-    </Grid>
-  );
+    const fetchMore = () => {
+        let start = currentStart + 10;
+        fetchMediaList(start);
+        setCurrentStart(start);
+    }
+    useEffect(() => {
+        fetchMediaList(0);
+    }, []);
+    return (
+        <Grid spacing={6}>
+            <Grid item>
+                <Typography variant="h5" mt={2} gutterBottom>
+                    推荐
+                </Typography>
+            </Grid>
+            <Divider sx={{my: 3}}/>
+            <Stack spacing={2}>
+                {
+                    (mediaList || []).map(item => <ListItem data={item}/>)
+                }
+            </Stack>
+            {hasMore ?
+                <Button variant="text" disabled={isLoading} onClick={() => fetchMore()} fullWidth>加载更多</Button> :
+                <Button fullWidth disabled>没有更多了</Button>}
+        </Grid>
+    );
 }
 
 export default DataFlowList;

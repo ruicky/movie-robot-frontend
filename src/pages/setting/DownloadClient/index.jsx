@@ -76,7 +76,7 @@ function DownloadSettingList() {
                             <ListItemText
                                 primary={<TextLabel text={item.name} chipLabel={item.is_default ? "默认" : null}/>}
                                 secondary={item.site_id ? item.site_id.map((value) => {
-                                    return siteMeta && siteMeta.find(item => item.id === value).name
+                                    return siteMeta && (siteMeta.find(item => item.id === value)|{name:''}).name
                                 }).join(" / ") : "所有站点"}
                             />
                             <HealthStatus status={item.status}/>

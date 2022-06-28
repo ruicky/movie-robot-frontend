@@ -1,6 +1,6 @@
 // 订阅列表
 import useHttp from "@/hooks/useHttp";
-import {useQuery} from "react-query";
+import {useMutation, useQuery} from "react-query";
 
 export const useMovieDimension = () => {
     const client = useHttp();
@@ -15,3 +15,10 @@ export const useDoubanRanking = (param) => {
         client("/api/movie/douban_rank_list", {params: param})
     );
 }
+export const useGetDoubanSuggestion = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/movie/douban_suggestion", {params: params, method: "GET"})
+    );
+};
