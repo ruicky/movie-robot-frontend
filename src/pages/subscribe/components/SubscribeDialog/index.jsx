@@ -44,7 +44,6 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
         if (filterName && filterName === 'system:newFilter') {
             await myRef.current.onSubmit()
             filterConfig = await myRef.current.getVal()
-            console.log('filterConfig', filterConfig)
         }
         addSubscribe({id, filter_name: filterName, filter_config: filterConfig}, {
             onSuccess: resData => {

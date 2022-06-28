@@ -42,7 +42,7 @@ const HomePage = () => {
     return (
         <div>
             <FilterOptionsProvider>
-                <DailyRecommend background={media?.backdrop_url} title={media.name} desc={media.comment}/>
+                <DailyRecommend background={media?.backdrop_url} title={media.name} desc={media.comment} onPicClick={refreshRandomMedia}/>
                 <DataFlowList/>
             </FilterOptionsProvider>
         </div>

@@ -3,7 +3,6 @@ import solarLunar from 'solarlunar';
 export const getToday = () => {
   const today = new Date();
   const solar2lunarData = solarLunar.solar2lunar(today.getFullYear(), today.getMonth()+1, today.getDate());
-  console.log(solar2lunarData);
   const {
     ncWeek: week,
     monthCn: month,
