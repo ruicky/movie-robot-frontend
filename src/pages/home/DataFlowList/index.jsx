@@ -3,9 +3,11 @@ import ListItem from './ListItem';
 import {Button, Divider, Grid, Stack, Typography} from "@mui/material";
 import {useGetDoubanSuggestion} from "@/api/MovieApi";
 import message from "@/utils/message";
+import SubscribeDialog from "@/pages/subscribe/components/SubscribeDialog";
 
 
 const DataFlowList = () => {
+    const [subInfo, setSubInfo] = useState(null);
     const {mutateAsync: getMedia, isLoading} = useGetDoubanSuggestion();
     const [hasMore, setHasMore] = useState(true);
     const [mediaList, setMediaList] = useState([]);
@@ -34,6 +36,27 @@ const DataFlowList = () => {
         fetchMediaList(start);
         setCurrentStart(start);
     }
+    const onSub = (media) => {
+        setSubInfo({
+            id: media.id,
+            name: media.title,
+            year: media.year
+        });
+    }
+    const onSubComplete = () => {
+        const newList = mediaList.map((item) => {
+            if (item.id === subInfo.id) {
+                const updatedItem = {
+                    ...item,
+                    isSub: true,
+                };
+                return updatedItem;
+            }
+            return item;
+        });
+        setMediaList(newList);
+        setSubInfo(null);
+    }
     useEffect(() => {
         fetchMediaList(0);
     }, []);
@@ -45,9 +68,15 @@ const DataFlowList = () => {
                 </Typography>
             </Grid>
             <Divider sx={{my: 3}}/>
+            <SubscribeDialog
+                open={subInfo}
+                onComplete={onSubComplete}
+                handleClose={() => setSubInfo(null)}
+                data={({id: subInfo?.id, name: subInfo?.name, year: subInfo?.year})}
+            />
             <Stack spacing={2}>
                 {
-                    (mediaList || []).map(item => <ListItem data={item}/>)
+                    (mediaList || []).map(item => <ListItem key={item.id} data={item} onSub={onSub}/>)
                 }
             </Stack>
             {hasMore ?

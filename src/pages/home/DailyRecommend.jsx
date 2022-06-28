@@ -12,7 +12,7 @@ const DailyRecommend = (data) => {
   const date = getToday();
   const {week, month, day, lunar_date} = date;
   return (
-    <PageWrapper  background={background}>
+    <PageWrapper background={background}>
       <Grid container spacing={2} alignItems="flex-end" flexWrap="nowrap" sx={{ position: 'absolute',left:'5px', bottom: '10px', px: 2 }}>
         <Grid item spacing={2} sx={{minWidth: '90px'}}>
           <Typography variant="h1" component="div" sx={{fontSize: '3rem', fontWeight: '200',color: '#fff'}}>

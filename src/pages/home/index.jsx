@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import styled from "styled-components/macro";
-import { Paper } from "@mui/material";
-import  DailyRecommend from './DailyRecommend';
+import DailyRecommend from './DailyRecommend';
 import DataFlowList from './DataFlowList/index';
 import {useGetDailyMedia} from "@/api/CommonApi";
 import message from "@/utils/message";
+import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
 
 const HomePage = () => {
     const [media, setMedia] = useState({});
@@ -40,12 +39,14 @@ const HomePage = () => {
             setMedia(dailyMedia);
         }
     }, [])
-  return (
-    <div>
-      <DailyRecommend background={media?.backdrop_url} title={media.name} desc={media.comment}/>
-      <DataFlowList/>
-    </div>
-  )
+    return (
+        <div>
+            <FilterOptionsProvider>
+                <DailyRecommend background={media?.backdrop_url} title={media.name} desc={media.comment}/>
+                <DataFlowList/>
+            </FilterOptionsProvider>
+        </div>
+    )
 }
 
 export default HomePage;
