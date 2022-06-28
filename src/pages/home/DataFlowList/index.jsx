@@ -18,7 +18,7 @@ const DataFlowList = () => {
     }
   ]
   return (
-    <Grid sx= {{p: 4}}>
+    <Grid spacing={6}>
       <Grid item>
         <Typography variant="h3" gutterBottom>
           数据
