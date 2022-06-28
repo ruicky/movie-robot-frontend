@@ -12,7 +12,7 @@ import {
     Stack,
     Typography as MuiTypography,
 } from "@mui/material";
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components/macro";
 import DownloadBar from "./DownloadBar";
 import {spacing} from "@mui/system";
@@ -21,6 +21,9 @@ import {ChevronRight as ChevronRightIcon, DeleteForever, Refresh as RefreshIcon}
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MovieInfoDialog from './MovieInfoDialog'
 import {STATUS} from "@/constants";
+import {useReLink} from "@/api/DownloadApi";
+import message from "@/utils/message";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 function TitleLabel({title, year, season_index, season_year, movie_type, episode}) {
     if (movie_type === "Movie") {
@@ -40,6 +43,7 @@ function TitleLabel({title, year, season_index, season_year, movie_type, episode
 }
 
 export default function MovieCard(props) {
+    const [showConfirmReLink, setShowConfirmReLink] = useState(false);
     const {onDelete, onAnalyze, downloading} = props
     const {
         id,
@@ -60,8 +64,10 @@ export default function MovieCard(props) {
         link_path,
         season_index,
         season_year,
-        episode
+        episode,
+        source_type
     } = props.data;
+    const {mutateAsync: reLink, isLinking} = useReLink();
     const getEpisodeStr = (episode) => {
         if (episode) {
             if (episode.length <= 2) {
@@ -71,8 +77,26 @@ export default function MovieCard(props) {
             }
         }
     }
+    const handleReLink = () => {
+        reLink({id}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    message.success(msg);
+                    setShowConfirmReLink(false);
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error.message)
+        })
+    }
     const handleAnalyze = () => {
-        onAnalyze({open: true, year: year, id: id, name: title, link_path: link_path, movie_type: movie_type})
+        if (source_type && source_type === "unknown") {
+            setShowConfirmReLink(true);
+        } else {
+            onAnalyze({open: true, year: year, id: id, name: title, link_path: link_path, movie_type: movie_type})
+        }
     };
     const handleDelete = () => {
         onDelete({open: true, id})
@@ -118,6 +142,9 @@ export default function MovieCard(props) {
                     </Typography>
                 </CardContent>
                 <Divider my={1}/>
+                <ConfirmDialog open={showConfirmReLink} onClose={() => setShowConfirmReLink(false)} onOk={handleReLink}>
+                    确定要立即重新原样整理吗？
+                </ConfirmDialog>
                 <CardActions container={true} sx={{justifyContent: 'flex-end'}}>
                     {status_code !== 2 && <MovieInfoDialog id={id}/>}
                     {

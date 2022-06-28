@@ -25,6 +25,7 @@ const Notify = async(() => import("./pages/notify/index"));
 const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const UserManager = async(() => import("./pages/user/Index"));
 const EditUser = async(() => import("./pages/user/EditUser"));
+const InviteEmail = async(() => import("./pages/user/InviteEmail"));
 const MovieRankingList = async(() => import("./pages/subscribe/MovieRankingList"));
 const TVRankingList = async(() => import("./pages/subscribe/TVRankingList"));
 const RecentPopularMovieList = async(() => import("./pages/subscribe/RecentPopularMovieList"));
@@ -184,6 +185,8 @@ const routes = [{
         path: "index", element: <UserManager/>
     }, {
         path: "edit", element: <EditUser/>
+    }, {
+        path: "invite-email", element: <InviteEmail/>
     }]
 }, {
     path: "subscribe", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{

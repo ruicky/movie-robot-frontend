@@ -54,7 +54,8 @@ export default function DownloadRecords() {
                 url: r.url,
                 season_index: r.season_index,
                 season_year: r.season_year,
-                episode: r?.episodes ? r.episodes.split(",") : null
+                episode: r?.episodes ? r.episodes.split(",") : null,
+                source_type: r?.source_type
             });
         }
         setList(list);

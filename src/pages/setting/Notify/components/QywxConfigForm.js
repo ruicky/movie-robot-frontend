@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import _ from 'lodash';
 
-import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, TextField as MuiTextField} from "@mui/material";
+import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, Link, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 import MessageTemplateComponent from "@/pages/config/notify/MessageTemplateComponent";
 
@@ -36,7 +36,9 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             message: '${nickname}添加的电影 ${name}(${year})下载完毕',
             token: '',
             aes_key: '',
-            enable: true
+            enable: true,
+            use_server_proxy: false,
+            server_url:''
         }, validationSchema: Yup.object().shape({
             touser: Yup.string().max(256).required(),
             corpid: Yup.string().max(256).required(),
@@ -90,6 +92,8 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             })
             formik.setFieldValue('title', title)
             formik.setFieldValue('message', message)
+            formik.setFieldValue('use_server_proxy', data?.use_server_proxy !== undefined && data?.use_server_proxy !== null ? data.use_server_proxy : false)
+            formik.setFieldValue('server_url', data?.server_url !== undefined ? data.server_url : 'https://qyapi.weixin.qq.com')
             setMessageTemplate(data.message_template)
         }
     }, [data]);
@@ -100,6 +104,20 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
         {message && (<Alert severity="success" my={3}>
             {message}
         </Alert>)}
+        <TextField
+            type="text"
+            name="server_url"
+            label="推送API地址"
+            value={formik.values.server_url}
+            error={Boolean(formik.touched.server_url && formik.errors.server_url)}
+            fullWidth
+            helperText={<>
+                官方：https://qyapi.weixin.qq.com 高级玩家可以自定义代理，小白启用内置代理即可。<Link target="_blank" href="https://yee329.notion.site/af9db7f54b424c919f2f7f375ffbfcf2">查看教程</Link>
+            </>}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
         <TextField
             type="text"
             name="touser"
@@ -173,6 +191,14 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
+        />
+        <FormControlLabel
+            control={<Checkbox
+                checked={formik.values.use_server_proxy}
+                name="use_server_proxy"
+                onChange={formik.handleChange}
+            />}
+            label="开启Movie Robot自建代理通过白名单验证"
         />
         <FormControlLabel
             control={<Checkbox

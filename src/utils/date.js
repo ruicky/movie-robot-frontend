@@ -1,4 +1,4 @@
-import solarLunar from 'solarLunar';
+import solarLunar from 'solarlunar';
 
 export const getToday = () => {
   const today = new Date();

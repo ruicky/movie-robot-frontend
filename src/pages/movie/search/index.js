@@ -230,7 +230,8 @@ function SearchRecords(props) {
             setParam({keyword});
             axios.get("/api/movie/search_keyword", {
                 params: {
-                    keyword: keyword
+                    keyword: keyword,
+                    cates: (appInfo.server_config?.web_search_default_cates || []).join(",")
                 }
             }).then((res) => {
                 setLoading(false);
@@ -284,7 +285,7 @@ function SearchRecords(props) {
     const search = useCallback((keyword) => {
         if (appInfo.server_config.auth_search_result) {
             searchData(keyword)
-        }else{
+        } else {
             setRecords(null);
             setParam({keyword});
         }
@@ -350,6 +351,8 @@ function SearchRecords(props) {
                                 upload_volume_factor={row?.upload_volume_factor}
                                 free_desc={row?.free_desc}
                                 minimum_ratio={row?.minimum_ratio}
+                                poster_url={row?.poster_url}
+                                cate_level1={row?.cate_level1}
                                 onDownload={() => {
                                     const {id, site_id} = row;
                                     setDownloadInfo({id, site_id});

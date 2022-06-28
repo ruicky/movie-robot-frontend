@@ -47,7 +47,8 @@ function EditForm({}) {
             recognize: true,
             exact_year: true,
             use_unknown_dir: true,
-            file_process_mode: "link"
+            file_process_mode: "link",
+            disc_single_folder: false
         }, validationSchema: Yup.object().shape({
             movie_filename_format: Yup.string().required("电影名称模版不能为空"),
             movie_folder_format: Yup.string().required("电影文件夹模版不能为空"),
@@ -85,6 +86,7 @@ function EditForm({}) {
             formik.setFieldValue("recognize", setting.data?.recognize !== undefined && setting.data?.recognize !== null ? setting.data?.recognize : true);
             formik.setFieldValue("exact_year", setting.data?.exact_year !== undefined && setting.data?.exact_year !== null ? setting.data?.exact_year : true);
             formik.setFieldValue("use_unknown_dir", setting.data?.use_unknown_dir !== undefined && setting.data?.use_unknown_dir !== null ? setting.data?.use_unknown_dir : true);
+            formik.setFieldValue("disc_single_folder", setting.data?.disc_single_folder !== undefined && setting.data?.disc_single_folder !== null ? setting.data?.disc_single_folder : false);
             formik.setFieldValue("file_process_mode", setting.data?.file_process_mode ? setting.data?.file_process_mode : 'link');
         }
     }, [setting]);
@@ -124,7 +126,7 @@ function EditForm({}) {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 my={3}
-                />
+            />
             <TextField
                 type="text"
                 name="movie_folder_format"
@@ -167,6 +169,14 @@ function EditForm({}) {
         </FormGroup>
         <FormLabel component="legend">其他设置</FormLabel>
         <FormGroup>
+            <FormControlLabel
+                control={<Checkbox
+                    checked={formik.values.disc_single_folder}
+                    onChange={formik.handleChange}
+                    name="disc_single_folder"
+                />}
+                label="将原盘作为独立文件夹整理（不套父目录）"
+            />
             <FormControlLabel
                 control={<Checkbox
                     checked={formik.values.recognize}
