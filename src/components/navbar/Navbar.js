@@ -92,7 +92,7 @@ const Navbar = ({onDrawerToggle}) => {
                             </IconButton>
                         </Grid>
                         <Grid item xs>
-                            {!["/movie/search", "/"].includes(location.pathname) && <Search>
+                            {!["/movie/search"].includes(location.pathname) && <Search>
                                 <SearchIconWrapper>
                                     <SearchIcon/>
                                 </SearchIconWrapper>

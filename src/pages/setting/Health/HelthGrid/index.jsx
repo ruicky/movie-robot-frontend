@@ -10,12 +10,12 @@ const HealthGrid = ({healthData}) => {
   const isLgMd = useMediaQuery(theme.breakpoints.up("md"));
 
   const ListItem = ({item}) => {
-    const {service_name, hours} = item;
+    const {service_name, hours,rate} = item;
     const list = [...Array(23)].map((item,index) => {
       const hourData = hours[index];
       if (!hourData) return {}
       return {
-        title: `${hourData?.hour}时,${hourData?.status?.DOWN}/${hourData?.status?.UP}（失败/成功）`,
+        title: `${hourData?.hour}时: ${hourData?.status?.DOWN}/${hourData?.status?.UP}（失败/成功）`,
         status: `${hourData?.rate !== 100 ? 'error' : 'success' }`
       }
     })
@@ -32,6 +32,9 @@ const HealthGrid = ({healthData}) => {
               {
                 list.map(x => (<HealthStatus {...x} />))
               }
+              <Typography variant="inherit" component="div">
+                {rate}%
+              </Typography>
             </Stack>
           </Box>
         </Box>

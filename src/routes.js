@@ -150,7 +150,7 @@ const routes = [{
     path: "/", element: (<AuthGuard>
         <DashboardLayout/>
     </AuthGuard>), children: [{
-        path: "", element: <SearchPage/>
+        path: "", element: <HomePage/>
     }]
 },{
     path: "/home", element: (<AuthGuard>
