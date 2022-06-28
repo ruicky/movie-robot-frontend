@@ -22,7 +22,7 @@ const HealthGrid = ({healthData}) => {
     const btnIsSuccess = hours.filter(x => x.rate === 100).length === hours.length;
     return (
       <Card sx={{ bgcolor: 'background.default', borderRadius: '10px', my: 2}}>
-      <CardContent>
+      <Box sx={{p: 3}}>
         <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <Box>
             <ChipWrapper label={service_name} color={btnIsSuccess ? "success" : 'warning'} />
@@ -32,13 +32,14 @@ const HealthGrid = ({healthData}) => {
               {
                 list.map(x => (<HealthStatus {...x} />))
               }
-              <Typography variant="inherit" component="div">
+              <Typography variant="inherit" component="div"
+                sx={{minWidth: '40px', fontSize: '12px', display: 'flex', alignItems: 'center' }}>
                 {rate}%
               </Typography>
             </Stack>
           </Box>
         </Box>
-      </CardContent>
+      </Box>
     </Card>
     )
   }

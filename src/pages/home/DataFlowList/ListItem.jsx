@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Divider, IconButton, Typography} from "@mui/material";
+import {Box, Divider, IconButton, Typography, Tooltip} from "@mui/material";
 import LinesEllipsis from 'react-lines-ellipsis'
 import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -35,15 +35,17 @@ const ListItem = ({data, onSub}) => {
                         pt: 2,
                         ml: 2,
                         minWidth: {md: 350},
+                        flex: 1
                     }}
                 >
                     <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
                         <Typography variant="h6" gutterBottom component="div">
                             {data?.title}
                         </Typography>
-                        {!data?.isSub && <IconButton aria-label="play" onClick={() => onSub(data)}>
+                        {!data?.isSub && <Tooltip title="订阅">
+                            <IconButton aria-label="play" onClick={() => onSub(data)}>
                             <AddCircleIcon/>
-                        </IconButton>}
+                        </IconButton></Tooltip>}
                     </Box>
                     <Typography variant="subtitle2" gutterBottom component="div" color="textSecondary">
                         {data?.card_subtitle}
@@ -51,11 +53,14 @@ const ListItem = ({data, onSub}) => {
                     <RatingLabel rating={data?.rating.value}/>
                 </Box>
             </Box>
-            <Box sx={{my: 2, p: 2, bgcolor: 'background.paper', borderRadius: '12px'}}>
-                <Typography variant="subtitle2" gutterBottom component="div" color="textSecondary">
-                    <LinesEllipsis text={data?.recommended_reason} maxLine={3} style={{minHeight: '40px'}}/>
-                </Typography>
-            </Box>
+            {
+                data?.recommended_reason && <Box sx={{my: 2, p: 2, bgcolor: 'background.paper', borderRadius: '12px'}}>
+                    <Typography variant="subtitle2" gutterBottom component="div" color="textSecondary">
+                        <LinesEllipsis text={data?.recommended_reason} maxLine={3} style={{minHeight: '40px', display: 'flex', alignItems: 'center'}}/>
+                    </Typography>
+                </Box>
+            }
+            
             <Divider sx={{my: 4}}/>
         </Box>
     );
