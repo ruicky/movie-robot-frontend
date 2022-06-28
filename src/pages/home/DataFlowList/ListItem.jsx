@@ -1,9 +1,17 @@
 import React from 'react';
-import {Box, Divider, IconButton, Typography, Tooltip} from "@mui/material";
+import {Box, Divider, IconButton, Tooltip, Typography} from "@mui/material";
 import LinesEllipsis from 'react-lines-ellipsis'
 import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import {jumpUrl} from "@/utils/urlUtils";
+
 const ListItem = ({data, onSub}) => {
+    const openUrl = (httpUrl, appUrl) => {
+        if (!httpUrl || !appUrl) {
+            return;
+        }
+        jumpUrl(httpUrl, appUrl)
+    }
     return (
         <Box>
             <Box
@@ -18,6 +26,7 @@ const ListItem = ({data, onSub}) => {
                 <Box
                     component="img"
                     sx={{
+                        cursor: 'pointer',
                         height: 150,
                         width: 100,
                         maxHeight: {xs: 150, md: 200},
@@ -25,6 +34,7 @@ const ListItem = ({data, onSub}) => {
                     }}
                     alt={data?.title}
                     src={data?.poster_url}
+                    onClick={() => openUrl(data?.url, data?.uri)}
                 />
                 <Box
                     sx={{
@@ -39,13 +49,13 @@ const ListItem = ({data, onSub}) => {
                     }}
                 >
                     <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
-                        <Typography variant="h6" gutterBottom component="div">
+                        <Typography variant="h6" sx={{cursor: 'pointer'}} gutterBottom component="div" onClick={() => openUrl(data?.url, data?.uri)}>
                             {data?.title}
                         </Typography>
                         {!data?.isSub && <Tooltip title="订阅">
                             <IconButton aria-label="play" onClick={() => onSub(data)}>
-                            <AddCircleIcon/>
-                        </IconButton></Tooltip>}
+                                <AddCircleIcon/>
+                            </IconButton></Tooltip>}
                     </Box>
                     <Typography variant="subtitle2" gutterBottom component="div" color="textSecondary">
                         {data?.card_subtitle}
@@ -56,11 +66,12 @@ const ListItem = ({data, onSub}) => {
             {
                 data?.recommended_reason && <Box sx={{my: 2, p: 2, bgcolor: 'background.paper', borderRadius: '12px'}}>
                     <Typography variant="subtitle2" gutterBottom component="div" color="textSecondary">
-                        <LinesEllipsis text={data?.recommended_reason} maxLine={3} style={{minHeight: '40px', display: 'flex', alignItems: 'center'}}/>
+                        <LinesEllipsis text={data?.recommended_reason} maxLine={3}
+                                       style={{minHeight: '40px', display: 'flex', alignItems: 'center'}}/>
                     </Typography>
                 </Box>
             }
-            
+
             <Divider sx={{my: 4}}/>
         </Box>
     );
