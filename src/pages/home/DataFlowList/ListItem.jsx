@@ -2,8 +2,7 @@ import React from 'react';
 import {Box, Divider, IconButton, Typography} from "@mui/material";
 import LinesEllipsis from 'react-lines-ellipsis'
 import RatingLabel from "@/pages/subscribe/components/RatingLabel";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 const ListItem = ({data, onSub}) => {
     return (
         <Box>
@@ -43,7 +42,7 @@ const ListItem = ({data, onSub}) => {
                             {data?.title}
                         </Typography>
                         {!data?.isSub && <IconButton aria-label="play" onClick={() => onSub(data)}>
-                            <MoreVertIcon/>
+                            <AddCircleIcon/>
                         </IconButton>}
                     </Box>
                     <Typography variant="subtitle2" gutterBottom component="div" color="textSecondary">

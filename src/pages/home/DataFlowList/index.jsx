@@ -17,13 +17,13 @@ const DataFlowList = () => {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
-                    if (data && data.length > 0) {
+                    if (data?.items && data.items.length > 0) {
                         let newList = [...mediaList];
-                        newList = newList.concat(data);
+                        newList = newList.concat(data.items);
                         setMediaList(newList);
-                    } else {
-                        setHasMore(false);
                     }
+                    setCurrentStart(data?.next_start);
+                    setHasMore(data?.has_more);
                 } else {
                     message.error(msg);
                 }
@@ -32,9 +32,7 @@ const DataFlowList = () => {
         });
     }
     const fetchMore = () => {
-        let start = currentStart + 10;
-        fetchMediaList(start);
-        setCurrentStart(start);
+        fetchMediaList(currentStart);
     }
     const onSub = (media) => {
         setSubInfo({
