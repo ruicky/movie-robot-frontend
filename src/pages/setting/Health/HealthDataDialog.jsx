@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import HealthDataChart from "@/pages/setting/Health/HealthDataChart";
 import {useGetHealthIndicator} from "@/api/HealthApi";
+import HealthGrid from './HelthGrid/index';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -42,7 +43,8 @@ function HealthDataDialog({open, handleClose}) {
                     </Button>
                 </Toolbar>
             </AppBar>
-            <HealthDataChart healthData={healthData}/>
+            {/* <HealthDataChart healthData={healthData}/> */}
+            <HealthGrid healthData={healthData} />
         </Dialog>
 
     );
