@@ -1,10 +1,10 @@
 import React from 'react';
 import {Box, Divider, IconButton, Typography} from "@mui/material";
-import {Info as InfoIcon} from '@mui/icons-material';
 import LinesEllipsis from 'react-lines-ellipsis'
 import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-const ListItem = ({data}) => {
+
+const ListItem = ({data, onSub}) => {
     return (
         <Box>
             <Box
@@ -38,13 +38,13 @@ const ListItem = ({data}) => {
                         minWidth: {md: 350},
                     }}
                 >
-                    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center',width:'100%'}} >
+                    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
                         <Typography variant="h6" gutterBottom component="div">
                             {data?.title}
                         </Typography>
-                        <IconButton aria-label="play">
+                        {!data?.isSub && <IconButton aria-label="play" onClick={() => onSub(data)}>
                             <MoreVertIcon/>
-                        </IconButton>
+                        </IconButton>}
                     </Box>
                     <Typography variant="subtitle2" gutterBottom component="div" color="textSecondary">
                         {data?.card_subtitle}
