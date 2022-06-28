@@ -11,7 +11,7 @@ const HealthGrid = ({healthData}) => {
 
   const ListItem = ({item}) => {
     const {service_name, hours} = item;
-    const list = [...Array(24)].map((item,index) => {
+    const list = [...Array(23)].map((item,index) => {
       const hourData = hours[index];
       if (!hourData) return {}
       return {
