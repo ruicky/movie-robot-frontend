@@ -94,6 +94,7 @@ const headCells = [
         disablePadding: true,
         label: "名称", sort: true
     },
+    {id: "is_disc", numeric: true, disablePadding: false, label: "原盘", sort: true},
     {id: "media_type", numeric: true, disablePadding: false, label: "类型", sort: true},
     {id: "media_name", numeric: true, disablePadding: false, label: "影片名", sort: true},
     {id: "release_date", numeric: true, disablePadding: false, label: "发行日期", sort: true},
@@ -172,6 +173,11 @@ const EnhancedTableToolbar = (props) => {
             <Spacer/>
             {numSelected > 0 ? (
                 <Stack direction="row" spacing={2}>
+                    <Tooltip title="一些内置小工具">
+                        <Button variant="contained" onClick={onCorrect}>
+                            工具
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="对识别错误的资源，输入准确信息后重新整理">
                         <Button variant="contained" onClick={onCorrect}>
                             纠错
@@ -179,7 +185,7 @@ const EnhancedTableToolbar = (props) => {
                     </Tooltip>
                     <Tooltip title="开始分析选中的资源影视信息，然后整理到对应目录">
                         <Button variant="contained" onClick={onLink}>
-                            自动整理
+                            整理
                         </Button>
                     </Tooltip>
                 </Stack>
@@ -373,6 +379,8 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
                                                 <Button variant="text">{row.name}</Button>
                                             </Tooltip>
                                         </TableCell>
+                                        <TableCell
+                                            align="right">{row.is_disc?row.disc_type:"不是"}</TableCell>
                                         <TableCell
                                             align="right">
                                             {row.media_type === undefined || row.media_type == null || row.media_type === '未知' && "未知"}

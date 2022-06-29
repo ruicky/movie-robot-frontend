@@ -76,7 +76,9 @@ function Index() {
                             media_name: item?.recognition_result?.metadata ? item.recognition_result.metadata.name : "未知",
                             media_type: item?.recognition_result?.metadata ? item.recognition_result.metadata.media_type : "未知",
                             path: item.path,
-                            err_msg: item?.recognition_result?.err_msg
+                            err_msg: item?.recognition_result?.err_msg,
+                            is_disc:item?.is_disc,
+                            disc_type:item?.disc_type
                         }
                     }));
                 } else {

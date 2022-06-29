@@ -1,5 +1,4 @@
 import axios from "../utils/request";
-import {STATUS} from "@/constants";
 import useHttp from "@/hooks/useHttp";
 import {useMutation} from "react-query";
 
@@ -28,8 +27,8 @@ export const getDownloading = async () => {
  * 获取下载记录列表
  * @returns {Promise<*[]>}
  */
-export const getRecordList = async () => {
-    const result = await axios.get("/api/download/record_list");
+export const getRecordList = async (start = 0) => {
+    const result = await axios.get("/api/download/record_list?start=" + start);
     return result;
 }
 
