@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components/macro";
 import {Divider, Grid, Paper, Stack, Typography} from "@mui/material";
 import {getToday} from '@/utils/date';
+import LinesEllipsis from 'react-lines-ellipsis'
 
 const DailyRecommend = (data) => {
     const {
@@ -39,7 +40,7 @@ const DailyRecommend = (data) => {
                     </Grid>
                     <Grid item>
                         <Typography variant="subtitle1" component="div" gutterBottom sx={{color: '#fff'}}>
-                            {desc}
+                            <LinesEllipsis text={desc} maxLine={3} style={{minHeight: '20px', display: 'flex', alignItems: 'center'}}/>
                         </Typography>
                     </Grid>
                 </Grid>
