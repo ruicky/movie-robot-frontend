@@ -365,7 +365,7 @@ function SearchRecords(props) {
                 }
             </Grid>
             {
-                records && records.length === 0 && <Empty message="没有索索到任何资源"/>
+                records && records.length === 0 && <Empty message="没有搜索到任何资源"/>
             }
             {
                 !appInfo.server_config.auth_search_result && !records && !loading && <Box mt={6}>
