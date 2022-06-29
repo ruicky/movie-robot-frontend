@@ -150,7 +150,7 @@ const EnhancedTableHead = (props) => {
 
 const EnhancedTableToolbar = (props) => {
     // Here was 'let'
-    const {numSelected, onLink, onCorrect} = props;
+    const {numSelected, onLink, onCorrect, onTools} = props;
 
     return (
         <Toolbar sx={{
@@ -174,7 +174,7 @@ const EnhancedTableToolbar = (props) => {
             {numSelected > 0 ? (
                 <Stack direction="row" spacing={2}>
                     <Tooltip title="一些内置小工具">
-                        <Button variant="contained" onClick={onCorrect}>
+                        <Button variant="contained" onClick={onTools}>
                             工具
                         </Button>
                     </Tooltip>
@@ -319,10 +319,13 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             onError: error => message.error(error)
         })
     }
+    const onTools = () => {
+
+    }
     return (
         <Paper>
             <CorrectDialog data={correctDialogData} setData={setCorrectDialogData} onSubmit={onCorrectSubmit}/>
-            <EnhancedTableToolbar numSelected={selected.length} onLink={onLink} onCorrect={onCorrect}/>
+            <EnhancedTableToolbar numSelected={selected.length} onLink={onLink} onCorrect={onCorrect} onTools={onTools}/>
             <TableContainer>
                 <Table
                     aria-labelledby="tableTitle"
