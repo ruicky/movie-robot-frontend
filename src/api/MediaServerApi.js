@@ -34,3 +34,10 @@ export const useLinkMedia = (param) => {
             client("/api/media/link_media", {params: params, method: "POST"})
     );
 };
+export const useFixEmbyBdmvBug = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/media/fix_emby_bdmv_bug", {params: params, method: "POST"})
+    );
+};
