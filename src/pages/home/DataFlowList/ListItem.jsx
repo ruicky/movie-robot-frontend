@@ -29,6 +29,7 @@ const ListItem = ({data, onSub}) => {
                         cursor: 'pointer',
                         height: 150,
                         width: 100,
+                        borderRadius: '8px',
                         maxHeight: {xs: 150, md: 200},
                         maxWidth: {xs: 100, md: 250},
                     }}

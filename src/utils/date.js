@@ -3,13 +3,15 @@ import solarLunar from 'solarlunar';
 export const getToday = () => {
   const today = new Date();
   const solar2lunarData = solarLunar.solar2lunar(today.getFullYear(), today.getMonth()+1, today.getDate());
+  const months= ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'];
+  const month = months[today.getMonth()] + '月';
   const {
     ncWeek: week,
-    monthCn: month,
+    monthCn,
     cDay:day,
     dayCn,
   } = solar2lunarData;
-  const lunar_date = `农历${month}${dayCn}`
+  const lunar_date = `农历${monthCn}${dayCn}`
 
   return {
     ...solar2lunarData,

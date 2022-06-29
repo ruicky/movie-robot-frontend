@@ -34,7 +34,7 @@ const HealthGrid = ({healthData}) => {
                 list.map(x => (<HealthStatus {...x} />))
               }
               <Typography variant="inherit" component="div"
-                sx={{minWidth: '40px', fontSize: '12px', display: 'flex', alignItems: 'center' }}>
+                sx={{width: '40px', fontSize: '12px', display: 'flex', alignItems: 'center' }}>
                 {rate}%
               </Typography>
             </Stack>
