@@ -20,7 +20,7 @@ const GlobalSnackbars = () => {
         };
         message.warn = (msg) => {
             setOpen(true);
-            setSeverity("warn");
+            setSeverity("warning");
             setContent(msg);
         };
         message.success = (msg) => {

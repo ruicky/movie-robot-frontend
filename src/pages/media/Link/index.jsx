@@ -68,6 +68,7 @@ function Index() {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
                     setRows((data || []).map((item) => {
+                        console.log(item);
                         return {
                             name: item.name,
                             file_type_desc: item.file_type_desc,
