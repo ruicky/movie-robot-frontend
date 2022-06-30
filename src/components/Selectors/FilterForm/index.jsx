@@ -6,6 +6,7 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
+    Autocomplete,
     Box,
     Button,
     Card,
@@ -23,9 +24,10 @@ import {
     Typography
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React, {useContext, useEffect, useImperativeHandle} from "react";
+import React, {useContext, useEffect, useImperativeHandle, useState} from "react";
 import styled from "styled-components/macro";
 import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
+import axios from "@/utils/request";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -57,6 +59,8 @@ function FilterForm({
         getVal: () => formik.values
     }))
     const filterOptionsContextData = useContext(FilterOptionsContext)
+    const [releaseTeamOptions, setReleaseTeamOptions] = useState([]);
+    const [siteData, setSiteData] = useState([])
 
     let initValues = {
         filter_name: '',
@@ -79,7 +83,10 @@ function FilterForm({
         free_only: false,
         pass_hr: false,
         exclude_keyword: '',
-        include_keyword: ''
+        include_keyword: '',
+        release_team: [],
+        site_id: []
+
     };
     if (!showFilterName) {
         delete initValues.filter_name;
@@ -141,7 +148,10 @@ function FilterForm({
         formik.setFieldValue("free_only", data?.free_only ? data?.free_only : false)
         formik.setFieldValue("pass_hr", data?.pass_hr ? data?.pass_hr : false)
         formik.setFieldValue("exclude_keyword", data?.exclude_keyword ? data?.exclude_keyword : '')
-        formik.setFieldValue("include_keyword", data?.include_keyword ? data?.include_keyword : '')
+        formik.setFieldValue("include_keyword", data?.include_keyword ? data?.include_keyword : '');
+        formik.setFieldValue("release_team", data?.release_team ? data?.release_team : []);
+        formik.setFieldValue("site_id", data?.site_id ? data?.site_id : [])
+
     }
     const selectFilterTemplate = async (e) => {
         if (e.target.value === "clear") {
@@ -156,11 +166,23 @@ function FilterForm({
             }
         }
     }
+    useEffect(() => {
+        axios.get("/api/site/get_sites").then((res) => {
+            if (res.code === 0) {
+                setSiteData(res.data)
+            }
+        })
+    }, [])
     useEffect(async () => {
         if (formValues) {
             await fillFormData(formValues)
         }
     }, [formValues])
+    useEffect(() => {
+        setReleaseTeamOptions(filterOptions?.release_team && filterOptions?.release_team.map((item) => {
+            return {title: item}
+        }) || []);
+    }, [filterOptions])
     return (
         <form noValidate onSubmit={formik.handleSubmit}>
             {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
@@ -426,6 +448,45 @@ function FilterForm({
                 </Card> : null}
             <Card>
                 <Typography component="h3" align="left">
+                    只从以下站点过滤
+                </Typography>
+                <CardContent>
+                    <FormControl m={4} fullWidth>
+                        <Select
+                            name="site_id"
+                            value={formik.values.site_id}
+                            multiple
+                            onChange={formik.handleChange}
+                            renderValue={(selected) => (
+                                <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                                    {selected.map((value, index) => (
+                                        <Chip key={index}
+                                              label={siteData && siteData.find(item => item.site_name === value).alias}/>
+                                    ))}
+                                </Box>
+                            )}
+                            error={Boolean(formik.touched.site_id && formik.errors.site_id)}
+                            MenuProps={MenuProps}
+                        >
+                            {(siteData || []).map((item, index) => (
+                                <MenuItem key={index} value={item.site_name}>
+                                    <Checkbox checked={formik.values.site_id.indexOf(item.site_name) > -1}/>
+                                    <ListItemText primary={item.alias}/>
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        <FormHelperText>
+                            {formik.touched.site_id && formik.errors.site_id || (
+                                <span>
+                                只会从选中的站点中过滤资源，留空为所有
+                            </span>
+                            )}
+                        </FormHelperText>
+                    </FormControl>
+                </CardContent>
+            </Card>
+            <Card>
+                <Typography component="h3" align="left">
                     媒体类型品质
                 </Typography>
                 <CardContent>
@@ -536,6 +597,31 @@ function FilterForm({
                                     {formik.touched.media_codec && formik.errors.media_codec || (
                                         <span>
                                 想要的编码类型，可留空
+                            </span>
+                                    )}
+                                </FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                            <FormControl m={4} fullWidth>
+                                <Autocomplete
+                                    multiple
+                                    getOptionLabel={(option) => option.title}
+                                    value={releaseTeamOptions.filter((item) => {
+                                        return formik.values.release_team.includes(item.title)
+                                    })}
+                                    onChange={(e, val) => formik.setFieldValue('release_team', val.map((item) => {
+                                        return item.title
+                                    }))}
+                                    id="release_team"
+                                    options={releaseTeamOptions}
+                                    renderInput={(params) => <TextField {...params} placeholder="制作组"/>}
+                                    fullWidth
+                                />
+                                <FormHelperText>
+                                    {formik.touched.release_team && formik.errors.release_team || (
+                                        <span>
+                                想要的制作组，留空不限制
                             </span>
                                     )}
                                 </FormHelperText>
