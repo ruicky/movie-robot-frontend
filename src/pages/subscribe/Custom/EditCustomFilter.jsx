@@ -1,6 +1,7 @@
 import message from "@/utils/message";
 import pageMessage from "@/utils/message";
 import {
+    Autocomplete,
     Box,
     Breadcrumbs,
     Button,
@@ -57,6 +58,7 @@ function FilterForm({
         onSubmit: formik.handleSubmit,
         getVal: () => formik.values
     }))
+    const [releaseTeamOptions, setReleaseTeamOptions] = useState([]);
     const [paths, setPaths] = useState([])
     const [siteData, setSiteData] = useState([])
     let initValues = {
@@ -138,6 +140,11 @@ function FilterForm({
         }
 
     }, [formValues])
+    useEffect(() => {
+        setReleaseTeamOptions(filterOptions?.release_team && filterOptions?.release_team.map((item) => {
+            return {title: item}
+        }) || []);
+    }, [filterOptions])
     return (
         <form noValidate onSubmit={formik.handleSubmit}>
             {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
@@ -282,28 +289,20 @@ function FilterForm({
             <FormLabel sx={{my: 3}} component="legend">制作组</FormLabel>
             <FormGroup>
                 <FormControl m={4} fullWidth>
-                    <Select
-                        name="release_team"
-                        value={formik.values.release_team}
+                    <Autocomplete
                         multiple
-                        onChange={formik.handleChange}
-                        renderValue={(selected) => (
-                            <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
-                                {selected.map((value) => (
-                                    <Chip key={value} label={value}/>
-                                ))}
-                            </Box>
-                        )}
-                        error={Boolean(formik.touched.release_team && formik.errors.release_team)}
-                        MenuProps={MenuProps}
-                    >
-                        {filterOptions?.release_team && filterOptions?.release_team.map((item) => (
-                            <MenuItem key={item} value={item}>
-                                <Checkbox checked={formik.values.release_team.indexOf(item) > -1}/>
-                                <ListItemText primary={item}/>
-                            </MenuItem>
-                        ))}
-                    </Select>
+                        getOptionLabel={(option) => option.title}
+                        value={releaseTeamOptions.filter((item) => {
+                            return formik.values.release_team.includes(item.title)
+                        })}
+                        onChange={(e, val) => formik.setFieldValue('release_team', val.map((item) => {
+                            return item.title
+                        }))}
+                        id="release_team"
+                        options={releaseTeamOptions}
+                        renderInput={(params) => <TextField {...params} placeholder="制作组"/>}
+                        fullWidth
+                    />
                     <FormHelperText>
                         {formik.touched.release_team && formik.errors.release_team || (
                             <span>
