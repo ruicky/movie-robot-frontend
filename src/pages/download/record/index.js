@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Helmet} from "react-helmet-async";
-import {Divider as BtnDivider, Divider as MuiDivider, Grid, Stack, Typography} from "@mui/material";
+import {Button, Divider as BtnDivider, Divider as MuiDivider, Grid, Stack, Typography} from "@mui/material";
 import MovieCard from "../components/MovieCard";
 import {getDownloading, getRecordList} from "@/api/DownloadApi";
 import styled from "styled-components/macro";
@@ -21,20 +21,27 @@ export default function DownloadRecords() {
     const [deleteData, setDeleteData] = useState({});
     const [downloadingList, setDownloadingList] = useState([]);
     const [downloadQueueSize, setDownloadQueueSize] = useState(0);
+    const [currentStart, setCurrentStart] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const fetchData = async () => {
-        const result = await getRecordList();
+        setIsLoading(true);
+        const result = await getRecordList(currentStart);
+        setIsLoading(false);
         setDownloadQueueSize(result?.data?.download_queue_size);
-        const list = [];
-        if (!result.data?.result) {
+        if (!result.data?.result || result.data.result.length === 0) {
+            setHasMore(false);
             return;
         }
+        const newList = [...list];
+        setCurrentStart(currentStart + result.data.result.length);
         // 数据处理
         for (let r of result.data.result) {
             let desc = r.download_status === 3 ? r.torrent_subject : r.desc;
             if (desc === undefined || desc === null) {
                 desc = "暂无";
             }
-            list.push({
+            newList.push({
                 id: r.id,
                 title: r.movie_name,
                 tname: r.torrent_name,
@@ -58,7 +65,7 @@ export default function DownloadRecords() {
                 source_type: r?.source_type
             });
         }
-        setList(list);
+        setList(newList);
     }
 
     const fetchDownloadingList = async () => {
@@ -110,13 +117,16 @@ export default function DownloadRecords() {
             </Stack> : null}
             <Grid container={true} spacing={6}>
                 {
-                    list.map(movie => {
+                    list.map((movie) => {
                         const downloading = downloadingList?.find(down => down.hash === movie.hash)
                         return <MovieCard key={movie.id} data={movie} onDelete={setDeleteData} downloading={downloading}
                                           onAnalyze={setAnalyzeData}/>
                     })
                 }
             </Grid>
+            {hasMore ?
+                <Button sx={{mt:4}} variant="text" disabled={isLoading} onClick={() => fetchData()} fullWidth>加载更多</Button> :
+                <Button sx={{mt:4}} fullWidth disabled>没有更多了</Button>}
             {/*重新识别*/}
             <ReAnalyze {...analyzeData} onAnalyze={setAnalyzeData} onAnalyzeSuccess={async () => {
                 await fetchData();

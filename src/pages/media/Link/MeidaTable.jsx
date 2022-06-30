@@ -23,9 +23,10 @@ import {
     Typography,
 } from "@mui/material";
 import {spacing} from "@mui/system";
-import {useLinkMedia} from "@/api/MediaServerApi";
+import {useFixEmbyBdmvBug, useLinkMedia} from "@/api/MediaServerApi";
 import message from "@/utils/message";
 import CorrectDialog from "@/pages/media/Link/CorrectDialog";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -94,6 +95,7 @@ const headCells = [
         disablePadding: true,
         label: "名称", sort: true
     },
+    {id: "is_disc", numeric: true, disablePadding: false, label: "原盘", sort: true},
     {id: "media_type", numeric: true, disablePadding: false, label: "类型", sort: true},
     {id: "media_name", numeric: true, disablePadding: false, label: "影片名", sort: true},
     {id: "release_date", numeric: true, disablePadding: false, label: "发行日期", sort: true},
@@ -149,7 +151,7 @@ const EnhancedTableHead = (props) => {
 
 const EnhancedTableToolbar = (props) => {
     // Here was 'let'
-    const {numSelected, onLink, onCorrect} = props;
+    const {numSelected, onLink, onCorrect, onTools} = props;
 
     return (
         <Toolbar sx={{
@@ -172,6 +174,11 @@ const EnhancedTableToolbar = (props) => {
             <Spacer/>
             {numSelected > 0 ? (
                 <Stack direction="row" spacing={2}>
+                    <Tooltip title="一些内置小工具">
+                        <Button variant="contained" onClick={onTools}>
+                            修复原盘
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="对识别错误的资源，输入准确信息后重新整理">
                         <Button variant="contained" onClick={onCorrect}>
                             纠错
@@ -179,7 +186,7 @@ const EnhancedTableToolbar = (props) => {
                     </Tooltip>
                     <Tooltip title="开始分析选中的资源影视信息，然后整理到对应目录">
                         <Button variant="contained" onClick={onLink}>
-                            自动整理
+                            整理
                         </Button>
                     </Tooltip>
                 </Stack>
@@ -195,7 +202,9 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const {mutateAsync: linkMedia, isLinking} = useLinkMedia();
+    const {mutateAsync: fixBdmv, isFixing} = useFixEmbyBdmvBug();
     const [correctDialogData, setCorrectDialogData] = useState({open: false});
+    const [fixDiscPath, setFixDiscPath] = useState(null);
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -313,10 +322,49 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             onError: error => message.error(error)
         })
     }
+    const onTools = () => {
+        const discSelected = selected.filter((item) => {
+            const media = rows.find(row => row.path === item);
+            if (media.is_disc) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        if (discSelected.length === 0) {
+            message.warn("您选中的影片没有原盘")
+        } else {
+            setFixDiscPath({discCount: discSelected.length, discSelected: discSelected});
+        }
+    }
+    const onFixBdmv = (discPaths) => {
+        fixBdmv({paths: discPaths}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    message.success(msg)
+                    setFixDiscPath(null);
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error)
+        })
+    }
     return (
         <Paper>
+            <ConfirmDialog
+                open={fixDiscPath}
+                onClose={() => {
+                    setFixDiscPath(null);
+                }}
+                onOk={() => onFixBdmv(fixDiscPath.discSelected)}
+            >
+                您选中了{fixDiscPath && fixDiscPath.discCount}个原盘影片，确定要进行修复吗？修复后Emby以及Infuse将可直接播放原盘，但可能因为修改了原始文件导致无法做种。
+            </ConfirmDialog>
             <CorrectDialog data={correctDialogData} setData={setCorrectDialogData} onSubmit={onCorrectSubmit}/>
-            <EnhancedTableToolbar numSelected={selected.length} onLink={onLink} onCorrect={onCorrect}/>
+            <EnhancedTableToolbar numSelected={selected.length} onLink={onLink} onCorrect={onCorrect}
+                                  onTools={onTools}/>
             <TableContainer>
                 <Table
                     aria-labelledby="tableTitle"
@@ -373,6 +421,8 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
                                                 <Button variant="text">{row.name}</Button>
                                             </Tooltip>
                                         </TableCell>
+                                        <TableCell
+                                            align="right">{row.is_disc ? row.disc_type : "不是"}</TableCell>
                                         <TableCell
                                             align="right">
                                             {row.media_type === undefined || row.media_type == null || row.media_type === '未知' && "未知"}
