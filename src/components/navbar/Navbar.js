@@ -1,9 +1,10 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import styled, {withTheme} from "styled-components/macro";
-import {AppBar as MuiAppBar, Grid, IconButton as MuiIconButton, InputBase, Toolbar,} from "@mui/material";
+import {AppBar as MuiAppBar, Grid, IconButton as MuiIconButton, InputBase, Toolbar, Button, Box} from "@mui/material";
 import {darken} from "polished";
-import {Search as SearchIcon} from "react-feather";
+// import {Search as SearchIcon} from "react-feather";
+import SearchIcon from '@mui/icons-material/Search';
 
 import {Menu as MenuIcon} from "@mui/icons-material";
 import {useLocation, useNavigate} from 'react-router-dom'
@@ -12,6 +13,7 @@ import NavbarNotificationsDropdown from "@/components/navbar/NavbarNotifications
 import {useUrlQueryParam} from "@/hooks/useUrlQueryParam";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import SearchBox from './SearchBox';
 
 const AppBar = styled(MuiAppBar)`
   background: ${(props) => props.theme.header.background};
@@ -91,8 +93,8 @@ const Navbar = ({onDrawerToggle}) => {
                                 <MenuIcon/>
                             </IconButton>
                         </Grid>
-                        <Grid item xs>
-                            {!["/movie/search"].includes(location.pathname) && <Search>
+                        <Grid item xs container justifyContent = "flex-end">
+                            {/* {!["/movie/search"].includes(location.pathname) && <Search>
                                 <SearchIconWrapper>
                                     <SearchIcon/>
                                 </SearchIconWrapper>
@@ -102,7 +104,8 @@ const Navbar = ({onDrawerToggle}) => {
                                                navigate("/movie/search?keyword=" + keyword)
                                            }
                                        }}/>
-                            </Search>}
+                            </Search>} */}
+                            <SearchBox />
                             {/*{isShowSearch && <SearchBox />}*/}
                         </Grid>
                         {/*<Grid item xs />*/}
