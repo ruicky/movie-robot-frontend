@@ -13,15 +13,18 @@ const SearchDialog = ({open, onClose}) => {
   // TODO: 对接数据
   const SiteList = [{
     name: '馒头',
-    value: 'm-team'
+    value: 'm-team',
+    avatar: 'https://kp.m-team.cc/favicon.ico'
   },
   {
     name: '彩虹岛',
-    value: 'chd'
+    value: 'chd',
+    avatar: 'https://chdbits.co/favicon.ico'
   },
   {
     name: '不可说',
-    value: 'spring'
+    value: 'spring',
+    avatar: 'https://springsunday.net/favicon.ico'
   },
 ];
   const TagList = [
@@ -35,21 +38,21 @@ const SearchDialog = ({open, onClose}) => {
     },
   ];
   const [site, setSite] = useState(undefined);
+  const [category, setCategory] = useState(undefined);
 
-  const siteClick = (item) => {
-    setSite(item);
-  }
+  
   const handleClose = () => {
     // 重置状态
     setSite(undefined);
+    setCategory(undefined);
     onClose();
   }
   return(
     <Dialog open={open} TransitionComponent={Transition} onClose={handleClose} fullScreen={isFullScreen} >
       <DialogContentWrap>
-        <TopSearch onClose={handleClose} site={site} />
-        {!site && <SearchTag sx={{ mt:4, mb: 5 }} title='站点' list={SiteList} onClick={siteClick} />}
-        <SearchTag sx={{ mt:4, mb: 5 }} title='分类' list={TagList} />
+        <TopSearch onClose={handleClose} site={site} category={category} />
+        {!site && <SearchTag sx={{ mt:4, mb: 5 }} title='站点' list={SiteList} onClick={(item) => setSite(item)} />}
+        {!category && <SearchTag sx={{ mt:4, mb: 5 }} title='分类' list={TagList} onClick={(item) => setCategory(item)} />}
         <SearchHistory sx={{ mt: 8, mb: 5 }} />
       </DialogContentWrap>
     </Dialog>

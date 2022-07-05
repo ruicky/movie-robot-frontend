@@ -1,10 +1,21 @@
 import React from 'react';
-import { Paper, IconButton, InputBase, Typography,Box, Chip } from '@mui/material';
+import { Paper, IconButton, InputBase, Typography,Box, Chip, Autocomplete, TextField } from '@mui/material';
 import styled from "styled-components/macro";
 import SearchIcon from '@mui/icons-material/Search';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 
-const TopSearch = ({onClose, site}) => {
+const TopSearch = ({onClose, site, category}) => {
+  let placeholder = '';
+  if (site) {
+    placeholder += `在${site.name}中搜索`;
+  } else {
+    placeholder = '搜索'
+  }
+  if (category) {
+    placeholder += `${category.name}`;
+  }
+  // TODO: 跳转到搜索页携带参数
+
   return (
     <PaperWrap
       component="form"
@@ -16,7 +27,7 @@ const TopSearch = ({onClose, site}) => {
         </IconButton>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder={site ? `在${site.name}中搜索` : "搜索"}
+          placeholder={placeholder}
           inputProps={{ 'aria-label': '搜索' }}
         />
       </SearchInputWrap>
@@ -27,9 +38,7 @@ const TopSearch = ({onClose, site}) => {
   );
 }
 
-const PaperWrap = styled(Paper)`
- 
-`;
+const PaperWrap = styled(Paper)``;
 
 const SearchInputWrap = styled(Box)`
   background-color: ${(props) => props.theme.palette.background.default};
