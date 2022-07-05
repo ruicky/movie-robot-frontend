@@ -4,7 +4,7 @@ import styled from "styled-components/macro";
 import SearchIcon from '@mui/icons-material/Search';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 
-const TopSearch = () => {
+const TopSearch = ({onClose, site}) => {
   return (
     <PaperWrap
       component="form"
@@ -14,19 +14,13 @@ const TopSearch = () => {
         <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
-        <Chip
-          icon={TagFacesIcon}
-          label={'馒头'}
-          size="small"
-          onDelete={()=> alert('hello')}
-        />
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder="搜索"
+          placeholder={site ? `在${site.name}中搜索` : "搜索"}
           inputProps={{ 'aria-label': '搜索' }}
         />
       </SearchInputWrap>
-      <Typography variant="button" display="block" sx={{cursor: 'pointer', ml: 2}} color='info.main'>
+      <Typography variant="button" display="block" sx={{cursor: 'pointer', ml: 2}} color='info.main' onClick={onClose}>
         取消
       </Typography>
     </PaperWrap>

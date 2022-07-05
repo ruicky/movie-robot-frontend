@@ -1,16 +1,20 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import styled from "styled-components/macro";
 import {Button, Box} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import SearchDialog from '@/components/SearchDialog'
 
 const SearchBox = () => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <SearchWrapper variant="outlined" startIcon={<SearchIcon />}>
-      {/* <ShortCutWrapper sx={{borderRadius: '5px', py:2}}>⌘K</ShortCutWrapper> */}
-      <SearchText sx={{ml:2, mr: 'auto'}}>搜索...</SearchText>
-      <SearchDialog />
-    </SearchWrapper>
+    <>
+      <SearchWrapper variant="outlined" startIcon={<SearchIcon />} onClick={()=>setOpen(true)} >
+        {/* <ShortCutWrapper sx={{borderRadius: '5px', py:2}}>⌘K</ShortCutWrapper> */}
+        <SearchText sx={{ml:2, mr: 'auto'}}>搜索...</SearchText>
+      </SearchWrapper>
+      <SearchDialog open={open} onClose={()=>setOpen(false)} />
+    </>
   );
 }
 
@@ -25,11 +29,11 @@ const SearchWrapper = styled(Button)`
   font-size: 14px;
   cursor: pointer;
   justify-content: flex-start;
+  border-radius: 10px;
   ${(props) => props.theme.breakpoints.down("sm")} {
     background-color: transparent;
     min-width: 34px;
     padding-right: 0px;
-    padding-left: 18px;
     justify-content: center;
   }
 `

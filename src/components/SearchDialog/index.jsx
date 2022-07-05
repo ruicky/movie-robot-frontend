@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Dialog, Slide, DialogContent } from '@mui/material';
 import styled from "styled-components/macro";
 import {useTheme} from "@mui/material/styles";
@@ -34,11 +34,21 @@ const SearchDialog = ({open, onClose}) => {
       value: 'tv'
     },
   ];
+  const [site, setSite] = useState(undefined);
+
+  const siteClick = (item) => {
+    setSite(item);
+  }
+  const handleClose = () => {
+    // 重置状态
+    setSite(undefined);
+    onClose();
+  }
   return(
-    <Dialog open={true} TransitionComponent={Transition} onClose={onClose} fullScreen={isFullScreen} >
+    <Dialog open={open} TransitionComponent={Transition} onClose={handleClose} fullScreen={isFullScreen} >
       <DialogContentWrap>
-        <TopSearch />
-        <SearchTag sx={{ mt:4, mb: 5 }} title='站点' list={SiteList} />
+        <TopSearch onClose={handleClose} site={site} />
+        {!site && <SearchTag sx={{ mt:4, mb: 5 }} title='站点' list={SiteList} onClick={siteClick} />}
         <SearchTag sx={{ mt:4, mb: 5 }} title='分类' list={TagList} />
         <SearchHistory sx={{ mt: 8, mb: 5 }} />
       </DialogContentWrap>
