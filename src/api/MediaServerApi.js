@@ -41,3 +41,10 @@ export const useFixEmbyBdmvBug = (param) => {
             client("/api/media/fix_emby_bdmv_bug", {params: params, method: "POST"})
     );
 };
+export const useAutoCategorize = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/media/auto_categorize", {params: params, method: "POST"})
+    );
+};

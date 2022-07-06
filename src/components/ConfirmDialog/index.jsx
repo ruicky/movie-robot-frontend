@@ -1,7 +1,7 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import React from "react";
 
-function ConfirmDialog({children, open, onClose, onOk, title = "操作提示"}) {
+function ConfirmDialog({children, open, onClose, onOk, title = "操作提示", content = null}) {
     return (
         <Dialog
             open={open}
@@ -16,6 +16,7 @@ function ConfirmDialog({children, open, onClose, onOk, title = "操作提示"}) 
                 <DialogContentText id="alert-dialog-description">
                     {children}
                 </DialogContentText>
+                {content}
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose()}>取消</Button>

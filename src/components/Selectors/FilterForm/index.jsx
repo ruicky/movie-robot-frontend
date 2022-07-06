@@ -461,7 +461,7 @@ function FilterForm({
                                 <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
                                     {selected.map((value, index) => (
                                         <Chip key={index}
-                                              label={siteData && siteData.find(item => item.site_name === value).alias}/>
+                                              label={siteData && (siteData.find(item => item.site_name === value) || {alias: ''}).alias}/>
                                     ))}
                                 </Box>
                             )}
