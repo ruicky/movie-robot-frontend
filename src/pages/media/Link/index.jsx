@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import PathSelectDialog from "@/components/PathSelectDialog";
-import MediaTable from "@/pages/media/Link/MeidaTable";
+import MediaTable from "@/pages/media/Link/Table";
 import {useGetMediaLibrary, useGetMediaLinkStatus} from "@/api/MediaServerApi";
 import {useInterval} from "@/utils/hooks";
 import message from "@/utils/message";
