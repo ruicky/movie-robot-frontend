@@ -6,7 +6,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import TopSearch from './TopSearch';
 import SearchTag from './SearchTag';
 import SearchHistory from './SearchHistory'
-import { set } from 'lodash';
 
 const SearchDialog = ({open, onClose}) => {
   const theme = useTheme();
