@@ -6,6 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import TopSearch from './TopSearch';
 import SearchTag from './SearchTag';
 import SearchHistory from './SearchHistory'
+import { set } from 'lodash';
 
 const SearchDialog = ({open, onClose}) => {
   const theme = useTheme();
@@ -37,22 +38,22 @@ const SearchDialog = ({open, onClose}) => {
       value: 'tv'
     },
   ];
-  const [site, setSite] = useState(undefined);
-  const [category, setCategory] = useState(undefined);
-
   
+  const [site, setSite] = useState(SiteList.reduce((a, v) => ({ ...a, [v.value]: true}), {}));
+  const [category, setCategory] = useState(TagList.reduce((a, v) => ({ ...a, [v.value]: true}), {}));
+
   const handleClose = () => {
     // 重置状态
-    setSite(undefined);
-    setCategory(undefined);
+    // setSite();
+    // setCategory(undefined);
     onClose();
   }
   return(
     <Dialog open={open} TransitionComponent={Transition} onClose={handleClose} fullScreen={isFullScreen} >
       <DialogContentWrap>
         <TopSearch onClose={handleClose} site={site} category={category} />
-        {!site && <SearchTag sx={{ mt:4, mb: 5 }} title='站点' list={SiteList} onClick={(item) => setSite(item)} />}
-        {!category && <SearchTag sx={{ mt:4, mb: 5 }} title='分类' list={TagList} onClick={(item) => setCategory(item)} />}
+        <SearchTag sx={{ mt:4, mb: 5 }} title='站点' list={SiteList} onClick={(name, value) => setSite({...site, [name]: value})} checkData={site} />
+        <SearchTag sx={{ mt:4, mb: 5 }} title='分类' list={TagList} onClick={(name, value) => setCategory({...category, [name]: value})} checkData={category} />
         <SearchHistory sx={{ mt: 8, mb: 5 }} />
       </DialogContentWrap>
     </Dialog>

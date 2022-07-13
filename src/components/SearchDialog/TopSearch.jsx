@@ -5,15 +5,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 
 const TopSearch = ({onClose, site, category}) => {
-  let placeholder = '';
-  if (site) {
-    placeholder += `在${site.name}中搜索`;
-  } else {
-    placeholder = '搜索'
-  }
-  if (category) {
-    placeholder += `${category.name}`;
-  }
   // TODO: 跳转到搜索页携带参数
 
   return (
@@ -27,7 +18,7 @@ const TopSearch = ({onClose, site, category}) => {
         </IconButton>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder={placeholder}
+          placeholder='搜索'
           inputProps={{ 'aria-label': '搜索' }}
         />
       </SearchInputWrap>
