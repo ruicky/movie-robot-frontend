@@ -25,6 +25,7 @@ import CorrectDialog from "@/pages/media/Link/CorrectDialog";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import CategorizeDialog from "@/pages/media/Link/CategorizeDialog";
 import TableToolbar from "@/pages/media/Link/Table/TableToolbar";
+import LinkDialog from "@/pages/media/Link/LinkDialog";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -157,6 +158,7 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const [correctDialogData, setCorrectDialogData] = useState({open: false});
     const [fixDiscPath, setFixDiscPath] = useState(null);
     const [autoCategorize, setAutoCategorize] = useState(null);
+    const [showLinkDialog, setShowLinkDialog] = useState(null);
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -209,23 +211,23 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const isSelected = (name) => selected.indexOf(name) !== -1;
     const emptyRows =
         rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    const onLink = () => {
-        if (!linkPath) {
-            message.error('请选择整理后的路径，才能开始整理！')
-            return;
-        }
-        if (path === linkPath) {
-            message.error('整理后的目标路径最好和原始分开！')
-            return;
-        }
+    const onLink = (selectPaths, linkMode, autoSearchDouban) => {
         if (onLinkStart) {
-            onLinkStart(selected);
+            onLinkStart(selectPaths);
         }
-        linkMedia({paths: selected, root_path: path, media_type: mediaType, link_path: linkPath}, {
+        linkMedia({
+            paths: selectPaths,
+            root_path: path,
+            media_type: mediaType,
+            link_path: linkPath,
+            link_mode: linkMode,
+            auto_search_douban: autoSearchDouban
+        }, {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
-                    message.success(msg)
+                    setShowLinkDialog(null);
+                    message.success(msg);
                 } else {
                     message.error(msg);
                 }
@@ -356,13 +358,36 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
                 onOk={doAutoCategorize}
                 selectPaths={autoCategorize}
             />
-            <CorrectDialog data={correctDialogData} setData={setCorrectDialogData} onSubmit={onCorrectSubmit}/>
+            <LinkDialog
+                open={showLinkDialog}
+                onClose={() => {
+                    setShowLinkDialog(null);
+                }}
+                onOk={onLink}
+                selectPaths={showLinkDialog}
+            />
+            <CorrectDialog
+                data={correctDialogData}
+                setData={setCorrectDialogData}
+                onSubmit={onCorrectSubmit}
+            />
             <TableToolbar
                 numSelected={selected.length}
-                onLink={onLink}
+                onLink={() => {
+                    if (!linkPath) {
+                        message.error('请选择整理后的路径，才能开始整理！')
+                        return;
+                    }
+                    if (path === linkPath) {
+                        message.error('整理后的目标路径最好和原始分开！')
+                        return;
+                    }
+                    setShowLinkDialog(selected);
+                }}
                 onCorrect={onCorrect}
                 onTools={onTools}
                 onCategorize={onCategorize}
+
             />
             <TableContainer>
                 <Table
