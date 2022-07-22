@@ -22,3 +22,10 @@ export const useGetDoubanSuggestion = (param) => {
             client("/api/movie/douban_suggestion", {params: params, method: "GET"})
     );
 };
+
+export const useSearchKeywordCache = (param) => {
+    const client = useHttp();
+    return useQuery(['getSearchKeywordCache', param], () =>
+        client("/api/movie/get_search_keyword_cache", {params: param, method: "GET"})
+    );
+};
