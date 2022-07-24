@@ -28,7 +28,7 @@ const SearchDialog = ({open, onClose}) => {
         {
             name: "搜索资源站",
             value: "searchSite",
-            checked: appInfo?.server_config?.auth_search_result
+            checked: appInfo?.server_config?.auth_search_result === undefined ? true : appInfo?.server_config?.auth_search_result
         }
     ];
     const TagList = [
