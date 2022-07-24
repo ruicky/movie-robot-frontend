@@ -225,7 +225,7 @@ function SearchRecords(props) {
         if (keyword && !loading) {
             setLoading(true);
             setRecords(null);
-            setParam({keyword});
+            setParam({keyword,searchSite:'true'});
             axios.get("/api/movie/search_keyword", {
                 params: {
                     keyword: keyword,
@@ -234,7 +234,7 @@ function SearchRecords(props) {
                     cache: param.cache,
                     searchDouban: param.searchDouban,
                     searchMediaServer: param.searchMediaServer,
-                    searchSite: param.searchSite
+                    searchSite: true
                 }
             }).then((res) => {
                 setLoading(false);
@@ -360,6 +360,17 @@ function SearchRecords(props) {
             </Grid>
             {
                 records && records.length === 0 && <Empty message={`没有搜索到任何资源 站点：${param.site_id} 分类：${param.cates}`}/>
+            }
+            {
+                param?.searchSite && param?.searchSite !== "true" && (param?.cache==='' || param?.cache === 'false') && !records && !loading &&
+                <Box mt={6}>
+                    <Button
+                        variant="contained" color="info" fullWidth
+                        onClick={() => searchData(param.keyword)}
+                    >
+                        立即搜索资源
+                    </Button>
+                </Box>
             }
             <PathPicker
                 downloadInfo={downloadInfo}
