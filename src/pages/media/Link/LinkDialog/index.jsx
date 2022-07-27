@@ -1,10 +1,11 @@
 import ConfirmDialog from "@/components/ConfirmDialog";
 import React, {useState} from "react";
-import {Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select} from "@mui/material";
+import {Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 
 const LinkDialog = ({open, onClose, onOk, selectPaths}) => {
     const [linkMode, setLinkMode] = useState("link");
     const [autoSearchDouban, setAutoSearchDouban] = useState(false);
+    const [doubanProxy, setDoubanProxy] = useState();
     const handleChange = (event) => {
         setLinkMode(event.target.value);
     };
@@ -12,7 +13,7 @@ const LinkDialog = ({open, onClose, onOk, selectPaths}) => {
         <ConfirmDialog
             open={open}
             onClose={onClose}
-            onOk={() => onOk(selectPaths, linkMode, autoSearchDouban)}
+            onOk={() => onOk(selectPaths, linkMode, autoSearchDouban,doubanProxy)}
             content={<>
                 <FormControl sx={{mt: 2}} fullWidth>
                     <InputLabel htmlFor="max-width">转移模式</InputLabel>
@@ -27,6 +28,22 @@ const LinkDialog = ({open, onClose, onOk, selectPaths}) => {
                         <MenuItem value={"copy"}>分类后复制到目标目录</MenuItem>
                         <MenuItem value={"move"}>分类后移动到目标目录</MenuItem>
                     </Select>
+                </FormControl>
+                <FormControl sx={{mt: 2}} fullWidth>
+                    <TextField
+                        type="text"
+                        name="doubanProxy"
+                        label="豆瓣代理设置"
+                        value={doubanProxy}
+                        fullWidth
+                        helperText={(
+                            <span>
+                    留空则不使用代理。支持通过HTTP代理、SOCKS代理访问豆瓣（建议试用隧道代理）。示范：http://localhost:8030 或 socks5://user:pass@host:port
+                </span>
+                        )}
+                        onChange={(e) => setDoubanProxy(e.target.value)}
+                        my={3}
+                    />
                 </FormControl>
                 <FormControlLabel
                     control={<Checkbox

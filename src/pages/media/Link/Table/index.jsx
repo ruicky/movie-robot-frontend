@@ -211,7 +211,7 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const isSelected = (name) => selected.indexOf(name) !== -1;
     const emptyRows =
         rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    const onLink = (selectPaths, linkMode, autoSearchDouban) => {
+    const onLink = (selectPaths, linkMode, autoSearchDouban, doubanProxy) => {
         if (onLinkStart) {
             onLinkStart(selectPaths);
         }
@@ -221,7 +221,8 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             media_type: mediaType,
             link_path: linkPath,
             link_mode: linkMode,
-            auto_search_douban: autoSearchDouban
+            auto_search_douban: autoSearchDouban,
+            douban_proxy: doubanProxy
         }, {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;

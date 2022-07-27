@@ -45,7 +45,7 @@ const MenuProps = {
     },
 };
 const SUBTITLE_TYPES = ["srt", "ass", "sup"]
-const SUBTITLE_FINDERS = ["zimuku", "subhd"]
+const SUBTITLE_FINDERS = ["zimuku"]
 const SYNC_LANGUAGES = ["zh-cn", "zh-tw"]
 const AREAS = ["中国大陆", "中国台湾", "中国香港", "日本", "韩国", "美国", "英国", "泰国", "意大利"];
 
@@ -59,9 +59,8 @@ function EditForm({}) {
             enable: false,
             file_name_template: "{{ name }}.{{ language[0] }}{% if language[0] == \"zh-cn\" and language | length == 2 %}.default{% endif%}{{ subtitle_ext }}",
             filter_type: ["srt", "ass"],
-            finder_type: ["zimuku", "subhd"],
+            finder_type: ["zimuku"],
             sync_language: ["zh-cn", "zh-tw"],
-            subhd_check_code: "",
             exclude_area: ["中国大陆", "中国台湾"],
             not_found_stop_minutes: 4320
         }, validationSchema: Yup.object().shape({
@@ -97,7 +96,6 @@ function EditForm({}) {
             formik.setFieldValue("finder_type", data.finder_type ? data.finder_type : ['zimuku', 'subhd']);
             formik.setFieldValue("sync_language", data.sync_language ? data.sync_language : ['zh-cn', 'zh-tw']);
             formik.setFieldValue("exclude_area", data.exclude_area ? data.exclude_area : ["中国大陆", "中国台湾"]);
-            formik.setFieldValue("subhd_check_code", data.subhd_check_code ? data.subhd_check_code : '');
             formik.setFieldValue("not_found_stop_minutes", data.not_found_stop_minutes !== null && data.not_found_stop_minutes !== undefined ? data.not_found_stop_minutes : 4320);
         }
     }, [setting]);
@@ -265,22 +263,6 @@ function EditForm({}) {
                 )}
             </FormHelperText>
         </FormControl>
-        <TextField
-            type="text"
-            name="subhd_check_code"
-            label="SubHD下载验证码"
-            value={formik.values.subhd_check_code}
-            error={Boolean(formik.touched.subhd_check_code && formik.errors.subhd_check_code)}
-            fullWidth
-            helperText={formik.touched.subhd_check_code && formik.errors.subhd_check_code || (
-                <span>
-                    SubHD定期下载验证码，需要去他们的微信公众号"火星影剧"获取，每个月好像都会更新；使用SubHD时必填；
-                </span>
-            )}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            my={3}
-        />
         <FormControlLabel
             control={<Checkbox
                 checked={formik.values.enable}
