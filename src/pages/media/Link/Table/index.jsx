@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import styled from "styled-components/macro";
 import CircularProgress from '@mui/material/CircularProgress';
-import {alpha} from '@mui/material/styles';
 import {
     Breadcrumbs as MuiBreadcrumbs,
     Button,
@@ -9,7 +8,6 @@ import {
     Chip as MuiChip,
     Divider as MuiDivider,
     Paper as MuiPaper,
-    Stack,
     Table,
     TableBody,
     TableCell,
@@ -18,15 +16,16 @@ import {
     TablePagination,
     TableRow,
     TableSortLabel,
-    Toolbar,
     Tooltip,
-    Typography,
 } from "@mui/material";
 import {spacing} from "@mui/system";
-import {useFixEmbyBdmvBug, useLinkMedia} from "@/api/MediaServerApi";
+import {useAutoCategorize, useFixEmbyBdmvBug, useLinkMedia} from "@/api/MediaServerApi";
 import message from "@/utils/message";
 import CorrectDialog from "@/pages/media/Link/CorrectDialog";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import CategorizeDialog from "@/pages/media/Link/CategorizeDialog";
+import TableToolbar from "@/pages/media/Link/Table/TableToolbar";
+import LinkDialog from "@/pages/media/Link/LinkDialog";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -34,9 +33,7 @@ const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
 
-const Spacer = styled.div`
-  flex: 1 1 100%;
-`;
+
 const Chip = styled(MuiChip)`
   height: 20px;
   padding: 4px 0;
@@ -95,10 +92,10 @@ const headCells = [
         disablePadding: true,
         label: "名称", sort: true
     },
-    {id: "is_disc", numeric: true, disablePadding: false, label: "原盘", sort: true},
-    {id: "media_type", numeric: true, disablePadding: false, label: "类型", sort: true},
     {id: "media_name", numeric: true, disablePadding: false, label: "影片名", sort: true},
     {id: "release_date", numeric: true, disablePadding: false, label: "发行日期", sort: true},
+    {id: "is_disc", numeric: true, disablePadding: false, label: "原盘", sort: true},
+    {id: "media_type", numeric: true, disablePadding: false, label: "类型", sort: true},
     {id: "status", numeric: true, disablePadding: false, label: "状态", sort: true},
 ];
 
@@ -149,52 +146,6 @@ const EnhancedTableHead = (props) => {
     );
 };
 
-const EnhancedTableToolbar = (props) => {
-    // Here was 'let'
-    const {numSelected, onLink, onCorrect, onTools} = props;
-
-    return (
-        <Toolbar sx={{
-            pl: {sm: 2},
-            pr: {xs: 1, sm: 1},
-            ...(numSelected > 0 && {
-                bgcolor: (theme) =>
-                    alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-            }),
-        }}>
-            {numSelected > 0 ? (
-                <Typography color="inherit" variant="subtitle1" width={120}>
-                    选中{numSelected}个
-                </Typography>
-            ) : (
-                <Typography variant="h6" id="tableTitle" width={120}>
-                    本地资源
-                </Typography>
-            )}
-            <Spacer/>
-            {numSelected > 0 ? (
-                <Stack direction="row" spacing={2}>
-                    <Tooltip title="一些内置小工具">
-                        <Button variant="contained" onClick={onTools}>
-                            修复原盘
-                        </Button>
-                    </Tooltip>
-                    <Tooltip title="对识别错误的资源，输入准确信息后重新整理">
-                        <Button variant="contained" onClick={onCorrect}>
-                            纠错
-                        </Button>
-                    </Tooltip>
-                    <Tooltip title="开始分析选中的资源影视信息，然后整理到对应目录">
-                        <Button variant="contained" onClick={onLink}>
-                            整理
-                        </Button>
-                    </Tooltip>
-                </Stack>
-            ) : null}
-        </Toolbar>
-    );
-};
-
 function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = null, disabled = false}) {
     const [order, setOrder] = React.useState("desc");
     const [orderBy, setOrderBy] = React.useState("status");
@@ -202,9 +153,12 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const {mutateAsync: linkMedia, isLinking} = useLinkMedia();
+    const {mutateAsync: autoCategorizeApi, isAutoCategorize} = useAutoCategorize();
     const {mutateAsync: fixBdmv, isFixing} = useFixEmbyBdmvBug();
     const [correctDialogData, setCorrectDialogData] = useState({open: false});
     const [fixDiscPath, setFixDiscPath] = useState(null);
+    const [autoCategorize, setAutoCategorize] = useState(null);
+    const [showLinkDialog, setShowLinkDialog] = useState(null);
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -257,23 +211,24 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const isSelected = (name) => selected.indexOf(name) !== -1;
     const emptyRows =
         rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    const onLink = () => {
-        if (!linkPath) {
-            message.error('请选择整理后的路径，才能开始整理！')
-            return;
-        }
-        if (path === linkPath) {
-            message.error('整理后的目标路径最好和原始分开！')
-            return;
-        }
+    const onLink = (selectPaths, linkMode, autoSearchDouban, doubanProxy) => {
         if (onLinkStart) {
-            onLinkStart(selected);
+            onLinkStart(selectPaths);
         }
-        linkMedia({paths: selected, root_path: path, media_type: mediaType, link_path: linkPath}, {
+        linkMedia({
+            paths: selectPaths,
+            root_path: path,
+            media_type: mediaType,
+            link_path: linkPath,
+            link_mode: linkMode,
+            auto_search_douban: autoSearchDouban,
+            douban_proxy: doubanProxy
+        }, {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
-                    message.success(msg)
+                    setShowLinkDialog(null);
+                    message.success(msg);
                 } else {
                     message.error(msg);
                 }
@@ -351,6 +306,40 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             onError: error => message.error(error)
         })
     }
+    const onCategorize = () => {
+        if (!linkPath) {
+            message.error('请选择整理后的路径，才能开始自动分类！')
+            return;
+        }
+        //找出整理完成的
+        const paths = selected.filter((item) => {
+            const media = rows.find(row => row.path === item);
+            if (media.status === 2) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        if (paths.length === 0) {
+            message.warn("没有可以分类的影片（必须刮削后才可以自动分类）")
+        } else {
+            setAutoCategorize(paths);
+        }
+    }
+    const doAutoCategorize = (paths, linkMode) => {
+        autoCategorizeApi({paths: paths, link_path: linkPath, link_mode: linkMode}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    message.success(msg)
+                    setAutoCategorize(null);
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error)
+        })
+    }
     return (
         <Paper>
             <ConfirmDialog
@@ -362,9 +351,45 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             >
                 您选中了{fixDiscPath && fixDiscPath.discCount}个原盘影片，确定要进行修复吗？修复后Emby以及Infuse将可直接播放原盘，但可能因为修改了原始文件导致无法做种。
             </ConfirmDialog>
-            <CorrectDialog data={correctDialogData} setData={setCorrectDialogData} onSubmit={onCorrectSubmit}/>
-            <EnhancedTableToolbar numSelected={selected.length} onLink={onLink} onCorrect={onCorrect}
-                                  onTools={onTools}/>
+            <CategorizeDialog
+                open={autoCategorize}
+                onClose={() => {
+                    setAutoCategorize(null);
+                }}
+                onOk={doAutoCategorize}
+                selectPaths={autoCategorize}
+            />
+            <LinkDialog
+                open={showLinkDialog}
+                onClose={() => {
+                    setShowLinkDialog(null);
+                }}
+                onOk={onLink}
+                selectPaths={showLinkDialog}
+            />
+            <CorrectDialog
+                data={correctDialogData}
+                setData={setCorrectDialogData}
+                onSubmit={onCorrectSubmit}
+            />
+            <TableToolbar
+                numSelected={selected.length}
+                onLink={() => {
+                    if (!linkPath) {
+                        message.error('请选择整理后的路径，才能开始整理！')
+                        return;
+                    }
+                    if (path === linkPath) {
+                        message.error('整理后的目标路径最好和原始分开！')
+                        return;
+                    }
+                    setShowLinkDialog(selected);
+                }}
+                onCorrect={onCorrect}
+                onTools={onTools}
+                onCategorize={onCategorize}
+
+            />
             <TableContainer>
                 <Table
                     aria-labelledby="tableTitle"
@@ -422,6 +447,10 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
                                             </Tooltip>
                                         </TableCell>
                                         <TableCell
+                                            align="right">{row.media_name}</TableCell>
+                                        <TableCell
+                                            align="right">{row.release_date}</TableCell>
+                                        <TableCell
                                             align="right">{row.is_disc ? row.disc_type : "不是"}</TableCell>
                                         <TableCell
                                             align="right">
@@ -429,10 +458,6 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
                                             {row.media_type === "Movie" && "电影"}
                                             {row.media_type === "TV" && "剧集"}
                                         </TableCell>
-                                        <TableCell
-                                            align="right">{row.media_name}</TableCell>
-                                        <TableCell
-                                            align="right">{row.release_date}</TableCell>
                                         <TableCell align="right">
                                             {row.err_msg ? <Tooltip
                                                 title={row.err_msg}

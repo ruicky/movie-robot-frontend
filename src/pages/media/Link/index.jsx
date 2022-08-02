@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import PathSelectDialog from "@/components/PathSelectDialog";
-import MediaTable from "@/pages/media/Link/MeidaTable";
+import MediaTable from "@/pages/media/Link/Table";
 import {useGetMediaLibrary, useGetMediaLinkStatus} from "@/api/MediaServerApi";
 import {useInterval} from "@/utils/hooks";
 import message from "@/utils/message";
@@ -67,8 +67,14 @@ function Index() {
             onSuccess: resData => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
+                    let discCnt = 0;
+                    let noDiscCnt = 0;
                     setRows((data || []).map((item) => {
-                        console.log(item);
+                        if (item?.is_disc) {
+                            discCnt++;
+                        } else {
+                            noDiscCnt++;
+                        }
                         return {
                             name: item.name,
                             file_type_desc: item.file_type_desc,
@@ -78,10 +84,11 @@ function Index() {
                             media_type: item?.recognition_result?.metadata ? item.recognition_result.metadata.media_type : "未知",
                             path: item.path,
                             err_msg: item?.recognition_result?.err_msg,
-                            is_disc:item?.is_disc,
-                            disc_type:item?.disc_type
+                            is_disc: item?.is_disc,
+                            disc_type: item?.disc_type
                         }
                     }));
+                    setTips(`${path}目录 原盘：${discCnt} 非原盘：${noDiscCnt}`)
                 } else {
                     message.error(msg);
                 }

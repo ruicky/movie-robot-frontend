@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
 import {Helmet} from "react-helmet-async";
 import {
@@ -39,7 +39,8 @@ function EditForm({}) {
             save_path: "/downloads",
             available_space: 1024,
             avg_statistics_period: 10,
-            upload_mbps_maximum: 30
+            upload_mbps_maximum: 30,
+            maximum_active_torrent: 0
         }, validationSchema: Yup.object().shape({
             save_path: Yup.string().max(1000).required("提交保存路径不能为空"),
             available_space: Yup.number().min(50, "可用空间最小值建议为50GB").required("可用空间不能为空"),
@@ -47,8 +48,8 @@ function EditForm({}) {
             upload_mbps_maximum: Yup.number().min(1, "上行带宽速率最小为1").required("上行带宽速率不能为空")
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
-                save(values,{
-                    onSuccess:res=>{
+                save(values, {
+                    onSuccess: res => {
                         const {code, message: msg, data} = res;
                         if (code === 0) {
                             message.success('设置流量管理成功，已经生效了。')
@@ -75,6 +76,7 @@ function EditForm({}) {
             formik.setFieldValue("available_space", data.available_space ? data.available_space : 1024);
             formik.setFieldValue("avg_statistics_period", data.avg_statistics_period ? data.avg_statistics_period : 5);
             formik.setFieldValue("upload_mbps_maximum", data.upload_mbps_maximum ? data.upload_mbps_maximum : 30);
+            formik.setFieldValue("maximum_active_torrent", data.maximum_active_torrent ? data.maximum_active_torrent : 0);
         }
     }, [freeDownloadSetting]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
@@ -139,6 +141,22 @@ function EditForm({}) {
             helperText={formik.touched.upload_mbps_maximum && formik.errors.upload_mbps_maximum || (
                 <span>
                     最大的上行带宽速率，单位Mbps
+                </span>
+            )}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
+        <TextField
+            type="number"
+            name="maximum_active_torrent"
+            label="最大活跃刷流种子数"
+            value={formik.values.maximum_active_torrent}
+            error={Boolean(formik.touched.maximum_active_torrent && formik.errors.maximum_active_torrent)}
+            fullWidth
+            helperText={formik.touched.maximum_active_torrent && formik.errors.maximum_active_torrent || (
+                <span>
+                    同时下载刷流种子的上限数量，如果超了，就不再新增了，0为不限
                 </span>
             )}
             onBlur={formik.handleBlur}

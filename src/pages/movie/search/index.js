@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import {Search as SearchIcon} from "@mui/icons-material";
 import {Helmet} from "react-helmet-async";
@@ -35,7 +35,6 @@ import {spacing} from "@mui/system";
 import Record from "./components/Record";
 import MediaServerSearch from "@/pages/movie/search/MediaServerSearch";
 import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
-import {AppInfoContext} from "@/contexts/AppSetting";
 
 const StyledDivider = styled(Divider)(spacing);
 
@@ -208,7 +207,6 @@ const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
 
 
 function SearchRecords(props) {
-    const appInfo = useContext(AppInfoContext)
     const [records, setRecords] = useState();
     const [tagResource, setTagResource] = useState({
         sites: {"全部": "全部"},
@@ -220,18 +218,23 @@ function SearchRecords(props) {
     const [loading, setLoading] = useState(false);
     const [downloadInfo, setDownloadInfo] = useState();
     const [tagVersion, setTagVersion] = useState(Date.now());
-    const [param, setParam] = useUrlQueryParam(["keyword"]);
+    const [param, setParam] = useUrlQueryParam(["keyword", "site_id", "cates", "cache", "searchDouban", "searchMediaServer", "searchSite"]);
     const [message, setMessage] = useState(false);
 
     const searchData = (keyword) => {
         if (keyword && !loading) {
             setLoading(true);
             setRecords(null);
-            setParam({keyword});
+            setParam({keyword,searchSite:'true'});
             axios.get("/api/movie/search_keyword", {
                 params: {
                     keyword: keyword,
-                    cates: (appInfo.server_config?.web_search_default_cates || []).join(",")
+                    cates: param.cates,
+                    site_id: param.site_id,
+                    cache: param.cache,
+                    searchDouban: param.searchDouban,
+                    searchMediaServer: param.searchMediaServer,
+                    searchSite: true
                 }
             }).then((res) => {
                 setLoading(false);
@@ -275,32 +278,23 @@ function SearchRecords(props) {
     }
 
     useEffect(() => {
+        if (param.searchDouban === '') {
+            setParam({...param, searchDouban: true})
+        }
+        if (param.searchMediaServer === '') {
+            setParam({...param, searchMediaServer: true})
+        }
         setFilter({encode: "全部", source: "全部", resolution: "全部"});
         setTagVersion(Date.now());
-        if (appInfo.server_config.auth_search_result) {
+        if (param?.searchSite && param?.searchSite === 'true') {
             searchData(param.keyword)
-        }
-    }, [param.keyword])
-
-    const search = useCallback((keyword) => {
-        if (appInfo.server_config.auth_search_result) {
-            searchData(keyword)
         } else {
             setRecords(null);
-            setParam({keyword});
         }
-    });
+    }, [param])
     const isHaveData = records && records.length > 0;
     return (<React.Fragment>
             <Helmet title={param?.keyword ? param.keyword + " - 搜索结果" : "搜索"}/>
-            <SearchBar
-                defaultValue={param?.keyword}
-                onSearch={(value) => {
-                    setFilter({encode: "全部", source: "全部", resolution: "全部"});
-                    setTagVersion(Date.now());
-                    search(value);
-                }}
-            />
             {
                 isHaveData && <>
                     <TagFileter
@@ -312,10 +306,10 @@ function SearchRecords(props) {
                     <StyledDivider my={4}/>
                 </>
             }
-            {/* 本地库的搜索结果 */}
-            {param?.keyword && <MediaServerSearch keyword={param?.keyword}/>}
-            {/* 订阅滑动列表 */}
-            {param?.keyword && <FilterOptionsProvider><SubscribeList keyword={param?.keyword}/></FilterOptionsProvider>}
+            {param?.keyword && param?.searchMediaServer && param?.searchMediaServer === 'true' &&
+            <MediaServerSearch keyword={param?.keyword}/>}
+            {param?.keyword && param?.searchDouban && param?.searchDouban === 'true' &&
+            <FilterOptionsProvider><SubscribeList keyword={param?.keyword}/></FilterOptionsProvider>}
             <Grid container spacing={4}>
                 {
                     (loading ? Array.from(new Array(3)) : records || []).filter((item) => {
@@ -365,10 +359,11 @@ function SearchRecords(props) {
                 }
             </Grid>
             {
-                records && records.length === 0 && <Empty message="没有搜索到任何资源"/>
+                records && records.length === 0 && <Empty message={`没有搜索到任何资源 站点：${param.site_id} 分类：${param.cates}`}/>
             }
             {
-                !appInfo.server_config.auth_search_result && !records && !loading && <Box mt={6}>
+                param?.searchSite && param?.searchSite !== "true" && (param?.cache==='' || param?.cache === 'false') && !records && !loading &&
+                <Box mt={6}>
                     <Button
                         variant="contained" color="info" fullWidth
                         onClick={() => searchData(param.keyword)}
