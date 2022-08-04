@@ -1,19 +1,19 @@
 import React,{useState, useEffect} from 'react';
-import styled from "styled-components/macro";
 import {Button, Box} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import SearchDialog from '@/components/SearchDialog'
+import { THEMES } from "@/constants";
+import styled, { css } from "styled-components/macro";
 
-const SearchBox = () => {
+const SearchBox = ( ) => {
   const [open, setOpen] = useState(false);
-
   return (
     <>
       <SearchWrapper variant="outlined" startIcon={<SearchIcon />} onClick={()=>setOpen(true)} >
         {/* <ShortCutWrapper sx={{borderRadius: '5px', py:2}}>⌘K</ShortCutWrapper> */}
         <SearchText sx={{ml:2, mr: 'auto'}}>搜索...</SearchText>
       </SearchWrapper>
-      <SearchDialog open={open} onClose={()=>setOpen(false)} />
+      {open && <SearchDialog open={open} onClose={()=>setOpen(false)} />}
     </>
   );
 }
@@ -30,6 +30,8 @@ const SearchWrapper = styled(Button)`
   cursor: pointer;
   justify-content: flex-start;
   border-radius: 10px;
+  color: ${(props) => props.theme.header.color};
+
   ${(props) => props.theme.breakpoints.down("sm")} {
     background-color: transparent;
     min-width: 34px;

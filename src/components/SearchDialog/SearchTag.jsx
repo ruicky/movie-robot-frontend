@@ -1,50 +1,57 @@
 import React, {useState} from 'react';
-import {Box, Button, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, Typography} from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Typography,
+  Grid,
+} from '@mui/material';
 
 const SearchTag = ({title, sx, list, onClick, checkData}) => {
     const [select, setSelect] = useState(true);
     return (
         <Box sx={{...sx}}>
-            <Typography variant="caption" display="block" color="text.disabled" gutterBottom>
-                {title}
-                <Button
-                    variant="text"
-                    style={{
-                        margin: 0,
-                        bottom: 1,
-                        padding: 0,
-                        paddingRight: '30px',
-                        background: "transparent",
-                        border: "none"
-                    }}
-                    onClick={() => {
-                        Object.keys(checkData).map((key) => (
-                            checkData[key] = !select
-                        ));
-                        setSelect(!select)
-                    }}
-                >
-                    {!select && "全选"}
-                    {select && "取消选中"}
-                </Button>
-            </Typography>
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Typography variant="caption" display="block" color="text.disabled">
+                  {title}
+              </Typography>
+              <Button
+                  variant="text"
+                  onClick={() => {
+                      Object.keys(checkData).map((key) => (
+                          checkData[key] = !select
+                      ));
+                      setSelect(!select)
+                  }}
+              >
+                {select ? '取消全选' : '全选'}
+              </Button>
+            </Box>
             <Divider light/>
-            <FormControl sx={{m: 3}} component="fieldset" variant="standard">
-                <FormGroup row>
-                    {
-                        list?.map(item => (
-                            <FormControlLabel
-                                key={item.name}
-                                control={
-                                    <Checkbox defaultChecked checked={checkData && checkData[item.value]}
-                                              onChange={(e) => onClick(e.target.name, e.target.checked)}
-                                              name={item.value}/>
-                                }
-                                label={item.name}
-                            />
-                        ))
-                    }
-                </FormGroup>
+            <FormControl sx={{width: '100%'}} component="fieldset" variant="standard">
+                <Grid>
+                  <FormGroup row>
+                      {
+                          list?.map(item => (
+                            <Grid item xs={4} md={2}>
+                              <FormControlLabel
+                                  key={item.name}
+                                  control={
+                                      <Checkbox defaultChecked checked={checkData && checkData[item.value]}
+                                                onChange={(e) => onClick(e.target.name, e.target.checked)}
+                                                name={item.value}/>
+                                  }
+                                  label={item.name}
+                              />
+                            </Grid>
+                          ))
+                      }
+                  </FormGroup>
+                </Grid>
             </FormControl>
         </Box>
     );
