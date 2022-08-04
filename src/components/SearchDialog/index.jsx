@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Dialog, DialogContent, Slide} from '@mui/material';
+import {Dialog, DialogContent, Slide, DialogTitle, IconButton} from '@mui/material';
 import styled from "styled-components/macro";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -8,6 +8,9 @@ import SearchTag from './SearchTag';
 import SearchHistory from './SearchHistory'
 import {AppInfoContext} from "@/contexts/AppSetting";
 import {useGetMySites} from "@/api/SiteApi";
+import CloseIcon from '@mui/icons-material/Close';
+import SearchMenu from "@/components/SearchDialog/SearchMenu";
+import OpenExtend from "@/components/SearchDialog/OpenExtend";
 
 const SearchDialog = ({open, onClose}) => {
     const appInfo = useContext(AppInfoContext)
@@ -16,17 +19,17 @@ const SearchDialog = ({open, onClose}) => {
     const {data: siteData} = useGetMySites();
     const SearchContent = [
         {
-            name: "搜索豆瓣",
+            name: "豆瓣",
             value: "searchDouban",
             checked: true
         },
         {
-            name: "搜索媒体库",
+            name: "媒体库",
             value: "searchMediaServer",
             checked: true
         },
         {
-            name: "搜索资源站",
+            name: "资源站",
             value: "searchSite",
             checked: appInfo?.server_config?.auth_search_result === undefined ? true : appInfo?.server_config?.auth_search_result
         }
@@ -91,9 +94,25 @@ const SearchDialog = ({open, onClose}) => {
         // setCategory(undefined);
         onClose();
     }
+    const [showSetting, setShowSetting] = useState(false);
     return (
         <Dialog open={open} TransitionComponent={Transition} onClose={handleClose} fullScreen={isFullScreen}>
             <DialogContentWrap>
+                <DialogTitle>
+                    <IconButton
+                      aria-label="close"
+                      onClick={onClose}
+                      sx={{
+                          position: 'absolute',
+                          right: 8,
+                          top: 8,
+                          color: (theme) => theme.palette.grey[500],
+                      }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+                <SearchMenu />
                 <TopSearch
                     onClose={handleClose}
                     site={site && Object.keys(site).map((key) => {
@@ -108,14 +127,23 @@ const SearchDialog = ({open, onClose}) => {
                     }).filter(x => x)}
                     searchContent={searchContent}
                 />
+                <SearchHistory sx={{mt: 8, mb: 5}} onClose={handleClose}/>
+                <OpenExtend
+                  openText="展开详细设置"
+                  closeText="收起详细设置"
+                  sx={{my: 2}}
+                  onClick={(val)=>setShowSetting(val)}
+                />
                 <SearchTag
-                    sx={{mt: 4, mb: 5}} title='内容'
+                    sx={{mt: 4, mb: 5, display: showSetting ? 'block' : 'none'}}
+                    title='内容'
                     list={SearchContent}
                     onClick={(name, value) => setSearchContent({...searchContent, [name]: value})}
                     checkData={searchContent}
                 />
                 <SearchTag
-                    sx={{mt: 4, mb: 5}} title='站点'
+                    sx={{mt: 4, mb: 5, display: showSetting ? 'block' : 'none'}}
+                    title='站点'
                     list={siteData?.data?.map((item) => {
                         return {
                             name: item.alias,
@@ -125,9 +153,14 @@ const SearchDialog = ({open, onClose}) => {
                     onClick={(name, value) => setSite({...site, [name]: value})}
                     checkData={site}
                 />
-                <SearchTag sx={{mt: 4, mb: 5}} title='分类' list={TagList}
-                           onClick={(name, value) => setCategory({...category, [name]: value})} checkData={category}/>
-                <SearchHistory sx={{mt: 8, mb: 5}} onClose={handleClose}/>
+                <SearchTag
+                  sx={{mt: 4, mb: 5, display: showSetting ? 'block' : 'none'}}
+                  title='分类'
+                  list={TagList}
+                  onClick={(name, value) => setCategory({...category, [name]: value})}
+                  checkData={category}
+                />
+
             </DialogContentWrap>
         </Dialog>
     )

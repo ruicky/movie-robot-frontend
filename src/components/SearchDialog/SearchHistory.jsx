@@ -1,22 +1,26 @@
 import React from 'react';
-import {Avatar, Box, Divider, Typography} from '@mui/material';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import {Avatar, Box, Divider, Typography, Stack} from '@mui/material';
 import LinesEllipsis from 'react-lines-ellipsis'
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {green, orange, teal} from '@mui/material/colors';
-import DoneIcon from '@mui/icons-material/Done';
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import {useSearchKeywordCache} from "@/api/MovieApi";
 import {useNavigate} from "react-router-dom";
+import {
+  ChevronRight as ChevronRightIcon,
+  ExpandLess as ExpandLessIcon,
+  ExpandMore as ExpandMoreIcon,
+  Done as DoneIcon,
+  ErrorOutlineOutlined as ErrorOutlineOutlinedIcon,
+  HourglassTop as HourglassTopIcon,
+  ManageSearch as ManageSearchIcon,
+} from '@mui/icons-material'
+import OpenExtend from "./OpenExtend";
 
 const LIMIT_COUNT = 6;
 
-const SearchHistory = ({title = '最近在搜', sx, onClose}) => {
+const SearchHistory = ({title = '最近搜索', sx, onClose}) => {
     const navigate = useNavigate();
 
-    const {data: cache} = useSearchKeywordCache()
+    const {data: cache, isLoading} = useSearchKeywordCache()
     const [sliceNum, setSliceNum] = React.useState(LIMIT_COUNT);
     const handleOpenClick = (open) => {
         setSliceNum(open ? 100000 : LIMIT_COUNT)
@@ -34,13 +38,14 @@ const SearchHistory = ({title = '最近在搜', sx, onClose}) => {
                     {title}
                 </Typography>
                 <Box sx={{display: 'flex'}}>
-                    <OpenOrClose data={cache?.data} onClick={handleOpenClick}/>
+                    { cache?.data.length > LIMIT_COUNT && <OpenExtend onClick={handleOpenClick} />}
                     {/*<IconButton aria-label="delete" onClick={handleDelete}>*/}
                     {/*    <DeleteIcon fontSize="small"/>*/}
                     {/*</IconButton>*/}
                 </Box>
             </Box>
             <Divider light/>
+            { !isLoading && <Empty data={cache?.data} />}
             <Box sx={{mt: 2, display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
                 {
                     cache?.data?.slice(0, sliceNum)?.map((item, index) => (
@@ -54,6 +59,18 @@ const SearchHistory = ({title = '最近在搜', sx, onClose}) => {
             </Box>
         </Box>
     );
+}
+
+const Empty = ({data}) => {
+  if (data) return (<></>)
+  return (
+    <Stack direction="column" justifyContent="center" alignItems="center">
+      <ManageSearchIcon sx={{fontSize: 100, color: 'text.secondary', opacity: 0.5}} />
+      <Typography sx={{color:  'text.secondary', opacity: 0.5}}>
+        没有最近在搜索内容
+      </Typography>
+    </Stack>
+  );
 }
 
 const ListItem = ({name, status, onClick}) => {
