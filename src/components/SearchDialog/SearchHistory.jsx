@@ -1,17 +1,17 @@
 import React from 'react';
-import {Avatar, Box, Divider, Typography, Stack} from '@mui/material';
+import {Avatar, Box, Divider, Stack, Typography} from '@mui/material';
 import LinesEllipsis from 'react-lines-ellipsis'
 import {green, orange, teal} from '@mui/material/colors';
 import {useSearchKeywordCache} from "@/api/MovieApi";
 import {useNavigate} from "react-router-dom";
 import {
-  ChevronRight as ChevronRightIcon,
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-  Done as DoneIcon,
-  ErrorOutlineOutlined as ErrorOutlineOutlinedIcon,
-  HourglassTop as HourglassTopIcon,
-  ManageSearch as ManageSearchIcon,
+    ChevronRight as ChevronRightIcon,
+    Done as DoneIcon,
+    ErrorOutlineOutlined as ErrorOutlineOutlinedIcon,
+    ExpandLess as ExpandLessIcon,
+    ExpandMore as ExpandMoreIcon,
+    HourglassTop as HourglassTopIcon,
+    ManageSearch as ManageSearchIcon,
 } from '@mui/icons-material'
 import OpenExtend from "./OpenExtend";
 
@@ -30,7 +30,6 @@ const SearchHistory = ({title = '最近搜索', sx, onClose}) => {
         //TODO: 对接全部删除接口
     }
 
-    if (cache?.data?.length === 0) return (<></>);
     return (
         <Box sx={{...sx}}>
             <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
@@ -38,14 +37,14 @@ const SearchHistory = ({title = '最近搜索', sx, onClose}) => {
                     {title}
                 </Typography>
                 <Box sx={{display: 'flex'}}>
-                    { cache?.data.length > LIMIT_COUNT && <OpenExtend onClick={handleOpenClick} />}
+                    {cache?.data.length > LIMIT_COUNT && <OpenExtend onClick={handleOpenClick}/>}
                     {/*<IconButton aria-label="delete" onClick={handleDelete}>*/}
                     {/*    <DeleteIcon fontSize="small"/>*/}
                     {/*</IconButton>*/}
                 </Box>
             </Box>
             <Divider light/>
-            { !isLoading && <Empty data={cache?.data} />}
+            {!isLoading && <Empty data={cache?.data}/>}
             <Box sx={{mt: 2, display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
                 {
                     cache?.data?.slice(0, sliceNum)?.map((item, index) => (
@@ -62,15 +61,15 @@ const SearchHistory = ({title = '最近搜索', sx, onClose}) => {
 }
 
 const Empty = ({data}) => {
-  if (data) return (<></>)
-  return (
-    <Stack direction="column" justifyContent="center" alignItems="center">
-      <ManageSearchIcon sx={{fontSize: 100, color: 'text.secondary', opacity: 0.5}} />
-      <Typography sx={{color:  'text.secondary', opacity: 0.5}}>
-        没有最近在搜索内容
-      </Typography>
-    </Stack>
-  );
+    if (data && data.length > 0) return (<></>)
+    return (
+        <Stack direction="column" justifyContent="center" alignItems="center">
+            <ManageSearchIcon sx={{fontSize: 100, color: 'text.secondary', opacity: 0.5}}/>
+            <Typography sx={{color: 'text.secondary', opacity: 0.5}}>
+                没有最近在搜索内容
+            </Typography>
+        </Stack>
+    );
 }
 
 const ListItem = ({name, status, onClick}) => {
