@@ -5,7 +5,7 @@ import styled from "styled-components/macro";
 
 const SearchTemplate = ({templates, templateType, setTemplateType}) => {
     return (
-        <Stack spacing={2} direction="row" justifyContent="center" sx={{mb: 2}}>
+        <Stack spacing={2} direction="row" justifyContent="left" sx={{mb: 2}}>
             {
                 templates && templates.map(
                     item =>
@@ -26,6 +26,7 @@ const Button = styled(MuiButton)`
 `;
 
 const Stack = styled(MuiStack)`
+    white-space: nowrap;
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
     overflow-y: hidden;
