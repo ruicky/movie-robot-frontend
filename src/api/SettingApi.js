@@ -196,3 +196,10 @@ export const useGetSearchTemplate = (param) => {
         client("/api/setting/get_search_template", {params: param, method: "GET"})
     );
 };
+export const useDeleteSearchTemplate = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/delete_search_template", {params: params, method: "GET"})
+    );
+};

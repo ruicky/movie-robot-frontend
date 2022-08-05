@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import OpenExtend from "@/components/SearchDialog/OpenExtend";
 import SearchTemplate from "@/components/SearchDialog/SearchTemplate";
 import TemplateNameDialog from "@/components/SearchDialog/AddTemplateDialog";
-import {useAddSearchTemplate, useGetSearchTemplate} from "@/api/SettingApi";
+import {useAddSearchTemplate, useDeleteSearchTemplate, useGetSearchTemplate} from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const SearchContent = [
@@ -68,7 +68,7 @@ const SearchDialog = ({open, onClose}) => {
     const {data: siteData} = useGetMySites();
     const {data: searchTemplateData, refetch: refetchSerarchTemplate} = useGetSearchTemplate()
     const defaultTemplate = {
-        type: 'default',
+        type: '默认',
         name: '默认',
         option: {
             searchContent: ['searchDouban', 'searchMediaServer', appInfo?.server_config?.auth_search_result === undefined || appInfo?.server_config?.auth_search_result ? 'searchSite' : null],
@@ -91,7 +91,7 @@ const SearchDialog = ({open, onClose}) => {
         });
         setTemplates(tmp);
     }, [searchTemplateData])
-    const [selectedTemplate, setSelectedTemplate] = useState('default');
+    const [selectedTemplate, setSelectedTemplate] = useState('默认');
     const theme = useTheme();
     const isFullScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const [site, setSite] = useState();
@@ -100,6 +100,7 @@ const SearchDialog = ({open, onClose}) => {
     const [showSetting, setShowSetting] = useState(false);
     const [showTemplateAdd, setShowTemplateAdd] = useState(false);
     const {mutate: addSearchTemplate} = useAddSearchTemplate();
+    const {mutate: deleteSearchTemplate} = useDeleteSearchTemplate();
     useEffect(() => {
         if (!templates || templates.length === 0) {
             return;
@@ -143,6 +144,22 @@ const SearchDialog = ({open, onClose}) => {
                     message.success(msg);
                     refetchSerarchTemplate();
                     setShowTemplateAdd(false);
+                } else {
+                    message.error(msg)
+                }
+            },
+            onError: error => message.error(error)
+        })
+    }
+    const onDeleteSearchTemplate = () => {
+        deleteSearchTemplate({
+            name: selectedTemplate
+        }, {
+            onSuccess: res => {
+                const {data, code, message: msg} = res;
+                if (code === 0) {
+                    message.success(msg);
+                    refetchSerarchTemplate();
                 } else {
                     message.error(msg)
                 }
@@ -234,8 +251,9 @@ const SearchDialog = ({open, onClose}) => {
                             variant="contained"
                             color="error"
                             fullWidth
+                            onClick={onDeleteSearchTemplate}
                         >
-                            删除电影分类
+                            删除模版{selectedTemplate}
                         </Button>}
                     </Stack>}
                 </DialogContentWrap>
