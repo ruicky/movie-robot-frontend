@@ -183,3 +183,23 @@ export const useSaveServerSetting = (param) => {
             client("/api/setting/save_server_setting", {params: params, method: "POST"})
     );
 };
+export const useAddSearchTemplate = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/add_search_template", {params: params, method: "POST"})
+    );
+};
+export const useGetSearchTemplate = (param) => {
+    const client = useHttp();
+    return useQuery(['get_search_template', param], () =>
+        client("/api/setting/get_search_template", {params: param, method: "GET"})
+    );
+};
+export const useDeleteSearchTemplate = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/delete_search_template", {params: params, method: "GET"})
+    );
+};
