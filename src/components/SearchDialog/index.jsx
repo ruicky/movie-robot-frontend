@@ -237,7 +237,7 @@ const SearchDialog = ({open, onClose}) => {
                         checkData={category}
                     />
                     {showSetting && <Stack spacing={2}>
-                        {selectedTemplate === 'default' && <Button
+                        {selectedTemplate === '默认' && <Button
                             size="medium"
                             variant="contained"
                             color="success"
@@ -246,7 +246,7 @@ const SearchDialog = ({open, onClose}) => {
                         >
                             保存为新分类
                         </Button>}
-                        {selectedTemplate !== 'default' && <Button
+                        {selectedTemplate !== '默认' && <Button
                             size="medium"
                             variant="contained"
                             color="error"
