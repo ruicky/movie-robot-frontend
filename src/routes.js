@@ -30,9 +30,11 @@ const MovieRankingList = async(() => import("./pages/subscribe/MovieRankingList"
 const TVRankingList = async(() => import("./pages/subscribe/TVRankingList"));
 const RecentPopularMovieList = async(() => import("./pages/subscribe/RecentPopularMovieList"));
 const RecentPopularTVList = async(() => import("./pages/subscribe/RecentPopularTVList"));
-const SubscribeList = async(() => import("./pages/subscribe/list"));
 const EditSubCustomFilter = async(() => import("./pages/subscribe/Custom/EditCustomFilter"));
 const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
+const SubscribeCustomIndex = async(() => import("./pages/subscribe/Custom"));
+const SubscribeMovieIndex = async(() => import("./pages/subscribe/Movie"));
+const SubscribeTVIndex = async(() => import("./pages/subscribe/TV"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
 const Selectors = async(() => import("./pages/selectors"));
 const SelectorsEditFilter = async(() => import("./pages/selectors/Filter/Edit"));
@@ -152,7 +154,7 @@ const routes = [{
     </AuthGuard>), children: [{
         path: "", element: <HomePage/>
     }]
-},{
+}, {
     path: "/home", element: (<AuthGuard>
         <DashboardLayout/>
     </AuthGuard>), children: [{
@@ -200,9 +202,13 @@ const routes = [{
     }, {
         path: "search", element: <SubscribeSearch/>
     }, {
-        path: "list", element: <SubscribeList/>
-    }, {
         path: "edit-custom-filter", element: <EditSubCustomFilter/>
+    }, {
+        path: 'custom-index', element: <SubscribeCustomIndex/>
+    }, {
+        path: 'movie-index', element: <SubscribeMovieIndex/>
+    }, {
+        path: 'tv-index', element: <SubscribeTVIndex/>
     }]
 }, {
     path: "media", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
