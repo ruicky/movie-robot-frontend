@@ -1,8 +1,7 @@
 import {useGetFilterOptions} from "@/api/CommonApi";
 import React, {useState} from "react";
 import {useSubscribes} from "@/utils/subscribe";
-import {Helmet} from "react-helmet-async";
-import {Divider, Typography} from "@mui/material";
+import {Divider} from "@mui/material";
 import TagFilter from "@/pages/subscribe/components/TagFilter";
 import ListView from "@/pages/subscribe/components/ListView";
 
@@ -58,12 +57,12 @@ const SubscribeList = ({mediaType}) => {
                     matchStatus = filter.status.includes(status)
                 }
                 let matchGenres = true;
-                if (filter.genres && filter.genres.length > 0) {
+                if (genres && filter.genres && filter.genres.length > 0) {
                     const cate = genres.split(',')
                     matchGenres = filter.genres.filter(v => cate.includes(v)).length > 0
                 }
                 let matchArea = true;
-                if (filter.area && filter.area.length > 0) {
+                if (area && filter.area && filter.area.length > 0) {
                     const areas = area.split(',')
                     matchArea = filter.area.filter(v => areas.includes(v)).length > 0
                 }

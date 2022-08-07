@@ -1,5 +1,5 @@
 import React from 'react';
-import MediaSlider from '../MediaSlider';
+import MediaSlider from '../../../subscribe/components/MediaSlider';
 import {useDoubanRanking} from "@/api/MovieApi";
 
 const DoubanRanking = ({title, rankType}) => {
