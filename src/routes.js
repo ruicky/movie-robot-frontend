@@ -29,7 +29,6 @@ const InviteEmail = async(() => import("./pages/user/InviteEmail"));
 const MovieRankingList = async(() => import("./pages/recommend/movieRankingList"));
 const TVRankingList = async(() => import("./pages/recommend/tvRankingList"));
 const RecentPopularMovieList = async(() => import("./pages/recommend/recentPopularMovieList"));
-const RecentPopularTVList = async(() => import("./pages/recommend/recentPopularTVList"));
 const EditSubCustomFilter = async(() => import("./pages/subscribe/Custom/EditCustomFilter"));
 const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
 const SubscribeCustomIndex = async(() => import("./pages/subscribe/Custom"));
@@ -197,19 +196,9 @@ const routes = [{
         path: "tv-ranking", element: <TVRankingList/>
     }, {
         path: "recent-popular-movie", element: <RecentPopularMovieList/>
-    }, {
-        path: "recent-popular-tv", element: <RecentPopularTVList/>
     }]
 }, {
     path: "subscribe", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
-        path: "movieRankingList", element: <MovieRankingList/>
-    }, {
-        path: "tvRankingList", element: <TVRankingList/>
-    }, {
-        path: "recentPopularMovieList", element: <RecentPopularMovieList/>
-    }, {
-        path: "recentPopularTVListList", element: <RecentPopularTVList/>
-    }, {
         path: "search", element: <SubscribeSearch/>
     }, {
         path: "edit-custom-filter", element: <EditSubCustomFilter/>
