@@ -9,7 +9,7 @@ const DoubanRanking = ({title, rankType}) => {
             sliderKey="requests"
             title={title}
             isLoading={subjectsIsLoading}
-            titles={subjects?.data.result ?? []}
+            titles={subjects?.data ?? []}
         />
 
     );

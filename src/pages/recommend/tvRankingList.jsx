@@ -8,13 +8,14 @@ import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvide
 const TvRankingList = () => {
     return (
         <>
-            <Helmet title="电视榜单"/>
-            <PageTitle text="电视榜单"/>
+            <Helmet title="剧集榜单"/>
+            <PageTitle text="近期热门剧集"/>
             <FilterOptionsProvider>
-                <DoubanRanking title="华语热播剧集" rankType="tv_chinese_best_weekly"/>
-                <DoubanRanking title="全球热播剧集" rankType="tv_global_best_weekly"/>
-                <DoubanRanking title="国内热播综艺" rankType="show_chinese_best_weekly"/>
-                <DoubanRanking title="国外热播综艺" rankType="show_global_best_weekly"/>
+                <DoubanRanking title="国产剧" rankType="tv_domestic"/>
+                <DoubanRanking title="美剧" rankType="tv_american"/>
+                <DoubanRanking title="日剧" rankType="tv_japanese"/>
+                <DoubanRanking title="韩剧" rankType="tv_korean"/>
+                <DoubanRanking title="动漫" rankType="tv_animation"/>
             </FilterOptionsProvider>
         </>
     )

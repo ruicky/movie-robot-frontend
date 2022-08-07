@@ -9,7 +9,7 @@ const MovieRankingList = () => {
     return (
         <>
             <Helmet title="电影榜单"/>
-            <PageTitle text="电影榜单"/>
+            <PageTitle text="近期热门电影"/>
             <FilterOptionsProvider>
                 <DoubanRanking title="实时热门电影" rankType="movie_real_time_hotest"/>
                 <DoubanRanking title="近期热门电影" rankType="ECPE465QY"/>
