@@ -14,9 +14,9 @@ function ConfirmDialog({children, open, onClose, onOk, title = "操作提示", c
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {children}
+                    {content}
                 </DialogContentText>
-                {content}
+                {children}
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose()}>取消</Button>

@@ -91,3 +91,26 @@ export const useRunSubDownload = () => {
             client("/api/subscribe/run_download", {params: params, method: "POST"})
     );
 };
+
+export const useGetSubDatasetList = (param) => {
+    const client = useHttp();
+    return useQuery(['getSubDatasetList', param], () =>
+        client("/api/subscribe/get_sub_dataset_list", {params: param})
+    );
+};
+
+export const useSubDataset = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/sub_dataset", {params: params, method: "POST"})
+    );
+};
+
+export const useDeleteSubDataset = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/delete_sub_dataset", {params: params, method: "POST"})
+    );
+};
