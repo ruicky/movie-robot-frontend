@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from "styled-components/macro";
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Slider from '../Slider';
 import TitleCard from '../TitleCard';
 import PersonCard from '../PersonCard';
 import RatingLabel from "@/pages/subscribe/components/RatingLabel";
+import {Grid} from "@mui/material";
 
-const   MediaSlider = ({
+const MediaSlider = ({
                          sliderKey,
                          title,
                          isLoading,
                          titles,
-                         linkUrl
+                         optionComponent
                      }) => {
     const finalTitles = titles.slice(0, 20).map((title) => {
         // eslint-disable-next-line default-case
@@ -79,11 +79,16 @@ const   MediaSlider = ({
         <>
             <SliderHeader>
                 {
-                    linkUrl
-                        ? <LinkWrapper href={linkUrl}>
-                            <span>{title}</span>
-                            <ArrowForwardIcon style={{marginLeft: '8px'}}/>
-                        </LinkWrapper>
+                    optionComponent
+                        ? <Grid justifyContent="space-between" container spacing={6}
+                                style={{fontSize: '20px', fontWeight: 700, marginBottom: -5}}>
+                            <Grid item>
+                                <span>{title}</span>
+                            </Grid>
+                            <Grid item>
+                                {optionComponent}
+                            </Grid>
+                        </Grid>
                         : <LinkWrapper>
                             <span>{title}</span>
                         </LinkWrapper>
@@ -120,9 +125,10 @@ const LinkWrapper = styled.a`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 32px;
     line-height: 36px;
+    margin-bottom: -5;
   }
 
 `

@@ -203,3 +203,10 @@ export const useDeleteSearchTemplate = (param) => {
             client("/api/setting/delete_search_template", {params: params, method: "GET"})
     );
 };
+export const useUpdateSearchTemplate = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/update_search_template", {params: params, method: "POST"})
+    );
+};

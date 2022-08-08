@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Dialog, DialogContent, DialogTitle, IconButton, Slide, Stack} from '@mui/material';
 import styled from "styled-components/macro";
 import {useTheme} from "@mui/material/styles";
@@ -6,13 +6,17 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import TopSearch from './TopSearch';
 import SearchTag from './SearchTag';
 import SearchHistory from './SearchHistory'
-import {AppInfoContext} from "@/contexts/AppSetting";
 import {useGetMySites} from "@/api/SiteApi";
 import CloseIcon from '@mui/icons-material/Close';
 import OpenExtend from "@/components/SearchDialog/OpenExtend";
 import SearchTemplate from "@/components/SearchDialog/SearchTemplate";
 import TemplateNameDialog from "@/components/SearchDialog/AddTemplateDialog";
-import {useAddSearchTemplate, useDeleteSearchTemplate, useGetSearchTemplate} from "@/api/SettingApi";
+import {
+    useAddSearchTemplate,
+    useDeleteSearchTemplate,
+    useGetSearchTemplate,
+    useUpdateSearchTemplate
+} from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const SearchContent = [
@@ -64,34 +68,20 @@ function getSelectKeyName(options) {
 }
 
 const SearchDialog = ({open, onClose}) => {
-    const appInfo = useContext(AppInfoContext)
     const {data: siteData} = useGetMySites();
     const {data: searchTemplateData, refetch: refetchSerarchTemplate} = useGetSearchTemplate()
-    const defaultTemplate = {
-        type: '默认',
-        name: '默认',
-        option: {
-            searchContent: ['searchDouban', 'searchMediaServer', appInfo?.server_config?.auth_search_result === undefined || appInfo?.server_config?.auth_search_result ? 'searchSite' : null],
-            category: appInfo?.server_config?.web_search_default_cates,
-            site: null
-        }
-    };
-    const [templates, setTemplates] = useState(
-        [defaultTemplate]
-    )
+    const [templates, setTemplates] = useState([])
+    const [selectedTemplate, setSelectedTemplate] = useState();
     useEffect(() => {
         if (!searchTemplateData?.data) {
             return;
         }
-        let tmp = new Array();
-        tmp.push(defaultTemplate);
-        searchTemplateData.data.map((item) => {
+        setTemplates(searchTemplateData.data.map((item) => {
             item.type = item.name;
-            tmp.push(item);
-        });
-        setTemplates(tmp);
+            return item
+        }));
+        setSelectedTemplate(searchTemplateData.data[0].name)
     }, [searchTemplateData])
-    const [selectedTemplate, setSelectedTemplate] = useState('默认');
     const theme = useTheme();
     const isFullScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const [site, setSite] = useState();
@@ -100,6 +90,7 @@ const SearchDialog = ({open, onClose}) => {
     const [showSetting, setShowSetting] = useState(false);
     const [showTemplateAdd, setShowTemplateAdd] = useState(false);
     const {mutate: addSearchTemplate} = useAddSearchTemplate();
+    const {mutate: updateSearchTemplate} = useUpdateSearchTemplate();
     const {mutate: deleteSearchTemplate} = useDeleteSearchTemplate();
     useEffect(() => {
         if (!templates || templates.length === 0) {
@@ -144,6 +135,26 @@ const SearchDialog = ({open, onClose}) => {
                     message.success(msg);
                     refetchSerarchTemplate();
                     setShowTemplateAdd(false);
+                } else {
+                    message.error(msg)
+                }
+            },
+            onError: error => message.error(error)
+        })
+    }
+    const onUpdateSearchTemplate = () => {
+        updateSearchTemplate({
+            name:selectedTemplate,
+            option: {
+                searchContent: getSelectKeyName(searchContent),
+                category: getSelectKeyName(category),
+                site: getSelectKeyName(site)
+            }
+        }, {
+            onSuccess: res => {
+                const {data, code, message: msg} = res;
+                if (code === 0) {
+                    message.success(msg);
                 } else {
                     message.error(msg)
                 }
@@ -236,21 +247,27 @@ const SearchDialog = ({open, onClose}) => {
                         onClick={(name, value) => setCategory({...category, [name]: value})}
                         checkData={category}
                     />
-                    {showSetting && <Stack spacing={2}>
-                        {selectedTemplate === '默认' && <Button
+                    {showSetting && <Stack direction="row" spacing={2} justifyContent={"center"}>
+                        <Button
                             size="medium"
                             variant="contained"
                             color="success"
-                            fullWidth
+                            onClick={onUpdateSearchTemplate}
+                        >
+                            修改{selectedTemplate}配置
+                        </Button>
+                        {selectedTemplate === '默认' && <Button
+                            size="medium"
+                            variant="contained"
+                            // color="success"
                             onClick={(e) => setShowTemplateAdd(true)}
                         >
-                            保存为新分类
+                            保存为新模版
                         </Button>}
                         {selectedTemplate !== '默认' && <Button
                             size="medium"
                             variant="contained"
                             color="error"
-                            fullWidth
                             onClick={onDeleteSearchTemplate}
                         >
                             删除模版{selectedTemplate}
@@ -259,7 +276,7 @@ const SearchDialog = ({open, onClose}) => {
                 </DialogContentWrap>
             </Dialog>
         </>
-    )
+    );
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {

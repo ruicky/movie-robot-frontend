@@ -1,6 +1,6 @@
 import axios from "../utils/request";
 import useHttp from "@/hooks/useHttp";
-import {useMutation} from "react-query";
+import {useMutation, useQuery} from "react-query";
 
 export const getAppInfo = async () => {
     const res = await axios.get("/api/common/app");
@@ -13,6 +13,12 @@ export const getScoreRuleNames = async () => {
 export const getFilterOptions = async () => {
     let res = await axios.get("/api/common/filter_options")
     return res.data;
+}
+export const useGetFilterOptions = (param) => {
+    const client = useHttp();
+    return useQuery(['get_filter_options', param], () =>
+        client("/api/common/filter_options", {params: param})
+    );
 }
 export const useGetDailyMedia = () => {
     const client = useHttp();

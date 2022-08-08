@@ -44,17 +44,15 @@ const MenuProps = {
 };
 const SearchCates = ['Movie', 'TV', 'Anime', 'Documentary','Music'];
 
-function EditForm({isInit}) {
+function EditForm({}) {
     const navigate = useNavigate();
-    const {data: setting, isLoading: isLoading} = useGetServerSetting();
+    const {data: setting, isLoading} = useGetServerSetting();
     const {mutateAsync: save, isSaving} = useSaveServerSetting();
     const formik = useFormik({
         initialValues: {
             site_max_workers: 0,
             web_search_timeout: 10,
-            web_search_result_limit: 0,
-            web_search_default_cates: [],
-            auth_search_result: false
+            web_search_result_limit: 0
         }, validationSchema: Yup.object().shape({
             site_max_workers: Yup.number().required("最大搜索线程不能为空"),
             web_search_timeout: Yup.number().required("搜索超时时间不能为空")
@@ -86,42 +84,12 @@ function EditForm({isInit}) {
             formik.setFieldValue("site_max_workers", setting.data?.site_max_workers ? setting.data?.site_max_workers : 0);
             formik.setFieldValue("web_search_timeout", setting.data?.web_search_timeout ? setting.data?.web_search_timeout : 10);
             formik.setFieldValue("web_search_result_limit", setting.data?.web_search_result_limit ? setting.data?.web_search_result_limit : 0);
-            formik.setFieldValue("auth_search_result", setting.data?.auth_search_result != undefined && setting.data?.auth_search_result != null ? setting.data?.auth_search_result : false);
-            formik.setFieldValue("web_search_default_cates", setting.data?.web_search_default_cates ? setting.data?.web_search_default_cates : ['Movie', 'TV', 'Anime', 'Documentary']);
         }
     }, [setting]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
         </Alert>)}
-        <FormControl m={4} fullWidth>
-            <Select
-                name="web_search_default_cates"
-                value={formik.values.web_search_default_cates}
-                multiple
-                onChange={formik.handleChange}
-                renderValue={(selected) => (
-                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
-                        {selected.map((value, index) => (
-                            <Chip key={index}
-                                  label={SearchCates.find(item => item === value)}/>
-                        ))}
-                    </Box>
-                )}
-                error={Boolean(formik.touched.web_search_default_cates && formik.errors.web_search_default_cates)}
-                MenuProps={MenuProps}
-            >
-                {SearchCates.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                        <Checkbox checked={formik.values.web_search_default_cates.indexOf(item) > -1}/>
-                        <ListItemText primary={item}/>
-                    </MenuItem>
-                ))}
-            </Select>
-            <FormHelperText>
-                搜索时默认的分类设置
-            </FormHelperText>
-        </FormControl>
         <TextField
             type="number"
             name="site_max_workers"
@@ -158,20 +126,8 @@ function EditForm({isInit}) {
             onChange={formik.handleChange}
             my={3}
         />
-        <FormLabel component="legend">以下配置变更后需要强制刷新浏览器页面才可以生效</FormLabel>
-        <FormGroup>
-            <FormControlLabel
-                control={<Checkbox
-                    checked={formik.values.auth_search_result}
-                    onChange={formik.handleChange}
-                    name="auth_search_result"
-                />}
-                label="搜索时自动去站点进行资源搜索"
-            />
-        </FormGroup>
         <Button
             type="submit"
-            fullWidth
             variant="contained"
             color="primary"
             disabled={formik.isSubmitting}

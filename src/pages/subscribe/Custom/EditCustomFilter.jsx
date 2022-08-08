@@ -623,8 +623,8 @@ function EditSubCustomFilter() {
             </Typography>
 
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-                <Link component={NavLink} to="/subscribe/list?tab=custom">
-                    自定义订阅
+                <Link component={NavLink} to="/subscribe/custom-index">
+                    自定义关键字订阅
                 </Link>
                 <Typography>条件设置</Typography>
             </Breadcrumbs>
