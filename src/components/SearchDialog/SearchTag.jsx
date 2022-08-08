@@ -16,7 +16,7 @@ const SearchTag = ({title, sx, list, onClick, checkData}) => {
     return (
         <Box sx={{...sx}}>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                <Typography variant="caption" display="block" color="text.disabled">
+                <Typography variant="button" display="block" color="text.disabled">
                     {title}
                 </Typography>
                 <Button

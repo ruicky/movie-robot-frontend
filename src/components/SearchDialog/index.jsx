@@ -247,7 +247,7 @@ const SearchDialog = ({open, onClose}) => {
                         onClick={(name, value) => setCategory({...category, [name]: value})}
                         checkData={category}
                     />
-                    {showSetting && <Stack direction="row" spacing={2} justifyContent={"center"}>
+                    {showSetting && <Stack spacing={2} justifyContent={"center"}>
                         <Button
                             size="medium"
                             variant="contained"

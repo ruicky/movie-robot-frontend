@@ -1,7 +1,8 @@
 import styled from "styled-components/macro";
-import {FormControl, Grid, InputLabel, MenuItem, Select} from "@mui/material";
+import { FormControl, Grid, InputLabel, MenuItem, Select, Box, Chip, Checkbox } from "@mui/material";
 import React from "react";
 import {useTheme} from '@mui/material/styles';
+import {find as _find} from 'lodash';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -44,6 +45,17 @@ const MultipleSelect = ({optionTitle, items, selectedValue, onChange, multiple =
                     MenuProps={MenuProps}
                     fullWidth
                     multiple={multiple}
+                    sx={{minHeight: '54px'}}
+                    renderValue={(selected) => (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                          {selected.map((value) => (
+                            <Chip
+                              key={_find(items, {'value': value})?.value}
+                              label={_find(items, {'value': value})?.name}
+                            />
+                          ))}
+                      </Box>
+                    )}
                 >
                     {items && items.map((item, index) => (
                         <MenuItem
@@ -51,6 +63,7 @@ const MultipleSelect = ({optionTitle, items, selectedValue, onChange, multiple =
                             value={item.value}
                             style={getStyles(item.name, selectedValue, theme)}
                         >
+                            <Checkbox checked={selectedValue?.indexOf(item.value) > -1} />
                             {item.name}
                         </MenuItem>
                     ))}
