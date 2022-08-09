@@ -7,15 +7,18 @@ import {getUserList} from "@/api/UserApi";
 
 function UserManager() {
     const [userList, setUserList] = useState([])
-    useEffect(async () => {
+    const fetchUserData = async () => {
         const userList = await getUserList()
         setUserList(userList)
+    }
+    useEffect(async () => {
+        fetchUserData();
     }, [])
     return (<React.Fragment>
         <Helmet title="用户管理"/>
         <Grid container spacing={6}>
             <Grid item xs={12} lg={12}>
-                <UserTable data={userList}/>
+                <UserTable data={userList} refetch={fetchUserData}/>
             </Grid>
         </Grid>
     </React.Fragment>);

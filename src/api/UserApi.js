@@ -61,3 +61,11 @@ export const useInviteEmail = (param) => {
             client("/api/auth/invite_email", {params: params, method: "POST"})
     );
 };
+
+export const useDeleteUser = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/user/delete_user", {params: params, method: "POST"})
+    );
+};

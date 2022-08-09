@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
     Card as MuiCard,
     CardHeader,
@@ -15,9 +15,11 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
+import message from "@/utils/message";
 import {spacing} from "@mui/system";
 import {Add, Edit} from "@mui/icons-material";
 import {Link} from "react-router-dom";
+import {useDeleteUser} from "@/api/UserApi";
 
 const Card = styled(MuiCard)(spacing);
 
@@ -43,7 +45,24 @@ const getRole = (roleCode) => {
         return (<Chip label="用户" color="success"/>)
     }
 }
-const UserTable = ({data}) => {
+const UserTable = ({data, refetch}) => {
+    const {mutate: deleteUser} = useDeleteUser();
+    const onDelete = (uid) => {
+        deleteUser({
+            uid
+        }, {
+            onSuccess: res => {
+                const {data, code, message: msg} = res;
+                if (code === 0) {
+                    message.success(msg);
+                    refetch();
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error)
+        })
+    }
     return (
         <Card mb={6}>
             <CardHeader
@@ -80,21 +99,31 @@ const UserTable = ({data}) => {
                                     </TableCell>
                                     <TableCell>{row.username}</TableCell>
                                     <TableCell>{getRole(row.role)}</TableCell>
-                                    <TableCell>{row.score_rule_name?row.score_rule_name:"未设置"}</TableCell>
+                                    <TableCell>{row.score_rule_name ? row.score_rule_name : "未设置"}</TableCell>
                                     <TableCell>{row.douban_user ? row.douban_user : "未设置"}</TableCell>
                                     <TableCell>{row.qywx_user ? row.qywx_user : "未设置"}</TableCell>
                                     <TableCell>{row.pushdeer_key ? "已设置" : "未设置"}</TableCell>
                                     <TableCell>{row.bark_url ? "已设置" : "未设置"}</TableCell>
                                     <TableCell>
-                                        <IconButton
-                                            color="info"
-                                            aria-label="编辑"
-                                            size="small"
-                                            component={Link}
-                                            to={"/user/edit?op=edit&id=" + row.id}
-                                        >
-                                            <Edit/>
-                                        </IconButton>
+                                        <Stack direction="row">
+                                            <IconButton
+                                                // color="info"
+                                                aria-label="编辑"
+                                                size="small"
+                                                component={Link}
+                                                to={"/user/edit?op=edit&id=" + row.id}
+                                            >
+                                                <Edit/>
+                                            </IconButton>
+                                            {row.id !== 1 && <IconButton
+                                                // color="info"
+                                                aria-label="删除"
+                                                size="small"
+                                                onClick={(e) => onDelete(row.id)}
+                                            >
+                                                <DeleteIcon/>
+                                            </IconButton>}
+                                        </Stack>
                                     </TableCell>
                                 </TableRow>
                             ))}
