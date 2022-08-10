@@ -20,6 +20,8 @@ import {jumpUrl} from '@/utils/urlUtils';
 import LinesEllipsis from 'react-lines-ellipsis'
 import {getSub} from "@/utils/subscribe";
 import {getFilterConfigList} from "@/api/ConfigApi";
+import MultipleChoice from "./MultipleChoice";
+import ChoiceChecked from "@/pages/subscribe/components/TitleCard/ChoiceChecked";
 
 
 const ImgWrap = styled.img`
@@ -226,6 +228,7 @@ const TitleCard = ({
                                 : '/static/img/poster_not_found_logo_top.png'
                         }
                     />
+                    <ChoiceChecked id={id} />
                     <Transition
                         show={!image || showDetail}
                         enter="transition transform opacity-0"
@@ -236,8 +239,9 @@ const TitleCard = ({
                         leaveTo="opacity-0"
                     >
                         <ShadowContainer>
-                            <ShadowLinkContainer onClick={() => openUrl(extra?.url, extra?.app_url)}>
-                                <ShadowTextContainer isHaveBottom={isHaveBottom}>
+                            <ShadowLinkContainer>
+                                <MultipleChoice id={id} />
+                                <ShadowTextContainer isHaveBottom={isHaveBottom} onClick={() => openUrl(extra?.url, extra?.app_url)}>
                                     <Box>
                                         {
                                             year &&
@@ -382,7 +386,6 @@ const CardContainer = styled.div`
   cursor: pointer;
   padding-bottom: 150%;
   background-color: rgb(31 41 55);
-  border
 `;
 
 
@@ -427,6 +430,7 @@ const ShadowTextContainer = styled.div`
   display: flex;
   height: 100%;
   width: 100%;
+  padding-top: 20px;
   padding-left: 8px;
   padding-right: 8px;
   justify-content: flex-end;
