@@ -1,12 +1,12 @@
-import {useGetFilterOptions} from "@/api/CommonApi";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {useSubscribes} from "@/utils/subscribe";
 import {Divider} from "@mui/material";
 import TagFilter from "@/pages/subscribe/components/TagFilter";
 import ListView from "@/pages/subscribe/components/ListView";
+import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
 
 const SubscribeList = ({mediaType}) => {
-    const {data: filterOptions} = useGetFilterOptions();
+    const filterOptions = useContext(FilterOptionsContext)
     const FilterOptions = [
         {
             title: '订阅状态', key: 'status', data: [
@@ -22,14 +22,14 @@ const SubscribeList = ({mediaType}) => {
                 }
             ]
         }, {
-            title: '区域', key: 'area', data: filterOptions?.data?.area?.map((item) => {
+            title: '区域', key: 'area', data: filterOptions?.area?.map((item) => {
                 return {
                     name: item,
                     value: item
                 }
             })
         }, {
-            title: '风格', key: 'genres', data: filterOptions?.data?.cate?.map((item) => {
+            title: '风格', key: 'genres', data: filterOptions?.cate?.map((item) => {
                 return {
                     name: item,
                     value: item
