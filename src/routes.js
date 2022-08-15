@@ -28,6 +28,7 @@ const EditUser = async(() => import("./pages/user/EditUser"));
 const InviteEmail = async(() => import("./pages/user/InviteEmail"));
 const MovieRankingList = async(() => import("./pages/recommend/movieRankingList"));
 const TVRankingList = async(() => import("./pages/recommend/tvRankingList"));
+const NetflixList = async(() => import("./pages/recommend/netflixList"));
 const RecentPopularMovieList = async(() => import("./pages/recommend/recentPopularMovieList"));
 const EditSubCustomFilter = async(() => import("./pages/subscribe/Custom/EditCustomFilter"));
 const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
@@ -196,6 +197,8 @@ const routes = [{
         path: "tv-ranking", element: <TVRankingList/>
     }, {
         path: "recent-popular-movie", element: <RecentPopularMovieList/>
+    }, {
+        path: "netflix-list", element: <NetflixList/>
     }]
 }, {
     path: "subscribe", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
