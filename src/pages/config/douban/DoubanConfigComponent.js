@@ -28,7 +28,6 @@ function DoubanConfigComponent({}) {
     const [doubanTags, setDoubanTags] = useState({cate: [], area: []})
     const [mediaPaths, setMediaPaths] = useState([])
     const [users, setUsers] = useState([{id: '', pull_time_range: 365}])
-    const [tags, setTags] = useState([])
     const [ruleData, setRuleData] = useState([])
     const [downloadPath, setDownloadPath] = useState([{
         type: "movie",
@@ -63,7 +62,6 @@ function DoubanConfigComponent({}) {
                 await setSubmitting(true);
                 let params = {...values}
                 params["users"] = users
-                params["tags"] = tags
                 params["download_paths"] = downloadPath
                 await saveConfig(params);
             } catch (error) {
@@ -85,7 +83,6 @@ function DoubanConfigComponent({}) {
             formik.setFieldValue("cookie", config.cookie);
             setUsers(config.users);
             setDownloadPath(config.download_paths);
-            setTags(config.tags)
             setTestDownloadPath({disabled: false})
         }
         const scoreRuleNames = await getScoreRuleNames()
@@ -109,7 +106,6 @@ function DoubanConfigComponent({}) {
                              setHasError={setUserFormHasError}/>
         <DownloadPathConfigComponent data={downloadPath} setData={setDownloadPath} submitting={formik.isSubmitting}
                                      setHasError={setPathFormHasError} tag={doubanTags} downloadPaths={mediaPaths}/>
-        <TagConfigComponent ruleData={ruleData} tags={tags} setTags={setTags}/>
         <TestDownload open={testDownloadPath.open} onClose={() => {
             setTestDownloadPath({...testDownloadPath, open: false})
         }}/>
