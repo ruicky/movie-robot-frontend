@@ -71,16 +71,18 @@ const SearchDialog = ({open, onClose}) => {
     const {data: siteData} = useGetMySites();
     const {data: searchTemplateData, refetch: refetchSerarchTemplate} = useGetSearchTemplate()
     const [templates, setTemplates] = useState([])
+    const [permissionCategory, setPermissionCategory] = useState([])
     const [selectedTemplate, setSelectedTemplate] = useState();
     useEffect(() => {
         if (!searchTemplateData?.data) {
             return;
         }
-        setTemplates(searchTemplateData.data.map((item) => {
+        setTemplates(searchTemplateData.data?.template.map((item) => {
             item.type = item.name;
             return item
         }));
-        setSelectedTemplate(searchTemplateData.data[0].name)
+        setPermissionCategory(searchTemplateData.data?.permission_category)
+        setSelectedTemplate(searchTemplateData.data?.template[0].name)
     }, [searchTemplateData])
     const theme = useTheme();
     const isFullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -112,8 +114,11 @@ const SearchDialog = ({open, onClose}) => {
             ...a,
             [v.value]: Boolean(option?.searchContent?.includes(v.value))
         }), {}))
-        setCategory(TagList.reduce((a, v) => ({...a, [v.value]: Boolean(option?.category?.includes(v.value))}), {}))
-    }, [selectedTemplate, siteData])
+        setCategory(TagList.filter(x => permissionCategory?.includes(x.value)).reduce((a, v) => ({
+            ...a,
+            [v.value]: Boolean(option?.category?.includes(v.value))
+        }), {}))
+    }, [selectedTemplate, siteData,permissionCategory])
     const handleClose = () => {
         // 重置状态
         // setSite();
@@ -144,7 +149,7 @@ const SearchDialog = ({open, onClose}) => {
     }
     const onUpdateSearchTemplate = () => {
         updateSearchTemplate({
-            name:selectedTemplate,
+            name: selectedTemplate,
             option: {
                 searchContent: getSelectKeyName(searchContent),
                 category: getSelectKeyName(category),
@@ -243,7 +248,7 @@ const SearchDialog = ({open, onClose}) => {
                     <SearchTag
                         sx={{mt: 4, mb: 5, display: showSetting ? 'block' : 'none'}}
                         title='分类'
-                        list={TagList}
+                        list={TagList.filter(x => permissionCategory?.includes(x.value))}
                         onClick={(name, value) => setCategory({...category, [name]: value})}
                         checkData={category}
                     />

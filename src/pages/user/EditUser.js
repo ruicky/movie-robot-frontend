@@ -4,11 +4,13 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 
 import {
-    Alert as MuiAlert,
+    Alert as MuiAlert, Box,
     Button,
+    Checkbox, Chip,
     FormControl,
     FormHelperText,
     InputLabel,
+    ListItemText,
     MenuItem,
     Paper,
     Select,
@@ -36,6 +38,39 @@ const Wrapper = styled(Paper)`
   }
 `;
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+const TagList = [
+    {
+        name: '电影',
+        value: 'Movie'
+    },
+    {
+        name: '剧集',
+        value: 'TV'
+    }, {
+        name: '纪录片',
+        value: 'Documentary'
+    }, {
+        name: '动漫',
+        value: 'Anime'
+    }, {
+        name: '音乐',
+        value: 'Music'
+    }, {
+        name: 'XX',
+        value: 'AV'
+    }
+]
+
 function EditUser({}) {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -54,7 +89,8 @@ function EditUser({}) {
             doubanUser: '',
             pushdeerKey: '',
             barkUrl: '',
-            scoreRuleName: 'compress'
+            scoreRuleName: 'compress',
+            permissionCategory: []
 
         }, validationSchema: Yup.object().shape({
             username: Yup.string().max(64, "用户名太长了").required("用户名不能为空"),
@@ -71,9 +107,9 @@ function EditUser({}) {
                 setSubmitting(true)
                 let r;
                 if (op === "add") {
-                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl,values.scoreRuleName)
+                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName,values.permissionCategory)
                 } else {
-                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl,values.scoreRuleName)
+                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName,values.permissionCategory)
                 }
                 if (r.code === 0) {
                     message.success(r.message)
@@ -131,6 +167,9 @@ function EditUser({}) {
             }
             if (user.score_rule_name) {
                 formik.setFieldValue("scoreRuleName", user.score_rule_name)
+            }
+            if(user.permission_category){
+                formik.setFieldValue("permissionCategory", user.permission_category)
             }
         }
     }, [op])
@@ -266,6 +305,34 @@ function EditUser({}) {
                         onChange={formik.handleChange}
                         my={3}
                     />
+                    <FormControl m={4} fullWidth>
+                        <Select
+                            name="permissionCategory"
+                            value={formik.values.permissionCategory}
+                            multiple
+                            onChange={formik.handleChange}
+                            renderValue={(selected) => (
+                                <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                                    {selected.map((value, index) => (
+                                        <Chip key={index}
+                                              label={TagList.find(item => item.value === value)?.name}/>
+                                    ))}
+                                </Box>
+                            )}
+                            error={Boolean(formik.touched.permissionCategory && formik.errors.permissionCategory)}
+                            MenuProps={MenuProps}
+                        >
+                            {TagList.map((item, index) => (
+                                <MenuItem key={index} value={item.value}>
+                                    <Checkbox checked={formik.values.permissionCategory.indexOf(item.value) > -1}/>
+                                    <ListItemText primary={item.name}/>
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        <FormHelperText>
+                            此用户可以使用的搜索分类
+                        </FormHelperText>
+                    </FormControl>
                     <Centered>
                         <Button
                             mr={2}
