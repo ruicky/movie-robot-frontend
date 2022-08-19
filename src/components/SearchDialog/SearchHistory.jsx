@@ -33,7 +33,7 @@ const SearchHistory = ({title = '最近搜索', sx, onClose}) => {
     return (
         <Box sx={{...sx}}>
             <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
-                <Typography variant="caption" display="block" gutterBottom color="text.disabled">
+                <Typography variant="button" display="block" gutterBottom color="text.disabled">
                     {title}
                 </Typography>
                 <Box sx={{display: 'flex'}}>
@@ -48,6 +48,7 @@ const SearchHistory = ({title = '最近搜索', sx, onClose}) => {
             <Box sx={{mt: 2, display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
                 {
                     cache?.data?.slice(0, sliceNum)?.map((item, index) => (
+
                         <ListItem key={index} name={item.keyword} status={item.status} onClick={() => {
                             navigate(`/movie/search?cache=true&keyword=${item.keyword}&searchDouban=${item.searchDouban}&searchMediaServer=${item.searchMediaServer}&searchSite=${item.searchSite}`)
                             if (onClose) {
@@ -88,8 +89,8 @@ const ListItem = ({name, status, onClick}) => {
                 </Avatar>
             }
 
-            <Typography color='text.secondary'>
-                <LinesEllipsis text={name} maxLine={3}/>
+            <Typography>
+                <LinesEllipsis text={name} maxLine={1}/>
             </Typography>
             <ChevronRightIcon fontSize="small"/>
         </Box>

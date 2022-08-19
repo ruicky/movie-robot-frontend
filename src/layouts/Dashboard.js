@@ -15,6 +15,7 @@ import Settings from "../components/Settings";
 
 import useStore from "@/store/index";
 import {AppInfoContext} from "@/contexts/AppSetting";
+import MultipleChoiceModal from "@/components/MultipleChoiceModal";
 
 const drawerWidth = 258;
 
@@ -85,6 +86,7 @@ const Dashboard = ({children}) => {
                     />
                 </Box>
             </Drawer>
+            <MultipleChoiceModal />
             <AppContent>
                 <Navbar onDrawerToggle={handleDrawerToggle}/>
                 <MainContent p={isLgUp ? 12 : 5}>
