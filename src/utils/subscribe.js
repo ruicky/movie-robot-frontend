@@ -63,7 +63,7 @@ export const useDeleteSubscribe = () => {
     const queryClient = useQueryClient();
     return useMutation(
         (params) =>
-            client("/api/subscribe/delete_sub", {params: params}),
+            client("/api/subscribe/delete_sub", {params: params, method: "POST"}),
         {
             onSuccess: () => queryClient.invalidateQueries(['subscribes', null]),
         }
@@ -91,7 +91,13 @@ export const useRunSubDownload = () => {
             client("/api/subscribe/run_download", {params: params, method: "POST"})
     );
 };
-
+export const useGetSubByDouban = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/get_sub_by_douban", {params: params, method: "POST"})
+    );
+};
 export const useGetSubDatasetList = (param) => {
     const client = useHttp();
     return useQuery(['getSubDatasetList', param], () =>

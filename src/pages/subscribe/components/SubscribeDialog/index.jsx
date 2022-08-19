@@ -20,6 +20,7 @@ import {useAddSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
 import FilterForm from "@/components/Selectors/FilterForm";
 import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
+import SeasonSelect from "@/pages/subscribe/components/SeasonSelect";
 
 
 const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
@@ -81,32 +82,8 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {data?.season && data?.season.length > 0 && <FormControl m={4} fullWidth>
-                        <Select
-                            name="season"
-                            value={seasonDoubanId}
-                            multiple
-                            onChange={(e) => setSeasonDoubanId(e.target.value)}
-                            renderValue={(selected) => (
-                                <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
-                                    {selected.map((value, index) => (
-                                        <Chip key={index}
-                                              label={`第${data?.season?.find(x => x.doubanId === value)?.seasonNumber}季`}/>
-                                    ))}
-                                </Box>
-                            )}
-                        >
-                            {data?.season?.map((item, index) => (
-                                <MenuItem key={index} value={item.doubanId}>
-                                    <Checkbox checked={seasonDoubanId?.indexOf(item.doubanId) > -1}/>
-                                    <ListItemText primary={`第${item.seasonNumber}季(${item.releaseYear})`}/>
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        <FormHelperText>
-                            订阅季数
-                        </FormHelperText>
-                    </FormControl>}
+                    {data?.season && data?.season.length > 0 && <SeasonSelect text={"订阅季数"} items={data?.season} seasonDoubanId={seasonDoubanId}
+                                                                              setSeasonDoubanId={setSeasonDoubanId}/>}
                     <FormControl m={4} fullWidth>
                         <Select
                             name="filterName"
