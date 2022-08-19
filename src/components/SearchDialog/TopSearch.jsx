@@ -25,37 +25,38 @@ const TopSearch = ({onClose, site, category, searchContent}) => {
         onClose()
     }
     return (
-        <PaperWrap
-            sx={{p: '2px 4px', display: 'flex', alignItems: 'center'}}
-        >
-            <SearchInputWrap>
-                <IconButton type="button" sx={{p: '10px'}} aria-label="search">
-                    <SearchIcon/>
-                </IconButton>
-                <InputBase
-                    autoFocus
-                    sx={{ml: 1, flex: 1, width: '100%'}}
-                    placeholder='搜索'
-                    inputProps={{'aria-label': '搜索'}}
-                    defaultValue={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    onKeyUp={(e) => {
-                        if ((e.key === 'Enter' || e.key === "NumpadEnter") && keyword) {
-                            handleSearch()
-                        }
-                    }}
-                />
-                <Typography
-                  variant="button"
-                  display="inline-block"
-                  sx={{cursor: 'pointer',mx:3}}
-                  color='info.main'
-                  onClick={handleSearch}>
-                    搜索
-                </Typography>
-            </SearchInputWrap>
-
-        </PaperWrap>
+        <form action="javascript:return true">
+            <PaperWrap
+                sx={{p: '2px 4px', display: 'flex', alignItems: 'center'}}
+            >
+                <SearchInputWrap>
+                    <IconButton type="button" sx={{p: '10px'}} aria-label="search">
+                        <SearchIcon/>
+                    </IconButton>
+                    <InputBase
+                        autoFocus
+                        sx={{ml: 1, flex: 1, width: '100%'}}
+                        placeholder='搜索'
+                        inputProps={{'aria-label': '搜索'}}
+                        defaultValue={keyword}
+                        onChange={(e) => setKeyword(e.target.value)}
+                        onKeyUp={(e) => {
+                            if ((e.key === 'Enter' || e.key === "NumpadEnter") && keyword) {
+                                handleSearch()
+                            }
+                        }}
+                    />
+                    <Typography
+                      variant="button"
+                      display="inline-block"
+                      sx={{cursor: 'pointer',mx:3}}
+                      color='info.main'
+                      onClick={handleSearch}>
+                        搜索
+                    </Typography>
+                </SearchInputWrap>
+            </PaperWrap>
+        </form>
     );
 }
 
