@@ -1,6 +1,9 @@
 import React, {useContext, useRef, useState} from 'react';
 import {
+    Box,
     Button,
+    Checkbox,
+    Chip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -9,6 +12,7 @@ import {
     Divider,
     FormControl,
     FormHelperText,
+    ListItemText,
     MenuItem,
     Select,
 } from '@mui/material';
@@ -22,6 +26,7 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
     const filterOptionsContextData = useContext(FilterOptionsContext)
     const myRef = useRef(null);
     const [filterName, setFilterName] = useState();
+    const [seasonDoubanId, setSeasonDoubanId] = useState(data?.season && data.season.length > 0 ? [data.season[data.season.length - 1].doubanId] : []);
     const [showFilterForm, setShowFilterForm] = useState(false);
     const {name, year} = data;
     const {mutateAsync: addSubscribe, isLoading} = useAddSubscribe();
@@ -45,7 +50,7 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             await myRef.current.onSubmit()
             filterConfig = await myRef.current.getVal()
         }
-        addSubscribe({id, filter_name: filterName, filter_config: filterConfig}, {
+        addSubscribe({id, filter_name: filterName, filter_config: filterConfig, season_ids: seasonDoubanId}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -76,6 +81,32 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
+                    {data?.season && data?.season.length > 0 && <FormControl m={4} fullWidth>
+                        <Select
+                            name="season"
+                            value={seasonDoubanId}
+                            multiple
+                            onChange={(e) => setSeasonDoubanId(e.target.value)}
+                            renderValue={(selected) => (
+                                <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                                    {selected.map((value, index) => (
+                                        <Chip key={index}
+                                              label={`第${data?.season?.find(x => x.doubanId === value)?.seasonNumber}季`}/>
+                                    ))}
+                                </Box>
+                            )}
+                        >
+                            {data?.season?.map((item, index) => (
+                                <MenuItem key={index} value={item.doubanId}>
+                                    <Checkbox checked={seasonDoubanId?.indexOf(item.doubanId) > -1}/>
+                                    <ListItemText primary={`第${item.seasonNumber}季(${item.releaseYear})`}/>
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        <FormHelperText>
+                            订阅季数
+                        </FormHelperText>
+                    </FormControl>}
                     <FormControl m={4} fullWidth>
                         <Select
                             name="filterName"

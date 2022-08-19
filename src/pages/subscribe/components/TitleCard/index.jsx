@@ -19,7 +19,6 @@ import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 import {jumpUrl} from '@/utils/urlUtils';
 import LinesEllipsis from 'react-lines-ellipsis'
 import {getSub} from "@/utils/subscribe";
-import {getFilterConfigList} from "@/api/ConfigApi";
 
 
 const ImgWrap = styled.img`
@@ -105,7 +104,7 @@ const SetFilterButton = ({
 }
 const TitleCard = ({
                        sub_id, id, mediaType, year, subject, title, summary, image, status, url, canExpand = false,
-                       showBottomTitle = true, extra
+                       showBottomTitle = true, extra, season = null
                    }) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
@@ -146,7 +145,7 @@ const TitleCard = ({
                 open={showRequestModal}
                 onComplete={requestComplete}
                 handleClose={() => setShowRequestModal(false)}
-                data={({id: id, name: title, year})}
+                data={({id: id, name: title, year, season})}
             />
             <ReNewDialog
                 showDownloadMode={showDownloadMode}
@@ -283,34 +282,8 @@ const TitleCard = ({
                                     </Button>
                                 }
                                 {
-                                    currentStatus === 0 && <Stack direction="row" spacing={1} sx={{width: '100%'}}>
-                                        <SetFilterButton
-                                            status={currentStatus}
-                                            sub_id={sub_id}
-                                            media_type={mediaType}
-                                            setRenewFormData={setRenewFormData}
-                                            setShowDownloadMode={setShowDownloadMode}
-                                            setShowReNewModal={setShowReNewModal}
-                                        />
-                                        <DeleteSubButton setShowDeleteModal={setShowDeleteModal}/>
-                                    </Stack>
-                                }
-                                {
-                                    currentStatus === 1 &&
+                                    [0, 1, 2].includes(currentStatus) && (!season || season.length === 0) &&
                                     <Stack direction="row" spacing={1} sx={{width: '100%'}}>
-                                        <SetFilterButton
-                                            status={currentStatus}
-                                            sub_id={sub_id}
-                                            media_type={mediaType}
-                                            setRenewFormData={setRenewFormData}
-                                            setShowDownloadMode={setShowDownloadMode}
-                                            setShowReNewModal={setShowReNewModal}
-                                        />
-                                        <DeleteSubButton setShowDeleteModal={setShowDeleteModal}/>
-                                    </Stack>
-                                }
-                                {
-                                    currentStatus === 2 && <Stack direction="row" spacing={1} sx={{width: '100%'}}>
                                         <SetFilterButton
                                             status={currentStatus}
                                             sub_id={sub_id}

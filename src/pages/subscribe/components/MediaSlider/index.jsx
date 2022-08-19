@@ -45,6 +45,7 @@ const MediaSlider = ({
                         mediaType={title?.type}
                         status={title?.status}
                         extra={title}
+                        season={title?.season}
                         subject={<RatingLabel rating={title?.rating}/>}
                     />
                 );

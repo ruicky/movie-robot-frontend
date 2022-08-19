@@ -5,6 +5,7 @@ import styled from "styled-components/macro";
 import Empty from '../Empty';
 import CircularProgress from '@mui/material/CircularProgress';
 import {getFilterConfigList} from "@/api/ConfigApi";
+import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 
 const Subject = ({media}) => {
     if (media.type === "Movie") {
@@ -77,7 +78,8 @@ const ListView = ({items, isLoading}) => {
                             mediaType={title?.type}
                             status={title?.status}
                             extra={title}
-                            showBottomTitle={false}
+                            showBottomTitle={true}
+                            subject={<RatingLabel rating={title?.rating}/>}
                         />
                     </li>;
                 })
