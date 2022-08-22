@@ -3,11 +3,9 @@ import {useNavigate} from "react-router-dom";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import _ from 'lodash';
 
 import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
-import MessageTemplateComponent from "@/pages/config/notify/MessageTemplateComponent";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -20,37 +18,22 @@ function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
     const navigate = useNavigate();
     const [opType, setOpType] = useState('save')
     const [message, setMessage] = useState();
-    const [messageTemplate, setMessageTemplate] = useState({
-        movie_completed: {
-            title: '${name} (${year}) 评分:${rating}', message: '${nickname}添加的电影 ${name}(${year})下载完毕'
-        }, 'tv_completed': {
-            title: '${name} (${year}) 评分:${rating}', message: '${nickname}添加的剧集 ${name}(${year})第${episodes}集下载完毕'
-        }
-    })
     const formik = useFormik({
         initialValues: {
             push_url: '',
             sound: 'chime',
             group: '电影机器人',
             icon: 'https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/icon.jpg',
-            message_template: 'movie_completed',
-            title: '${name} (${year}) 评分:${rating}',
-            message: '${nickname}添加的电影 ${name}(${year})下载完毕',
             enable: true
         }, validationSchema: Yup.object().shape({
             push_url: Yup.string().max(1000).required(),
             sound: Yup.string().max(256).required(),
-            group: Yup.string().max(256).required(),
-            title: Yup.string().max(1000).required(),
-            message: Yup.string().max(1000).required(),
+            group: Yup.string().max(256).required()
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
                 setMessage(undefined)
                 setSubmitting(true)
                 let params = {...values}
-                params['message_template'] = messageTemplate;
-                delete params['title']
-                delete params['message']
                 if (opType === "save") {
                     await onSubmitEvent(params, setMessage)
                 } else if (opType === "test") {
@@ -74,16 +57,6 @@ function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
             if (data.icon) {
                 formik.setFieldValue('icon', data.icon)
             }
-            const {
-                title,
-                message
-            } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, {
-                title: '',
-                message: ''
-            })
-            formik.setFieldValue('title', title)
-            formik.setFieldValue('message', message)
-            setMessageTemplate(data.message_template)
             if (data.enable !== undefined || data.enable !== null) {
                 formik.setFieldValue('enable', data.enable)
             }
@@ -144,8 +117,6 @@ function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
             onChange={formik.handleChange}
             my={3}
         />
-        <MessageTemplateComponent formik={formik} messageTemplate={messageTemplate}
-                                  setMessageTemplate={setMessageTemplate}/>
         <FormControlLabel
             control={<Checkbox
                 checked={formik.values.enable}

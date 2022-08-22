@@ -20,7 +20,6 @@ const InitMovieMetadata = async(() => import("./pages/config/MovieMetadata"));
 const InitWeb = async(() => import("./pages/config/Web"));
 const InitAdminUser = async(() => import("./pages/config/AdminUser"));
 const DoubanConfig = async(() => import("./pages/config/DoubanConfig"));
-const NotifyConfig = async(() => import("./pages/config/NotifyConfig"));
 const Notify = async(() => import("./pages/notify/index"));
 const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const UserManager = async(() => import("./pages/user/Index"));
@@ -89,8 +88,6 @@ const routes = [{
         path: "media-path", element: <InitMediaPath/>
     }, {
         path: "movie-metadata", element: <InitMovieMetadata/>
-    }, {
-        path: "notify", element: <NotifyConfig/>
     }, {
         path: "free-download", element: <FreeDownloadConfig/>
     }, {

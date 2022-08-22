@@ -4,10 +4,10 @@ import {Helmet} from "react-helmet-async";
 import {Breadcrumbs, Divider as MuiDivider, Link, Typography} from "@mui/material";
 import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
-import BarkConfigComponent from "@/pages/config/notify/BarkConfigComponent";
-import PushDeerConfigComponent from "@/pages/config/notify/PushDeerConfigComponent";
 import message from "@/utils/message";
 import {useGetNotifySetting, useSaveNotify, useTestNotify} from "@/api/SettingApi";
+import BarkConfigForm from "@/pages/setting/Notify/components/BarkConfigForm";
+import PushDeerConfigForm from "@/pages/setting/Notify/components/PushDeerConfigForm";
 import QywxConfigForm from "@/pages/setting/Notify/components/QywxConfigForm";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -56,7 +56,7 @@ const EditNotify = () => {
             }
         });
     }
-    useEffect( () => {
+    useEffect(() => {
         const type = getTypeStr(searchParams.get("type"));
         setTitle(`设置${type}`)
         if (notifySetting && notifySetting.data) {
@@ -66,7 +66,7 @@ const EditNotify = () => {
             }
             setConfig(setting);
         }
-    }, [searchParams,notifySetting]);
+    }, [searchParams, notifySetting]);
     return (<React.Fragment>
         <Helmet title={title}/>
         <Typography variant="h3" gutterBottom display="inline">
@@ -83,10 +83,10 @@ const EditNotify = () => {
         {searchParams.get("type") === 'qywx' &&
         <QywxConfigForm data={config.qywx} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
         {searchParams.get("type") === 'bark' &&
-        <BarkConfigComponent data={config.bark} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
+        <BarkConfigForm data={config.bark} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
         {searchParams.get("type") === 'pushdeer' &&
-        <PushDeerConfigComponent data={config.pushdeer} onSubmitEvent={onSubmit}
-                                 onTestEvent={onTest}/>}
+        <PushDeerConfigForm data={config.pushdeer} onSubmitEvent={onSubmit}
+                            onTestEvent={onTest}/>}
     </React.Fragment>);
 }
 export default EditNotify;

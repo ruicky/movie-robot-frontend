@@ -2,11 +2,9 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import _ from 'lodash';
 
 import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, Link, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
-import MessageTemplateComponent from "@/pages/config/notify/MessageTemplateComponent";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -18,22 +16,12 @@ const Centered = styled.div`
 function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
     const [opType, setOpType] = useState('save')
     const [message, setMessage] = useState();
-    const [messageTemplate, setMessageTemplate] = useState({
-        movie_completed: {
-            title: '${name} (${year}) 评分:${rating}', message: '${nickname}添加的电影 ${name}(${year})下载完毕'
-        }, 'tv_completed': {
-            title: '${name} (${year}) 评分:${rating}', message: '${nickname}添加的剧集 ${name}(${year})第${episodes}集下载完毕'
-        }
-    })
     const formik = useFormik({
         initialValues: {
             touser: '@all',
             corpid: '',
             corpsecret: '',
             agentid: '100001',
-            message_template: 'movie_completed',
-            title: '${name} (${year}) 评分:${rating}',
-            message: '${nickname}添加的电影 ${name}(${year})下载完毕',
             token: '',
             aes_key: '',
             enable: true,
@@ -44,16 +32,11 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             corpid: Yup.string().max(256).required(),
             corpsecret: Yup.string().max(256).required(),
             agentid: Yup.string().max(256).required(),
-            title: Yup.string().max(1000).required(),
-            message: Yup.string().max(1000).required(),
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
                 setMessage(undefined)
                 setSubmitting(true)
                 let params = {...values}
-                params['message_template'] = messageTemplate;
-                delete params['title']
-                delete params['message']
                 if (opType === "save") {
                     await onSubmitEvent(params, setMessage)
                 } else if (opType === "test") {
@@ -83,18 +66,8 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             if (data.enable !== undefined || data.enable !== null) {
                 formik.setFieldValue('enable', data.enable)
             }
-            const {
-                title,
-                message
-            } = _.get(data, `message_template.${_.get(formik, 'values.message_template', '')}`, {
-                title: '',
-                message: ''
-            })
-            formik.setFieldValue('title', title)
-            formik.setFieldValue('message', message)
             formik.setFieldValue('use_server_proxy', data?.use_server_proxy !== undefined && data?.use_server_proxy !== null ? data.use_server_proxy : false)
             formik.setFieldValue('server_url', data?.server_url !== undefined ? data.server_url : 'https://qyapi.weixin.qq.com')
-            setMessageTemplate(data.message_template)
         }
     }, [data]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
@@ -166,8 +139,6 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             onChange={formik.handleChange}
             my={3}
         />
-        <MessageTemplateComponent formik={formik} messageTemplate={messageTemplate}
-                                  setMessageTemplate={setMessageTemplate}/>
         <TextField
             type="text"
             name="token"
