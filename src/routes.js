@@ -50,6 +50,7 @@ const EditFreeDownload = async(() => import("./pages/setting/Advanced/EditFreeDo
 const EditSubtitle = async(() => import("./pages/setting/Advanced/EditSubtitle"));
 const EditSearchSetting = async(() => import("./pages/setting/Advanced/EditSearchSetting"));
 const EditLink = async(() => import("./pages/setting/Advanced/EditLink"));
+const EditNotifyTemplate = async(() => import("./pages/setting/Advanced/EditNotifyTemplate"));
 const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 const HomePage = async(() => import("./pages/home"));
 
@@ -133,6 +134,9 @@ const routes = [{
         }, {
             path: 'edit-link',
             element: <EditLink/>
+        }, {
+            path: 'edit-notify-template',
+            element: <EditNotifyTemplate/>
         }
     ]
 }, {

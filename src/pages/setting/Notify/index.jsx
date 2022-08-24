@@ -13,8 +13,10 @@ import {useNavigate} from "react-router-dom";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import {useGetNotifySetting, useSetNotifyEnable} from "@/api/SettingApi";
 import {Add as AddIcon} from "@mui/icons-material";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import SelectDialog from "@/pages/setting/Notify/SelectDialog";
 import message from "@/utils/message";
+import CheckIcon from "@mui/icons-material/Check";
 
 function NotifySettingList() {
     const navigate = useNavigate();
@@ -65,6 +67,15 @@ function NotifySettingList() {
                 sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
                 subheader={<ListSubheader>推送通道</ListSubheader>}
             >
+                <ListItem>
+                    <ListItemButton onClick={() => navigate("/setting/edit-notify-template")}>
+                        <ListItemIcon>
+                            <NotificationsIcon fontSize={"large"}/>
+                        </ListItemIcon>
+                        <ListItemText primary="通知模版设置"/>
+                        <ArrowForwardIosOutlinedIcon color="disabled"/>
+                    </ListItemButton>
+                </ListItem>
                 {notifySetting && notifySetting?.data && notifySetting.data.map((item, index) => (
                     <ListItem key={index} divider={index !== notifySetting.data.length - 1}>
                         <ListItemButton onClick={() => onButtonClick(item.type)}>

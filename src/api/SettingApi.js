@@ -210,3 +210,16 @@ export const useUpdateSearchTemplate = (param) => {
             client("/api/setting/update_search_template", {params: params, method: "POST"})
     );
 };
+export const useGetNotifyTemplate = (param) => {
+    const client = useHttp();
+    return useQuery(['getNotifyTemplate', param], () =>
+        client("/api/setting/get_notify_template", {params: param, method: "GET"})
+    );
+};
+export const useSaveNotifyTemplate = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_notify_template", {params: params, method: "POST"})
+    );
+};
