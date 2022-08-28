@@ -4,9 +4,11 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 
 import {
-    Alert as MuiAlert, Box,
+    Alert as MuiAlert,
+    Box,
     Button,
-    Checkbox, Chip,
+    Checkbox,
+    Chip,
     FormControl,
     FormHelperText,
     InputLabel,
@@ -89,6 +91,7 @@ function EditUser({}) {
             doubanUser: '',
             pushdeerKey: '',
             barkUrl: '',
+            telegramUserId: '',
             scoreRuleName: 'compress',
             permissionCategory: []
 
@@ -107,9 +110,9 @@ function EditUser({}) {
                 setSubmitting(true)
                 let r;
                 if (op === "add") {
-                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName,values.permissionCategory)
+                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory,values.telegramUserId)
                 } else {
-                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName,values.permissionCategory)
+                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory,values.telegramUserId)
                 }
                 if (r.code === 0) {
                     message.success(r.message)
@@ -168,9 +171,10 @@ function EditUser({}) {
             if (user.score_rule_name) {
                 formik.setFieldValue("scoreRuleName", user.score_rule_name)
             }
-            if(user.permission_category){
+            if (user.permission_category) {
                 formik.setFieldValue("permissionCategory", user.permission_category)
             }
+            formik.setFieldValue('telegramUserId', user.telegram_user_id)
         }
     }, [op])
     return (<React.Fragment>
@@ -300,6 +304,21 @@ function EditUser({}) {
                         helperText={formik.touched.barkUrl && formik.errors.barkUrl || (
                             <span>
                                 推送的Bark URL，每个设备都是不同的，设置后可以定向推送（可留空）
+                            </span>
+                        )} onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        my={3}
+                    />
+                    <TextField
+                        type="text"
+                        name="telegramUserId"
+                        label="Telegram UserID"
+                        value={formik.values.telegramUserId}
+                        error={Boolean(formik.touched.telegramUserId && formik.errors.telegramUserId)}
+                        fullWidth
+                        helperText={formik.touched.telegramUserId && formik.errors.telegramUserId || (
+                            <span>
+                                getuserID /start 获取到的一个数字编号
                             </span>
                         )} onBlur={formik.handleBlur}
                         onChange={formik.handleChange}

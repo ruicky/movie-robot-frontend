@@ -9,6 +9,7 @@ import {useGetNotifySetting, useSaveNotify, useTestNotify} from "@/api/SettingAp
 import BarkConfigForm from "@/pages/setting/Notify/components/BarkConfigForm";
 import PushDeerConfigForm from "@/pages/setting/Notify/components/PushDeerConfigForm";
 import QywxConfigForm from "@/pages/setting/Notify/components/QywxConfigForm";
+import TelegramConfigForm from "@/pages/setting/Notify/components/TelegramForm";
 
 const Divider = styled(MuiDivider)(spacing);
 const getTypeStr = (type) => {
@@ -86,6 +87,9 @@ const EditNotify = () => {
         <BarkConfigForm data={config.bark} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
         {searchParams.get("type") === 'pushdeer' &&
         <PushDeerConfigForm data={config.pushdeer} onSubmitEvent={onSubmit}
+                            onTestEvent={onTest}/>}
+        {searchParams.get("type") === 'telegram' &&
+        <TelegramConfigForm data={config.telegram} onSubmitEvent={onSubmit}
                             onTestEvent={onTest}/>}
     </React.Fragment>);
 }

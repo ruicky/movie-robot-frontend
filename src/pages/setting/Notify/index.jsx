@@ -9,6 +9,7 @@ import {ListItemButton, SvgIcon, Switch} from "@mui/material";
 import {ReactComponent as BarkIcon} from "../Icon/bark.svg";
 import {ReactComponent as PushdeerIcon} from "../Icon/pushdeer.svg";
 import {ReactComponent as WeixinIcon} from "../Icon/weixin.svg";
+import {ReactComponent as TelegramIcon} from "../Icon/telegram.svg";
 import {useNavigate} from "react-router-dom";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import {useGetNotifySetting, useSetNotifyEnable} from "@/api/SettingApi";
@@ -86,6 +87,8 @@ function NotifySettingList() {
                                     <SvgIcon fontSize="large" component={WeixinIcon} viewBox="0 0 400 400"/> : null}
                                 {item.type === "pushdeer" ?
                                     <SvgIcon fontSize="large" component={PushdeerIcon} viewBox="0 0 400 400"/> : null}
+                                {item.type === "telegram" ?
+                                    <SvgIcon fontSize="large" component={TelegramIcon} viewBox="0 0 400 400"/> : null}
                             </ListItemIcon>
                             <ListItemText primary={getTypeStr(item.type)}/>
                             <Switch
