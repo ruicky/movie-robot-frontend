@@ -223,3 +223,16 @@ export const useSaveNotifyTemplate = (param) => {
             client("/api/setting/save_notify_template", {params: params, method: "POST"})
     );
 };
+export const useGetScraper = (param) => {
+    const client = useHttp();
+    return useQuery(['getScraper', param], () =>
+        client("/api/setting/get_scraper", {params: param, method: "GET"})
+    );
+};
+export const useSaveScraper = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_scraper", {params: params, method: "POST"})
+    );
+};
