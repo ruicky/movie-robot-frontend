@@ -1,13 +1,28 @@
-import React, {useState} from "react";
+import React, {useReducer} from "react";
+import {setIn} from "@/components/SmartForm/utils";
+
+function reducer(state, data) {
+    switch (data.type) {
+        case 'SET_VALUES':
+            return {...state, values: data.payload};
+        case 'SET_FIELD_VALUE':
+            return {
+                ...state,
+                values: setIn(state.values, data.payload.field, data.payload.value),
+            };
+        default:
+            return state;
+    }
+}
 
 export function useSmartForm({
-                                 defaultValues
+                                 initValues
                              }) {
-    const [values, setValues] = useState(defaultValues);
-    const setFieldValue = (name, value) => {
-        const tmp = {...values};
-        tmp[name] = value;
-        setValues(tmp);
+    const [state, dispatch] = useReducer(reducer, {
+        values: initValues
+    });
+    const setFieldValue = (field, value) => {
+        dispatch({type: 'SET_FIELD_VALUE', payload: {field, value}})
     }
     const handleChange = (event) => {
         const target = event.target
@@ -28,7 +43,7 @@ export function useSmartForm({
         setFieldValue(name, val);
     }
     return {
-        values,
+        ...state,
         setFieldValue,
         handleChange
     }

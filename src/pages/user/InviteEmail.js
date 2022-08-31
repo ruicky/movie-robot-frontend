@@ -28,8 +28,7 @@ const Centered = styled.div`
 
 
 function EditForm({}) {
-    const navigate = useNavigate();
-    const {mutateAsync: inviteEmail, isSubmitting} = useInviteEmail();
+    const {mutateAsync: inviteEmail, isLoading:isSubmitting} = useInviteEmail();
     const formik = useFormik({
         initialValues: {
             email: ""
@@ -76,7 +75,6 @@ function EditForm({}) {
         />
         <Button
             type="submit"
-            fullWidth
             variant="contained"
             color="primary"
             disabled={isSubmitting}

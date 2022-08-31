@@ -15,12 +15,14 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import PriorityList from "@/components/PriorityList";
 import {useSmartForm} from "@/components/SmartForm";
 import {useGetScraper} from "@/api/SettingApi";
+import {useSaveScraper} from "../../../api/SettingApi";
+import message from "../../../utils/message";
 
 const Divider = styled(MuiDivider)(spacing);
 const ImageSource = [
@@ -53,7 +55,14 @@ const createPriorityListItems = (dataset, useValues) => {
     if (!useValues) {
         return;
     }
-    return dataset.sort((a, b) => useValues.indexOf(a.value) - useValues.indexOf(b.value)).map(item => {
+    return dataset.sort((a, b) => {
+        const aIdx = useValues.indexOf(a.value);
+        const bIdx = useValues.indexOf(b.value);
+        if(aIdx===-1||bIdx===-1){
+            return 0;
+        }
+        return aIdx - bIdx;
+    }).map(item => {
         return {
             label: item.label,
             value: item.value,
@@ -63,8 +72,9 @@ const createPriorityListItems = (dataset, useValues) => {
 }
 
 function EditForm({}) {
+    const navigate = useNavigate();
     const smartForm = useSmartForm({
-        defaultValues: {
+        initValues: {
             generate_nfo: true,
             enable_download_image: true,
             use_cn_person_name: true,
@@ -77,8 +87,21 @@ function EditForm({}) {
         }
     });
     const {data: config} = useGetScraper();
+    const {mutate: saveConfig} = useSaveScraper();
     const handlePriorityListChange = (name, items) => {
         smartForm.setFieldValue(name, items.filter(item => item.selected === true).map(item => item.value));
+    }
+    const onSave = () => {
+        saveConfig(smartForm.values, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success('刮削设置保存成功，已经生效了。')
+                } else {
+                    message.error(msg)
+                }
+            }
+        });
     }
     useEffect(() => {
         if (!config || !config?.data) {
@@ -124,6 +147,7 @@ function EditForm({}) {
                     label="使用中文演员信息（关闭后生成的剧组人员信息为英文信息）"
                 />
                 <TextField
+                    disabled={!smartForm.values.use_cn_person_name}
                     type="text"
                     variant="standard"
                     name="person_nfo_path"
@@ -133,7 +157,7 @@ function EditForm({}) {
                     fullWidth
                     helperText={<span>
                     使用中文演员必配置，在Emby的元数据目录，不知道在哪可以查看教程：<Link target="_blank"
-                                                            href="">
+                                                            href="https://yee329.notion.site/3ee81beea46b45aa9bd98f619c04dca3">
                     学习如何查找
                 </Link>
                 </span>}
@@ -159,7 +183,7 @@ function EditForm({}) {
         <FormControl sx={{mt: 2, m: 2}} fullWidth>
             <FormLabel component="legend">图片语言优先级</FormLabel>
             <PriorityList
-                items={smartForm.values?.langs_priority?.map((value) => {
+                items={smartForm.values.langs_priority.map((value) => {
                     return {
                         label: Langs.find(item => item.value === value).label,
                         value
@@ -195,7 +219,7 @@ function EditForm({}) {
                 type="button"
                 variant="contained"
                 color="primary"
-                onClick={(e) => console.log(smartForm.values)}
+                onClick={onSave}
                 fullWidth
             >
                 保存

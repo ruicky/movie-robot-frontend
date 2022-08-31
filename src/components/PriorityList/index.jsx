@@ -1,17 +1,19 @@
 import {Box, Checkbox, FormControlLabel, IconButton, List, ListItem, ListItemText} from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 const PriorityList = ({items, onChange, dense = true}) => {
-    const [data, setData] = useState(items?.map((item) => {
-        return {
-            label: item.label,
-            value: item.value,
-            checked: item.selected,
-            defaultChecked: item.selected
-        }
-    }));
+    const [data, setData] = useState();
+    useEffect(() => {
+        setData(items?.map((item) => {
+            return {
+                label: item.label,
+                value: item.value,
+                checked: item.selected
+            }
+        }));
+    }, [items])
     const handleChange = (data) => {
         if (!data) {
             return;
@@ -59,12 +61,13 @@ const PriorityList = ({items, onChange, dense = true}) => {
                 <ListItem key={item?.label} divider={index !== data.length - 1}
                           secondaryAction={
                               <Box>
-                                  <IconButton disabled={index === 0}
+                                  <IconButton disabled={index === 0 || (item.checked !== null && item.checked !== undefined && !item.checked)}
                                               onClick={() => onUp(item, index)}>
                                       <ExpandLess/>
                                   </IconButton>
-                                  <IconButton disabled={index === data.length - 1}
-                                              onClick={() => onDown(item, index)}>
+                                  <IconButton
+                                      disabled={index === data.length - 1 || (item.checked !== null && item.checked !== undefined && !item.checked)}
+                                      onClick={() => onDown(item, index)}>
                                       <ExpandMore/>
                                   </IconButton>
                               </Box>
@@ -72,7 +75,7 @@ const PriorityList = ({items, onChange, dense = true}) => {
                 >
                     <ListItemText
                         primary={item.checked !== undefined && item.checked !== null ? (<FormControlLabel
-                            control={<Checkbox defaultChecked={item?.defaultChecked} value={item?.checked}
+                            control={<Checkbox checked={item?.checked}
                                                onChange={(e) => onCheckboxChange(e.target.checked, index)}/>}
                             label={item?.label}/>) : item.label}
                     />

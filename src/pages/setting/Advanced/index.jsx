@@ -8,7 +8,7 @@ import {ListItemButton, Switch} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import ClosedCaptionIcon from "@mui/icons-material/ClosedCaption";
 import {useGetSettingStatus, useSetFreeDownloadEnable, useSetSubtitleEnable} from "@/api/SettingApi";
 import message from "@/utils/message";
@@ -88,20 +88,29 @@ function AdvancedSettingList() {
                 </ListItemButton>
             </ListItem>
             <ListItem>
-                <ListItemButton onClick={() => navigate("/setting/edit-search-setting")}>
-                    <ListItemIcon>
-                        <SearchIcon fontSize={"large"}/>
-                    </ListItemIcon>
-                    <ListItemText primary="网页搜索设置"/>
-                    <ArrowForwardIosOutlinedIcon color="disabled"/>
-                </ListItemButton>
-            </ListItem>
-            <ListItem>
                 <ListItemButton onClick={() => navigate("/setting/edit-link")}>
                     <ListItemIcon>
                         <CheckIcon fontSize={"large"}/>
                     </ListItemIcon>
                     <ListItemText primary="识别与整理设置"/>
+                    <ArrowForwardIosOutlinedIcon color="disabled"/>
+                </ListItemButton>
+            </ListItem>
+            <ListItem>
+                <ListItemButton onClick={() => navigate("/setting/edit-scraper")}>
+                    <ListItemIcon>
+                        <ImageSearchIcon fontSize={"large"}/>
+                    </ListItemIcon>
+                    <ListItemText primary="刮削设置"/>
+                    <ArrowForwardIosOutlinedIcon color="disabled"/>
+                </ListItemButton>
+            </ListItem>
+            <ListItem>
+                <ListItemButton onClick={() => navigate("/setting/edit-search-setting")}>
+                    <ListItemIcon>
+                        <SearchIcon fontSize={"large"}/>
+                    </ListItemIcon>
+                    <ListItemText primary="网页搜索设置"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItemButton>
             </ListItem>
