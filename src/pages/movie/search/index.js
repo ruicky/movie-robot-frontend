@@ -294,7 +294,7 @@ function SearchRecords(props) {
                             return true;
                         }
                         const {
-                            site_id,
+                            site_name,
                             resolution,
                             media_source,
                             media_encoding,
@@ -303,7 +303,7 @@ function SearchRecords(props) {
                         let bool = true;
                         Object.keys(filter).forEach((key) => {
                             const item = filter[key];
-                            bool = bool && (!item || item === "全部" || item === site_id || item === resolution || item === media_source || item === media_encoding || item === movie_release_year);
+                            bool = bool && (!item || item === "全部" || item === site_name || item === resolution || item === media_source || item === media_encoding || item === movie_release_year);
                         });
                         return bool;
                     }).map((row, index) => (

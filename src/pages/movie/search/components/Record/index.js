@@ -54,7 +54,7 @@ const TorrentTitle = ({
                           seasonNumberEnd
                       }) => {
     const getTitle = () => {
-        let title = `[${siteName}]`;
+        let title = '';
         if (cnName) {
             title += cnName;
         } else {
@@ -130,7 +130,7 @@ const COM = ({
                 image={poster_url}
             />}
             <CardContent>
-                <TorrentTitle siteName={site_name} cnName={cnName} enName={enName} releaseYear={releaseYear} mediaType={mediaType}
+                <TorrentTitle cnName={cnName} enName={enName} releaseYear={releaseYear} mediaType={mediaType}
                               linkUrl={details_url} seasonNumberStart={tvInfo?.season_start}
                               seasonNumberEnd={tvInfo?.season_end}/>
                 <div>
@@ -143,7 +143,7 @@ const COM = ({
                     </Stack>
                 </div>
                 <Typography mb={4} color="body2" component="p">
-                    {(subject || name) ? `${subject ? subject : name}` : <Skeleton/>}
+                    {(subject || name) ? `[${site_name}] ${subject ? subject : name}` : <Skeleton/>}
                 </Typography>
                 <Typography mb={4} color="textSecondary" component="p">
                     {name ? `${name}` : <Skeleton/>}
