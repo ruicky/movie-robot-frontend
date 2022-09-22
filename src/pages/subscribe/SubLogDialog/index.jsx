@@ -66,6 +66,7 @@ const SubLogDialog = ({open, handleClose, subId, title}) => {
                     {title}
                 </Typography>
                 <Select
+                    size={"small"}
                     labelId="demo-simple-select-autowidth-label"
                     id="demo-simple-select-autowidth"
                     label="Age"
@@ -79,9 +80,19 @@ const SubLogDialog = ({open, handleClose, subId, title}) => {
             </Toolbar>
         </AppBar>
         <TextareaAutosize
-            aria-label="empty textarea"
-            placeholder={logText}
-            style={{width: "100%", height: "100%", resize: 'vertical', overflow: 'auto' }}
+            aria-label="运行时日志"
+            value={logText}
+            style={{
+                width: "100%",
+                height: "100%",
+                resize: 'vertical',
+                overflow: 'auto',
+                backgroundColor: "black",
+                fontSize: "14px",
+                color: "#BDBDBE",
+                border:"solid 0px",
+                outline:"none"
+            }}
         />
     </Dialog>)
 }

@@ -26,9 +26,9 @@ export default function DownloadRecords() {
     const [currentStart, setCurrentStart] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-    const fetchData = async () => {
+    const fetchData = async (start = null) => {
         setIsLoading(true);
-        const result = await getRecordList(currentStart);
+        const result = await getRecordList(start !== null && start !== undefined ? start : currentStart);
         setIsLoading(false);
         setDownloadQueueSize(result?.data?.download_queue_size);
         if (!result.data?.result || result.data.result.length === 0) {
@@ -36,7 +36,9 @@ export default function DownloadRecords() {
             return;
         }
         const newList = [...list];
-        setCurrentStart(currentStart + result.data.result.length);
+        if (start === null || start === undefined) {
+            setCurrentStart(currentStart + result.data.result.length);
+        }
         // 数据处理
         for (let r of result.data.result) {
             let desc = r.download_status === 3 ? r.torrent_subject : r.desc;
@@ -93,7 +95,7 @@ export default function DownloadRecords() {
         await fetchDownloadingList();
     }, [])
     const onUpdateClick = async () => {
-        await fetchData()
+        await fetchData(0)
         await fetchDownloadingList();
     }
     return (
