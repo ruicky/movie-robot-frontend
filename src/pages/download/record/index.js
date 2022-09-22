@@ -13,9 +13,11 @@ import {SmallButton} from "@/components/core/SmallButton";
 import ChartDialogs from "@/pages/download/components/ChartDialogs";
 import {STATUS} from "@/constants";
 import {Alert} from "@mui/lab";
+import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 
 const Divider = styled(MuiDivider)(spacing);
 export default function DownloadRecords() {
+    const [showSubLog, setShowSubLog] = useState(null);
     const [list, setList] = useState([]);
     const [analyzeData, setAnalyzeData] = useState({});
     const [deleteData, setDeleteData] = useState({});
@@ -62,7 +64,8 @@ export default function DownloadRecords() {
                 season_index: r.season_index,
                 season_year: r.season_year,
                 episode: r?.episodes ? r.episodes.split(",") : null,
-                source_type: r?.source_type
+                source_type: r?.source_type,
+                sub_id: r.sub_id
             });
         }
         setList(newList);
@@ -115,18 +118,23 @@ export default function DownloadRecords() {
             {downloadQueueSize && downloadQueueSize > 0 ? <Stack sx={{width: '100%', mb: 4}} spacing={2}>
                 <Alert variant="filled" severity="warning">有{downloadQueueSize}个下载请求排队处理中</Alert>
             </Stack> : null}
+            <SubLogDialog subId={showSubLog?.subId}
+                          title={showSubLog?.title ? `${showSubLog?.title}的订阅运行日志` : "未知信息"}
+                          open={showSubLog}
+                          handleClose={() => setShowSubLog(null)}/>
             <Grid container={true} spacing={6}>
                 {
                     list.map((movie) => {
                         const downloading = downloadingList?.find(down => down.hash === movie.hash)
                         return <MovieCard key={movie.id} data={movie} onDelete={setDeleteData} downloading={downloading}
-                                          onAnalyze={setAnalyzeData}/>
+                                          onAnalyze={setAnalyzeData} onShowSubLog={(val) => setShowSubLog(val)}/>
                     })
                 }
             </Grid>
             {hasMore ?
-                <Button sx={{mt:4}} variant="text" disabled={isLoading} onClick={() => fetchData()} fullWidth>加载更多</Button> :
-                <Button sx={{mt:4}} fullWidth disabled>没有更多了</Button>}
+                <Button sx={{mt: 4}} variant="text" disabled={isLoading} onClick={() => fetchData()}
+                        fullWidth>加载更多</Button> :
+                <Button sx={{mt: 4}} fullWidth disabled>没有更多了</Button>}
             {/*重新识别*/}
             <ReAnalyze {...analyzeData} onAnalyze={setAnalyzeData} onAnalyzeSuccess={async () => {
                 await fetchData();

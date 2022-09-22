@@ -50,11 +50,9 @@ function EditForm({}) {
     const {mutateAsync: save, isSaving} = useSaveServerSetting();
     const formik = useFormik({
         initialValues: {
-            site_max_workers: 0,
             web_search_timeout: 10,
             web_search_result_limit: 0
         }, validationSchema: Yup.object().shape({
-            site_max_workers: Yup.number().required("最大搜索线程不能为空"),
             web_search_timeout: Yup.number().required("搜索超时时间不能为空")
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
             try {
@@ -81,7 +79,6 @@ function EditForm({}) {
 
     useEffect(async () => {
         if (setting?.data) {
-            formik.setFieldValue("site_max_workers", setting.data?.site_max_workers ? setting.data?.site_max_workers : 0);
             formik.setFieldValue("web_search_timeout", setting.data?.web_search_timeout ? setting.data?.web_search_timeout : 10);
             formik.setFieldValue("web_search_result_limit", setting.data?.web_search_result_limit ? setting.data?.web_search_result_limit : 0);
         }
@@ -90,18 +87,6 @@ function EditForm({}) {
         {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
             {formik.errors.submit}
         </Alert>)}
-        <TextField
-            type="number"
-            name="site_max_workers"
-            label="最大搜索线程数"
-            value={formik.values.site_max_workers}
-            error={Boolean(formik.touched.site_max_workers && formik.errors.site_max_workers)}
-            fullWidth
-            helperText="多站点搜索是IO密集型操作，所以这个值建议是你的cpu核心数*1.5"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            my={3}
-        />
         <TextField
             type="number"
             name="web_search_timeout"

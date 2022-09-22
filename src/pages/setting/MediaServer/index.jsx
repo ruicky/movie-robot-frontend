@@ -46,7 +46,8 @@ function MediaServerSettingList() {
             />
             <List
                 sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
-                subheader={<ListSubheader>媒体服务器</ListSubheader>}
+                subheader={
+                    <ListSubheader>{mediaServer && mediaServer.length > 0 ? "媒体服务器" : "媒体服务器(必须配置)"}</ListSubheader>}
             >
                 {mediaServer && mediaServer.map((item, index) => (
                     <ListItem key={index} divider={index !== mediaServer.length - 1}>

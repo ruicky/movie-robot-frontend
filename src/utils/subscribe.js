@@ -120,3 +120,17 @@ export const useDeleteSubDataset = () => {
             client("/api/subscribe/delete_sub_dataset", {params: params, method: "POST"})
     );
 };
+export const useGetSubLogs = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/get_sub_logs", {params: params, method: "GET"})
+    );
+};
+export const useGetSubLogText = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/get_sub_log_text", {params: params, method: "GET"})
+    );
+};

@@ -57,7 +57,8 @@ function DownloadSettingList() {
             />
             <List
                 sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
-                subheader={<ListSubheader>下载工具</ListSubheader>}
+                subheader={
+                    <ListSubheader>{downloadClient && downloadClient.length > 0 ? "下载工具" : "下载工具(必须配置)"}</ListSubheader>}
             >
                 {downloadClient && downloadClient.map((item, index) => (
                     <ListItem key={index} divider>
@@ -76,7 +77,7 @@ function DownloadSettingList() {
                             <ListItemText
                                 primary={<TextLabel text={item.name} chipLabel={item.is_default ? "默认" : null}/>}
                                 secondary={item.site_id ? item.site_id.map((value) => {
-                                    return siteMeta && (siteMeta.find(item => item.id === value)|{name:''}).name
+                                    return siteMeta && (siteMeta.find(item => item.id === value) | {name: ''}).name
                                 }).join(" / ") : "所有站点"}
                             />
                             <HealthStatus status={item.status}/>
