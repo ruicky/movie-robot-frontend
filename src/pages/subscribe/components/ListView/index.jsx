@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import TitleCard from '../TitleCard';
 import {Box} from "@mui/material";
 import styled from "styled-components/macro";
 import Empty from '../Empty';
 import CircularProgress from '@mui/material/CircularProgress';
-import {getFilterConfigList} from "@/api/ConfigApi";
 import RatingLabel from "@/pages/subscribe/components/RatingLabel";
 
 const Subject = ({media}) => {
@@ -46,7 +45,7 @@ function getYear(media) {
     }
 }
 
-const ListView = ({items, isLoading}) => {
+const ListView = ({items, isLoading, showSubLogs}) => {
     const isEmpty = isLoading === false && items?.length === 0;
     if (isLoading) {
         return (
@@ -80,6 +79,7 @@ const ListView = ({items, isLoading}) => {
                             extra={title}
                             showBottomTitle={true}
                             subject={<RatingLabel rating={title?.rating}/>}
+                            showSubLogs={showSubLogs}
                         />
                     </li>;
                 })

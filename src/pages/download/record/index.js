@@ -67,7 +67,8 @@ export default function DownloadRecords() {
                 season_year: r.season_year,
                 episode: r?.episodes ? r.episodes.split(",") : null,
                 source_type: r?.source_type,
-                sub_id: r.sub_id
+                sub_id: r.sub_id,
+                gmt_create:r.gmt_create
             });
         }
         setList(newList);
@@ -121,8 +122,9 @@ export default function DownloadRecords() {
                 <Alert variant="filled" severity="warning">有{downloadQueueSize}个下载请求排队处理中</Alert>
             </Stack> : null}
             <SubLogDialog subId={showSubLog?.subId}
-                          title={showSubLog?.title ? `${showSubLog?.title}的订阅运行日志` : "未知信息"}
+                          title={showSubLog?.title ? `${showSubLog?.title}的订阅全息日志` : "未知信息"}
                           open={showSubLog}
+                          selectTime={showSubLog?.time}
                           handleClose={() => setShowSubLog(null)}/>
             <Grid container={true} spacing={6}>
                 {

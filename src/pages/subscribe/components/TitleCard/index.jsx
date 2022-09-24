@@ -85,7 +85,7 @@ const SetFilterButton = ({
     const reVersion = status === 1;
     return (
         <Button
-            color={reVersion ? "info" : "success"}
+            color={"success"}
             sx={{width: "100%"}}
             variant="contained"
             startIcon={reVersion ? <Autorenew/> : <FilterList/>}
@@ -117,7 +117,8 @@ const TitleCard = ({
                        showBottomTitle = true,
                        haveMultiSelectionMode = false, // 是否有多选模式
                        extra,
-                       season
+                       season,
+                       showSubLogs
                    }) => {
     const isTouch = useIsTouch();
     const [showDetail, setShowDetail] = useState(false);
@@ -251,7 +252,7 @@ const TitleCard = ({
                                     {/*多选组件*/}
                                     {haveMultiSelectionMode && <MultipleChoice id={id}/>}
                                     <ShadowTextContainer
-                                        isHaveBottom={isHaveBottom}
+                                        bottom={(currentStatus || currentStatus === 0) && showSubLogs ? "80px" : "44px"}
                                         onClick={() => openUrl(extra?.url, extra?.app_url)}
                                     >
                                         <Box>
@@ -273,20 +274,6 @@ const TitleCard = ({
                                         >
                                             {title}
                                         </Typography>
-                                        <Box
-                                            sx={{
-                                                whiteSpace: "normal",
-                                                lineHeight: "16px",
-                                                fontSize: "12px",
-                                                display: "-webkit-box",
-                                                overflow: "hidden",
-                                                WebkitBoxOrient: "vertical",
-                                                wordBreak: "break-word",
-                                                WebkitLineClamp: isHaveBottom ? 3 : 5,
-                                            }}
-                                        >
-                                            {summary}
-                                        </Box>
                                     </ShadowTextContainer>
                                 </ShadowLinkContainer>
                                 <RequestWrapper>
@@ -304,6 +291,18 @@ const TitleCard = ({
                                             订阅
                                         </Button>
                                     )}
+                                    {(currentStatus || currentStatus === 0) && showSubLogs && <Button
+                                        color="info"
+                                        sx={{width: "100%",marginBottom:1}}
+                                        variant="contained"
+                                        size="small"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            showSubLogs({subId: sub_id, title, year});
+                                        }}
+                                    >
+                                        全息日志
+                                    </Button>}
                                     {
                                         [0, 1, 2].includes(currentStatus) &&
                                         <Stack direction="row" spacing={1} sx={{width: '100%'}}>
@@ -392,7 +391,7 @@ const RequestWrapper = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   padding: 8px;
 `;
 
@@ -437,7 +436,7 @@ const ShadowTextContainer = styled.div`
   padding-right: 8px;
   justify-content: flex-end;
   flex-direction: column;
-  padding-bottom: ${({isHaveBottom}) => (isHaveBottom ? "44px" : "8px")};
+  padding-bottom: ${({bottom}) => bottom};
 `;
 
 const BottomTextContainer = styled.div`

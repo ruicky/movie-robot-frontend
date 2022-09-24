@@ -6,9 +6,11 @@ import DoubanRanking from "@/pages/recommend/components/DoubanRanking";
 import SubscribeTrendingDialog from "@/pages/recommend/components/SubscribeTrendingDialog";
 import {useGetSubDatasetList} from "@/utils/subscribe";
 import DeleteSubTrendingDialog from "@/pages/recommend/components/DeleteSubTrendingDialog";
+import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 
 
 const MovieRankingList = () => {
+    const [subLogData, setSubLogData] = useState(null);
     const {data: subList, refetch} = useGetSubDatasetList({data_type: 'Trending'});
     const [subDataType, setSubDataType] = useState([]);
     const [subTrendingData, setSubTrendingData] = useState({
@@ -47,6 +49,10 @@ const MovieRankingList = () => {
             <Helmet title="电影榜单"/>
             <PageTitle text="近期热门电影"/>
             <FilterOptionsProvider>
+                <SubLogDialog subId={subLogData?.subId}
+                              title={subLogData?.title ? `${subLogData?.title}的订阅全息日志` : "未知信息"}
+                              open={Boolean(subLogData)}
+                              handleClose={() => setSubLogData(null)}/>
                 <DeleteSubTrendingDialog open={Boolean(deleteSubData?.trendingType)} data={deleteSubData}
                                          onComplete={onComplete}
                                          onClose={() => {
@@ -66,24 +72,28 @@ const MovieRankingList = () => {
                     onSub={onSub}
                     onDelete={onDelete}
                     isSub={isSub("movie_real_time_hotest")}
+                    showSubLogs={setSubLogData}
                 />
                 <DoubanRanking
                     title="近期热门电影" trendingType="ECPE465QY" trendingName="近期热门电影"
                     onSub={onSub}
                     onDelete={onDelete}
                     isSub={isSub("ECPE465QY")}
+                    showSubLogs={setSubLogData}
                 />
                 <DoubanRanking
                     title="一周高分电影" trendingType="movie_weekly_best" trendingName="一周高分电影"
                     onSub={onSub}
                     onDelete={onDelete}
                     isSub={isSub("movie_weekly_best")}
+                    showSubLogs={setSubLogData}
                 />
                 <DoubanRanking
                     title="近期高分电影" trendingType="EC7Q5H2QI" trendingName="近期高分电影"
                     onSub={onSub}
                     onDelete={onDelete}
                     isSub={isSub("EC7Q5H2QI")}
+                    showSubLogs={setSubLogData}
                 />
             </FilterOptionsProvider>
         </>
