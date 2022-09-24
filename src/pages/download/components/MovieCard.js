@@ -24,6 +24,7 @@ import {STATUS} from "@/constants";
 import {useReLink} from "@/api/DownloadApi";
 import message from "@/utils/message";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import MessageIcon from '@mui/icons-material/Message';
 
 function TitleLabel({title, year, season_index, season_year, movie_type, episode}) {
     if (movie_type === "Movie") {
@@ -44,7 +45,7 @@ function TitleLabel({title, year, season_index, season_year, movie_type, episode
 
 export default function MovieCard(props) {
     const [showConfirmReLink, setShowConfirmReLink] = useState(false);
-    const {onDelete, onAnalyze, downloading} = props
+    const {onDelete, onAnalyze, downloading, onShowSubLog} = props
     const {
         id,
         image,
@@ -65,7 +66,8 @@ export default function MovieCard(props) {
         season_index,
         season_year,
         episode,
-        source_type
+        source_type,
+        sub_id
     } = props.data;
     const {mutateAsync: reLink, isLinking} = useReLink();
     const getEpisodeStr = (episode) => {
@@ -101,7 +103,11 @@ export default function MovieCard(props) {
     const handleDelete = () => {
         onDelete({open: true, id})
     }
-
+    const handleShowSubLog = () => {
+        if (onShowSubLog) {
+            onShowSubLog({subId: sub_id, title: `${title}(${year})`});
+        }
+    }
     const CardWrapper = useMediaQuery((theme) => theme.breakpoints.up('md')) ? CardContainer : Card;
     return (
         <Grid item md={6} lg={4} xl={3} key={id} style={{width: '100%'}}>
@@ -146,6 +152,11 @@ export default function MovieCard(props) {
                     确定要立即重新原样整理吗？
                 </ConfirmDialog>
                 <CardActions container={true} sx={{justifyContent: 'flex-end'}}>
+                    {sub_id &&
+                    <IconButton onClick={handleShowSubLog} aria-label="为什么被下载" size="small"
+                                sx={{marginRight: '9px'}}>
+                        <MessageIcon/>
+                    </IconButton>}
                     {status_code !== 2 && <MovieInfoDialog id={id}/>}
                     {
                         status_code !== 2 &&

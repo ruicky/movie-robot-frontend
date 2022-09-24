@@ -43,6 +43,43 @@ const Percentage = styled(MuiTypography)`
             color: ${(props) => rgba(props.theme.palette.primary.main, 0.85)};
           `}
 `;
+const TorrentTitle = ({
+                          siteName,
+                          cnName,
+                          enName,
+                          mediaType,
+                          releaseYear,
+                          linkUrl,
+                          seasonNumberStart,
+                          seasonNumberEnd
+                      }) => {
+    const getTitle = () => {
+        let title = '';
+        if (cnName) {
+            title += cnName;
+        } else {
+            title += enName;
+        }
+        if (mediaType === 'TV') {
+            if (!seasonNumberEnd) {
+                title += ` 第${seasonNumberStart}季`
+            } else if (seasonNumberStart) {
+                title += ` 第${seasonNumberStart}-${seasonNumberEnd}季`
+            }
+        }
+        if (releaseYear) {
+            title += `(${releaseYear})`;
+        }
+        return (<Link target="_blank" href={linkUrl} color="inherit">{title}</Link>);
+    }
+    return (
+        <Typography gutterBottom variant="h5" component="h2">
+            {cnName || enName ?
+                getTitle() :
+                <Skeleton/>}
+        </Typography>
+    )
+}
 const COM = ({
                  onDownload,
                  subject,
@@ -60,7 +97,12 @@ const COM = ({
                  minimum_ratio,
                  free_desc,
                  poster_url,
-                 cate_level1
+                 cate_level1,
+                 releaseYear,
+                 mediaType,
+                 cnName,
+                 enName,
+                 tvInfo
              }) => {
     let free = ''
     if (upload_volume_factor === 2) {
@@ -88,11 +130,9 @@ const COM = ({
                 image={poster_url}
             />}
             <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {subject || name ?
-                        <Link target="_blank" href={details_url} color="inherit">{subject ? subject : name}</Link> :
-                        <Skeleton/>}
-                </Typography>
+                <TorrentTitle cnName={cnName} enName={enName} releaseYear={releaseYear} mediaType={mediaType}
+                              linkUrl={details_url} seasonNumberStart={tvInfo?.season_start}
+                              seasonNumberEnd={tvInfo?.season_end}/>
                 <div>
                     <Stack direction="row" spacing={1}>
                         {media_source ?
@@ -102,8 +142,11 @@ const COM = ({
                             <Chip label={media_encoding} color="info"/> : null}
                     </Stack>
                 </div>
+                <Typography mb={4} color="body2" component="p">
+                    {(subject || name) ? `[${site_name}] ${subject ? subject : name}` : <Skeleton/>}
+                </Typography>
                 <Typography mb={4} color="textSecondary" component="p">
-                    {name ? `[${site_name}]${name}` : <Skeleton/>}
+                    {name ? `${name}` : <Skeleton/>}
                 </Typography>
                 {upload !== undefined ? <Box sx={{display: "flex", alignItems: "flex-end"}}>
                     <Grid container alignItems="center" spacing={1}>

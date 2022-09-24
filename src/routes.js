@@ -20,7 +20,6 @@ const InitMovieMetadata = async(() => import("./pages/config/MovieMetadata"));
 const InitWeb = async(() => import("./pages/config/Web"));
 const InitAdminUser = async(() => import("./pages/config/AdminUser"));
 const DoubanConfig = async(() => import("./pages/config/DoubanConfig"));
-const NotifyConfig = async(() => import("./pages/config/NotifyConfig"));
 const Notify = async(() => import("./pages/notify/index"));
 const FreeDownloadConfig = async(() => import("./pages/config/FreeDownload"));
 const UserManager = async(() => import("./pages/user/Index"));
@@ -28,6 +27,7 @@ const EditUser = async(() => import("./pages/user/EditUser"));
 const InviteEmail = async(() => import("./pages/user/InviteEmail"));
 const MovieRankingList = async(() => import("./pages/recommend/movieRankingList"));
 const TVRankingList = async(() => import("./pages/recommend/tvRankingList"));
+const NetflixList = async(() => import("./pages/recommend/netflixList"));
 const RecentPopularMovieList = async(() => import("./pages/recommend/recentPopularMovieList"));
 const EditSubCustomFilter = async(() => import("./pages/subscribe/Custom/EditCustomFilter"));
 const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
@@ -50,6 +50,8 @@ const EditFreeDownload = async(() => import("./pages/setting/Advanced/EditFreeDo
 const EditSubtitle = async(() => import("./pages/setting/Advanced/EditSubtitle"));
 const EditSearchSetting = async(() => import("./pages/setting/Advanced/EditSearchSetting"));
 const EditLink = async(() => import("./pages/setting/Advanced/EditLink"));
+const EditNotifyTemplate = async(() => import("./pages/setting/Advanced/EditNotifyTemplate"));
+const EditScraper = async(() => import("./pages/setting/Advanced/EditScraper"));
 const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 const HomePage = async(() => import("./pages/home"));
 
@@ -88,8 +90,6 @@ const routes = [{
         path: "media-path", element: <InitMediaPath/>
     }, {
         path: "movie-metadata", element: <InitMovieMetadata/>
-    }, {
-        path: "notify", element: <NotifyConfig/>
     }, {
         path: "free-download", element: <FreeDownloadConfig/>
     }, {
@@ -135,6 +135,12 @@ const routes = [{
         }, {
             path: 'edit-link',
             element: <EditLink/>
+        }, {
+            path: 'edit-notify-template',
+            element: <EditNotifyTemplate/>
+        }, {
+            path: 'edit-scraper',
+            element: <EditScraper/>
         }
     ]
 }, {
@@ -196,6 +202,8 @@ const routes = [{
         path: "tv-ranking", element: <TVRankingList/>
     }, {
         path: "recent-popular-movie", element: <RecentPopularMovieList/>
+    }, {
+        path: "netflix-list", element: <NetflixList/>
     }]
 }, {
     path: "subscribe", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{

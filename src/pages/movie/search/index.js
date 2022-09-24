@@ -41,6 +41,7 @@ const StyledDivider = styled(Divider)(spacing);
 const TagFileter = ({filter, data, onFilter}) => {
     const list = [
         {name: '站点', dataKey: 'sites'},
+        {name: '年份', dataKey: 'movie_release_year'},
         {name: '来源', dataKey: 'source'},
         {name: '分辨率', dataKey: 'resolution'},
         {name: '编码', dataKey: 'encode'},
@@ -80,42 +81,6 @@ const TagFileter = ({filter, data, onFilter}) => {
         </FilterWrapper>
     );
 };
-
-const SearchBar = ({onSearch, ...props}) => {
-    const [value, setValue] = useState();
-    return (
-        <FormControl fullWidth sx={{flexDirection: "row"}}>
-            <OutlinedInput
-                autoFocus
-                sx={{paddingRight: 0}}
-                fullWidth
-                placeholder="输入搜索内容"
-                variant="outlined"
-                onChange={({target: {value: v}}) => {
-                    setValue(v);
-                }}
-                onKeyUp={(e) => {
-                    if ((e.key === 'Enter' || e.key === "NumpadEnter") && value) {
-                        onSearch(value);
-                    }
-                }}
-                value={value}
-                {...props}
-                endAdornment={
-                    <InputAdornment>
-                        <IconButton type="submit" sx={{p: "10px"}} aria-label="search" onClick={() => {
-                            if (value) {
-                                onSearch(value);
-                            }
-                        }}>
-                            <SearchIcon/>
-                        </IconButton>
-                    </InputAdornment>}
-            />
-        </FormControl>
-    );
-};
-
 const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
     const [paths, setPaths] = useState([]);
     const [betterVersion, setBetterVersion] = useState(false);
@@ -212,9 +177,16 @@ function SearchRecords(props) {
         sites: {"全部": "全部"},
         encode: {"全部": "全部"},
         source: {"全部": "全部"},
-        resolution: {"全部": "全部"}
+        resolution: {"全部": "全部"},
+        movie_release_year: {"全部": "全部"}
     });
-    const [filter, setFilter] = useState({sites: "全部", encode: "全部", source: "全部", resolution: "全部"});
+    const [filter, setFilter] = useState({
+        sites: "全部",
+        encode: "全部",
+        source: "全部",
+        resolution: "全部",
+        movie_release_year: "全部"
+    });
     const [loading, setLoading] = useState(false);
     const [downloadInfo, setDownloadInfo] = useState();
     const [tagVersion, setTagVersion] = useState(Date.now());
@@ -225,7 +197,7 @@ function SearchRecords(props) {
         if (keyword && !loading) {
             setLoading(true);
             setRecords(null);
-            setParam({keyword,searchSite:'true'});
+            setParam({keyword, searchSite: 'true'});
             axios.get("/api/movie/search_keyword", {
                 params: {
                     keyword: keyword,
@@ -243,15 +215,16 @@ function SearchRecords(props) {
                     const encode = {"全部": "全部"};
                     const source = {"全部": "全部"};
                     const resolution = {"全部": "全部"};
+                    const releaseYear = {"全部": "全部"};
                     const torrents = res.data.torrents;
                     let tips = `在${res.data.site_names.length}个站点搜索到${torrents.length}条结果，其中${res.data.max_run_site_name}最慢，耗费${res.data.max_run_time}秒`;
                     if (res.data.run_timeout_names && res.data.run_timeout_names.length > 0) {
                         tips += "(" + res.data.run_timeout_names.join(';') + "超时无结果)"
                     }
                     setMessage(tips);
-                    torrents.forEach(({site_id, media_encoding, media_source, resolution: _rs}) => {
+                    torrents.forEach(({site_name, media_encoding, media_source, resolution: _rs, movie_release_year}) => {
                         if (sites) {
-                            sites[site_id] = site_id;
+                            sites[site_name] = site_name;
                         }
                         if (media_encoding) {
                             encode[media_encoding] = media_encoding;
@@ -262,12 +235,16 @@ function SearchRecords(props) {
                         if (_rs) {
                             resolution[_rs] = _rs;
                         }
+                        if (movie_release_year) {
+                            releaseYear[movie_release_year] = movie_release_year;
+                        }
                     });
                     setTagResource({
                         sites,
                         encode,
                         source,
-                        resolution
+                        resolution,
+                        movie_release_year: releaseYear
                     });
                     setRecords(torrents);
                 }
@@ -303,7 +280,7 @@ function SearchRecords(props) {
                         data={tagResource}
                         onFilter={setFilter}
                     />
-                    <StyledDivider my={4}/>
+                    <StyledDivider my={2}/>
                 </>
             }
             {param?.keyword && param?.searchMediaServer && param?.searchMediaServer === 'true' &&
@@ -317,15 +294,16 @@ function SearchRecords(props) {
                             return true;
                         }
                         const {
-                            site_id,
+                            site_name,
                             resolution,
                             media_source,
-                            media_encoding
+                            media_encoding,
+                            movie_release_year
                         } = item;
                         let bool = true;
                         Object.keys(filter).forEach((key) => {
                             const item = filter[key];
-                            bool = bool && (!item || item === "全部" || item === site_id || item === resolution || item === media_source || item === media_encoding);
+                            bool = bool && (!item || item === "全部" || item === site_name || item === resolution || item === media_source || item === media_encoding || item === movie_release_year);
                         });
                         return bool;
                     }).map((row, index) => (
@@ -334,7 +312,7 @@ function SearchRecords(props) {
                                 name={row?.name}
                                 subject={row?.subject}
                                 details_url={row?.details_url}
-                                site_name={row?.site_id}
+                                site_name={row?.site_name}
                                 upload={row?.upload_count}
                                 download={row?.download_count}
                                 media_source={row?.media_source}
@@ -347,6 +325,11 @@ function SearchRecords(props) {
                                 minimum_ratio={row?.minimum_ratio}
                                 poster_url={row?.poster_url}
                                 cate_level1={row?.cate_level1}
+                                releaseYear={row?.movie_release_year}
+                                mediaType={row?.movie_type}
+                                cnName={row?.cn_name}
+                                enName={row?.en_name}
+                                tvInfo={row?.tv_series}
                                 onDownload={() => {
                                     const {id, site_id} = row;
                                     setDownloadInfo({id, site_id});
@@ -362,7 +345,7 @@ function SearchRecords(props) {
                 records && records.length === 0 && <Empty message={`没有搜索到任何资源 站点：${param.site_id} 分类：${param.cates}`}/>
             }
             {
-                param?.searchSite && param?.searchSite !== "true" && (param?.cache==='' || param?.cache === 'false') && !records && !loading &&
+                param?.searchSite && param?.searchSite !== "true" && (param?.cache === '' || param?.cache === 'false') && !records && !loading &&
                 <Box mt={6}>
                     <Button
                         variant="contained" color="info" fullWidth

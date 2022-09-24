@@ -592,7 +592,7 @@ function EditSubCustomFilter() {
                 const {code, message: msg, data} = res;
                 if (code === 0) {
                     message.success(msg)
-                    navigate("/subscribe/list?tab=custom");
+                    navigate("/subscribe/custom-index");
                 } else {
                     message.error(msg)
                 }

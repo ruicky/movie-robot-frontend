@@ -34,17 +34,17 @@ function MovieMetadataSettingList() {
             sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
             subheader={<ListSubheader>媒体数据</ListSubheader>}
         >
-            <ListItem divider>
-                <ListItemButton onClick={() => navigate("/setting/edit-tmdb")}>
-                    <ListItemIcon>
-                        <ImgWrapper src="/static/img/tmdb.png" disabled={movieMetadata.tmdb_status === 0}/>
-                    </ListItemIcon>
-                    <ListItemText/>
-                    <HealthStatus status={movieMetadata.tmdb_status}/>
-                    <ArrowForwardIosOutlinedIcon color="disabled"/>
-                </ListItemButton>
-            </ListItem>
-            <ListItem divider>
+            {/*<ListItem divider>*/}
+            {/*    <ListItemButton onClick={() => navigate("/setting/edit-tmdb")}>*/}
+            {/*        <ListItemIcon>*/}
+            {/*            <ImgWrapper src="/static/img/tmdb.png" disabled={movieMetadata.tmdb_status === 0}/>*/}
+            {/*        </ListItemIcon>*/}
+            {/*        <ListItemText/>*/}
+            {/*        <HealthStatus status={movieMetadata.tmdb_status}/>*/}
+            {/*        <ArrowForwardIosOutlinedIcon color="disabled"/>*/}
+            {/*    </ListItemButton>*/}
+            {/*</ListItem>*/}
+            <ListItem>
                 <ListItemButton  onClick={() => navigate("/setting/edit-douban")}>
                     <ListItemIcon>
                         <ImgWrapper src="/static/img/douban.png" disabled={movieMetadata.douban_status === 0}/>
@@ -54,16 +54,16 @@ function MovieMetadataSettingList() {
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItemButton>
             </ListItem>
-            <ListItem>
-                <ListItemButton onClick={() => navigate("/setting/edit-fanart")}>
-                    <ListItemIcon>
-                        <ImgWrapper src="/static/img/fanart.png" disabled={movieMetadata.fanart_status === 0}/>
-                    </ListItemIcon>
-                    <ListItemText/>
-                    <HealthStatus status={movieMetadata.fanart_status}/>
-                    <ArrowForwardIosOutlinedIcon color="disabled"/>
-                </ListItemButton>
-            </ListItem>
+            {/*<ListItem>*/}
+            {/*    <ListItemButton onClick={() => navigate("/setting/edit-fanart")}>*/}
+            {/*        <ListItemIcon>*/}
+            {/*            <ImgWrapper src="/static/img/fanart.png" disabled={movieMetadata.fanart_status === 0}/>*/}
+            {/*        </ListItemIcon>*/}
+            {/*        <ListItemText/>*/}
+            {/*        <HealthStatus status={movieMetadata.fanart_status}/>*/}
+            {/*        <ArrowForwardIosOutlinedIcon color="disabled"/>*/}
+            {/*    </ListItemButton>*/}
+            {/*</ListItem>*/}
         </List>
     );
 }

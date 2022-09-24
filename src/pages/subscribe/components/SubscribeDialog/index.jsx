@@ -1,6 +1,9 @@
 import React, {useContext, useRef, useState} from 'react';
 import {
+    Box,
     Button,
+    Checkbox,
+    Chip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -9,6 +12,7 @@ import {
     Divider,
     FormControl,
     FormHelperText,
+    ListItemText,
     MenuItem,
     Select,
 } from '@mui/material';
@@ -16,12 +20,14 @@ import {useAddSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
 import FilterForm from "@/components/Selectors/FilterForm";
 import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
+import SeasonSelect from "@/pages/subscribe/components/SeasonSelect";
 
 
 const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
     const filterOptionsContextData = useContext(FilterOptionsContext)
     const myRef = useRef(null);
     const [filterName, setFilterName] = useState();
+    const [seasonDoubanId, setSeasonDoubanId] = useState(data?.season && data.season.length > 0 ? [data.season[data.season.length - 1].doubanId] : []);
     const [showFilterForm, setShowFilterForm] = useState(false);
     const {name, year} = data;
     const {mutateAsync: addSubscribe, isLoading} = useAddSubscribe();
@@ -45,7 +51,7 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             await myRef.current.onSubmit()
             filterConfig = await myRef.current.getVal()
         }
-        addSubscribe({id, filter_name: filterName, filter_config: filterConfig}, {
+        addSubscribe({id, filter_name: filterName, filter_config: filterConfig, season_ids: seasonDoubanId}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -76,6 +82,8 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
+                    {data?.season && data?.season.length > 0 && <SeasonSelect text={"订阅季数"} items={data?.season} seasonDoubanId={seasonDoubanId}
+                                                                              setSeasonDoubanId={setSeasonDoubanId}/>}
                     <FormControl m={4} fullWidth>
                         <Select
                             name="filterName"

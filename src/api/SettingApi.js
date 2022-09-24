@@ -210,3 +210,29 @@ export const useUpdateSearchTemplate = (param) => {
             client("/api/setting/update_search_template", {params: params, method: "POST"})
     );
 };
+export const useGetNotifyTemplate = (param) => {
+    const client = useHttp();
+    return useQuery(['getNotifyTemplate', param], () =>
+        client("/api/setting/get_notify_template", {params: param, method: "GET"})
+    );
+};
+export const useSaveNotifyTemplate = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_notify_template", {params: params, method: "POST"})
+    );
+};
+export const useGetScraper = (param) => {
+    const client = useHttp();
+    return useQuery(['getScraper', param], () =>
+        client("/api/setting/get_scraper", {params: param, method: "GET"})
+    );
+};
+export const useSaveScraper = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/save_scraper", {params: params, method: "POST"})
+    );
+};

@@ -93,9 +93,9 @@ const TagFilter = ({filter, onFilter, options, onSearch}) => {
             {
                 options && options.map((item) => {
                     return (
-                        <Grid item xs={12 / options.length}>
+                        <Grid key={item.key}
+                              item xs={12 / options.length}>
                             <MultipleSelect
-                                key={item.key}
                                 optionTitle={item.title}
                                 selectedValue={filter[item.key]}
                                 items={item.data}
