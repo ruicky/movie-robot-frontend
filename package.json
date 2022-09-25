@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "1.19.3",
+    "@codemirror/lang-javascript": "^6.1.0",
     "@craco/craco": "6.4.3",
     "@date-io/date-fns": "2.11.0",
     "@fullcalendar/core": "5.10.1",
@@ -40,6 +41,8 @@
     "@mui/system": "5.2.4",
     "@mui/x-data-grid": "5.2.1",
     "@reduxjs/toolkit": "1.7.1",
+    "@uiw/codemirror-theme-sublime": "^4.12.3",
+    "@uiw/react-codemirror": "^4.12.3",
     "amazon-cognito-identity-js": "5.2.3",
     "axios": "0.24.0",
     "axios-mock-adapter": "1.20.0",

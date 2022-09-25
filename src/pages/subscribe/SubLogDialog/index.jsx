@@ -3,6 +3,10 @@ import {Dialog, IconButton, MenuItem, Select, TextareaAutosize, Toolbar, Typogra
 import CloseIcon from '@mui/icons-material/Close';
 import {useEffect, useState} from "react";
 import {useGetSubLogs, useGetSubLogText} from "@/utils/subscribe";
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+import { sublime } from '@uiw/codemirror-theme-sublime';
+
 
 const SubLogDialog = ({open, handleClose, subId, title}) => {
     const [logText, setLogText] = useState("选择一个运行事件后，可以加载本次处理过程的详细日志");
@@ -79,7 +83,7 @@ const SubLogDialog = ({open, handleClose, subId, title}) => {
                 </Select>
             </Toolbar>
         </AppBar>
-        <TextareaAutosize
+        {/* <TextareaAutosize
             aria-label="运行时日志"
             value={logText}
             style={{
@@ -93,7 +97,15 @@ const SubLogDialog = ({open, handleClose, subId, title}) => {
                 border:"solid 0px",
                 outline:"none"
             }}
-        />
+        /> */}
+         <CodeMirror
+            value={logText}
+            height="100%"
+            width="100%"
+            theme={sublime}
+            readOnly={true}
+            extensions={[javascript({jsx: true})]}
+            />
     </Dialog>)
 }
 
