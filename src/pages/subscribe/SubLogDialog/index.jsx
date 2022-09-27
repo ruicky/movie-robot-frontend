@@ -105,12 +105,12 @@ const SubLogDialog = ({open, handleClose, subId, title, selectTime = null}) => {
             style={{
                 width: "100%",
                 height: "100%",
-                font-family: "monospace",
+                fontFamily: "monospace",
                 resize: 'vertical',
                 overflow: 'auto',
                 backgroundColor: "#1d1f21",
                 fontSize: "12px",
-                line-height: "1.5",
+                lineHeight: "1.5",
                 color: "#acbbc7",
                 border: "solid 0px",
                 outline: "none"

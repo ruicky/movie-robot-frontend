@@ -111,8 +111,8 @@ function ChartDialogs() {
     }
     return (
         <>
-            <SmallButton size="small" mr={2} onClick={onOpen}>
-                <PieChart/>
+            <SmallButton color="inherit" size="small" mr={2} onClick={onOpen}>
+                数据 <PieChart/>
             </SmallButton>
             <Dialog
                 open={open}
