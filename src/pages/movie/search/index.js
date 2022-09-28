@@ -54,7 +54,12 @@ const TagFileter = ({filter, data, onFilter}) => {
             top: 64px;
         }
         z-index: 100;
+        overflow-x: scroll;
+        -webkit-overflow=scroling: touch;
         background: ${(props) => props.theme.palette.background.default};
+        &::-webkit-scrollbar{
+            display: none
+        }
     `;
     return (
         <FilterWrapper sx={{
@@ -67,6 +72,7 @@ const TagFileter = ({filter, data, onFilter}) => {
                         <DropDownBox
                             key={item.dataKey}
                             label={item.name}
+                            sx={{minWidth: '80px'}}
                             value={Object.keys(data[item.dataKey]).find(value => data[item.dataKey][value] === filter[item.dataKey])}
                             data={obj2Array(data[item.dataKey])}
                             onChange={(value) => {

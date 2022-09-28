@@ -11,7 +11,7 @@ import { get as _get} from 'lodash';
  * @param {Function} onChange 选择某个选项时触发
  * @returns 组件
  */
-const DropDownBox = ({data, value, label, onChange}) => {
+const DropDownBox = ({data, value, label, onChange, sx}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -48,7 +48,7 @@ const DropDownBox = ({data, value, label, onChange}) => {
           aria-expanded={open ? 'true' : undefined}
           aria-haspopup="true"
           onClick={handleClick}
-          sx={{px: 2}}
+          sx={{px: 2, ...sx}}
           endIcon={<ArrowDropDownIcon/>}
           variant="h3"
       >
