@@ -67,7 +67,8 @@ export default function MovieCard(props) {
         season_year,
         episode,
         source_type,
-        sub_id
+        sub_id,
+        gmt_create
     } = props.data;
     const {mutateAsync: reLink, isLinking} = useReLink();
     const getEpisodeStr = (episode) => {
@@ -105,7 +106,7 @@ export default function MovieCard(props) {
     }
     const handleShowSubLog = () => {
         if (onShowSubLog) {
-            onShowSubLog({subId: sub_id, title: `${title}(${year})`});
+            onShowSubLog({subId: sub_id, title: `${title}(${year})`, time: gmt_create});
         }
     }
     const CardWrapper = useMediaQuery((theme) => theme.breakpoints.up('md')) ? CardContainer : Card;

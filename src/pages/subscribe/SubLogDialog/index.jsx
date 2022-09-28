@@ -8,7 +8,12 @@ import { javascript } from '@codemirror/lang-javascript';
 import { sublime } from '@uiw/codemirror-theme-sublime';
 
 
-const SubLogDialog = ({open, handleClose, subId, title}) => {
+function toDate(text) {
+    text = text.replace(/\-/g, "/");
+    return new Date(text);
+}
+
+const SubLogDialog = ({open, handleClose, subId, title, selectTime = null}) => {
     const [logText, setLogText] = useState("选择一个运行事件后，可以加载本次处理过程的详细日志");
     const [timeOption, setTimeOption] = useState([]);
     const [selectLogId, setSelectLogId] = useState(null);
@@ -28,14 +33,29 @@ const SubLogDialog = ({open, handleClose, subId, title}) => {
                 if (code === 0) {
                     setTimeOption(data);
                     if (data && data.length > 0) {
-                        setSelectLogId(data[0].id);
+                        if (!selectTime) {
+                            setSelectLogId(data[0].id);
+                        } else {
+                            const d1 = toDate(selectTime);
+                            let min = null;
+                            let logId = null;
+                            for (let item of data) {
+                                const d2 = toDate(item.time);
+                                let dis = Math.abs(d1.getTime() - d2.getTime());
+                                if (min === null || dis < min) {
+                                    min = dis;
+                                    logId = item.id;
+                                }
+                            }
+                            setSelectLogId(logId);
+                        }
                     } else {
                         setLogText("这条订阅没有运行记录，或者正在处理中，请稍后查看！")
                     }
                 }
             }
         });
-    }, [subId])
+    }, [subId, selectTime])
     useEffect(() => {
         if (!selectLogId) {
             return;
@@ -89,13 +109,15 @@ const SubLogDialog = ({open, handleClose, subId, title}) => {
             style={{
                 width: "100%",
                 height: "100%",
+                fontFamily: "monospace",
                 resize: 'vertical',
                 overflow: 'auto',
-                backgroundColor: "black",
-                fontSize: "14px",
-                color: "#BDBDBE",
-                border:"solid 0px",
-                outline:"none"
+                backgroundColor: "#1d1f21",
+                fontSize: "12px",
+                lineHeight: "1.5",
+                color: "#acbbc7",
+                border: "solid 0px",
+                outline: "none"
             }}
         /> */}
          <CodeMirror

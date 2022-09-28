@@ -12,7 +12,7 @@ const Option = ({isSub, onSub, onDelete}) => {
         </SmallButton>
     )
 }
-const DoubanRanking = ({title, trendingType, trendingName, onSub, onDelete, isSub}) => {
+const DoubanRanking = ({title, trendingType, trendingName, onSub, onDelete, isSub, showSubLogs}) => {
     const {data: subjects, isLoading: subjectsIsLoading} = useDoubanRanking({type: trendingType});
     return (
         <>
@@ -24,6 +24,7 @@ const DoubanRanking = ({title, trendingType, trendingName, onSub, onDelete, isSu
                 optionComponent={onSub && onDelete &&
                 <Option isSub={isSub} onSub={(e) => onSub(trendingType, trendingName)}
                         onDelete={() => onDelete(trendingType, trendingName)}/>}
+                showSubLogs={showSubLogs}
             />
         </>
     );

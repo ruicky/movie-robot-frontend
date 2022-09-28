@@ -4,8 +4,10 @@ import {Divider} from "@mui/material";
 import TagFilter from "@/pages/subscribe/components/TagFilter";
 import ListView from "@/pages/subscribe/components/ListView";
 import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
+import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 
 const SubscribeList = ({mediaType}) => {
+    const [subLogData, setSubLogData] = useState(null);
     const filterOptions = useContext(FilterOptionsContext)
     const FilterOptions = [
         {
@@ -47,6 +49,10 @@ const SubscribeList = ({mediaType}) => {
     return (<>
         <TagFilter options={FilterOptions} filter={filter} onFilter={setFilter}/>
         <Divider my={4}/>
+        <SubLogDialog subId={subLogData?.subId}
+                      title={subLogData?.title ? `${subLogData?.title}的订阅全息日志` : "未知信息"}
+                      open={Boolean(subLogData)}
+                      handleClose={() => setSubLogData(null)}/>
         <ListView
             items={sublist?.data?.filter((item) => {
                 const {
@@ -69,7 +75,7 @@ const SubscribeList = ({mediaType}) => {
                 return matchStatus && matchGenres && matchArea;
             })}
             isLoading={subIsLoading}
-
+            showSubLogs={setSubLogData}
         />
     </>);
 }

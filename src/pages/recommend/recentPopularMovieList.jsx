@@ -6,9 +6,11 @@ import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvide
 import {useGetSubDatasetList} from "@/utils/subscribe";
 import DeleteSubTrendingDialog from "@/pages/recommend/components/DeleteSubTrendingDialog";
 import SubscribeTrendingDialog from "@/pages/recommend/components/SubscribeTrendingDialog";
+import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 
 
 const RecentPopularMovieList = () => {
+    const [subLogData, setSubLogData] = useState(null);
     const {data: subList, refetch} = useGetSubDatasetList({data_type: 'Trending'});
     const [subDataType, setSubDataType] = useState([]);
     const [subTrendingData, setSubTrendingData] = useState({
@@ -47,6 +49,10 @@ const RecentPopularMovieList = () => {
             <Helmet title="分类热门电影"/>
             <PageTitle text="分类热门电影"/>
             <FilterOptionsProvider>
+                <SubLogDialog subId={subLogData?.subId}
+                              title={subLogData?.title ? `${subLogData?.title}的订阅全息日志` : "未知信息"}
+                              open={Boolean(subLogData)}
+                              handleClose={() => setSubLogData(null)}/>
                 <DeleteSubTrendingDialog open={Boolean(deleteSubData?.trendingType)} data={deleteSubData}
                                          onComplete={onComplete}
                                          onClose={() => {
@@ -66,34 +72,40 @@ const RecentPopularMovieList = () => {
                     onSub={onSub}
                     onDelete={onDelete}
                     isSub={isSub("ECZYOJPLI")}
+                    showSubLogs={setSubLogData}
                 />
                 <DoubanRanking
                     title="喜剧" trendingType="ECAYN54KI" trendingName="热门喜剧电影"
                     onSub={onSub}
                     onDelete={onDelete}
                     isSub={isSub("ECAYN54KI")}
+                    showSubLogs={setSubLogData}
                 />
                 <DoubanRanking
                     title="动画" trendingType="EC3UOBDQY" trendingName="热门动画电影"
                     onSub={onSub}
                     onDelete={onDelete}
                     isSub={isSub("EC3UOBDQY")}
+                    showSubLogs={setSubLogData}
                 />
                 <DoubanRanking
                     title="动作" trendingType="ECBUOLQGY" trendingName="热门动作电影"
                     onSub={onSub}
                     onDelete={onDelete}
                     isSub={isSub('ECBUOLQGY')}
+                    showSubLogs={setSubLogData}
                 />
                 <DoubanRanking title="爱情" trendingType="ECSAOJFTA" trendingName="热门爱情电影"
                                onSub={onSub}
                                onDelete={onDelete}
                                isSub={isSub('ECSAOJFTA')}
+                               showSubLogs={setSubLogData}
                 />
                 <DoubanRanking title="悬疑" trendingType="ECPQOJP5Q" trendingName="热门悬疑电影"
                                onSub={onSub}
                                onDelete={onDelete}
                                isSub={isSub('ECPQOJP5Q')}
+                               showSubLogs={setSubLogData}
                 />
             </FilterOptionsProvider>
         </>

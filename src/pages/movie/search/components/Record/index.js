@@ -43,6 +43,27 @@ const Percentage = styled(MuiTypography)`
             color: ${(props) => rgba(props.theme.palette.primary.main, 0.85)};
           `}
 `;
+const getEpisodeStr = (tvInfo) => {
+    if (!tvInfo) {
+        return "";
+    }
+    const episode = tvInfo.ep_full_index;
+    if (tvInfo.contains_complete_ep) {
+        if (episode.length === 0) {
+            return "全集";
+        }
+        return "全" + episode.length + "集";
+    }
+    if (episode && episode.length > 0) {
+        if (episode.length < 2) {
+            return "第" + episode[0] + "集";
+        } else {
+            return "第" + episode[0] + "-" + episode[episode.length - 1] + "集"
+        }
+    } else {
+        return "";
+    }
+};
 const TorrentTitle = ({
                           siteName,
                           cnName,
@@ -51,7 +72,8 @@ const TorrentTitle = ({
                           releaseYear,
                           linkUrl,
                           seasonNumberStart,
-                          seasonNumberEnd
+                          seasonNumberEnd,
+                          episodes
                       }) => {
     const getTitle = () => {
         let title = '';
@@ -62,7 +84,7 @@ const TorrentTitle = ({
         }
         if (mediaType === 'TV') {
             if (!seasonNumberEnd) {
-                title += ` 第${seasonNumberStart}季`
+                title += ` 第${seasonNumberStart}季${episodes ? " " + episodes : ""}`
             } else if (seasonNumberStart) {
                 title += ` 第${seasonNumberStart}-${seasonNumberEnd}季`
             }
@@ -132,7 +154,9 @@ const COM = ({
             <CardContent>
                 <TorrentTitle cnName={cnName} enName={enName} releaseYear={releaseYear} mediaType={mediaType}
                               linkUrl={details_url} seasonNumberStart={tvInfo?.season_start}
-                              seasonNumberEnd={tvInfo?.season_end}/>
+                              seasonNumberEnd={tvInfo?.season_end}
+                              episodes={getEpisodeStr(tvInfo)}
+                />
                 <div>
                     <Stack direction="row" spacing={1}>
                         {media_source ?
