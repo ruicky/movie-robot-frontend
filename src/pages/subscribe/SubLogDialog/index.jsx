@@ -6,6 +6,7 @@ import {useGetSubLogs, useGetSubLogText} from "@/utils/subscribe";
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { sublime } from '@uiw/codemirror-theme-sublime';
+import { EditorView } from "@codemirror/view";
 
 
 function toDate(text) {
@@ -126,7 +127,7 @@ const SubLogDialog = ({open, handleClose, subId, title, selectTime = null}) => {
             width="100%"
             theme={sublime}
             readOnly={true}
-            extensions={[javascript({jsx: true})]}
+            extensions={[javascript({jsx: true}), EditorView.lineWrapping]}
             />
     </Dialog>)
 }

@@ -27,6 +27,7 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "1.19.3",
     "@codemirror/lang-javascript": "^6.1.0",
+    "@codemirror/view": "^6.2.5",
     "@craco/craco": "6.4.3",
     "@date-io/date-fns": "2.11.0",
     "@fullcalendar/core": "5.10.1",
@@ -97,6 +98,7 @@
     "@babel/preset-env": "7.16.5",
     "@svgr/webpack": "5.5.0",
     "craco-alias": "3.0.1",
+    "eslint": "^7.11.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-prettier": "3.4.1",
     "prettier": "2.5.1",
