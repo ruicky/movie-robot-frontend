@@ -54,6 +54,7 @@ const EditNotifyTemplate = async(() => import("./pages/setting/Advanced/EditNoti
 const EditScraper = async(() => import("./pages/setting/Advanced/EditScraper"));
 const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 const HomePage = async(() => import("./pages/home"));
+const MediaDetail = async(() => import("./pages/media/Detail/index"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -220,6 +221,8 @@ const routes = [{
 }, {
     path: "media", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
         path: "link-index", element: <MediaLinkIndex/>
+    },{
+        path: "detail", element: <MediaDetail />
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{
