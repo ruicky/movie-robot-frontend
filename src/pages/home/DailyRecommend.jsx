@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from "styled-components/macro";
-import {Divider, Grid, Paper, Stack, Typography} from "@mui/material";
+import {Chip, Divider, Grid, Link, Paper, Stack, Typography} from "@mui/material";
 import {getToday} from '@/utils/date';
 import LinesEllipsis from 'react-lines-ellipsis'
 
 const DailyRecommend = (data) => {
     const {
-        background = "https://images.fanart.tv/fanart/the-kings-of-summer-58ff9fdc8609a.jpg",
-        title = "《夏日之王》",
-        desc = `“孩子，你绝不应该放弃一个朋友。”`,
+        background = "https://img2.doubanio.com/view/photo/l/public/p2878075263.jpg",
+        title = "风骚律师",
+        desc = `Better Call Saul`,
         onPicClick = () => {
             return;
         }
@@ -35,12 +35,27 @@ const DailyRecommend = (data) => {
                 <Grid item xs={12} sm container direction="column" sx={{ml: 3}}>
                     <Grid item>
                         <Typography variant="h4" component="div" gutterBottom sx={{color: '#fff'}}>
-                            {title}
+                            <Link sx={{color: '#fff'}} target={"_blank"}
+                                  href={"https://movie.douban.com/subject/26654184/?from=showing"}
+                                  onClick={(e) => {
+                                      e.stopPropagation();
+                                  }}>{title}</Link>
+                            <Chip
+                                size={"small"}
+                                sx={{
+                                    background: "#FFAC2F",
+                                    color: "#000000",
+                                    borderRadius: 50,
+                                    marginLeft:2,
+                                    fontSize:"11px"
+                                }}
+                                label="豆瓣评分 8.6"/>
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant="subtitle1" component="div" gutterBottom sx={{color: '#fff'}}>
-                            <LinesEllipsis text={desc} maxLine={3} style={{minHeight: '20px', display: 'flex', alignItems: 'center'}}/>
+                        <Typography variant="subtitle1" component="div" gutterBottom sx={{color: '#fff',fontWeight:"bold"}}>
+                            <LinesEllipsis text={desc} maxLine={3}
+                                           style={{minHeight: '20px', display: 'flex', alignItems: 'center'}}/>
                         </Typography>
                     </Grid>
                 </Grid>

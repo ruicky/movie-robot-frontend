@@ -4,8 +4,11 @@ import DataFlowList from './DataFlowList/index';
 import {useGetDailyMedia} from "@/api/CommonApi";
 import message from "@/utils/message";
 import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
+import SubscribeDialog from "@/pages/subscribe/components/SubscribeDialog";
 
+const CACHE_KEY = "dailyRecommend";
 const HomePage = () => {
+    const [subInfo, setSubInfo] = useState(null);
     const [media, setMedia] = useState({});
     const {mutateAsync: getDailyMedia, isLoading} = useGetDailyMedia();
     const refreshRandomMedia = () => {
@@ -14,7 +17,7 @@ const HomePage = () => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
                     setMedia(data);
-                    localStorage.setItem('dailyMedia', JSON.stringify({
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({
                         data: data,
                         date: new Date().format('yyyy-MM-dd')
                     }))
@@ -24,7 +27,7 @@ const HomePage = () => {
         });
     }
     useEffect(() => {
-        const data = JSON.parse(window.localStorage.getItem("dailyMedia"));
+        const data = JSON.parse(window.localStorage.getItem(CACHE_KEY));
         let dailyMedia = null;
         if (data) {
             if (data.date === new Date().format('yyyy-MM-dd')) {
@@ -38,11 +41,27 @@ const HomePage = () => {
         } else {
             setMedia(dailyMedia);
         }
-    }, [])
+    }, []);
+    const onSub = () => {
+        if (!media) {
+            return;
+        }
+        setSubInfo({
+            id: media.doubanId,
+            name: media.title,
+            year: media.releaseYear
+        });
+    }
     return (
         <div>
             <FilterOptionsProvider>
-                <DailyRecommend background={media?.backdrop_url} title={media.name} desc={media.comment} onPicClick={refreshRandomMedia}/>
+                <SubscribeDialog
+                    open={subInfo}
+                    handleClose={() => setSubInfo(null)}
+                    data={({id: subInfo?.id, name: subInfo?.name, year: subInfo?.year})}
+                />
+                <DailyRecommend background={media?.backgroundUrl} title={media?.title} desc={media?.comment}
+                                onPicClick={onSub}/>
                 <DataFlowList/>
             </FilterOptionsProvider>
         </div>

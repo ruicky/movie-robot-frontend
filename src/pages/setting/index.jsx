@@ -6,14 +6,24 @@ import MovieMetadataSettingList from "@/pages/setting/MovieMetadata";
 import DownloadSettingList from "@/pages/setting/DownloadSetting";
 import NotifySettingList from "@/pages/setting/Notify";
 import AdvancedSettingList from "@/pages/setting/Advanced";
-import {Box, Button} from "@mui/material";
+import {Avatar, Box, Button, ListItemButton} from "@mui/material";
 import RestartAppDialog from "@/pages/setting/RestartAppDialog";
 import {Alert} from "@mui/lab";
 import {useGetHealth} from "@/api/HealthApi";
 import message from "@/utils/message";
 import HealthDataDialog from "@/pages/setting/Health/HealthDataDialog";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
+import List from "@mui/material/List";
+import LanguageIcon from "@mui/icons-material/Language";
+import {useNavigate} from "react-router-dom";
+import useAuth from "@/hooks/useAuth";
 
 function Setting() {
+    const {user} = useAuth();
+    const navigate = useNavigate();
     const [showHealthData, setShowHealthData] = useState(false);
     const {data: healthData, isLoading: healthIsLoading, refetch: refetchHealth} = useGetHealth()
     const [showRestartDialog, setShowRestartDialog] = useState(false);
@@ -45,6 +55,20 @@ function Setting() {
             >
                 {healthTip?.message}
             </Alert>}
+            {/*<List*/}
+            {/*    sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}*/}
+            {/*>*/}
+            {/*    <ListItem>*/}
+            {/*        <ListItemButton onClick={() => navigate("/setting/edit-web")}>*/}
+            {/*            <ListItemIcon>*/}
+            {/*                {user && <Avatar alt={user.nickname}*/}
+            {/*                                 src={user.avatar}>{user.nickname && user.nickname.substring(0, 1)}</Avatar>}*/}
+            {/*            </ListItemIcon>*/}
+            {/*            <ListItemText primary="尊贵的永久授权用户！❤️🎉👏"/>*/}
+            {/*            <ArrowForwardIosOutlinedIcon color="disabled"/>*/}
+            {/*        </ListItemButton>*/}
+            {/*    </ListItem>*/}
+            {/*</List>*/}
             <MediaServerSettingList/>
             <DownloadClientSettingList/>
             <MovieMetadataSettingList/>
