@@ -60,8 +60,8 @@ const HomePage = () => {
                     handleClose={() => setSubInfo(null)}
                     data={({id: subInfo?.id, name: subInfo?.name, year: subInfo?.year})}
                 />
-                <DailyRecommend background={media?.backgroundUrl} title={media?.title} desc={media?.comment}
-                                onPicClick={onSub}/>
+                <DailyRecommend background={media?.backgroundUrl} title={media?.title} desc={media?.comment} rating={media?.rating}
+                                onPicClick={onSub} url={media?.url} appUrl={media?.appUrl}/>
                 <DataFlowList/>
             </FilterOptionsProvider>
         </div>

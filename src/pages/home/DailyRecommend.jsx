@@ -3,18 +3,26 @@ import styled from "styled-components/macro";
 import {Chip, Divider, Grid, Link, Paper, Stack, Typography} from "@mui/material";
 import {getToday} from '@/utils/date';
 import LinesEllipsis from 'react-lines-ellipsis'
+import {jumpUrl} from "@/utils/urlUtils";
 
 const DailyRecommend = (data) => {
     const {
         background = "https://img2.doubanio.com/view/photo/l/public/p2878075263.jpg",
         title = "风骚律师",
         desc = `Better Call Saul`,
+        url, appUrl, rating,
         onPicClick = () => {
             return;
         }
     } = data;
     const date = getToday();
     const {week, month, day, lunar_date} = date;
+    const openUrl = (httpUrl, appUrl) => {
+        if (!httpUrl || !appUrl) {
+            return;
+        }
+        jumpUrl(httpUrl, appUrl)
+    }
     return (
         <PageWrapper background={background} onClick={() => onPicClick()}>
             <Grid container spacing={2} alignItems="flex-end" flexWrap="nowrap"
@@ -36,9 +44,9 @@ const DailyRecommend = (data) => {
                     <Grid item>
                         <Typography variant="h4" component="div" gutterBottom sx={{color: '#fff'}}>
                             <Link sx={{color: '#fff'}} target={"_blank"}
-                                  href={"https://movie.douban.com/subject/26654184/?from=showing"}
                                   onClick={(e) => {
                                       e.stopPropagation();
+                                      openUrl(url, appUrl)
                                   }}>{title}</Link>
                             <Chip
                                 size={"small"}
@@ -46,14 +54,15 @@ const DailyRecommend = (data) => {
                                     background: "#FFAC2F",
                                     color: "#000000",
                                     borderRadius: 50,
-                                    marginLeft:2,
-                                    fontSize:"11px"
+                                    marginLeft: 2,
+                                    fontSize: "11px"
                                 }}
-                                label="豆瓣评分 8.6"/>
+                                label={"豆瓣评分 " + rating}/>
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant="subtitle1" component="div" gutterBottom sx={{color: '#fff',fontWeight:"bold"}}>
+                        <Typography variant="subtitle2" component="div" gutterBottom
+                                    sx={{color: '#fff', fontWeight: "bold"}}>
                             <LinesEllipsis text={desc} maxLine={3}
                                            style={{minHeight: '20px', display: 'flex', alignItems: 'center'}}/>
                         </Typography>
