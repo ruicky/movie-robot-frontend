@@ -80,7 +80,7 @@ const PageWrapper = styled(Paper)`
   &::before {
     content: ' ';
     display: block;
-    background-image: ${(props) => "url(" + props.background + ")"};
+    background-image: linear-gradient(to top, #181818, rgba(255, 255, 255, 0)),${(props) => "url(" + props.background + ")"};
     opacity: 0.8;
     background-position: 50% 20% ;
     background-size: cover;
