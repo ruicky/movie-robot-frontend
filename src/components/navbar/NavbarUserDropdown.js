@@ -74,7 +74,6 @@ function NavbarUserDropdown() {
                     theme.toggle(true);
                     closeMenu()
                 }}>更换主题</MenuItem>
-                <MenuItem onClick={() => navigate("/user/invite-email")}>发送邀请</MenuItem>
                 <MenuItem onClick={handleSignOut}>退出</MenuItem>
             </Menu>
         </React.Fragment>

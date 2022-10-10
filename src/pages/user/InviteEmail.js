@@ -93,8 +93,8 @@ const EditWeb = () => {
         </Typography>
 
         <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} to="/setting/index">
-                VIP特权
+            <Link component={NavLink} to="/setting/license">
+                授权信息
             </Link>
             <Typography>发送产品体验码</Typography>
         </Breadcrumbs>

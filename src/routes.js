@@ -52,6 +52,7 @@ const EditSearchSetting = async(() => import("./pages/setting/Advanced/EditSearc
 const EditLink = async(() => import("./pages/setting/Advanced/EditLink"));
 const EditNotifyTemplate = async(() => import("./pages/setting/Advanced/EditNotifyTemplate"));
 const EditScraper = async(() => import("./pages/setting/Advanced/EditScraper"));
+const License = async(() => import("./pages/setting/License"));
 const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 const HomePage = async(() => import("./pages/home"));
 const MediaDetail = async(() => import("./pages/media/Detail/index"));
@@ -142,6 +143,9 @@ const routes = [{
         }, {
             path: 'edit-scraper',
             element: <EditScraper/>
+        }, {
+            path: 'license',
+            element: <License/>
         }
     ]
 }, {
