@@ -56,6 +56,7 @@ const License = async(() => import("./pages/setting/License"));
 const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 const HomePage = async(() => import("./pages/home"));
 const MediaDetail = async(() => import("./pages/media/Detail/index"));
+const EditCustomSub = async(() => import("./pages/subscribe/Custom/edit"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -221,12 +222,14 @@ const routes = [{
         path: 'movie-index', element: <SubscribeMovieIndex/>
     }, {
         path: 'tv-index', element: <SubscribeTVIndex/>
+    }, {
+        path: 'edit-custom-sub', element: <EditCustomSub/>
     }]
 }, {
     path: "media", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
         path: "link-index", element: <MediaLinkIndex/>
-    },{
-        path: "detail", element: <MediaDetail />
+    }, {
+        path: "detail", element: <MediaDetail/>
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{
