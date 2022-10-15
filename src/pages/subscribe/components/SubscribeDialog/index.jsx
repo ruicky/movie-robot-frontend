@@ -19,7 +19,7 @@ import {
 import {useAddSubscribe} from '@/utils/subscribe';
 import message from "@/utils/message";
 import FilterForm from "@/components/Selectors/FilterForm";
-import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
+import {FilterOptionsContext} from "@/contexts/FilterOptionsProvider";
 import SeasonSelect from "@/pages/subscribe/components/SeasonSelect";
 
 

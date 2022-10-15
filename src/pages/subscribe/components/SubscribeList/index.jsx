@@ -3,7 +3,7 @@ import {useSubscribes} from "@/utils/subscribe";
 import {Divider} from "@mui/material";
 import TagFilter from "@/pages/subscribe/components/TagFilter";
 import ListView from "@/pages/subscribe/components/ListView";
-import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
+import {FilterOptionsContext} from "@/contexts/FilterOptionsProvider";
 import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 
 const SubscribeList = ({mediaType}) => {

@@ -3,7 +3,7 @@ import DailyRecommend from './DailyRecommend';
 import DataFlowList from './DataFlowList/index';
 import {useGetDailyMedia} from "@/api/CommonApi";
 import message from "@/utils/message";
-import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
+import {FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
 import SubscribeDialog from "@/pages/subscribe/components/SubscribeDialog";
 
 const CACHE_KEY = "dailyRecommend";

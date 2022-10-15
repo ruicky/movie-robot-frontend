@@ -35,8 +35,15 @@ export function useSmartForm({
             checked
         } = target;
         let val;
+        let parsed;
         if (/checkbox/.test(type)) {
-            val = checked;
+            if (typeof checked === 'boolean') {
+                val = Boolean(checked);
+            } else {
+                val = checked;
+            }
+        } else if (/number/.test(type)) {
+            val = ((parsed = parseFloat(value)), isNaN(parsed) ? '' : parsed);
         } else {
             val = value;
         }

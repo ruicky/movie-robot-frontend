@@ -6,7 +6,7 @@ import {Helmet} from "react-helmet-async";
 import PageTitle from "@/components/PageTitle";
 import SearchListView from "@/pages/subscribe/Search/list";
 import {getFilterConfigList} from "@/api/ConfigApi";
-import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
+import {FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
 
 const Search = () => {
     const [param, setParam] = useUrlQueryParam(["keyword"]);
