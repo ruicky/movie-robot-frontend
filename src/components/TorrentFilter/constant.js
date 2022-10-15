@@ -1,3 +1,15 @@
+export const FreeTypes = [
+    {
+        name: "完全免费",
+        value: 0
+    }, {
+        name: "50%下载",
+        value: 0.5
+    }, {
+        name: "30%下载",
+        value: 0.3
+    }
+];
 export const FilterTypes = [
     {
         name: '过滤种子名称&标题',

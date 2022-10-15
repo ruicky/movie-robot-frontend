@@ -14,6 +14,7 @@ import {
 import React, {useContext, useEffect} from "react";
 import {FilterOptionsContext} from "@/contexts/FilterOptionsProvider";
 import {Autocomplete} from "@mui/lab";
+import {FreeTypes} from "@/components/TorrentFilter/constant";
 
 const FormActions = ({handleClose, handleSave}) => {
     return (
@@ -315,18 +316,6 @@ const SubtitleFilterForm = ({handleClose, handleSave, data}) => {
 }
 
 const FreeDownloadFilterForm = ({handleClose, handleSave, data}) => {
-    const FreeTypes = [
-        {
-            name: "免费",
-            value: 0
-        }, {
-            name: "50%下载",
-            value: 0.5
-        }, {
-            name: "30%下载",
-            value: 0.3
-        }
-    ];
     const smartForm = useSmartForm({
         initValues: {
             free_type: []

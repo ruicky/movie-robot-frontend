@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import styled from "styled-components/macro";
 import {Add as AddIcon} from "@mui/icons-material";
 import {EditFilterDialog} from "@/components/TorrentFilter/EditFilterDialog";
-import {FilterTypes} from "@/components/TorrentFilter/constant";
+import {FilterTypes, FreeTypes} from "@/components/TorrentFilter/constant";
 
 const List = styled(MuiList)`
     width: 100%;
@@ -16,16 +16,16 @@ function getFilterPreview(filterType, filterData) {
     let desc = "";
     switch (filterType) {
         case "torrentName":
-            return `条件：${filterData.logic==='and'?"并且":"或者"} 关键字：${filterData.torrent_name}`;
+            return `条件：${filterData.logic === 'and' ? "并且" : "或者"} 关键字：${filterData.torrent_name}`;
         case "fileSize":
             if (filterData.min_size !== 0) {
-                desc += "尺寸 >=" + filterData.min_size + "MB";
+                desc += "尺寸 >= " + filterData.min_size + "MB";
             }
             if (filterData.max_size !== 0) {
-                if (desc!=='') {
-                    desc+=" 并且 "
+                if (desc !== '') {
+                    desc += " 并且 "
                 }
-                desc += "尺寸 <=" + filterData.max_size + "MB";
+                desc += "尺寸 <= " + filterData.max_size + "MB";
             }
             return desc;
         case "mediaStream":
@@ -34,13 +34,41 @@ function getFilterPreview(filterType, filterData) {
             desc += filterData.media_codec.join('/');
             return desc;
         case "torrentSeeders":
+            if (filterData.min_seeders !== 0) {
+                desc += "做种 >= " + filterData.min_seeders;
+            }
+            if (filterData.max_seeders !== 0) {
+                if (desc !== '') {
+                    desc += " 并且 "
+                }
+                desc += "做种 <= " + filterData.max_seeders;
+            }
             return desc;
         case "subtitle":
-            return "";
+            if (filterData.has_cn) {
+                desc += "必须包含中文字幕";
+            }
+            if (filterData.has_special) {
+                if (desc !== '') {
+                    desc += " 并且 ";
+                }
+                desc += "必须包含特效字幕";
+            }
+            return desc;
         case "freeDownload":
-            return "";
+            if (filterData.free_type) {
+                desc += filterData.free_type.map((val) => {
+                    return FreeTypes.find((f) => f.value === val).name;
+                }).join(" / ");
+            }
+            return desc;
         case "torrentHR":
-            return "";
+            if (filterData.hr_days === 0) {
+                desc += "排除需要H&R的种子"
+            }else{
+                desc += `排除 H&R时间 > ${filterData.hr_days}天 的种子`;
+            }
+            return desc;
         default:
             return "";
     }
