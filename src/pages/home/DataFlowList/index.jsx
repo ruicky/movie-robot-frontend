@@ -63,7 +63,7 @@ const DataFlowList = () => {
     }, [fetchMediaList]);
 
     const ref = useRef(null)
-    const entry = useIntersectionObserver(ref, { rootMargin: '0px 0px -20px 0px' })
+    const entry = useIntersectionObserver(ref)
 
     useEffect(() => {
         if (entry?.isIntersecting && currentStart.current > 0 && hasMore && !isLoading) {
