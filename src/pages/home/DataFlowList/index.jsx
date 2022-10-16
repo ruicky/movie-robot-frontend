@@ -59,19 +59,19 @@ const DataFlowList = () => {
         fetchMediaList(0);
     }, []);
     return (
-        <Grid spacing={6}>
+        <Grid>
             <Grid item>
                 <Typography variant="h5" mt={2} gutterBottom>
                     推荐
                 </Typography>
             </Grid>
             <Divider sx={{my: 3}}/>
-            <SubscribeDialog
+            {subInfo && <SubscribeDialog
                 open={subInfo}
                 onComplete={onSubComplete}
                 handleClose={() => setSubInfo(null)}
-                data={({id: subInfo?.id, name: subInfo?.name, year: subInfo?.year})}
-            />
+                data={({ id: subInfo?.id, name: subInfo?.name, year: subInfo?.year })}
+            />}
             <Stack spacing={2}>
                 {
                     (mediaList || []).map(item => <ListItem key={item.id} data={item} onSub={onSub}/>)
