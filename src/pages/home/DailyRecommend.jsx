@@ -27,7 +27,7 @@ const DailyRecommend = (data) => {
         <PageWrapper background={background} onClick={() => onPicClick()}>
             <Grid container spacing={2} alignItems="flex-end" flexWrap="nowrap"
                   sx={{position: 'absolute', left: '5px', bottom: '10px', px: 2}}>
-                <Grid item spacing={2} sx={{minWidth: '90px'}}>
+                <Grid item sx={{minWidth: '90px'}}>
                     <Typography variant="h1" component="div" sx={{fontSize: '3rem', fontWeight: '200', color: '#fff'}}>
                         {day}
                     </Typography>

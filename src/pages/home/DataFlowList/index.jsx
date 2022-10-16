@@ -1,28 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import ListItem from './ListItem';
-import {Button, Divider, Grid, Stack, Typography} from "@mui/material";
-import {useGetDoubanSuggestion} from "@/api/MovieApi";
+import { Button, Divider, Grid, Stack, Typography, Skeleton, Box } from "@mui/material";
+import { useGetDoubanSuggestion } from "@/api/MovieApi";
 import message from "@/utils/message";
 import SubscribeDialog from "@/pages/subscribe/components/SubscribeDialog";
-
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const DataFlowList = () => {
     const [subInfo, setSubInfo] = useState(null);
-    const {mutateAsync: getMedia, isLoading} = useGetDoubanSuggestion();
+    const { mutateAsync: getMedia, isLoading } = useGetDoubanSuggestion();
     const [hasMore, setHasMore] = useState(true);
     const [mediaList, setMediaList] = useState([]);
-    const [currentStart, setCurrentStart] = useState(0);
-    const fetchMediaList = (start = 0) => {
-        getMedia({start}, {
+    const currentStart = useRef(0);
+
+    const fetchMediaList = useCallback((start = 0) => {
+        getMedia({ start }, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const { code, message: msg, data } = resData;
                 if (code === 0) {
                     if (data?.items && data.items.length > 0) {
-                        let newList = [...mediaList];
-                        newList = newList.concat(data.items);
-                        setMediaList(newList);
+                        setMediaList(mediaList => [...mediaList, ...data.items]);
                     }
-                    setCurrentStart(data?.next_start);
+                    if (data?.next_start) {
+                        currentStart.current = data?.next_start;
+                    }
                     setHasMore(data?.has_more);
                 } else {
                     message.error(msg);
@@ -30,10 +31,12 @@ const DataFlowList = () => {
             },
             onError: error => message.error(error)
         });
-    }
-    const fetchMore = () => {
-        fetchMediaList(currentStart);
-    }
+    }, [getMedia])
+
+    const fetchMore = useCallback(() => {
+        fetchMediaList(currentStart.current);
+    }, [fetchMediaList]);
+
     const onSub = (media) => {
         setSubInfo({
             id: media.id,
@@ -57,30 +60,47 @@ const DataFlowList = () => {
     }
     useEffect(() => {
         fetchMediaList(0);
-    }, []);
+    }, [fetchMediaList]);
+
+    const ref = useRef(null)
+    const entry = useIntersectionObserver(ref)
+
+    useEffect(() => {
+        if (entry?.isIntersecting && currentStart.current > 0 && hasMore && !isLoading) {
+            fetchMore();
+        }
+    }, [entry?.isIntersecting, fetchMore, hasMore, isLoading])
+
     return (
-        <Grid spacing={6}>
+        <Grid>
             <Grid item>
                 <Typography variant="h5" mt={2} gutterBottom>
                     推荐
                 </Typography>
             </Grid>
-            <Divider sx={{my: 3}}/>
-            <SubscribeDialog
+            <Divider sx={{ my: 3 }} />
+            {subInfo && <SubscribeDialog
                 open={subInfo}
                 onComplete={onSubComplete}
                 handleClose={() => setSubInfo(null)}
-                data={({id: subInfo?.id, name: subInfo?.name, year: subInfo?.year})}
-            />
+                data={({ id: subInfo?.id, name: subInfo?.name, year: subInfo?.year })}
+            />}
             <Stack spacing={2}>
                 {
-                    (mediaList || []).map(item => <ListItem key={item.id} data={item} onSub={onSub}/>)
+                    (mediaList || []).map(item => <ListItem key={item.id} data={item} onSub={onSub} />)
                 }
+                {hasMore && <div style={{
+                    position: 'relative',
+                    top: '-400px'
+                }} ref={ref} />}
+                {hasMore && Array.from(new Array(10)).map((item, index) => (
+                    <ListItem key={index} />
+                ))}
             </Stack>
-            {hasMore ?
-                <Button variant="text" disabled={isLoading} onClick={() => fetchMore()} fullWidth>加载更多</Button> :
-                <Button fullWidth disabled>没有更多了</Button>}
-        </Grid>
+            {
+                !hasMore && <Button fullWidth disabled>没有更多了</Button>
+            }
+        </Grid >
     );
 }
 
