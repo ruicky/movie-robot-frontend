@@ -36,7 +36,7 @@ const DeleteDialog = ({open, handleClose, onSuccess, id, filterName}) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    确定要删除 {filterName} 这个过滤器吗，删除后将无法恢复！
+                    确定要删除 {filterName} 这个自定义订阅吗，删除后将无法恢复！
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

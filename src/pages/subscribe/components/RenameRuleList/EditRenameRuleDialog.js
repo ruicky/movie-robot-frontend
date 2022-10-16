@@ -4,30 +4,30 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import {DialogContent, FormControl, FormHelperText, Grid, IconButton, MenuItem, Select} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import {FilterTypes} from "@/components/TorrentFilter/Filters";
+import {RenameRuleTypes} from "@/pages/subscribe/components/RenameRuleList/Rules";
 
-const EditFilterForm = (props) => {
+const EditRenameRuleForm = (props) => {
     const {filterType} = props;
-    const filter = FilterTypes.find((val) => val.value === filterType).filter;
+    const filter = RenameRuleTypes.find((val) => val.value === filterType).filter;
     return <filter.Form {...props}/>
 }
-export const EditFilterDialog = ({handleSave, handleClose, open, data}) => {
-    const [filterType, setFilterType] = useState("torrentName");
+export const EditRenameRuleDialog = ({handleSave, handleClose, open, data}) => {
+    const [renameRule, setRenameRule] = useState("replaceTorrentName");
     const handleSave_ = (id, val) => {
         handleSave(id, {
-            filter_type: filterType,
-            filter_data: val
+            renameRuleType: renameRule,
+            formData: val
         });
     }
     useEffect(() => {
         if (data?.filter_type) {
-            setFilterType(data.filter_type);
+            setRenameRule(data.filter_type);
         }
     }, [data])
     return (
         <Dialog fullWidth={true} maxWidth={"sm"} open={open}>
             <DialogTitle>
-                {Boolean(data && data.id) ? "编辑" : "设置"}过滤器
+                {Boolean(data && data.id) ? "编辑" : "设置"}自动重命名规则
                 <IconButton
                     aria-label="close"
                     onClick={handleClose}
@@ -47,21 +47,21 @@ export const EditFilterDialog = ({handleSave, handleClose, open, data}) => {
                         <FormControl fullWidth>
                             <Select
                                 name="filter_type"
-                                value={filterType}
-                                onChange={(e) => setFilterType(e.target.value)}
+                                value={renameRule}
+                                onChange={(e) => setRenameRule(e.target.value)}
                                 fullWidth
                                 disabled={Boolean(data && data.id)}
                             >
-                                {FilterTypes && FilterTypes.map((item) => (
+                                {RenameRuleTypes && RenameRuleTypes.map((item) => (
                                     <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
                                 ))}
                             </Select>
-                            <FormHelperText>选择一个过滤器类型</FormHelperText>
+                            <FormHelperText>选择一个重命名模式</FormHelperText>
                         </FormControl>
                     </Grid>
                     <Grid xs={12} item>
-                        <EditFilterForm
-                            filterType={filterType}
+                        <EditRenameRuleForm
+                            filterType={renameRule}
                             handleClose={handleClose}
                             handleSave={handleSave_}
                             data={data}
