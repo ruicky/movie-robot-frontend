@@ -41,6 +41,7 @@ const SavePathSelect = ({smartForm}) => {
             value={smartForm.values.save_path}
             onChange={smartForm.handleChange}
         >
+            <MenuItem value={"自动选择保存路径"}>根据影片信息自动选择保存路径</MenuItem>
             {paths && paths.map((item, index) => (
                 <MenuItem key={index} value={item.download_path}>{item.download_path}</MenuItem>
             ))}
@@ -83,7 +84,7 @@ const EditCustomSub = () => {
             rename_rule: [],
             douban_id: '',
             tmdb_id: '',
-            save_path: '',
+            save_path: '自动选择保存路径',
             season_number: 1,
             episode_count: 1000,
             auto_delete: false,
@@ -266,6 +267,7 @@ const EditCustomSub = () => {
                                 >
                                     <MenuItem value="Movie">电影</MenuItem>
                                     <MenuItem value="TV">剧集</MenuItem>
+                                    <MenuItem value="XX">XX</MenuItem>
                                     <MenuItem value="Other">其他</MenuItem>
                                 </Select>
                             </Grid>
@@ -281,7 +283,7 @@ const EditCustomSub = () => {
                                     onChange={smartForm.handleChange}
                                 />
                             </Grid>
-                            {smartForm.values.media_type !== 'Other' && (
+                            {smartForm.values.media_type !== 'Other' && smartForm.values.media_type !== 'XX' && (
                                 <>
                                     <Grid item xs={12}>
                                         <TextField
