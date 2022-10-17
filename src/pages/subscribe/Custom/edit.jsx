@@ -50,6 +50,26 @@ const SavePathSelect = ({smartForm}) => {
         </FormHelperText>
     </FormControl>);
 }
+const ScoreRuleSelect = ({smartForm}) => {
+    const filterOptions = useContext(FilterOptionsContext);
+    const {
+        rule_list: rules
+    } = filterOptions;
+    return (<FormControl m={4} fullWidth>
+        <Select
+            name="score_rule_name"
+            value={smartForm.values.score_rule_name}
+            onChange={smartForm.handleChange}
+        >
+            {rules && rules.map((item, index) => (
+                <MenuItem key={index} value={item.value}>{item.name}</MenuItem>
+            ))}
+        </Select>
+        <FormHelperText>
+            存在多部相同的资源时，使用设定的排序标准优选
+        </FormHelperText>
+    </FormControl>);
+}
 const EditCustomSub = () => {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -67,7 +87,8 @@ const EditCustomSub = () => {
             season_number: 1,
             episode_count: 1000,
             auto_delete: false,
-            skip_exists: false
+            skip_exists: false,
+            score_rule_name: 'compress'
         }
     });
     useEffect(async () => {
@@ -82,11 +103,16 @@ const EditCustomSub = () => {
                         if (data.name) {
                             smartForm.setFieldValue('name', data.name);
                         }
+                        if (data.score_rule_name) {
+                            smartForm.setFieldValue('score_rule_name', data.score_rule_name);
+                        }
                         smartForm.setFieldValue('douban_id', data.douban_id);
                         smartForm.setFieldValue('tmdb_id', data.tmdb_id);
                         smartForm.setFieldValue('save_path', data.save_path);
                         smartForm.setFieldValue('season_number', data.season_number);
+                        smartForm.setFieldValue('episode_count', data.episode_count);
                         smartForm.setFieldValue('auto_delete', data.auto_delete);
+                        smartForm.setFieldValue('skip_exists', data.skip_exists);
                         if (data.torrent_filter) {
                             let id = 0;
                             const torrentFilter = JSON.parse(data.torrent_filter).map((item) => {
@@ -169,7 +195,10 @@ const EditCustomSub = () => {
             tmdb_id,
             save_path,
             season_number,
-            auto_delete
+            episode_count,
+            auto_delete,
+            skip_exists,
+            score_rule_name
         } = smartForm.values;
         const params = {
             media_type,
@@ -178,7 +207,10 @@ const EditCustomSub = () => {
             tmdb_id,
             save_path,
             season_number,
+            episode_count,
             auto_delete,
+            skip_exists,
+            score_rule_name,
             torrent_filter: torrent_filter.map((item) => {
                 return {
                     type: item.filter_type,
@@ -335,8 +367,15 @@ const EditCustomSub = () => {
                         <Typography variant="h6" gutterBottom>
                             下载设置
                         </Typography>
-                        <SavePathSelect smartForm={smartForm}/>
+
+
                         <Grid container spacing={2}>
+                            <Grid xs={12} item>
+                                <ScoreRuleSelect smartForm={smartForm}/>
+                            </Grid>
+                            <Grid xs={12} item>
+                                <SavePathSelect smartForm={smartForm}/>
+                            </Grid>
                             <Grid xs={12} item>
                                 <FormControlLabel
                                     control={<Checkbox

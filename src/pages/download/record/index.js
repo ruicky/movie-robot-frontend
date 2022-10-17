@@ -23,7 +23,6 @@ import ChartDialogs from "@/pages/download/components/ChartDialogs";
 import {STATUS} from "@/constants";
 import {Alert} from "@mui/lab";
 import SubLogDialog from "@/pages/subscribe/SubLogDialog";
-import {Slack} from "react-feather";
 
 const Divider = styled(MuiDivider)(spacing);
 export default function DownloadRecords() {
@@ -81,6 +80,7 @@ export default function DownloadRecords() {
                 episode: r?.episodes ? r.episodes.split(",") : null,
                 source_type: r?.source_type,
                 sub_id: r.sub_id,
+                sub_type: r.sub_type,
                 gmt_create: r.gmt_create
             });
         }
@@ -144,6 +144,7 @@ export default function DownloadRecords() {
                 <Alert variant="filled" severity="warning">有{downloadQueueSize}个下载请求排队处理中</Alert>
             </Stack> : null}
             <SubLogDialog subId={showSubLog?.subId}
+                          subType={showSubLog?.subType}
                           title={showSubLog?.title ? `${showSubLog?.title}的订阅全息日志` : "未知信息"}
                           open={showSubLog}
                           selectTime={showSubLog?.time}
