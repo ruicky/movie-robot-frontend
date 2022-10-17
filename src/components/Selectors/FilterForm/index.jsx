@@ -26,7 +26,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React, {useContext, useEffect, useImperativeHandle, useState} from "react";
 import styled from "styled-components/macro";
-import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
+import {FilterOptionsContext} from "@/contexts/FilterOptionsProvider";
 import axios from "@/utils/request";
 
 const ITEM_HEIGHT = 48;

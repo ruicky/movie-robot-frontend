@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PageTitle from '@/components/PageTitle';
 import {Helmet} from "react-helmet-async";
-import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
+import {FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
 import DoubanRanking from "@/pages/recommend/components/DoubanRanking";
 import SubscribeTrendingDialog from "@/pages/recommend/components/SubscribeTrendingDialog";
 import {useGetSubDatasetList} from "@/utils/subscribe";

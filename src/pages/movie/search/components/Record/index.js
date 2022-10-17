@@ -170,7 +170,7 @@ const COM = ({
                     {(subject || name) ? `[${site_name}] ${subject ? subject : name}` : <Skeleton/>}
                 </Typography>
                 <Typography mb={4} color="textSecondary" component="p">
-                    {name ? `${name}` : <Skeleton/>}
+                    {name !== null && name !== undefined ? `${name}` : <Skeleton/>}
                 </Typography>
                 {upload !== undefined ? <Box sx={{display: "flex", alignItems: "flex-end"}}>
                     <Grid container alignItems="center" spacing={1}>

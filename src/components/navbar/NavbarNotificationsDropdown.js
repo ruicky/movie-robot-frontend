@@ -16,6 +16,7 @@ import {
     SvgIcon,
     Tooltip,
     Typography,
+    CircularProgress
 } from "@mui/material";
 import * as f_icon from "react-feather";
 import {Bell} from "react-feather";
@@ -80,12 +81,20 @@ function NavbarNotificationsDropdown() {
     const [unread, setUnreadCount] = useState(0)
     const [messageCount, setMessageCount] = useState(0)
     const [messageList, setMessageList] = useState([])
+    const [loading, setLoading] = useState(false)
+
     const handleOpen = async () => {
-        const messageList = await getUnreadSysNotify()
-        setMessageList(messageList);
-        setMessageCount(messageList.length)
-        setUnreadCount(0);
-        setOpen(true);
+        setLoading(true)
+        try {
+            const messageList = await getUnreadSysNotify()
+            setMessageList(messageList);
+            setMessageCount(messageList.length)
+            setUnreadCount(0);
+            setOpen(true);
+        } catch (error) {
+           console.error(error)
+        }
+        setLoading(false)
     };
     const countMessage = async () => {
         const count = await countUnreadSysNotify();
@@ -103,10 +112,10 @@ function NavbarNotificationsDropdown() {
     return (
         <React.Fragment>
             <Tooltip title="通知消息">
-                <IconButton color="inherit" ref={ref} onClick={handleOpen} size="large">
-                    <Indicator badgeContent={unread > 0 ? unread : null}>
+                <IconButton disabled={loading} component="div" color="inherit" ref={ref} onClick={handleOpen} size="large">
+                    {loading ? <CircularProgress size={24} color="primary" /> : <Indicator badgeContent={unread > 0 ? unread : null}>
                         <Bell/>
-                    </Indicator>
+                    </Indicator>}
                 </IconButton>
             </Tooltip>
             <Popover

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import {useSubDataset} from '@/utils/subscribe';
 import FilterForm from "@/components/Selectors/FilterForm";
-import {FilterOptionsContext} from "@/components/Selectors/FilterOptionsProvider";
+import {FilterOptionsContext} from "@/contexts/FilterOptionsProvider";
 import TextField from "@mui/material/TextField";
 import message from "@/utils/message";
 

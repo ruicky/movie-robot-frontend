@@ -66,7 +66,6 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             if (data.enable !== undefined || data.enable !== null) {
                 formik.setFieldValue('enable', data.enable)
             }
-            formik.setFieldValue('use_server_proxy', data?.use_server_proxy !== undefined && data?.use_server_proxy !== null ? data.use_server_proxy : false)
             formik.setFieldValue('server_url', data?.server_url !== undefined ? data.server_url : 'https://qyapi.weixin.qq.com')
         }
     }, [data]);
@@ -85,7 +84,7 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             error={Boolean(formik.touched.server_url && formik.errors.server_url)}
             fullWidth
             helperText={<>
-                官方：https://qyapi.weixin.qq.com 高级玩家可以自定义代理，小白启用内置代理即可。<Link target="_blank" href="https://yee329.notion.site/af9db7f54b424c919f2f7f375ffbfcf2">查看教程</Link>
+                官方：https://qyapi.weixin.qq.com 高级玩家可以自定义代理
             </>}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
@@ -162,14 +161,6 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             my={3}
-        />
-        <FormControlLabel
-            control={<Checkbox
-                checked={formik.values.use_server_proxy}
-                name="use_server_proxy"
-                onChange={formik.handleChange}
-            />}
-            label="开启Movie Robot自建代理通过白名单验证"
         />
         <FormControlLabel
             control={<Checkbox

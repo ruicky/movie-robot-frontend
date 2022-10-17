@@ -29,7 +29,7 @@ import {
 import {spacing} from "@mui/system";
 import Record from "./components/Record";
 import MediaServerSearch from "@/pages/movie/search/MediaServerSearch";
-import {FilterOptionsProvider} from "@/components/Selectors/FilterOptionsProvider";
+import {FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
 
 const StyledDivider = styled(Divider)(spacing);
 

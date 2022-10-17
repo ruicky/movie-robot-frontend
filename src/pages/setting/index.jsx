@@ -6,18 +6,30 @@ import MovieMetadataSettingList from "@/pages/setting/MovieMetadata";
 import DownloadSettingList from "@/pages/setting/DownloadSetting";
 import NotifySettingList from "@/pages/setting/Notify";
 import AdvancedSettingList from "@/pages/setting/Advanced";
-import {Box, Button} from "@mui/material";
+import {Avatar, Box, Button, ListItemButton} from "@mui/material";
 import RestartAppDialog from "@/pages/setting/RestartAppDialog";
 import {Alert} from "@mui/lab";
 import {useGetHealth} from "@/api/HealthApi";
 import message from "@/utils/message";
 import HealthDataDialog from "@/pages/setting/Health/HealthDataDialog";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
+import List from "@mui/material/List";
+import {useNavigate} from "react-router-dom";
+import useAuth from "@/hooks/useAuth";
+import {useGetLicenseDetail} from "@/api/AuthApi";
 
 function Setting() {
+    const {user} = useAuth();
+    const navigate = useNavigate();
     const [showHealthData, setShowHealthData] = useState(false);
-    const {data: healthData, isLoading: healthIsLoading, refetch: refetchHealth} = useGetHealth()
+    const {data: healthData, isLoading: healthIsLoading, refetch: refetchHealth} = useGetHealth();
+    const {data: licenseDetail} = useGetLicenseDetail();
     const [showRestartDialog, setShowRestartDialog] = useState(false);
     const [healthTip, setHealthTip] = useState(null);
+    const [licenseMessage, setLicenseMessage] = useState(null);
     useEffect(() => {
         if (healthData) {
             if (healthData.code === 0) {
@@ -27,6 +39,22 @@ function Setting() {
             }
         }
     }, [healthData])
+    useEffect(() => {
+        if (!licenseDetail?.data) {
+            return;
+        }
+        const {
+            licenseType,
+            expireDays
+        } = licenseDetail?.data;
+        if (licenseType === 'VIP') {
+            setLicenseMessage('尊贵的永久授权用户！❤️🎉🌹');
+        }else if(licenseType==='SubVIP'){
+            setLicenseMessage(`订阅授权还有${expireDays}天过期🌹`);
+        }else if (licenseType === 'ExperienceUser') {
+            setLicenseMessage(`体验授权还有${expireDays}天过期。`);
+        }
+    },[licenseDetail])
     return (
         <>
             <Helmet title="设置"/>
@@ -45,6 +73,20 @@ function Setting() {
             >
                 {healthTip?.message}
             </Alert>}
+            <List
+                sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
+            >
+                <ListItem>
+                    <ListItemButton onClick={() => navigate("/setting/license")}>
+                        <ListItemIcon>
+                            {user && <Avatar alt={user.nickname}
+                                             src={user.avatar}>{user.nickname && user.nickname.substring(0, 1)}</Avatar>}
+                        </ListItemIcon>
+                        <ListItemText primary={licenseMessage}/>
+                        <ArrowForwardIosOutlinedIcon color="disabled"/>
+                    </ListItemButton>
+                </ListItem>
+            </List>
             <MediaServerSettingList/>
             <DownloadClientSettingList/>
             <MovieMetadataSettingList/>

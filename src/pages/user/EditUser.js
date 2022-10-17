@@ -2,9 +2,11 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
+import axios from "../../utils/request";
 
 import {
     Alert as MuiAlert,
+    Avatar,
     Box,
     Button,
     Checkbox,
@@ -25,6 +27,9 @@ import {Helmet} from "react-helmet-async";
 import {getUser, getUserOptions, registerUser, updateUser} from "@/api/UserApi";
 import message from "@/utils/message";
 import ScoreRuleSelectComponent from "@/components/core/ScoreRuleSelectComponent";
+import {CloudUpload as MuiCloudUpload} from "@mui/icons-material";
+
+const CloudUpload = styled(MuiCloudUpload)(spacing);
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -39,7 +44,11 @@ const Wrapper = styled(Paper)`
     padding: ${(props) => props.theme.spacing(10)};
   }
 `;
-
+const BigAvatar = styled(Avatar)`
+  width: 120px;
+  height: 120px;
+  margin: 0 auto ${(props) => props.theme.spacing(2)};
+`;
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -83,6 +92,7 @@ function EditUser({}) {
     const id = searchParams.get('id');
     const formik = useFormik({
         initialValues: {
+            avatar: '',
             username: '',
             nickname: '',
             password: '',
@@ -110,9 +120,9 @@ function EditUser({}) {
                 setSubmitting(true)
                 let r;
                 if (op === "add") {
-                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory,values.telegramUserId)
+                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory, values.telegramUserId)
                 } else {
-                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory,values.telegramUserId)
+                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory, values.telegramUserId)
                 }
                 if (r.code === 0) {
                     message.success(r.message)
@@ -175,6 +185,7 @@ function EditUser({}) {
                 formik.setFieldValue("permissionCategory", user.permission_category)
             }
             formik.setFieldValue('telegramUserId', user.telegram_user_id)
+            formik.setFieldValue('avatar', user?.avatar)
         }
     }, [op])
     return (<React.Fragment>
@@ -191,6 +202,37 @@ function EditUser({}) {
                     {formik.errors.submit && (<Alert mt={2} mb={1} severity="warning">
                         {formik.errors.submit}
                     </Alert>)}
+                    <Box sx={{
+                        textAlign: 'center'
+
+                    }}>
+                        <BigAvatar
+                            src={formik.values.avatar}
+                        />
+                        <input
+                            accept="image/*"
+                            style={{display: "none"}}
+                            id="raised-button-file"
+                            multiple
+                            type="file"
+                            onChange={(e) => {
+                                const formData = new FormData();
+                                formData.append("file", e.target.files[0]);
+                                axios.post('/api/user/upload_avatar?uid=' + id, formData, {
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data'
+                                    }
+                                }).then((res) => {
+                                    formik.setFieldValue('avatar', res.data + '?t=' + (new Date()).valueOf());
+                                })
+                            }}
+                        />
+                        <label htmlFor="raised-button-file">
+                            <Button variant="contained" color="primary" component="span">
+                                <CloudUpload mr={2}/> 上传头像
+                            </Button>
+                        </label>
+                    </Box>
                     <TextField
                         type="text"
                         name="username"

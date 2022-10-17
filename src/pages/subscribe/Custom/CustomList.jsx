@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import {Helmet} from "react-helmet-async";
 import {useSubCustomList} from "@/utils/subscribe";
 import {
     Avatar,
-    Divider,
     IconButton,
     List,
     ListItem,
@@ -12,14 +10,16 @@ import {
     ListItemIcon,
     ListItemText,
     Menu,
-    MenuItem,
-    Typography
+    MenuItem
 } from "@mui/material";
 import {Skeleton} from "@mui/lab";
-import {Add as AddIcon, FilterList as FilterListIcon} from "@mui/icons-material";
+import {Add as AddIcon} from "@mui/icons-material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {useNavigate} from "react-router-dom";
-import DeleteDialog from "@/pages/subscribe/Custom/DeleteCustomFilter";
+import MovieIcon from '@mui/icons-material/Movie';
+import TvIcon from '@mui/icons-material/Tv';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import DeleteDialog from "@/pages/subscribe/Custom/DeleteDialog";
 
 function OptionMenus({onEdit, onDelete}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -59,7 +59,8 @@ function OptionMenus({onEdit, onDelete}) {
     )
 }
 
-function FilterItem({filterName, savePath, onEdit, onDelete}) {
+function FilterItem({name, mediaType, savePath, renameRule, torrentFilter, onEdit, onDelete}) {
+    console.log(mediaType);
     return (
         <ListItem
             secondaryAction={
@@ -68,11 +69,13 @@ function FilterItem({filterName, savePath, onEdit, onDelete}) {
         >
             <ListItemAvatar>
                 <Avatar>
-                    <FilterListIcon/>
+                    {mediaType === 'Movie' && <MovieIcon/>}
+                    {mediaType === 'TV' && <TvIcon/>}
+                    {mediaType === 'Other' && <VideocamIcon/>}
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={filterName}
-                          secondary={"下载到：" + savePath}/>
+            <ListItemText primary={name}
+                          secondary={`下载到：${savePath}`}/>
         </ListItem>
     )
 }
@@ -83,7 +86,7 @@ const CustomList = () => {
     const [deleteFilterName, setDeleteFilterName] = useState(null)
     const [deleteFilterId, setDeleteFilterId] = useState(null)
     const onEdit = (item) => {
-        navigate("/subscribe/edit-custom-filter?id=" + item.id)
+        navigate("/subscribe/edit-custom-sub?id=" + item.id)
     }
     const onDelete = (item) => {
         setDeleteFilterId(item.id);
@@ -104,18 +107,21 @@ const CustomList = () => {
                 filterName={deleteFilterName}
                 onSuccess={onDeleteSuccess}
             />
-            <List sx={{mt:4,width: '100%', bgcolor: 'background.paper'}}>
+            <List sx={{mt: 4, width: '100%', bgcolor: 'background.paper'}}>
                 {subCustomData && subCustomData?.data ? subCustomData.data.map((item, index) => (
                     <FilterItem
                         key={index}
-                        filterName={item?.filter_name}
+                        name={item?.name}
                         savePath={item?.save_path}
+                        renameRule={item?.rename_rule}
+                        torrentFilter={item?.torrent_filter}
+                        mediaType={item?.media_type}
                         onEdit={() => onEdit(item)}
                         onDelete={() => onDelete(item)}
                     />
                 )) : <Skeleton variant="rectangular"/>}
                 <ListItem disablePadding>
-                    <ListItemButton onClick={() => navigate("/subscribe/edit-custom-filter")}>
+                    <ListItemButton onClick={() => navigate("/subscribe/edit-custom-sub")}>
                         <ListItemIcon>
                             <AddIcon/>
                         </ListItemIcon>
