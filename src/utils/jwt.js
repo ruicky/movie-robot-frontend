@@ -1,12 +1,11 @@
-import jwtDecode from "jwt-decode";
-import { verify, sign } from "jsonwebtoken";
+import * as jose from 'jose'
 import axios from "./request";
 
 const isValidToken = (accessToken) => {
   if (!accessToken) {
     return false;
   }
-  const decoded = jwtDecode(accessToken);
+  const decoded = jose.decodeJwt(accessToken);
   const currentTime = Date.now() / 1000;
 
   return decoded.exp > currentTime;
@@ -37,4 +36,4 @@ const setSession = (accessToken) => {
   }
 };
 
-export { verify, sign, isValidToken, setSession };
+export { isValidToken, setSession };

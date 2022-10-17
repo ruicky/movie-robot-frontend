@@ -6,9 +6,9 @@
   "private": true,
   "license": "https://material-ui.com/store/license/",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "eject": "craco eject",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "lint": "eslint src --ext .js,.jsx --fix"
   },
   "browserslist": [
@@ -28,8 +28,9 @@
     "@auth0/auth0-spa-js": "1.19.3",
     "@codemirror/lang-javascript": "^6.1.0",
     "@codemirror/view": "^6.2.5",
-    "@craco/craco": "6.4.3",
     "@date-io/date-fns": "2.11.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@fullcalendar/core": "5.10.1",
     "@fullcalendar/daygrid": "5.10.1",
     "@fullcalendar/interaction": "5.10.1",
@@ -62,6 +63,7 @@
     "history": "5.2.0",
     "i18next": "20.6.1",
     "immer": "^9.0.12",
+    "jose": "^4.10.0",
     "jsonwebtoken": "8.5.1",
     "jss": "10.9.0",
     "jwt-decode": "3.1.2",
@@ -82,7 +84,6 @@
     "react-quill": "2.0.0-beta.4",
     "react-redux": "7.2.6",
     "react-router-dom": "6.2.1",
-    "react-scripts": "4.0.3",
     "react-spring": "^9.4.4",
     "react-syntax-highlighter": "15.4.5",
     "react-transition-group": "^4.4.2",
@@ -97,12 +98,16 @@
   "devDependencies": {
     "@babel/preset-env": "7.16.5",
     "@svgr/webpack": "5.5.0",
-    "craco-alias": "3.0.1",
+    "@vitejs/plugin-react": "^2.1.0",
+    "babel-plugin-macros": "^3.1.0",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-prettier": "3.4.1",
     "prettier": "2.5.1",
-    "redux-devtools-extension": "2.13.9"
+    "redux-devtools-extension": "2.13.9",
+    "vite": "^3.1.8",
+    "vite-plugin-babel-macros": "^1.0.6",
+    "vite-plugin-svgr": "^2.2.1"
   },
   "resolutions": {
     "jss": "10.9.0",
