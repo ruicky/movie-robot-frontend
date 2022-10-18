@@ -20,8 +20,8 @@ export const EditRenameRuleDialog = ({handleSave, handleClose, open, data}) => {
         });
     }
     useEffect(() => {
-        if (data?.filter_type) {
-            setRenameRule(data.filter_type);
+        if (data?.renameRuleType) {
+            setRenameRule(data.renameRuleType);
         }
     }, [data])
     return (
