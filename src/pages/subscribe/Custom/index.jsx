@@ -2,6 +2,7 @@ import {Helmet} from "react-helmet-async";
 import {Divider, Typography} from "@mui/material";
 import CustomList from "@/pages/subscribe/Custom/CustomList";
 import React from "react";
+import {FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
 
 const CustomIndex = () => {
     return (<>
@@ -10,7 +11,9 @@ const CustomIndex = () => {
             自定义订阅
         </Typography>
         <Divider my={4}/>
-        <CustomList/>
+        <FilterOptionsProvider>
+            <CustomList/>
+        </FilterOptionsProvider>
     </>)
 }
 export default CustomIndex;

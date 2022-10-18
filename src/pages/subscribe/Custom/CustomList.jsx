@@ -24,8 +24,9 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import DeleteDialog from "@/pages/subscribe/Custom/DeleteDialog";
 import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 import message from "@/utils/message";
+import {RunDialog} from "@/pages/subscribe/Custom/RunDialog";
 
-function OptionMenus({onEdit, onDelete, onShowLog}) {
+function OptionMenus({onEdit, onDelete, onShowLog, onRun}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -56,6 +57,9 @@ function OptionMenus({onEdit, onDelete, onShowLog}) {
                 {onShowLog && <MenuItem onClick={onShowLog}>
                     全息日志
                 </MenuItem>}
+                {onRun && <MenuItem onClick={onRun}>
+                    立即运行
+                </MenuItem>}
                 <MenuItem onClick={onEdit}>
                     编辑
                 </MenuItem>
@@ -76,17 +80,21 @@ function FilterItem({
                         onEdit,
                         onDelete,
                         onShowLog,
-                        onEnableChange
+                        onEnableChange,
+                        onRun
                     }) {
     return (
         <ListItem
             secondaryAction={
-                <Stack direction={"row"} spacing={1}><Switch
-                    edge="end"
-                    checked={enable}
-                    onClick={e => e.stopPropagation()}
-                    onChange={onEnableChange}
-                /><OptionMenus onEdit={onEdit} onDelete={onDelete} onShowLog={onShowLog}/></Stack>
+                <Stack direction={"row"} spacing={1}>
+                    <Switch
+                        edge="end"
+                        checked={enable}
+                        onClick={e => e.stopPropagation()}
+                        onChange={onEnableChange}
+                    />
+                    <OptionMenus onEdit={onEdit} onDelete={onDelete} onShowLog={onShowLog} onRun={onRun}/>
+                </Stack>
             }
         >
             <ListItemButton>
@@ -108,6 +116,7 @@ function FilterItem({
 const CustomList = () => {
     const navigate = useNavigate();
     const [subLogData, setSubLogData] = useState(null);
+    const [runCustomSubId, setRunCustomSubId] = useState(null);
     const {mutate: enableSub} = useEnableSubCustomStatus();
     const {data: subCustomData, isLoading: subIsLoading, refetch: refetchSubCustomData} = useSubCustomList()
     const [deleteFilterName, setDeleteFilterName] = useState(null)
@@ -141,8 +150,17 @@ const CustomList = () => {
             }
         })
     }
+    const onRun = (subId, params) => {
+
+    }
     return (
         <>
+            <RunDialog
+                subId={runCustomSubId}
+                open={Boolean(runCustomSubId)}
+                handleClose={() => setRunCustomSubId(null)}
+                handleRun={onRun}
+            />
             <SubLogDialog subId={subLogData?.subId}
                           title={subLogData?.title ? `${subLogData?.title}的订阅全息日志` : "未知信息"}
                           open={Boolean(subLogData)}
@@ -173,6 +191,7 @@ const CustomList = () => {
                         onDelete={() => onDelete(item)}
                         onShowLog={() => onShowLog(item)}
                         onEnableChange={(e) => onEnableChange(item, e.target.checked)}
+                        onRun={() => setRunCustomSubId(item.id)}
                     />
                 )) : <Skeleton variant="rectangular"/>}
                 <ListItem disablePadding>
