@@ -1,6 +1,7 @@
 import {Helmet} from "react-helmet-async";
 import {
-    Box, Breadcrumbs,
+    Box,
+    Breadcrumbs,
     Button,
     Card as MuiCard,
     CardContent,
@@ -9,7 +10,8 @@ import {
     FormControl,
     FormControlLabel,
     FormHelperText,
-    Grid, Link,
+    Grid,
+    Link,
     MenuItem,
     Select,
     TextField,
@@ -39,12 +41,33 @@ const SavePathSelect = ({smartForm}) => {
             value={smartForm.values.save_path}
             onChange={smartForm.handleChange}
         >
+            <MenuItem value={"自动选择保存路径"}>根据影片信息自动选择保存路径</MenuItem>
             {paths && paths.map((item, index) => (
                 <MenuItem key={index} value={item.download_path}>{item.download_path}</MenuItem>
             ))}
         </Select>
         <FormHelperText>
             由此订阅产生的下载，将被提交保存到此路径
+        </FormHelperText>
+    </FormControl>);
+}
+const ScoreRuleSelect = ({smartForm}) => {
+    const filterOptions = useContext(FilterOptionsContext);
+    const {
+        rule_list: rules
+    } = filterOptions;
+    return (<FormControl m={4} fullWidth>
+        <Select
+            name="score_rule_name"
+            value={smartForm.values.score_rule_name}
+            onChange={smartForm.handleChange}
+        >
+            {rules && rules.map((item, index) => (
+                <MenuItem key={index} value={item.value}>{item.name}</MenuItem>
+            ))}
+        </Select>
+        <FormHelperText>
+            存在多部相同的资源时，使用设定的排序标准优选
         </FormHelperText>
     </FormControl>);
 }
@@ -61,9 +84,12 @@ const EditCustomSub = () => {
             rename_rule: [],
             douban_id: '',
             tmdb_id: '',
-            save_path: '',
+            save_path: '自动选择保存路径',
             season_number: 1,
-            auto_delete: false
+            episode_count: 1000,
+            auto_delete: false,
+            skip_exists: false,
+            score_rule_name: 'compress'
         }
     });
     useEffect(async () => {
@@ -78,11 +104,16 @@ const EditCustomSub = () => {
                         if (data.name) {
                             smartForm.setFieldValue('name', data.name);
                         }
+                        if (data.score_rule_name) {
+                            smartForm.setFieldValue('score_rule_name', data.score_rule_name);
+                        }
                         smartForm.setFieldValue('douban_id', data.douban_id);
                         smartForm.setFieldValue('tmdb_id', data.tmdb_id);
                         smartForm.setFieldValue('save_path', data.save_path);
                         smartForm.setFieldValue('season_number', data.season_number);
+                        smartForm.setFieldValue('episode_count', data.episode_count);
                         smartForm.setFieldValue('auto_delete', data.auto_delete);
+                        smartForm.setFieldValue('skip_exists', data.skip_exists);
                         if (data.torrent_filter) {
                             let id = 0;
                             const torrentFilter = JSON.parse(data.torrent_filter).map((item) => {
@@ -165,7 +196,10 @@ const EditCustomSub = () => {
             tmdb_id,
             save_path,
             season_number,
-            auto_delete
+            episode_count,
+            auto_delete,
+            skip_exists,
+            score_rule_name
         } = smartForm.values;
         const params = {
             media_type,
@@ -174,7 +208,10 @@ const EditCustomSub = () => {
             tmdb_id,
             save_path,
             season_number,
+            episode_count,
             auto_delete,
+            skip_exists,
+            score_rule_name,
             torrent_filter: torrent_filter.map((item) => {
                 return {
                     type: item.filter_type,
@@ -230,6 +267,7 @@ const EditCustomSub = () => {
                                 >
                                     <MenuItem value="Movie">电影</MenuItem>
                                     <MenuItem value="TV">剧集</MenuItem>
+                                    <MenuItem value="XX">XX</MenuItem>
                                     <MenuItem value="Other">其他</MenuItem>
                                 </Select>
                             </Grid>
@@ -245,7 +283,7 @@ const EditCustomSub = () => {
                                     onChange={smartForm.handleChange}
                                 />
                             </Grid>
-                            {smartForm.values.media_type !== 'Other' && (
+                            {smartForm.values.media_type !== 'Other' && smartForm.values.media_type !== 'XX' && (
                                 <>
                                     <Grid item xs={12}>
                                         <TextField
@@ -273,18 +311,32 @@ const EditCustomSub = () => {
                                     </Grid>
                                 </>
                             )}
-                            {smartForm.values.media_type === 'TV' && <Grid item xs={12}>
-                                <TextField
-                                    type="number"
-                                    name="season_number"
-                                    label="季号"
-                                    helperText={"指定剧集是第几季，方便下载完刮削"}
-                                    fullWidth
-                                    my={3}
-                                    value={smartForm.values.season_number}
-                                    onChange={smartForm.handleChange}
-                                />
-                            </Grid>}
+                            {smartForm.values.media_type === 'TV' && <>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        type="number"
+                                        name="season_number"
+                                        label="季号"
+                                        helperText={"指定剧集是第几季，方便下载完刮削"}
+                                        fullWidth
+                                        my={3}
+                                        value={smartForm.values.season_number}
+                                        onChange={smartForm.handleChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        type="number"
+                                        name="episode_count"
+                                        label="总集数"
+                                        helperText={"如果开启了媒体库查重，本地库剧集数量超过这个值就会跳过"}
+                                        fullWidth
+                                        my={3}
+                                        value={smartForm.values.episode_count}
+                                        onChange={smartForm.handleChange}
+                                    />
+                                </Grid>
+                            </>}
                         </Grid>
                     </CardContent>
                 </Card>
@@ -317,15 +369,37 @@ const EditCustomSub = () => {
                         <Typography variant="h6" gutterBottom>
                             下载设置
                         </Typography>
-                        <SavePathSelect smartForm={smartForm}/>
-                        <FormControlLabel
-                            control={<Checkbox
-                                name="auto_delete"
-                                checked={smartForm.values.auto_delete}
-                                onChange={smartForm.handleChange}
-                            />}
-                            label="下载完成后对影视库已经存在的影片做替换"
-                        />
+
+
+                        <Grid container spacing={2}>
+                            <Grid xs={12} item>
+                                <ScoreRuleSelect smartForm={smartForm}/>
+                            </Grid>
+                            <Grid xs={12} item>
+                                <SavePathSelect smartForm={smartForm}/>
+                            </Grid>
+                            <Grid xs={12} item>
+                                <FormControlLabel
+                                    control={<Checkbox
+                                        name="auto_delete"
+                                        checked={smartForm.values.auto_delete}
+                                        onChange={smartForm.handleChange}
+                                    />}
+                                    label="下载完成后对影视库已经存在的影片做替换"
+                                />
+                            </Grid>
+                            <Grid xs={12} item>
+                                <FormControlLabel
+                                    control={<Checkbox
+                                        name="skip_exists"
+                                        checked={smartForm.values.skip_exists}
+                                        onChange={smartForm.handleChange}
+                                        disabled={smartForm.values.auto_delete}
+                                    />}
+                                    label="自动跳过媒体库存在的影片"
+                                />
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </Card>
             </Box>

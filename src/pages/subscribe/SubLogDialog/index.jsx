@@ -1,12 +1,12 @@
 import AppBar from "@mui/material/AppBar";
-import {Dialog, IconButton, MenuItem, Select, TextareaAutosize, Toolbar, Typography} from "@mui/material";
+import {Dialog, IconButton, MenuItem, Select, Toolbar, Typography} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import {useEffect, useState} from "react";
 import {useGetSubLogs, useGetSubLogText} from "@/utils/subscribe";
 import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { sublime } from '@uiw/codemirror-theme-sublime';
-import { EditorView } from "@codemirror/view";
+import {javascript} from '@codemirror/lang-javascript';
+import {sublime} from '@uiw/codemirror-theme-sublime';
+import {EditorView} from "@codemirror/view";
 
 
 function toDate(text) {
@@ -14,7 +14,7 @@ function toDate(text) {
     return new Date(text);
 }
 
-const SubLogDialog = ({open, handleClose, subId, title, selectTime = null}) => {
+const SubLogDialog = ({open, handleClose, subId, title, selectTime = null, subType = 'Sub'}) => {
     const [logText, setLogText] = useState("选择一个运行事件后，可以加载本次处理过程的详细日志");
     const [timeOption, setTimeOption] = useState([]);
     const [selectLogId, setSelectLogId] = useState(null);
@@ -27,7 +27,8 @@ const SubLogDialog = ({open, handleClose, subId, title, selectTime = null}) => {
             return;
         }
         getSubLogs({
-            sub_id: subId
+            sub_id: subId,
+            sub_type: subType
         }, {
             onSuccess: res => {
                 const {code, message: msg, data} = res;
@@ -121,14 +122,14 @@ const SubLogDialog = ({open, handleClose, subId, title, selectTime = null}) => {
                 outline: "none"
             }}
         /> */}
-         <CodeMirror
+        <CodeMirror
             value={logText}
             height="100%"
             width="100%"
             theme={sublime}
             readOnly={true}
             extensions={[javascript({jsx: true}), EditorView.lineWrapping]}
-            />
+        />
     </Dialog>)
 }
 
