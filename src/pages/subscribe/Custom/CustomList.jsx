@@ -26,6 +26,8 @@ import DeleteDialog from "@/pages/subscribe/Custom/DeleteDialog";
 import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 import message from "@/utils/message";
 import {RunDialog} from "@/pages/subscribe/Custom/RunDialog";
+import {RecordDialog} from "@/pages/subscribe/Custom/RecordDialog";
+import {useInterval} from "@/utils/hooks";
 
 function OptionMenus({onEdit, onDelete, onShowLog, onRun}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -56,10 +58,10 @@ function OptionMenus({onEdit, onDelete, onShowLog, onRun}) {
                 onClose={handleClose}
             >
                 {onShowLog && <MenuItem onClick={onShowLog}>
-                    全息日志
+                    日志
                 </MenuItem>}
                 {onRun && <MenuItem onClick={onRun}>
-                    立即运行
+                    运行
                 </MenuItem>}
                 <MenuItem onClick={onEdit}>
                     编辑
@@ -80,7 +82,7 @@ const StatusChip = ({status, lastRunTime}) => {
         label = '运行中'
         color = 'info'
     } else {
-        label = `${lastRunTime}运行`
+        label = `${lastRunTime}完成`
         color = 'success'
     }
     return <Chip sx={{mr: 2}} size="small" label={label} color={color}/>;
@@ -95,11 +97,13 @@ function FilterItem({
                         torrentFilter,
                         status,
                         lastRunTime,
+                        downloadCount,
                         onEdit,
                         onDelete,
                         onShowLog,
                         onEnableChange,
-                        onRun
+                        onRun,
+                        onShowRecord
                     }) {
 
     return (
@@ -116,7 +120,7 @@ function FilterItem({
                 </Stack>
             }
         >
-            <ListItemButton onClick={onShowLog}>
+            <ListItemButton onClick={onShowRecord}>
                 <ListItemAvatar>
                     <Avatar>
                         {mediaType === 'Movie' && <MovieIcon/>}
@@ -125,7 +129,7 @@ function FilterItem({
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={name}
-                              secondary={`下载到：${savePath}`}/>
+                              secondary={`累计下载${downloadCount}个资源`}/>
                 <StatusChip status={status} lastRunTime={lastRunTime}/>
             </ListItemButton>
         </ListItem>
@@ -136,6 +140,7 @@ const CustomList = () => {
     const navigate = useNavigate();
     const [subLogData, setSubLogData] = useState(null);
     const [runCustomSubId, setRunCustomSubId] = useState(null);
+    const [showCustomSubRecord, setShowCustomSubRecord] = useState(null);
     const {mutate: enableSub} = useEnableSubCustomStatus();
     const {mutate: runSub} = useRunSubCustom();
     const {data: subCustomData, isLoading: subIsLoading, refetch: refetchSubCustomData} = useSubCustomList()
@@ -171,7 +176,13 @@ const CustomList = () => {
         })
     }
     const onRun = (subId, params) => {
-        runSub({sub_id: subId, keyword: params.keyword, cate_level1: params.cate_level1, all_pages: params.all_pages}, {
+        runSub({
+            sub_id: subId,
+            keyword: params.keyword,
+            cate_level1: params.cate_level1,
+            all_pages: params.all_pages,
+            search_type: params.search_type
+        }, {
             onSuccess: res => {
                 const {code, message: msg, data} = res;
                 if (code === 0) {
@@ -184,8 +195,21 @@ const CustomList = () => {
             }
         })
     }
+    const autoRefreshList = () => {
+        const runningList = subCustomData?.data?.filter(x => x.status === 'Running');
+        if (runningList.length > 0) {
+            refetchSubCustomData();
+        }
+    }
+    useInterval(autoRefreshList, 1500)
     return (
         <>
+            <RecordDialog
+                subId={showCustomSubRecord?.id}
+                title={showCustomSubRecord?.name ? `来自${showCustomSubRecord.name}的下载记录` : "自定义订阅下载记录"}
+                open={Boolean(showCustomSubRecord)}
+                handleClose={() => setShowCustomSubRecord(null)}
+            />
             <RunDialog
                 subId={runCustomSubId}
                 open={Boolean(runCustomSubId)}
@@ -220,11 +244,13 @@ const CustomList = () => {
                         enable={item?.enable}
                         status={item?.status}
                         lastRunTime={item?.last_run_time_format}
+                        downloadCount={item.dl_count}
                         onEdit={() => onEdit(item)}
                         onDelete={() => onDelete(item)}
                         onShowLog={() => onShowLog(item)}
                         onEnableChange={(e) => onEnableChange(item, e.target.checked)}
                         onRun={() => setRunCustomSubId(item.id)}
+                        onShowRecord={() => setShowCustomSubRecord({id: item.id, name: item.name})}
                     />
                 )) : <Skeleton variant="rectangular"/>}
                 <ListItem disablePadding>

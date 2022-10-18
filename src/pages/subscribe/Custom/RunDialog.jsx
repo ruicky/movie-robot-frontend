@@ -9,6 +9,8 @@ import {
     FormHelperText,
     Grid,
     IconButton,
+    MenuItem,
+    Select,
     TextField
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,7 +30,8 @@ export const RunDialog = ({subId, open, handleClose, handleRun}) => {
         initValues: {
             keyword: '',
             cate_level1: [],
-            all_pages: false
+            all_pages: false,
+            search_type: 'keyword'
         }
     });
     return (
@@ -50,18 +53,33 @@ export const RunDialog = ({subId, open, handleClose, handleRun}) => {
             </DialogTitle>
             <DialogContent>
                 <Grid spacing={4} sx={{mt: 1}} container>
-                    <Grid item xs={12}>
+                    <Grid xs={12} item>
+                        <FormControl fullWidth>
+                            <Select
+                                name="search_type"
+                                value={smartForm.values.search_type}
+                                onChange={smartForm.handleChange}
+                                fullWidth
+                            >
+                                <MenuItem value={"keyword"}>关键字搜索</MenuItem>
+                                <MenuItem value={"imdb"}>IMDB搜索</MenuItem>
+                                <MenuItem value={"list"}>获取最新列表页结果</MenuItem>
+                            </Select>
+                            <FormHelperText>选择搜索方式</FormHelperText>
+                        </FormControl>
+                    </Grid>
+                    {smartForm.values.search_type !== 'list' && <Grid item xs={12}>
                         <TextField
                             type="text"
                             name="keyword"
-                            label="搜索关键字"
-                            helperText={"用关键字去站点搜索到结果后，交给自定义订阅规则处理"}
+                            label="搜索内容"
+                            helperText={"按此方式搜索到种子结果后，交给自定义订阅规则处理"}
                             fullWidth
                             my={3}
                             value={smartForm.values.keyword}
                             onChange={smartForm.handleChange}
                         />
-                    </Grid>
+                    </Grid>}
                     <Grid item xs={12}>
                         <FormControl m={4} fullWidth>
                             <Autocomplete
@@ -81,16 +99,16 @@ export const RunDialog = ({subId, open, handleClose, handleRun}) => {
                             </FormHelperText>
                         </FormControl>
                     </Grid>
-                    <Grid xs={12} item>
+                    {smartForm.values.search_type !== 'list' && <Grid xs={12} item>
                         <FormControlLabel
                             control={<Checkbox
                                 name="all_pages"
                                 checked={smartForm.values.all_pages}
                                 onChange={smartForm.handleChange}
                             />}
-                            label="自动翻页得到所有搜索结果（如果搜了比较宽泛的关键字请谨慎开启）"
+                            label="自动翻页得到所有搜索结果，最多翻10页（搜索结果较多请谨慎开启）"
                         />
-                    </Grid>
+                    </Grid>}
                 </Grid>
             </DialogContent>
             <DialogActions>

@@ -15,6 +15,13 @@ export const useSubCustomList = (param) => {
         client("/api/subscribe/get_sub_custom_list", {params: param})
     );
 }
+export const useCustomSubRecordList = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/get_custom_sub_record", {params: params, method: "GET"})
+    );
+}
 export const useSubCustom = (param) => {
     const client = useHttp();
     return useMutation(

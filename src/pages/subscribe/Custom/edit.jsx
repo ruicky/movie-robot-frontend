@@ -89,7 +89,8 @@ const EditCustomSub = () => {
             episode_count: 1000,
             auto_delete: false,
             skip_exists: false,
-            score_rule_name: 'compress'
+            score_rule_name: 'compress',
+            skip_unknown: true
         }
     });
     useEffect(async () => {
@@ -114,6 +115,7 @@ const EditCustomSub = () => {
                         smartForm.setFieldValue('episode_count', data.episode_count);
                         smartForm.setFieldValue('auto_delete', data.auto_delete);
                         smartForm.setFieldValue('skip_exists', data.skip_exists);
+                        smartForm.setFieldValue('skip_unknown', data.skip_unknown);
                         if (data.torrent_filter) {
                             let id = 0;
                             const torrentFilter = JSON.parse(data.torrent_filter).map((item) => {
@@ -199,7 +201,8 @@ const EditCustomSub = () => {
             episode_count,
             auto_delete,
             skip_exists,
-            score_rule_name
+            score_rule_name,
+            skip_unknown
         } = smartForm.values;
         const params = {
             media_type,
@@ -212,6 +215,7 @@ const EditCustomSub = () => {
             auto_delete,
             skip_exists,
             score_rule_name,
+            skip_unknown,
             torrent_filter: torrent_filter.map((item) => {
                 return {
                     type: item.filter_type,
@@ -290,7 +294,7 @@ const EditCustomSub = () => {
                                             type="text"
                                             name="douban_id"
                                             label="豆瓣影片信息"
-                                            helperText={"这个订阅规则关联的豆瓣影片编号（编号或直接复制豆瓣影片的URL）"}
+                                            helperText={"这个订阅规则关联的豆瓣影片编号（编号或直接复制豆瓣影片的URL），留空会自动识别"}
                                             fullWidth
                                             my={3}
                                             value={smartForm.values.douban_id}
@@ -302,7 +306,7 @@ const EditCustomSub = () => {
                                             type="text"
                                             name="tmdb_id"
                                             label="TheMovieDB影片信息"
-                                            helperText={"这个订阅规则关联的TMDB影片编号（编号或直接复制TMDB影片的URL）"}
+                                            helperText={"这个订阅规则关联的TMDB影片编号（编号或直接复制TMDB影片的URL），留空会自动识别"}
                                             fullWidth
                                             my={3}
                                             value={smartForm.values.tmdb_id}
@@ -397,6 +401,16 @@ const EditCustomSub = () => {
                                         disabled={smartForm.values.auto_delete}
                                     />}
                                     label="自动跳过媒体库存在的影片"
+                                />
+                            </Grid>
+                            <Grid xs={12} item>
+                                <FormControlLabel
+                                    control={<Checkbox
+                                        name="skip_unknown"
+                                        checked={smartForm.values.skip_unknown}
+                                        onChange={smartForm.handleChange}
+                                    />}
+                                    label="自动跳过识别不到标准影片信息的种子"
                                 />
                             </Grid>
                         </Grid>
