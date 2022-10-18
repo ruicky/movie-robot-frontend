@@ -1,9 +1,11 @@
 import {
     Button,
+    Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
     FormControl,
+    FormControlLabel,
     FormHelperText,
     Grid,
     IconButton,
@@ -25,13 +27,14 @@ export const RunDialog = ({subId, open, handleClose, handleRun}) => {
     const smartForm = useSmartForm({
         initValues: {
             keyword: '',
-            cate_level1: []
+            cate_level1: [],
+            all_pages: false
         }
     });
     return (
         <Dialog maxWidth={"sm"} open={open}>
             <DialogTitle>
-                立即运行一次自定义订阅规则
+                搜索资源并立即运行一次自定义订阅
                 <IconButton
                     aria-label="close"
                     onClick={handleClose}
@@ -46,7 +49,7 @@ export const RunDialog = ({subId, open, handleClose, handleRun}) => {
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <Grid spacing={4} sx={{mt:1}} container>
+                <Grid spacing={4} sx={{mt: 1}} container>
                     <Grid item xs={12}>
                         <TextField
                             type="text"
@@ -77,6 +80,16 @@ export const RunDialog = ({subId, open, handleClose, handleRun}) => {
                                 搜索资源分类，留空搜全部
                             </FormHelperText>
                         </FormControl>
+                    </Grid>
+                    <Grid xs={12} item>
+                        <FormControlLabel
+                            control={<Checkbox
+                                name="all_pages"
+                                checked={smartForm.values.all_pages}
+                                onChange={smartForm.handleChange}
+                            />}
+                            label="自动翻页得到所有搜索结果（如果搜了比较宽泛的关键字请谨慎开启）"
+                        />
                     </Grid>
                 </Grid>
             </DialogContent>

@@ -29,6 +29,13 @@ export const useEnableSubCustomStatus = (param) => {
             client("/api/subscribe/enable_sub_custom", {params: params, method: "GET"})
     );
 };
+export const useRunSubCustom = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/run_custom_sub", {params: params, method: "POST"})
+    );
+};
 export const useGetSubCustom = (param) => {
     const client = useHttp();
     return useMutation((params) =>

@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {useEnableSubCustomStatus, useSubCustomList} from "@/utils/subscribe";
+import {useEnableSubCustomStatus, useRunSubCustom, useSubCustomList} from "@/utils/subscribe";
 import {
     Avatar,
+    Chip,
     IconButton,
     List,
     ListItem,
@@ -70,6 +71,21 @@ function OptionMenus({onEdit, onDelete, onShowLog, onRun}) {
     )
 }
 
+const StatusChip = ({status, lastRunTime}) => {
+    let label, color;
+    if (status === 'Ready') {
+        label = '待运行'
+        color = 'primary';
+    } else if (status === 'Running') {
+        label = '运行中'
+        color = 'info'
+    } else {
+        label = `${lastRunTime}运行`
+        color = 'success'
+    }
+    return <Chip sx={{mr: 2}} size="small" label={label} color={color}/>;
+}
+
 function FilterItem({
                         enable,
                         name,
@@ -77,12 +93,15 @@ function FilterItem({
                         savePath,
                         renameRule,
                         torrentFilter,
+                        status,
+                        lastRunTime,
                         onEdit,
                         onDelete,
                         onShowLog,
                         onEnableChange,
                         onRun
                     }) {
+
     return (
         <ListItem
             secondaryAction={
@@ -97,7 +116,7 @@ function FilterItem({
                 </Stack>
             }
         >
-            <ListItemButton>
+            <ListItemButton onClick={onShowLog}>
                 <ListItemAvatar>
                     <Avatar>
                         {mediaType === 'Movie' && <MovieIcon/>}
@@ -107,7 +126,7 @@ function FilterItem({
                 </ListItemAvatar>
                 <ListItemText primary={name}
                               secondary={`下载到：${savePath}`}/>
-
+                <StatusChip status={status} lastRunTime={lastRunTime}/>
             </ListItemButton>
         </ListItem>
     )
@@ -118,6 +137,7 @@ const CustomList = () => {
     const [subLogData, setSubLogData] = useState(null);
     const [runCustomSubId, setRunCustomSubId] = useState(null);
     const {mutate: enableSub} = useEnableSubCustomStatus();
+    const {mutate: runSub} = useRunSubCustom();
     const {data: subCustomData, isLoading: subIsLoading, refetch: refetchSubCustomData} = useSubCustomList()
     const [deleteFilterName, setDeleteFilterName] = useState(null)
     const [deleteFilterId, setDeleteFilterId] = useState(null)
@@ -151,7 +171,18 @@ const CustomList = () => {
         })
     }
     const onRun = (subId, params) => {
-
+        runSub({sub_id: subId, keyword: params.keyword, cate_level1: params.cate_level1, all_pages: params.all_pages}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg)
+                    setRunCustomSubId(null);
+                    refetchSubCustomData();
+                } else {
+                    message.error(msg);
+                }
+            }
+        })
     }
     return (
         <>
@@ -187,6 +218,8 @@ const CustomList = () => {
                         torrentFilter={item?.torrent_filter}
                         mediaType={item?.media_type}
                         enable={item?.enable}
+                        status={item?.status}
+                        lastRunTime={item?.last_run_time_format}
                         onEdit={() => onEdit(item)}
                         onDelete={() => onDelete(item)}
                         onShowLog={() => onShowLog(item)}
