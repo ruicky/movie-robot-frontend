@@ -37,7 +37,7 @@ export const RecordDialog = ({title, subId, open, handleClose}) => {
         }
     }, [subId]);
     return (
-        <Dialog maxWidth={"sm"} open={open} fullWidth>
+        <Dialog maxWidth={"sm"} open={open} onClose={handleClose} fullWidth>
             <DialogTitle>
                 {title}
                 <IconButton
@@ -60,7 +60,7 @@ export const RecordDialog = ({title, subId, open, handleClose}) => {
                         bgcolor: 'background.paper',
                         position: 'relative',
                         overflow: 'auto',
-                        maxHeight: 300,
+                        maxHeight: 500,
                         '& ul': {padding: 0},
                     }}
                     subheader={<li/>}
