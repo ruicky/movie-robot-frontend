@@ -66,7 +66,9 @@ export function SiteIdFilter() {
                 }).join(' / ');
                 return desc;
             } else {
-                desc += filterData.join(' / ');
+                if (filterData.site_id) {
+                    desc += filterData.site_id.join(' / ');
+                }
                 return desc;
             }
         }

@@ -11,9 +11,7 @@ import {
     ListItemIcon,
     ListItemText,
     Menu,
-    MenuItem,
-    Stack,
-    Switch
+    MenuItem, Stack
 } from "@mui/material";
 import {Skeleton} from "@mui/lab";
 import {Add as AddIcon} from "@mui/icons-material";
@@ -29,7 +27,7 @@ import {RunDialog} from "@/pages/subscribe/Custom/RunDialog";
 import {RecordDialog} from "@/pages/subscribe/Custom/RecordDialog";
 import {useInterval} from "@/utils/hooks";
 
-function OptionMenus({onEdit, onDelete, onShowLog, onRun}) {
+function OptionMenus({enable, onEdit, onDelete, onShowLog, onRun, onEnableChange}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -66,6 +64,9 @@ function OptionMenus({onEdit, onDelete, onShowLog, onRun}) {
                 <MenuItem onClick={onEdit}>
                     编辑
                 </MenuItem>
+                <MenuItem onClick={onEnableChange}>
+                    {enable ? "禁用" : "启用"}
+                </MenuItem>
                 <MenuItem onClick={onDelete}>
                     删除
                 </MenuItem>
@@ -85,7 +86,7 @@ const StatusChip = ({status, lastRunTime}) => {
         label = `${lastRunTime}完成`
         color = 'success'
     }
-    return <Chip sx={{mr: 2}} size="small" label={label} color={color}/>;
+    return <Chip size="small" label={label} color={color}/>;
 }
 
 function FilterItem({
@@ -110,17 +111,12 @@ function FilterItem({
         <ListItem
             secondaryAction={
                 <Stack direction={"row"} spacing={1}>
-                    <Switch
-                        edge="end"
-                        checked={enable}
-                        onClick={e => e.stopPropagation()}
-                        onChange={onEnableChange}
-                    />
-                    <OptionMenus onEdit={onEdit} onDelete={onDelete} onShowLog={onShowLog} onRun={onRun}/>
+                    <OptionMenus enable={enable} onEdit={onEdit} onDelete={onDelete} onShowLog={onShowLog} onRun={onRun}
+                                 onEnableChange={onEnableChange}/>
                 </Stack>
             }
         >
-            <ListItemButton onClick={onShowRecord}>
+            <ListItemButton onClick={onShowRecord} style={{paddingRight:0}}>
                 <ListItemAvatar>
                     <Avatar>
                         {mediaType === 'Movie' && <MovieIcon/>}
