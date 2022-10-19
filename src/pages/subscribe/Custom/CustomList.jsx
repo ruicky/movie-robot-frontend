@@ -11,7 +11,8 @@ import {
     ListItemIcon,
     ListItemText,
     Menu,
-    MenuItem, Stack
+    MenuItem,
+    Stack
 } from "@mui/material";
 import {Skeleton} from "@mui/lab";
 import {Add as AddIcon} from "@mui/icons-material";
@@ -64,7 +65,7 @@ function OptionMenus({enable, onEdit, onDelete, onShowLog, onRun, onEnableChange
                 <MenuItem onClick={onEdit}>
                     编辑
                 </MenuItem>
-                <MenuItem onClick={onEnableChange}>
+                <MenuItem onClick={() => onEnableChange(!enable)}>
                     {enable ? "禁用" : "启用"}
                 </MenuItem>
                 <MenuItem onClick={onDelete}>
@@ -74,7 +75,10 @@ function OptionMenus({enable, onEdit, onDelete, onShowLog, onRun, onEnableChange
     )
 }
 
-const StatusChip = ({status, lastRunTime}) => {
+const StatusChip = ({status, lastRunTime, enable}) => {
+    if (!enable) {
+        return <Chip size="small" label={"已禁用"} color={"error"}/>;
+    }
     let label, color;
     if (status === 'Ready') {
         label = '待运行'
@@ -116,7 +120,7 @@ function FilterItem({
                 </Stack>
             }
         >
-            <ListItemButton onClick={onShowRecord} style={{paddingRight:0}}>
+            <ListItemButton onClick={onShowRecord} style={{paddingRight: 0}}>
                 <ListItemAvatar>
                     <Avatar>
                         {mediaType === 'Movie' && <MovieIcon/>}
@@ -126,7 +130,7 @@ function FilterItem({
                 </ListItemAvatar>
                 <ListItemText primary={name}
                               secondary={`累计下载${downloadCount}个资源`}/>
-                <StatusChip status={status} lastRunTime={lastRunTime}/>
+                <StatusChip status={status} lastRunTime={lastRunTime} enable={enable}/>
             </ListItemButton>
         </ListItem>
     )
@@ -244,7 +248,7 @@ const CustomList = () => {
                         onEdit={() => onEdit(item)}
                         onDelete={() => onDelete(item)}
                         onShowLog={() => onShowLog(item)}
-                        onEnableChange={(e) => onEnableChange(item, e.target.checked)}
+                        onEnableChange={(checked) => onEnableChange(item, checked)}
                         onRun={() => setRunCustomSubId(item.id)}
                         onShowRecord={() => setShowCustomSubRecord({id: item.id, name: item.name})}
                     />
