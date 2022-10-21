@@ -29,8 +29,6 @@
     "@codemirror/lang-javascript": "^6.1.0",
     "@codemirror/view": "^6.2.5",
     "@date-io/date-fns": "2.11.0",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
     "@fullcalendar/core": "5.10.1",
     "@fullcalendar/daygrid": "5.10.1",
     "@fullcalendar/interaction": "5.10.1",

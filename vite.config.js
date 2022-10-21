@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import svgrPlugin from 'vite-plugin-svgr';
 import fs from 'fs/promises';
 import macrosPlugin from "vite-plugin-babel-macros"
-import * as path from 'path'
+import { resolve } from 'path'
 
 
 export default defineConfig(({ command, mode }) => {
@@ -14,10 +14,14 @@ export default defineConfig(({ command, mode }) => {
     base: './',
     resolve: {
       alias: [
-        { find: '@', replacement: path.resolve(__dirname, 'src') },
+        { find: '@', replacement: resolve(__dirname, 'src') },
         {
           find: /^@mui\/icons-material\/(.*)/,
           replacement: "@mui/icons-material/esm/$1"
+        },
+        {
+          find: '@mui/styled-engine',
+          replacement: '@mui/styled-engine-sc'
         },
       ],
     },
