@@ -20,13 +20,6 @@ import {useDeleteMediaServer, useGetMediaServer, useSaveMediaServer} from "@/api
 import message from "@/utils/message";
 
 const Divider = styled(MuiDivider)(spacing);
-const Wrapper = styled(Paper)`
-  padding: ${(props) => props.theme.spacing(6)};
-
-  ${(props) => props.theme.breakpoints.up("md")} {
-    padding: ${(props) => props.theme.spacing(10)};
-  }
-`;
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -37,16 +30,16 @@ const Centered = styled.div`
 
 function MediaServerConfigForm({type}) {
     const navigate = useNavigate();
-    const {mutateAsync: getMediaServer, isLoading} = useGetMediaServer();
-    const {mutateAsync: deleteMediaServer, isDeleting} = useDeleteMediaServer();
-    const {mutateAsync: saveMediaServer, isSaving} = useSaveMediaServer();
+    const {mutateAsync: getMediaServer} = useGetMediaServer();
+    const {mutateAsync: deleteMediaServer} = useDeleteMediaServer();
+    const {mutateAsync: saveMediaServer} = useSaveMediaServer();
     const [serverConfig, setServerConfig] = useState(null);
     const [tokenHelpText, setTokenHelpText] = useState();
     const [tokenLabel, setTokenLabel] = useState();
     const saveConfig = async (type, url, token) => {
         saveMediaServer({type, url, token}, {
             onSuccess: res => {
-                const {code, message: msg, data} = res;
+                const {code, message: msg} = res;
                 if (code === 0) {
                     message.success('更改配置成功，需要重启后才能生效。')
                     navigate("/setting/index");
@@ -77,7 +70,7 @@ function MediaServerConfigForm({type}) {
     const onDelete = (type) => {
         deleteMediaServer({type}, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const {code, message: msg} = resData;
                 if (code === 0) {
                     navigate("/setting/index");
                 } else {
@@ -89,7 +82,7 @@ function MediaServerConfigForm({type}) {
     useEffect(async () => {
         getMediaServer({}, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const {code, data} = resData;
                 if (code === 0 && data) {
                     for (const item of data) {
                         if (item.type === type) {

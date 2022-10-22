@@ -36,7 +36,6 @@ const SubscribeTVIndex = async(() => import("./pages/subscribe/TV"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
 const Selectors = async(() => import("./pages/selectors"));
 const SelectorsEditFilter = async(() => import("./pages/selectors/Filter/Edit"));
-const SearchPage = async(() => import("./pages/search/index"));
 const Setting = async(() => import("./pages/setting"));
 const EditMediaServer = async(() => import("./pages/setting/MediaServer/EditMediaServer"));
 const EditDownloadClient = async(() => import("./pages/setting/DownloadClient/Edit"));

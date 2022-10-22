@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components/macro";
 
 import { green, grey, indigo } from "@mui/material/colors";
-import { Alert } from "@mui/lab";
+import { Alert } from '@mui/material'
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
 import {blueGrey} from "@mui/material/colors";
 

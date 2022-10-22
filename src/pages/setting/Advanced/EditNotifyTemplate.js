@@ -27,7 +27,7 @@ function EditForm({}) {
     const navigate = useNavigate();
     const [selectTemplate, setSelectTemplate] = useState(null)
     const [templates, setTemplates] = useState([]);
-    const {data: notifyTemplate, isLoading: isLoading} = useGetNotifyTemplate();
+    const {data: notifyTemplate, isLoading} = useGetNotifyTemplate();
     const {mutateAsync: save, isSaving} = useSaveNotifyTemplate();
     useEffect(() => {
         if (notifyTemplate?.data) {

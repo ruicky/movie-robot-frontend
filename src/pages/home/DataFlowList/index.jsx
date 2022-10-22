@@ -6,7 +6,7 @@ import SubscribeDialog from "@/pages/subscribe/components/SubscribeDialog";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const DataFlowList = () => {
-    const [subInfo, setSubInfo] = useState(null);
+    const [subInfo, setSubInfo] = useState();
     const [setsubItemIds, setsetsubItemIds] = useState([])
     const { data: mediaList,
         fetchNextPage,
@@ -31,15 +31,9 @@ const DataFlowList = () => {
 
     useEffect(() => {
         if (entry?.isIntersecting && hasNextPage && !isFetching) {
-            console.log('fetchNextPage')
             fetchNextPage();
         }
     }, [entry?.isIntersecting, hasNextPage, isFetching])
-
-
-    useEffect(() => {
-        console.warn('mediaList', mediaList)
-    }, [mediaList])
 
     return (
         <Grid>
@@ -62,16 +56,12 @@ const DataFlowList = () => {
                             <ListItem key={item.id} data={{ ...item, isSub: setsubItemIds.includes(item.id) }} onSub={onSub} />
                     ))
                 }
-
-                {(hasNextPage && isFetching) || !mediaList && Array.from(new Array(10)).map((item, index) => (
-                    <ListItem key={index} />
-                ))}
-
-                {<div style={{
-                    position: 'relative',
-                    top: '-400px',
-                    height: '4px',
-                }} ref={ref} />}
+                {(hasNextPage && isFetching) || !mediaList
+                    ? Array.from(new Array(10)).map((_item, index) => (
+                        <ListItem key={index} />
+                    ))
+                    : <></>}
+                <div style={{ position: 'relative', top: '-400px', height: '4px' }} ref={ref} />
             </Stack>
             {
                 !hasNextPage && <Button fullWidth disabled>没有更多了</Button>

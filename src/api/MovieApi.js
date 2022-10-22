@@ -20,7 +20,6 @@ export const useGetDoubanSuggestion = () => {
     const client = useHttp();
     return useInfiniteQuery(['douban_suggestion'],
         async ({ pageParam = 0 }) => {
-            console.log('pageParam', pageParam);
             const res = await client("/api/movie/douban_suggestion", { params: { start: pageParam }, method: "GET" })
             return res.data
         }, {

@@ -1,5 +1,4 @@
-import {Box, Button, CardContent, CardMedia, Link, Typography} from "@mui/material";
-import {Autorenew} from "@mui/icons-material";
+import {Box, CardContent, CardMedia, Link, Typography} from "@mui/material";
 import React from "react";
 import MediaView from "@/pages/movie/search/components/MediaCard/MediaView";
 import MediaTag from "@/pages/movie/search/components/MediaCard/MediaTag";

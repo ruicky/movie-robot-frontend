@@ -84,7 +84,7 @@ const TagList = [
 
 function EditUser({}) {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [qywxUserList, setQywxUserList] = useState([])
     const [doubanUserList, setDoubanUserList] = useState([])
     const [scoreRuleList, setScoreRuleList] = useState([])
@@ -108,7 +108,7 @@ function EditUser({}) {
         }, validationSchema: Yup.object().shape({
             username: Yup.string().max(64, "用户名太长了").required("用户名不能为空"),
             nickname: Yup.string().max(64, "昵称太长了").required("昵称不能为空"),
-            password: Yup.lazy((value => {
+            password: Yup.lazy((() => {
                 if (op === "add") {
                     return Yup.string().min(6, "密码不能小于6位").max(64, "密码太长了").required("密码不能为空");
                 } else {

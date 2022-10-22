@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components/macro";
 import * as Yup from "yup";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import axios from "../../../utils/request";
 
-import {Alert as MuiAlert, Button, TextField as MuiTextField} from "@mui/material";
-import {spacing} from "@mui/system";
+import { Alert as MuiAlert, Button, TextField as MuiTextField } from "@mui/material";
+import { spacing } from "@mui/system";
 const Alert = styled(MuiAlert)(spacing);
 
 const TextField = styled(MuiTextField)(spacing);
 
-function WebConfigComponent({isInit}) {
+function WebConfigComponent({ isInit }) {
     const navigate = useNavigate();
     const [message, setMessage] = useState();
     const saveWebConfig = async (port, server_url) => {
-        const res = await axios.post("/api/config/save_web", {port, server_url});
-        const {code, message, data} = res;
+        const res = await axios.post("/api/config/save_web", { port, server_url });
+        const { code, message, data } = res;
         if (code === undefined || code === 1) {
             throw new Error(message);
         }
@@ -31,14 +31,14 @@ function WebConfigComponent({isInit}) {
             port: 1329, server_url: "http://"
         }, validationSchema: Yup.object().shape({
             port: Yup.string().max(5).required("网站服务端口号必须填写"),
-        }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
+        }), onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
             try {
                 await saveWebConfig(values.port, values.server_url);
             } catch (error) {
                 const message = error.message || "配置出错啦";
 
-                setStatus({success: false});
-                setErrors({submit: message});
+                setStatus({ success: false });
+                setErrors({ submit: message });
                 setSubmitting(false);
             }
         }
@@ -90,7 +90,6 @@ function WebConfigComponent({isInit}) {
             variant="contained"
             color="primary"
             disabled={formik.isSubmitting}
-            fullWidth
         >
             {isInit ? "保存进入下一步" : "保存"}
         </Button>

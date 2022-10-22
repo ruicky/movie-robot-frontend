@@ -8,7 +8,7 @@ import NotifySettingList from "@/pages/setting/Notify";
 import AdvancedSettingList from "@/pages/setting/Advanced";
 import {Avatar, Box, Button, ListItemButton} from "@mui/material";
 import RestartAppDialog from "@/pages/setting/RestartAppDialog";
-import {Alert} from "@mui/lab";
+import Alert from '@mui/material/Alert';
 import {useGetHealth} from "@/api/HealthApi";
 import message from "@/utils/message";
 import HealthDataDialog from "@/pages/setting/Health/HealthDataDialog";

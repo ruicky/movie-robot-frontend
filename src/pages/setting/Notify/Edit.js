@@ -24,7 +24,7 @@ const getTypeStr = (type) => {
 }
 const EditNotify = () => {
     const navigate = useNavigate();
-    const {data: notifySetting, isLoading: isLoading} = useGetNotifySetting();
+    const {data: notifySetting, isLoading} = useGetNotifySetting();
     const {mutateAsync: save, isSaving} = useSaveNotify();
     const {mutateAsync: test, isTesting} = useTestNotify();
     const [title, setTitle] = useState();

@@ -1,7 +1,5 @@
 import React from 'react';
-import styled, {css} from "styled-components/macro";
-import {Box, Button, Stack, Typography} from "@mui/material";
-
+import styled from "styled-components/macro";
 
 
 const MediaBgImg = ({src}) => {

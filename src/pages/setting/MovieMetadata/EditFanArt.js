@@ -14,7 +14,7 @@ import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {useGetMovieMetadata, useSaveFanArt, useSaveTmdb} from "@/api/SettingApi";
+import {useGetMovieMetadata, useSaveFanArt} from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -28,8 +28,8 @@ const Centered = styled.div`
 
 function EditForm({}) {
     const navigate = useNavigate();
-    const {mutateAsync: getMovieMetadata, isLoading} = useGetMovieMetadata();
-    const {mutateAsync: saveFanArt, isSaving} = useSaveFanArt();
+    const {mutateAsync: getMovieMetadata} = useGetMovieMetadata();
+    const {mutateAsync: saveFanArt} = useSaveFanArt();
 
     const formik = useFormik({
         initialValues: {
@@ -44,7 +44,7 @@ function EditForm({}) {
                     api_key: values.api_key
                 }, {
                     onSuccess: res => {
-                        const {code, message: msg, data} = res;
+                        const {code, message: msg} = res;
                         if (code === 0) {
                             message.success('更改配置成功，需要重启后才能生效。')
                             navigate("/setting/index");
@@ -65,7 +65,7 @@ function EditForm({}) {
     useEffect(async () => {
         getMovieMetadata({}, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const {code, data} = resData;
                 if (code === 0 && data) {
                     formik.setFieldValue("api_key", data?.fanart?.api_key ? data.fanart.api_key : '');
                     formik.setFieldValue("proxies", data?.fanart?.proxies ? data.fanart.proxies : '')

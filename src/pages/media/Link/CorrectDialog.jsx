@@ -70,7 +70,7 @@ const CorrectDialog = ({data, setData, onSubmit}) => {
         setShowErrors({});
     };
     useEffect(() => {
-        setValues({
+        setValues(values => ({
             ...values,
             tmdbId: data?.tmdbId,
             seasonIndex: data?.seasonIndex,
@@ -78,7 +78,7 @@ const CorrectDialog = ({data, setData, onSubmit}) => {
             path: data?.path,
             name: data?.name ? data.name : "",
             year: data?.year ? data.year : ""
-        });
+        }));
     }, [data]);
     return (<Dialog
         open={data.open}

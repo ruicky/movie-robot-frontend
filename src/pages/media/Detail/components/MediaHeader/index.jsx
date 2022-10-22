@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, {css} from "styled-components/macro";
+import styled from "styled-components/macro";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import MediaPoster from './MeidaPoster';

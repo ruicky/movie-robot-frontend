@@ -30,7 +30,7 @@ const Centered = styled.div`
 
 function EditForm({}) {
     const navigate = useNavigate();
-    const {data: freeDownloadSetting, isLoading: isLoading} = useGetFreeDownloadSetting();
+    const {data: freeDownloadSetting, isLoading} = useGetFreeDownloadSetting();
     const {mutateAsync: save, isSaving} = useSaveFreeDownload();
 
     const formik = useFormik({

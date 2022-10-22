@@ -1,6 +1,6 @@
-import React, {useEffect} from "react";
-import {NavLink, useNavigate} from "react-router-dom";
-import {Helmet} from "react-helmet-async";
+import React, { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import {
     Alert as MuiAlert,
     Breadcrumbs,
@@ -19,25 +19,21 @@ import {
     Typography
 } from "@mui/material";
 import styled from "styled-components/macro";
-import {spacing} from "@mui/system";
-import {useFormik} from "formik";
+import { spacing } from "@mui/system";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import {useGetLinkSetting, useSaveLinkSetting} from "@/api/SettingApi";
+import { useGetLinkSetting, useSaveLinkSetting } from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const Divider = styled(MuiDivider)(spacing);
 
 const Alert = styled(MuiAlert)(spacing);
 const TextField = styled(MuiTextField)(spacing);
-const Centered = styled.div`
-  text-align: center;
-`;
 
-
-function EditForm({}) {
+function EditForm({ }) {
     const navigate = useNavigate();
-    const {data: setting, isLoading: isLoading} = useGetLinkSetting();
-    const {mutateAsync: save, isSaving} = useSaveLinkSetting();
+    const { data: setting } = useGetLinkSetting();
+    const { mutateAsync: save } = useSaveLinkSetting();
     const formik = useFormik({
         initialValues: {
             movie_filename_format: "",
@@ -55,11 +51,11 @@ function EditForm({}) {
             movie_folder_format: Yup.string().required("电影文件夹模版不能为空"),
             tv_filename_format: Yup.string().required("剧集名称模版不能为空"),
             tv_folder_format: Yup.string().required("剧集文件夹模版不能为空"),
-        }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
+        }), onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
             try {
                 save(values, {
                     onSuccess: res => {
-                        const {code, message: msg, data} = res;
+                        const { code, message: msg } = res;
                         if (code === 0) {
                             message.success('识别与整理设置保存成功，已经生效了。')
                             navigate("/setting/index");
@@ -71,8 +67,8 @@ function EditForm({}) {
             } catch (error) {
                 const message = error.message || "配置出错啦";
 
-                setStatus({success: false});
-                setErrors({submit: message});
+                setStatus({ success: false });
+                setErrors({ submit: message });
                 setSubmitting(false);
             }
         }
@@ -120,7 +116,7 @@ function EditForm({}) {
                     <span>
                         最终整理后文件名格式，采用Jinja2模版
                         <Link target="_blank"
-                              href="https://yee329.notion.site/ed17e503e361449e8f364104d64ab150">
+                            href="https://yee329.notion.site/ed17e503e361449e8f364104d64ab150">
                             去学习如何使用
                         </Link>
                     </span>
@@ -219,7 +215,6 @@ function EditForm({}) {
             variant="contained"
             color="primary"
             disabled={formik.isSubmitting}
-            fullWidth
         >
             保存
         </Button>
@@ -228,7 +223,7 @@ function EditForm({}) {
 
 const EditSearchSetting = () => {
     return (<React.Fragment>
-        <Helmet title="识别与整理设置"/>
+        <Helmet title="识别与整理设置" />
         <Typography variant="h3" gutterBottom display="inline">
             识别与整理设置
         </Typography>
@@ -239,8 +234,8 @@ const EditSearchSetting = () => {
             </Link>
             <Typography>识别与整理设置</Typography>
         </Breadcrumbs>
-        <Divider my={6}/>
-        <EditForm/>
+        <Divider my={6} />
+        <EditForm />
     </React.Fragment>);
 }
 export default EditSearchSetting;
