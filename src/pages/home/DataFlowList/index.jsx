@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ListItem from './ListItem';
-import { Button, Divider, Grid, Stack, Typography, Skeleton, Box } from "@mui/material";
+import { Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import { useGetDoubanSuggestion } from "@/api/MovieApi";
 import SubscribeDialog from "@/pages/subscribe/components/SubscribeDialog";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const DataFlowList = () => {
     const [subInfo, setSubInfo] = useState(null);
+    const [setsubItemIds, setsetsubItemIds] = useState([])
     const { data: mediaList,
         fetchNextPage,
         hasNextPage,
-        isFetching,
+        isFetching
     } = useGetDoubanSuggestion();
 
     const onSub = (media) => {
@@ -21,17 +22,7 @@ const DataFlowList = () => {
         });
     }
     const onSubComplete = () => {
-        const newList = mediaList.map((item) => {
-            if (item.id === subInfo.id) {
-                const updatedItem = {
-                    ...item,
-                    isSub: true,
-                };
-                return updatedItem;
-            }
-            return item;
-        });
-        setMediaList(newList);
+        setsetsubItemIds([...setsubItemIds, subInfo.id])
         setSubInfo(null);
     }
 
@@ -39,7 +30,6 @@ const DataFlowList = () => {
     const entry = useIntersectionObserver(ref)
 
     useEffect(() => {
-        console.log('entry', entry?.isIntersecting, hasNextPage, isFetching)
         if (entry?.isIntersecting && hasNextPage && !isFetching) {
             console.log('fetchNextPage')
             fetchNextPage();
@@ -67,10 +57,13 @@ const DataFlowList = () => {
             />}
             <Stack spacing={2}>
                 {
-                    mediaList && (mediaList.pages || []).map(pages => pages.items.map(item => <ListItem key={item.id} data={item} onSub={onSub} />))
+                    mediaList && (mediaList.pages || []).map(pages => pages.items.map(
+                        item =>
+                            <ListItem key={item.id} data={{ ...item, isSub: setsubItemIds.includes(item.id) }} onSub={onSub} />
+                    ))
                 }
 
-                {hasNextPage && isFetching && Array.from(new Array(10)).map((item, index) => (
+                {(hasNextPage && isFetching) || !mediaList && Array.from(new Array(10)).map((item, index) => (
                     <ListItem key={index} />
                 ))}
 
