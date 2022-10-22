@@ -3,7 +3,7 @@ import {Button, Box, IconButton} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import SearchDialog from '@/components/SearchDialog'
 import { THEMES } from "@/constants";
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 import {Bell} from "react-feather";
 
 const SearchBox = ( ) => {
