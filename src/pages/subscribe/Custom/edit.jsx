@@ -24,7 +24,7 @@ import TorrentFilterList from "@/components/TorrentFilter/FilterList";
 import styled from "styled-components/macro";
 import {FilterOptionsContext, FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
 import RenameRuleList from "@/pages/subscribe/components/RenameRuleList";
-import {useGetSubCustom, useSubCustom} from "@/utils/subscribe";
+import {useGetSubCustom, useGetSubRule, useSubCustom} from "@/utils/subscribe";
 import message from "@/utils/message";
 import {NavLink, useNavigate, useSearchParams} from "react-router-dom";
 
@@ -76,10 +76,12 @@ const EditCustomSub = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const {mutateAsync: subCustom, isSaving} = useSubCustom();
     const {mutate: getSubCustom, isLoading} = useGetSubCustom();
+    const {mutate: getSubRule} = useGetSubRule();
     const smartForm = useSmartForm({
         initValues: {
             media_type: 'Movie',
             name: '',
+            desc: '',
             torrent_filter: [],
             rename_rule: [],
             douban_id: '',
@@ -88,58 +90,89 @@ const EditCustomSub = () => {
             season_number: 1,
             episode_count: 1000,
             auto_delete: false,
-            skip_exists: false,
+            skip_exists: true,
             score_rule_name: 'compress',
-            skip_unknown: true
+            skip_unknown: true,
+            remote_sub_rule_id: null
         }
     });
+
+    function setFormByData(data) {
+        if (data.media_type) {
+            smartForm.setFieldValue('media_type', data.media_type);
+        }
+        if (data.name) {
+            smartForm.setFieldValue('name', data.name);
+        }
+        if (data.desc) {
+            smartForm.setFieldValue('desc', data.desc);
+        }
+        if (data.score_rule_name) {
+            smartForm.setFieldValue('score_rule_name', data.score_rule_name);
+        }
+        smartForm.setFieldValue('douban_id', data.douban_id);
+        smartForm.setFieldValue('tmdb_id', data.tmdb_id);
+        smartForm.setFieldValue('save_path', data.save_path);
+        smartForm.setFieldValue('season_number', data.season_number);
+        smartForm.setFieldValue('episode_count', data.episode_count);
+        if (data.remote_sub_rule_id !== undefined && data.remote_sub_rule_id !== null) {
+            smartForm.setFieldValue('remote_sub_rule_id', data.remote_sub_rule_id);
+        }
+        if (data.auto_delete !== undefined && data.auto_delete !== null) {
+            smartForm.setFieldValue('auto_delete', data.auto_delete);
+        }
+        if (data.skip_exists !== undefined && data.skip_exists !== null) {
+            smartForm.setFieldValue('skip_exists', data.skip_exists);
+        }
+        if (data.skip_unknown !== undefined && data.skip_unknown !== null) {
+            smartForm.setFieldValue('skip_unknown', data.skip_unknown);
+        }
+        if (data.torrent_filter) {
+            let id = 0;
+            const torrentFilter = JSON.parse(data.torrent_filter).map((item) => {
+                id += 1;
+                return {
+                    id,
+                    filter_type: item.type,
+                    filter_data: item.args
+                };
+            });
+            smartForm.setFieldValue('torrent_filter', torrentFilter)
+        }
+        if (data.rename_rule) {
+            let id = 0;
+            const renameRule = JSON.parse(data.rename_rule).map((item) => {
+                id += 1;
+                return {
+                    id,
+                    renameRuleType: item.type,
+                    formData: item.args
+                };
+            });
+            smartForm.setFieldValue('rename_rule', renameRule)
+        }
+    }
+
     useEffect(async () => {
         if (searchParams.get("id")) {
             getSubCustom({id: searchParams.get("id")}, {
                 onSuccess: resData => {
                     const {code, message: msg, data} = resData;
                     if (code === 0 && data) {
-                        if (data.media_type) {
-                            smartForm.setFieldValue('media_type', data.media_type);
-                        }
-                        if (data.name) {
-                            smartForm.setFieldValue('name', data.name);
-                        }
-                        if (data.score_rule_name) {
-                            smartForm.setFieldValue('score_rule_name', data.score_rule_name);
-                        }
-                        smartForm.setFieldValue('douban_id', data.douban_id);
-                        smartForm.setFieldValue('tmdb_id', data.tmdb_id);
-                        smartForm.setFieldValue('save_path', data.save_path);
-                        smartForm.setFieldValue('season_number', data.season_number);
-                        smartForm.setFieldValue('episode_count', data.episode_count);
-                        smartForm.setFieldValue('auto_delete', data.auto_delete);
-                        smartForm.setFieldValue('skip_exists', data.skip_exists);
-                        smartForm.setFieldValue('skip_unknown', data.skip_unknown);
-                        if (data.torrent_filter) {
-                            let id = 0;
-                            const torrentFilter = JSON.parse(data.torrent_filter).map((item) => {
-                                id += 1;
-                                return {
-                                    id,
-                                    filter_type: item.type,
-                                    filter_data: item.args
-                                };
-                            });
-                            smartForm.setFieldValue('torrent_filter', torrentFilter)
-                        }
-                        if (data.rename_rule) {
-                            let id = 0;
-                            const renameRule = JSON.parse(data.rename_rule).map((item) => {
-                                id += 1;
-                                return {
-                                    id,
-                                    renameRuleType: item.type,
-                                    formData: item.args
-                                };
-                            });
-                            smartForm.setFieldValue('rename_rule', renameRule)
-                        }
+                        setFormByData(data);
+                    } else {
+                        message.error(msg);
+                    }
+                },
+                onError: error => message.error(error)
+            })
+        } else if (searchParams.get("sub_rule_id")) {
+            getSubRule({sub_rule_id: searchParams.get("sub_rule_id")}, {
+                onSuccess: resData => {
+                    const {code, message: msg, data} = resData;
+                    if (code === 0 && data) {
+                        smartForm.setFieldValue('remote_sub_rule_id', data.id);
+                        setFormByData(data);
                     } else {
                         message.error(msg);
                     }
@@ -202,9 +235,12 @@ const EditCustomSub = () => {
             auto_delete,
             skip_exists,
             score_rule_name,
-            skip_unknown
+            skip_unknown,
+            desc,
+            remote_sub_rule_id
         } = smartForm.values;
         const params = {
+            remote_sub_rule_id,
             media_type,
             name,
             douban_id,
@@ -216,6 +252,7 @@ const EditCustomSub = () => {
             skip_exists,
             score_rule_name,
             skip_unknown,
+            desc,
             torrent_filter: torrent_filter.map((item) => {
                 return {
                     type: item.filter_type,
@@ -284,6 +321,18 @@ const EditCustomSub = () => {
                                     fullWidth
                                     my={3}
                                     value={smartForm.values.name}
+                                    onChange={smartForm.handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    type="text"
+                                    name="desc"
+                                    label="简介"
+                                    helperText={"简单介绍一下你的订阅规则有什么用，以及分享一点这条规则的设计思考吧"}
+                                    fullWidth
+                                    my={3}
+                                    value={smartForm.values.desc}
                                     onChange={smartForm.handleChange}
                                 />
                             </Grid>
@@ -426,7 +475,7 @@ const EditCustomSub = () => {
                     fullWidth
                     onClick={save}
                 >
-                    保存自定义订阅规则
+                    {searchParams.get("sub_rule_id") ? "应用共享订阅规则" : "保存自定义订阅规则"}
                 </Button>
             </Box>
         </FilterOptionsProvider>
