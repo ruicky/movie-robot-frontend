@@ -43,16 +43,59 @@ export const useRunSubCustom = (param) => {
             client("/api/subscribe/run_custom_sub", {params: params, method: "POST"})
     );
 };
+export const useShareSubRule = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/share_sub_rule", {params: params, method: "GET"})
+    );
+};
 export const useGetSubCustom = (param) => {
     const client = useHttp();
     return useMutation((params) =>
         client("/api/subscribe/get_sub_custom", {params: params})
     );
 };
+export const useGetSubRule = (param) => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/get_sub_rule", {params: params})
+    );
+};
 export const useDeleteSubCustom = () => {
     const client = useHttp();
     return useMutation((params) =>
         client("/api/subscribe/delete_sub_custom", {params: params})
+    );
+};
+export const useGetTopSubRuleList = (param) => {
+    const client = useHttp();
+    return useQuery(['get_top_sub_rule_list', param], () =>
+        client("/api/subscribe/get_top_sub_rule_list", {params: param})
+    );
+};
+export const useLikeSubRule = () => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/like_sub_rule", {params: params})
+    );
+};
+export const useCancelLikeSubRule = () => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/cancel_like_sub_rule", {params: params})
+    );
+};
+export const useHateSubRule = () => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/hate_sub_rule", {params: params})
+    );
+};
+export const useCancelHateSubRule = () => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/cancel_hate_sub_rule", {params: params})
     );
 };
 // 订阅搜索

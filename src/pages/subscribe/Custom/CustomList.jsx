@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useEnableSubCustomStatus, useRunSubCustom, useSubCustomList} from "@/utils/subscribe";
+import {useEnableSubCustomStatus, useRunSubCustom, useShareSubRule, useSubCustomList} from "@/utils/subscribe";
 import {
     Avatar,
     Chip,
@@ -27,8 +27,9 @@ import message from "@/utils/message";
 import {RunDialog} from "@/pages/subscribe/Custom/RunDialog";
 import {RecordDialog} from "@/pages/subscribe/Custom/RecordDialog";
 import {useInterval} from "@/utils/hooks";
+import {ShareDialog} from "@/pages/subscribe/Custom/ShareDialog";
 
-function OptionMenus({enable, onEdit, onDelete, onShowLog, onRun, onEnableChange}) {
+function OptionMenus({enable, onEdit, onDelete, onShowLog, onRun, onEnableChange, onShare = null}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -56,23 +57,44 @@ function OptionMenus({enable, onEdit, onDelete, onShowLog, onRun, onEnableChange
                 open={open}
                 onClose={handleClose}
             >
-                {onShowLog && <MenuItem onClick={onShowLog}>
+                {onShowLog && <MenuItem onClick={() => {
+                    handleClose();
+                    onShowLog();
+                }}>
                     日志
                 </MenuItem>}
-                {onRun && <MenuItem onClick={onRun}>
+                {onRun && <MenuItem onClick={() => {
+                    handleClose();
+                    onRun();
+                }}>
                     运行
                 </MenuItem>}
-                <MenuItem onClick={onEdit}>
+                <MenuItem onClick={() => {
+                    handleClose();
+                    onEdit();
+                }}>
                     编辑
                 </MenuItem>
-                <MenuItem onClick={() => onEnableChange(!enable)}>
+                <MenuItem onClick={() => {
+                    handleClose();
+                    onEnableChange(!enable);
+                }}>
                     {enable ? "禁用" : "启用"}
                 </MenuItem>
-                <MenuItem onClick={onDelete}>
+                {onShare && <MenuItem onClick={() => {
+                    handleClose();
+                    onShare();
+                }}>
+                    分享
+                </MenuItem>}
+                <MenuItem onClick={() => {
+                    handleClose();
+                    onDelete();
+                }}>
                     删除
                 </MenuItem>
             </Menu></>
-    )
+    );
 }
 
 const StatusChip = ({status, lastRunTime, enable}) => {
@@ -108,7 +130,8 @@ function FilterItem({
                         onShowLog,
                         onEnableChange,
                         onRun,
-                        onShowRecord
+                        onShowRecord,
+                        onShare = null
                     }) {
 
     return (
@@ -116,7 +139,7 @@ function FilterItem({
             secondaryAction={
                 <Stack direction={"row"} spacing={1}>
                     <OptionMenus enable={enable} onEdit={onEdit} onDelete={onDelete} onShowLog={onShowLog} onRun={onRun}
-                                 onEnableChange={onEnableChange}/>
+                                 onEnableChange={onEnableChange} onShare={onShare}/>
                 </Stack>
             }
         >
@@ -136,22 +159,22 @@ function FilterItem({
     )
 }
 
-const CustomList = () => {
+const CustomList = ({onAdd}) => {
     const navigate = useNavigate();
     const [subLogData, setSubLogData] = useState(null);
     const [runCustomSubId, setRunCustomSubId] = useState(null);
     const [showCustomSubRecord, setShowCustomSubRecord] = useState(null);
+    const [showShare, setShowShare] = useState(null);
+    const [showDelete, setShowDelete] = useState(null);
     const {mutate: enableSub} = useEnableSubCustomStatus();
     const {mutate: runSub} = useRunSubCustom();
+    const {mutate: shareSubRule} = useShareSubRule();
     const {data: subCustomData, isLoading: subIsLoading, refetch: refetchSubCustomData} = useSubCustomList()
-    const [deleteFilterName, setDeleteFilterName] = useState(null)
-    const [deleteFilterId, setDeleteFilterId] = useState(null)
     const onEdit = (item) => {
         navigate("/subscribe/edit-custom-sub?id=" + item.id)
     }
     const onDelete = (item) => {
-        setDeleteFilterId(item.id);
-        setDeleteFilterName(item.filter_name)
+        setShowDelete({id: item.id, name: item.name, showDeleteRemote: item.personal && item.remote_sub_rule_id})
     }
     const onShowLog = (item) => {
         setSubLogData({
@@ -195,6 +218,24 @@ const CustomList = () => {
             }
         })
     }
+    const onShare = (subId, params) => {
+        shareSubRule({
+            sub_id: subId,
+            name: params.name,
+            desc: params.desc
+        }, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg)
+                    refetchSubCustomData();
+                    setShowShare(null);
+                } else {
+                    message.error(msg);
+                }
+            }
+        })
+    }
     const autoRefreshList = () => {
         const runningList = subCustomData?.data?.filter(x => x.status === 'Running');
         if (runningList.length > 0) {
@@ -204,6 +245,14 @@ const CustomList = () => {
     useInterval(autoRefreshList, 1500)
     return (
         <>
+            <ShareDialog
+                subId={showShare?.id}
+                open={Boolean(showShare?.id)}
+                name={showShare?.name}
+                desc={showShare?.desc}
+                handleClose={() => setShowShare(null)}
+                handleSubmit={onShare}
+            />
             <RecordDialog
                 subId={showCustomSubRecord?.id}
                 title={showCustomSubRecord?.name ? `来自${showCustomSubRecord.name}的下载记录` : "自定义订阅下载记录"}
@@ -223,16 +272,16 @@ const CustomList = () => {
                           subType={subLogData?.subType}
             />
             <DeleteDialog
-                open={!!deleteFilterId}
+                open={Boolean(showDelete)}
                 handleClose={() => {
-                    setDeleteFilterId(null);
-                    setDeleteFilterName(null);
+                    setShowDelete(null);
                 }}
-                id={deleteFilterId}
-                filterName={deleteFilterName}
+                id={showDelete?.id}
+                name={showDelete?.name}
+                showDeleteRemote={Boolean(showDelete?.showDeleteRemote)}
                 onSuccess={onDeleteSuccess}
             />
-            <List sx={{mt: 4, width: '100%', bgcolor: 'background.paper'}}>
+            <List sx={{width: '100%', bgcolor: 'background.paper'}}>
                 {subCustomData && subCustomData?.data ? subCustomData.data.map((item, index) => (
                     <FilterItem
                         key={index}
@@ -251,14 +300,19 @@ const CustomList = () => {
                         onEnableChange={(checked) => onEnableChange(item, checked)}
                         onRun={() => setRunCustomSubId(item.id)}
                         onShowRecord={() => setShowCustomSubRecord({id: item.id, name: item.name})}
+                        onShare={item?.personal ? () => setShowShare({
+                            id: item.id,
+                            name: item.name,
+                            desc: item.desc
+                        }) : null}
                     />
                 )) : <Skeleton variant="rectangular"/>}
                 <ListItem disablePadding>
-                    <ListItemButton onClick={() => navigate("/subscribe/edit-custom-sub")}>
+                    <ListItemButton onClick={onAdd}>
                         <ListItemIcon>
                             <AddIcon/>
                         </ListItemIcon>
-                        <ListItemText primary="添加"/>
+                        <ListItemText primary="新增订阅"/>
                     </ListItemButton>
                 </ListItem>
             </List>
