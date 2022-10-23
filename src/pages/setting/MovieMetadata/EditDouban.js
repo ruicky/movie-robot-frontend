@@ -14,7 +14,7 @@ import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {useGetMovieMetadata, useSaveDouban, useSaveFanArt, useSaveTmdb} from "@/api/SettingApi";
+import {useGetMovieMetadata, useSaveDouban} from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const Divider = styled(MuiDivider)(spacing);

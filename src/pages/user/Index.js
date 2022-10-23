@@ -11,7 +11,7 @@ function UserManager() {
         const userList = await getUserList()
         setUserList(userList)
     }
-    useEffect(async () => {
+    useEffect(() => {
         fetchUserData();
     }, [])
     return (<React.Fragment>

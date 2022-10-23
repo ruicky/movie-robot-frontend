@@ -1,9 +1,6 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {
-    Box,
     Button,
-    Checkbox,
-    Chip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -12,25 +9,24 @@ import {
     Divider,
     FormControl,
     FormHelperText,
-    ListItemText,
     MenuItem,
     Select,
 } from '@mui/material';
-import {useAddSubscribe} from '@/utils/subscribe';
+import { useAddSubscribe } from '@/utils/subscribe';
 import message from "@/utils/message";
 import FilterForm from "@/components/Selectors/FilterForm";
-import {FilterOptionsContext} from "@/contexts/FilterOptionsProvider";
+import { FilterOptionsContext } from "@/contexts/FilterOptionsProvider";
 import SeasonSelect from "@/pages/subscribe/components/SeasonSelect";
 
 
-const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
+const SubscribeDialog = ({ open, handleClose, data, onComplete }) => {
     const filterOptionsContextData = useContext(FilterOptionsContext)
     const myRef = useRef(null);
     const [filterName, setFilterName] = useState();
     const [seasonDoubanId, setSeasonDoubanId] = useState(data?.season && data.season.length > 0 ? [data.season[data.season.length - 1].doubanId] : []);
     const [showFilterForm, setShowFilterForm] = useState(false);
-    const {name, year} = data;
-    const {mutateAsync: addSubscribe, isLoading} = useAddSubscribe();
+    const { name, year } = data;
+    const { mutateAsync: addSubscribe, isLoading } = useAddSubscribe();
     let id;
     if (data.sub_id) {
         id = data.sub_id;
@@ -51,9 +47,9 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             await myRef.current.onSubmit()
             filterConfig = await myRef.current.getVal()
         }
-        addSubscribe({id, filter_name: filterName, filter_config: filterConfig, season_ids: seasonDoubanId}, {
+        addSubscribe({ id, filter_name: filterName, filter_config: filterConfig, season_ids: seasonDoubanId }, {
             onSuccess: resData => {
-                const {code, message: msg} = resData;
+                const { code, message: msg } = resData;
                 if (code === 0) {
                     message.success(msg);
                     if (onComplete) {
@@ -70,7 +66,7 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
     }
     return (
         <Dialog
-            open={open}
+            open={!!open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
@@ -81,9 +77,9 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
                 确定要订阅 {name}{year ? "(" + year + ")" : ""} 吗？
             </DialogTitle>
             <DialogContent>
-                <DialogContentText id="alert-dialog-description">
+                <DialogContentText component='div' id="alert-dialog-description">
                     {data?.season && data?.season.length > 0 && <SeasonSelect text={"订阅季数"} items={data?.season} seasonDoubanId={seasonDoubanId}
-                                                                              setSeasonDoubanId={setSeasonDoubanId}/>}
+                        setSeasonDoubanId={setSeasonDoubanId} />}
                     <FormControl m={4} fullWidth>
                         <Select
                             name="filterName"
@@ -94,19 +90,19 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
                             <MenuItem value="system:autoSelectFilter">自动选择过滤器</MenuItem>
                             <MenuItem value="system:unUseFilter">不使用任何过滤器</MenuItem>
                             <MenuItem value="system:newFilter">独立设置过滤器</MenuItem>
-                            <Divider/>
+                            <Divider />
                             {filterOptionsContextData?.filter_name_list ? filterOptionsContextData?.filter_name_list.map((value, i) => (
                                 <MenuItem key={value} value={value}>{value}</MenuItem>
                             )) : <MenuItem>没有设置任何过滤器</MenuItem>}
                         </Select>
                         <FormHelperText>
-                <span>
-                    将按照设定的过滤器去选择资源
-                </span></FormHelperText>
+                            <span>
+                                将按照设定的过滤器去选择资源
+                            </span></FormHelperText>
                     </FormControl>
                     {showFilterForm &&
-                    <FilterForm showFilterName={false} showApplyInfo={false} showFilterTemplate={true}
-                                filterOptions={filterOptionsContextData} onSubmit={null} myRef={myRef}/>}
+                        <FilterForm showFilterName={false} showApplyInfo={false} showFilterTemplate={true}
+                            filterOptions={filterOptionsContextData} onSubmit={null} myRef={myRef} />}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

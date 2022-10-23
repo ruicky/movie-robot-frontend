@@ -1,11 +1,7 @@
 import React from 'react';
 import TVCard from "@/pages/movie/search/components/MediaCard/TVCard";
 import MovieCard from "@/pages/movie/search/components/MediaCard/MovieCard";
-import {Box, Button, Card, CardContent, CardMedia, Link, Skeleton, Typography} from "@mui/material";
-import MediaTag from "@/pages/movie/search/components/MediaCard/MediaTag";
-import Stream from "@/pages/movie/search/components/MediaCard/Stream";
-import {Autorenew} from "@mui/icons-material";
-import MediaView from "@/pages/movie/search/components/MediaCard/MediaView";
+import {Box, Card, CardContent, Skeleton, Typography} from "@mui/material";
 
 
 const MediaCard = ({media}) => {

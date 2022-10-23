@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import {useState, useEffect } from 'react';
 import { useWindowSize } from "@/utils/hooks";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";

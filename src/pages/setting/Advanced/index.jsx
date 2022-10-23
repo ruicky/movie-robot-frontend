@@ -17,14 +17,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import CheckIcon from '@mui/icons-material/Check';
 function AdvancedSettingList() {
     const navigate = useNavigate();
-    const {data: settingStatus, isLoading: isLoading, refetch} = useGetSettingStatus();
+    const {data: settingStatus, refetch} = useGetSettingStatus();
 
-    const {mutateAsync: setFreeDownloadEnable, isLoading: isSetFreeDownloadEnable} = useSetFreeDownloadEnable();
-    const {mutateAsync: setSubtitleEnable, isLoading: isSetSubtitleEnable} = useSetSubtitleEnable();
+    const {mutateAsync: setFreeDownloadEnable} = useSetFreeDownloadEnable();
+    const {mutateAsync: setSubtitleEnable} = useSetSubtitleEnable();
     const onFreeDownloadEnableChange = (checked) => {
         setFreeDownloadEnable({enable: checked}, {
             onSuccess: res => {
-                const {code, message: msg, data} = res;
+                const {code, message: msg} = res;
                 if (code === 0) {
                     refetch();
                 } else {
@@ -36,7 +36,7 @@ function AdvancedSettingList() {
     const onSubtitleEnableChange = (checked) => {
         setSubtitleEnable({enable: checked}, {
             onSuccess: res => {
-                const {code, message: msg, data} = res;
+                const {code, message: msg} = res;
                 if (code === 0) {
                     message.success('更改配置成功，需要重启后才能生效。')
                     refetch();
@@ -59,7 +59,7 @@ function AdvancedSettingList() {
                     <ListItemText primary="流量自动管理"/>
                     <Switch
                         edge="end"
-                        checked={settingStatus && settingStatus?.data.free_download_enable}
+                        checked={(settingStatus && settingStatus?.data.free_download_enable) || false}
                         onClick={e => e.stopPropagation()}
                         onChange={(e) => onFreeDownloadEnableChange(e.target.checked)}
                         inputProps={{
@@ -77,7 +77,7 @@ function AdvancedSettingList() {
                     <ListItemText primary="字幕自动下载"/>
                     <Switch
                         edge="end"
-                        checked={settingStatus && settingStatus?.data.subtitle_enable}
+                        checked={(settingStatus && settingStatus?.data.subtitle_enable) || false}
                         onClick={e => e.stopPropagation()}
                         onChange={(e) => onSubtitleEnableChange(e.target.checked)}
                         inputProps={{

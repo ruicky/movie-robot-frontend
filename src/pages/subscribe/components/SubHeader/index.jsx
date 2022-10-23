@@ -1,7 +1,6 @@
 import React from 'react'
 import { Typography } from "@mui/material";
 import styled from "styled-components/macro";
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 
 const SubHeader = ({text}) => {

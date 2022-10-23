@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from "styled-components/macro";
-import {Button, Card, CardContent, Box, IconButton, Tooltip, OutlinedInput, Paper, Typography} from "@mui/material";
-import {SmallButton} from "@/components/core/SmallButton";
+import {Button, Card, CardContent, Box, Tooltip, Typography} from "@mui/material";
 import SearchBox from './SearchBox';
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";

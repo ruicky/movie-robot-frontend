@@ -50,7 +50,6 @@ function Index() {
 
     const {
         data: mediaLinkStatusData,
-        isLoading: isGetMediaLinkStatus,
         refetch: refetchMediaLinkStatus
     } = useGetMediaLinkStatus();
     const fetchLinkStatus = () => {
@@ -59,7 +58,7 @@ function Index() {
         }
     }
     useInterval(fetchLinkStatus, 1500)
-    const onLinkStart = (paths) => {
+    const onLinkStart = () => {
         setLinkStart(true);
     }
     const fetchGetMediaLibrary = (path) => {
