@@ -1,5 +1,6 @@
 import {Helmet} from "react-helmet-async";
 import {
+    Alert,
     Box,
     Breadcrumbs,
     Button,
@@ -17,7 +18,7 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {spacing} from "@mui/system";
 import {useSmartForm} from "@/components/SmartForm";
 import TorrentFilterList from "@/components/TorrentFilter/FilterList";
@@ -73,10 +74,13 @@ const ScoreRuleSelect = ({smartForm}) => {
 }
 const EditCustomSub = () => {
     const navigate = useNavigate();
+    const [remoteSubRuleId, setRemoteSubRuleId] = useState();
+    const [remoteSubRule, setRemoteSubRule] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
     const {mutateAsync: subCustom, isSaving} = useSubCustom();
     const {mutate: getSubCustom, isLoading} = useGetSubCustom();
     const {mutate: getSubRule} = useGetSubRule();
+    const [messageTip, setMessageTip] = useState(null);
     const smartForm = useSmartForm({
         initValues: {
             media_type: 'Movie',
@@ -93,7 +97,8 @@ const EditCustomSub = () => {
             skip_exists: true,
             score_rule_name: 'compress',
             skip_unknown: true,
-            remote_sub_rule_id: null
+            remote_sub_rule_id: null,
+            is_author: false
         }
     });
 
@@ -151,8 +156,35 @@ const EditCustomSub = () => {
             });
             smartForm.setFieldValue('rename_rule', renameRule)
         }
+        if (data.is_author !== undefined && data.is_author !== null) {
+            smartForm.setFieldValue('is_author', data.is_author);
+        }
     }
 
+    useEffect(() => {
+        if (!remoteSubRuleId) {
+            return;
+        }
+        getSubRule({sub_rule_id: remoteSubRuleId}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0 && data) {
+                    setRemoteSubRule(data);
+                }
+            },
+            onError: error => message.error(error)
+        });
+    }, [remoteSubRuleId]);
+    useEffect(() => {
+        if (!remoteSubRule) {
+            return;
+        }
+        if (searchParams.get("sub_rule_id")) {
+            smartForm.setFieldValue('remote_sub_rule_id', data.id);
+            setFormByData(remoteSubRule);
+        }
+        setMessageTip(`这是由${remoteSubRule.author_nickname}分享的订阅规则，最后更新：${remoteSubRule.gmt_modified}`);
+    }, [remoteSubRule]);
     useEffect(async () => {
         if (searchParams.get("id")) {
             getSubCustom({id: searchParams.get("id")}, {
@@ -160,19 +192,7 @@ const EditCustomSub = () => {
                     const {code, message: msg, data} = resData;
                     if (code === 0 && data) {
                         setFormByData(data);
-                    } else {
-                        message.error(msg);
-                    }
-                },
-                onError: error => message.error(error)
-            })
-        } else if (searchParams.get("sub_rule_id")) {
-            getSubRule({sub_rule_id: searchParams.get("sub_rule_id")}, {
-                onSuccess: resData => {
-                    const {code, message: msg, data} = resData;
-                    if (code === 0 && data) {
-                        smartForm.setFieldValue('remote_sub_rule_id', data.id);
-                        setFormByData(data);
+                        setRemoteSubRuleId(data.remote_sub_rule_id);
                     } else {
                         message.error(msg);
                     }
@@ -237,7 +257,8 @@ const EditCustomSub = () => {
             score_rule_name,
             skip_unknown,
             desc,
-            remote_sub_rule_id
+            remote_sub_rule_id,
+            is_author
         } = smartForm.values;
         const params = {
             remote_sub_rule_id,
@@ -253,6 +274,7 @@ const EditCustomSub = () => {
             score_rule_name,
             skip_unknown,
             desc,
+            is_author,
             torrent_filter: torrent_filter.map((item) => {
                 return {
                     type: item.filter_type,
@@ -291,6 +313,7 @@ const EditCustomSub = () => {
             <Typography>规则设置</Typography>
         </Breadcrumbs>
         <Divider my={4}/>
+        {messageTip && <Alert severity="success">{messageTip}</Alert>}
         <FilterOptionsProvider>
             <Box component="form" noValidate mt={4}>
                 <Card mb={6}>

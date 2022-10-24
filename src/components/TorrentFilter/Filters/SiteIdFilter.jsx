@@ -62,7 +62,7 @@ export function SiteIdFilter() {
             let desc = '';
             if (siteList && siteList.length > 0) {
                 desc += filterData.site_id.map((val) => {
-                    return siteList.find((item) => item.value === val).name;
+                    return siteList.find((item) => item.value === val)?.name;
                 }).join(' / ');
                 return desc;
             } else {

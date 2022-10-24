@@ -12,12 +12,15 @@ import {
     CardHeader as MuiCardHeader,
     Divider as MuiDivider,
     Grid,
+    IconButton,
     Link,
     Typography,
 } from "@mui/material";
 import {spacing} from "@mui/system";
 import {useGetLicenseDetail} from "@/api/AuthApi";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import EditIcon from '@mui/icons-material/Edit';
+import {UpdateUserDialog} from "@/pages/setting/License/updateUserDialog";
 
 const Card = styled(MuiCard)(spacing);
 
@@ -80,16 +83,20 @@ function License() {
     const navigate = useNavigate();
     const {data: licenseDetail} = useGetLicenseDetail();
     const [licenseMessage, setLicenseMessage] = useState(null);
+    const [user, setUser] = useState(null);
     const [isVip, setIsVip] = useState(true);
     const [licenseType, setLicenseType] = useState('');
+    const [showUpdateUser, setShowUpdateUser] = useState(null);
     useEffect(() => {
         if (!licenseDetail?.data) {
             return;
         }
         const {
             licenseType,
-            expireDays
+            expireDays,
+            user
         } = licenseDetail?.data;
+        setUser(user);
         setLicenseType(licenseType);
         if (licenseType === 'VIP') {
             setLicenseMessage('您已经是最高等级用户，尊贵的永久授权！❤️🎉🌹');
@@ -102,13 +109,17 @@ function License() {
             setIsVip(false);
         }
     }, [licenseDetail])
+    const onUpdateNicknameSuccess = (nickname) => {
+        const tmp = {...user};
+        tmp.nickname = nickname;
+        setUser(tmp);
+    }
     return (
         <React.Fragment>
-            <Helmet title="Pricing"/>
+            <Helmet title="我的授权信息"/>
             <Typography variant="h3" gutterBottom display="inline">
                 授权信息
             </Typography>
-
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
                 <Link component={NavLink} to="/setting/index">
                     设置
@@ -120,14 +131,22 @@ function License() {
 
             <Header>
                 <Typography variant="h3" gutterBottom align="center">
-                    订阅选项和信息
+                    Hi, {user?.nickname} !
+                    <IconButton size={"small"} onClick={() => setShowUpdateUser(user)}>
+                        <EditIcon/>
+                    </IconButton>
                 </Typography>
 
                 <Typography variant="subtitle1" gutterBottom align="center">
                     {licenseMessage}
                 </Typography>
             </Header>
-
+            <UpdateUserDialog
+                open={Boolean(showUpdateUser)}
+                user={showUpdateUser}
+                handleClose={() => setShowUpdateUser(null)}
+                handleSuccess={onUpdateNicknameSuccess}
+            />
             <Grid container justifyContent="center">
                 <Grid item xs={12} lg={10}>
                     <Grid container spacing={6} alignItems="flex-end">

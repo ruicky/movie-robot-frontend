@@ -73,3 +73,10 @@ export const useDeleteUser = (param) => {
             client("/api/user/delete_user", {params: params, method: "POST"})
     );
 };
+export const useUpdateRemoteNickname = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/user/upload_nickname", {params: params, method: "GET"})
+    );
+};
