@@ -180,7 +180,7 @@ const EditCustomSub = () => {
             return;
         }
         if (searchParams.get("sub_rule_id")) {
-            smartForm.setFieldValue('remote_sub_rule_id', data.id);
+            smartForm.setFieldValue('remote_sub_rule_id', remoteSubRule.id);
             setFormByData(remoteSubRule);
         }
         setMessageTip(`这是由${remoteSubRule.author_nickname}分享的订阅规则，最后更新：${remoteSubRule.gmt_modified}`);
@@ -199,6 +199,10 @@ const EditCustomSub = () => {
                 },
                 onError: error => message.error(error)
             })
+        }else{
+            if(searchParams.get('sub_rule_id')){
+                setRemoteSubRuleId(searchParams.get('sub_rule_id'));
+            }
         }
     }, [searchParams])
     const saveTorrentFilter = (id, val) => {
