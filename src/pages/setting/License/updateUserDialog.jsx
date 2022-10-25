@@ -6,8 +6,8 @@ import {useSmartForm} from "@/components/SmartForm";
 import {useUpdateRemoteNickname} from "@/api/UserApi";
 import message from "@/utils/message";
 
-export const UpdateUserDialog = ({user, open, handleClose,handleSuccess}) => {
-    const {mutate: updateNickname} = useUpdateRemoteNickname();
+export const UpdateUserDialog = ({user, open, handleClose, handleSuccess}) => {
+    const {mutate: updateNickname, isLoading} = useUpdateRemoteNickname();
     const smartForm = useSmartForm({
         initValues: {
             nickname: ''
@@ -57,7 +57,7 @@ export const UpdateUserDialog = ({user, open, handleClose,handleSuccess}) => {
         </DialogContent>
         <DialogActions>
             <Button onClick={handleClose}>取消</Button>
-            <Button onClick={onSubmit}>保存</Button>
+            <Button onClick={onSubmit} disabled={isLoading}>{isLoading ? "提交中" : "保存"}</Button>
         </DialogActions>
     </Dialog>);
 }

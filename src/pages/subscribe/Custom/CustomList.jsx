@@ -168,7 +168,7 @@ const CustomList = ({onAdd}) => {
     const [showDelete, setShowDelete] = useState(null);
     const {mutate: enableSub} = useEnableSubCustomStatus();
     const {mutate: runSub} = useRunSubCustom();
-    const {mutate: shareSubRule} = useShareSubRule();
+    const {mutate: shareSubRule, isLoading: isSharing} = useShareSubRule();
     const {data: subCustomData, isLoading: subIsLoading, refetch: refetchSubCustomData} = useSubCustomList()
     const onEdit = (item) => {
         navigate("/subscribe/edit-custom-sub?id=" + item.id)
@@ -222,7 +222,8 @@ const CustomList = ({onAdd}) => {
         shareSubRule({
             sub_id: subId,
             name: params.name,
-            desc: params.desc
+            desc: params.desc,
+            tag: params.tag
         }, {
             onSuccess: res => {
                 const {code, message: msg, data} = res;
@@ -245,33 +246,34 @@ const CustomList = ({onAdd}) => {
     useInterval(autoRefreshList, 1500)
     return (
         <>
-            <ShareDialog
+            {showShare?.id && <ShareDialog
                 subId={showShare?.id}
                 open={Boolean(showShare?.id)}
                 name={showShare?.name}
                 desc={showShare?.desc}
                 handleClose={() => setShowShare(null)}
                 handleSubmit={onShare}
-            />
-            <RecordDialog
+                submitting={isSharing}
+            />}
+            {showCustomSubRecord && <RecordDialog
                 subId={showCustomSubRecord?.id}
                 title={showCustomSubRecord?.name ? `来自${showCustomSubRecord.name}的下载记录` : "自定义订阅下载记录"}
                 open={Boolean(showCustomSubRecord)}
                 handleClose={() => setShowCustomSubRecord(null)}
-            />
-            <RunDialog
+            />}
+            {runCustomSubId && <RunDialog
                 subId={runCustomSubId}
                 open={Boolean(runCustomSubId)}
                 handleClose={() => setRunCustomSubId(null)}
                 handleRun={onRun}
-            />
-            <SubLogDialog subId={subLogData?.subId}
-                          title={subLogData?.title ? `${subLogData?.title}的订阅全息日志` : "未知信息"}
-                          open={Boolean(subLogData)}
-                          handleClose={() => setSubLogData(null)}
-                          subType={subLogData?.subType}
-            />
-            <DeleteDialog
+            />}
+            {subLogData && <SubLogDialog subId={subLogData?.subId}
+                                         title={subLogData?.title ? `${subLogData?.title}的订阅全息日志` : "未知信息"}
+                                         open={Boolean(subLogData)}
+                                         handleClose={() => setSubLogData(null)}
+                                         subType={subLogData?.subType}
+            />}
+            {showDelete && <DeleteDialog
                 open={Boolean(showDelete)}
                 handleClose={() => {
                     setShowDelete(null);
@@ -280,7 +282,7 @@ const CustomList = ({onAdd}) => {
                 name={showDelete?.name}
                 showDeleteRemote={Boolean(showDelete?.showDeleteRemote)}
                 onSuccess={onDeleteSuccess}
-            />
+            />}
             <List sx={{width: '100%', bgcolor: 'background.paper'}}>
                 {subCustomData && subCustomData?.data ? subCustomData.data.map((item, index) => (
                     <FilterItem

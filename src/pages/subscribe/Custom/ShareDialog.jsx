@@ -1,12 +1,27 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField} from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl,
+    FormHelperText,
+    Grid,
+    MenuItem,
+    Select,
+    TextField
+} from "@mui/material";
 import React, {useEffect} from "react";
 import {useSmartForm} from "@/components/SmartForm";
+import {useGetSubRuleTags} from "@/utils/subscribe";
 
-export const ShareDialog = ({subId, open, handleClose, handleSubmit, name, desc}) => {
+export const ShareDialog = ({subId, open, handleClose, handleSubmit, name, desc, submitting}) => {
+    const {data: tags} = useGetSubRuleTags();
     const smartForm = useSmartForm({
         initValues: {
             name: '',
-            desc: ''
+            desc: '',
+            tag: ''
         }
     });
     useEffect(() => {
@@ -48,12 +63,26 @@ export const ShareDialog = ({subId, open, handleClose, handleSubmit, name, desc}
                         onChange={smartForm.handleChange}
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth>
+                        <Select
+                            name="tag"
+                            value={smartForm.values.tag}
+                            onChange={smartForm.handleChange}
+                            fullWidth
+                        >
+                            {tags?.data && tags.data.map((val, index) => <MenuItem key={index}
+                                                                                   value={val}>{val}</MenuItem>)}
+                        </Select>
+                        <FormHelperText>为这个订阅规则选个标签吧</FormHelperText>
+                    </FormControl>
+                </Grid>
             </Grid>
         </DialogContent>
         <DialogActions>
             <Button onClick={handleClose}>取消</Button>
-            <Button onClick={() => handleSubmit(subId, smartForm.values)} autoFocus>
-                分享
+            <Button onClick={() => handleSubmit(subId, smartForm.values)} disabled={Boolean(submitting)}>
+                {submitting?"处理中":"分享"}
             </Button>
         </DialogActions>
     </Dialog>);

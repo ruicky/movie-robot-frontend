@@ -170,8 +170,8 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
-            maxWidth={showFilterForm ? "md" : "xs"}
-            fullWidth={showFilterForm}
+            // maxWidth={showFilterForm ? "md" : "xs"}
+            fullWidth={true}
         >
             <DialogTitle id="alert-dialog-title">
                 确定要订阅 {name}{year ? "(" + year + ")" : ""} 吗？

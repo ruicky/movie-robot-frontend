@@ -204,3 +204,9 @@ export const useGetSubLogText = () => {
             client("/api/subscribe/get_sub_log_text", {params: params, method: "GET"})
     );
 };
+export const useGetSubRuleTags = (param) => {
+    const client = useHttp();
+    return useQuery(['get_sub_rule_tags', param], () =>
+        client("/api/subscribe/get_sub_rule_tags", {params: param})
+    );
+}
