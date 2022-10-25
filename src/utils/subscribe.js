@@ -74,6 +74,12 @@ export const useGetTopSubRuleList = (param) => {
         client("/api/subscribe/get_top_sub_rule_list", {params: param})
     );
 };
+export const useGetSubRuleByDoubanId = (param) => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/get_sub_rule_by_douban_id", {params: params})
+    );
+};
 export const useLikeSubRule = () => {
     const client = useHttp();
     return useMutation((params) =>

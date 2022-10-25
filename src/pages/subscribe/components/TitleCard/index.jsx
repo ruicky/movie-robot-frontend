@@ -155,12 +155,12 @@ const TitleCard = ({
     };
     return (
         <CardWrapper canExpand={canExpand}>
-            <SubscribeDialog
+            {showRequestModal && <SubscribeDialog
                 open={showRequestModal}
                 onComplete={requestComplete}
                 handleClose={() => setShowRequestModal(false)}
                 data={{id: id, name: title, year, season}}
-            />
+            />}
             <ReNewDialog
                 showDownloadMode={showDownloadMode}
                 open={showReNewModal}
@@ -293,7 +293,7 @@ const TitleCard = ({
                                     )}
                                     {(currentStatus || currentStatus === 0) && showSubLogs && <Button
                                         color="info"
-                                        sx={{width: "100%",marginBottom:1}}
+                                        sx={{width: "100%", marginBottom: 1}}
                                         variant="contained"
                                         size="small"
                                         onClick={(e) => {

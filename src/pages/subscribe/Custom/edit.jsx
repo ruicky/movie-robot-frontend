@@ -25,9 +25,18 @@ import TorrentFilterList from "@/components/TorrentFilter/FilterList";
 import styled from "styled-components/macro";
 import {FilterOptionsContext, FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
 import RenameRuleList from "@/pages/subscribe/components/RenameRuleList";
-import {useGetSubCustom, useGetSubRule, useSubCustom} from "@/utils/subscribe";
+import {
+    useCancelHateSubRule,
+    useCancelLikeSubRule,
+    useGetSubCustom,
+    useGetSubRule,
+    useHateSubRule,
+    useLikeSubRule,
+    useSubCustom
+} from "@/utils/subscribe";
 import message from "@/utils/message";
 import {NavLink, useNavigate, useSearchParams} from "react-router-dom";
+import {VoteButtonGroup} from "@/components/VoteButtonGroup";
 
 const Divider = styled(MuiDivider)(spacing);
 const Card = styled(MuiCard)(spacing);
@@ -80,7 +89,10 @@ const EditCustomSub = () => {
     const {mutateAsync: subCustom, isSaving} = useSubCustom();
     const {mutate: getSubCustom, isLoading} = useGetSubCustom();
     const {mutate: getSubRule} = useGetSubRule();
-    const [messageTip, setMessageTip] = useState(null);
+    const {mutate: like} = useLikeSubRule();
+    const {mutate: cancellike} = useCancelLikeSubRule();
+    const {mutate: hate} = useHateSubRule();
+    const {mutate: cancelHate} = useCancelHateSubRule();
     const smartForm = useSmartForm({
         initValues: {
             media_type: 'Movie',
@@ -183,7 +195,6 @@ const EditCustomSub = () => {
             smartForm.setFieldValue('remote_sub_rule_id', remoteSubRule.id);
             setFormByData(remoteSubRule);
         }
-        setMessageTip(`这是由${remoteSubRule.author_nickname}分享的订阅规则，最后更新：${remoteSubRule.gmt_modified}`);
     }, [remoteSubRule]);
     useEffect(async () => {
         if (searchParams.get("id")) {
@@ -199,8 +210,8 @@ const EditCustomSub = () => {
                 },
                 onError: error => message.error(error)
             })
-        }else{
-            if(searchParams.get('sub_rule_id')){
+        } else {
+            if (searchParams.get('sub_rule_id')) {
                 setRemoteSubRuleId(searchParams.get('sub_rule_id'));
             }
         }
@@ -305,6 +316,60 @@ const EditCustomSub = () => {
             }
         })
     }
+    const onLike = (cancel) => {
+        let func;
+        if (cancel) {
+            func = cancellike;
+        } else {
+            func = like;
+        }
+        func({sub_rule_id: remoteSubRuleId}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg)
+                    const item = {...remoteSubRule};
+                    if (cancel) {
+                        item.likeCount = item.likeCount - 1;
+                        item.liked = false;
+                    } else {
+                        item.likeCount = item.likeCount + 1;
+                        item.liked = true;
+                    }
+                    setRemoteSubRule(item);
+                } else {
+                    message.error(msg)
+                }
+            }
+        })
+    }
+    const onHate = (cancel) => {
+        let func;
+        if (cancel) {
+            func = cancelHate;
+        } else {
+            func = hate;
+        }
+        func({sub_rule_id: remoteSubRuleId}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg)
+                    const item = {...remoteSubRule};
+                    if (cancel) {
+                        item.hateCount = item.hateCount - 1;
+                        item.hated = false;
+                    } else {
+                        item.hateCount = item.hateCount + 1;
+                        item.hated = true;
+                    }
+                    setRemoteSubRule(item);
+                } else {
+                    message.error(msg)
+                }
+            }
+        })
+    }
     return (<>
         <Helmet title="设置自定义订阅"/>
         <Typography variant="h3" gutterBottom>
@@ -317,7 +382,19 @@ const EditCustomSub = () => {
             <Typography>规则设置</Typography>
         </Breadcrumbs>
         <Divider my={4}/>
-        {messageTip && <Alert severity="success">{messageTip}</Alert>}
+        {remoteSubRule && <Alert severity="success" action={
+            <VoteButtonGroup
+                color="inherit"
+                likeCount={remoteSubRule.like_count}
+                hateCount={remoteSubRule.hate_count}
+                liked={remoteSubRule.liked}
+                hated={remoteSubRule.hated}
+                onLike={onLike}
+                onHate={onHate}
+            />}>
+            {`这是由${remoteSubRule.author_nickname}分享的订阅规则，最后更新：${remoteSubRule.gmt_modified}`}
+        </Alert>
+        }
         <FilterOptionsProvider>
             <Box component="form" noValidate mt={4}>
                 <Card mb={6}>
