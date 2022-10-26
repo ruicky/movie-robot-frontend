@@ -1,11 +1,17 @@
 import axios from "../utils/request";
 import useHttp from "@/hooks/useHttp";
-import {useMutation} from "react-query";
+import {useMutation, useQuery} from "react-query";
 
 export const getUserList = async () => {
     const result = await axios.get("/api/user/get_user_list")
     return result.data;
 }
+export const useGetUserList = (param) => {
+    const client = useHttp();
+    return useQuery(['get_user_list', param], () =>
+        client("/api/user/get_user_list", {params: param})
+    );
+};
 export const getUserOptions = async () => {
     const result = await axios.get("/api/user/get_user_options")
     return result.data;

@@ -55,6 +55,7 @@ const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 const HomePage = async(() => import("./pages/home"));
 const MediaDetail = async(() => import("./pages/media/Detail/index"));
 const EditCustomSub = async(() => import("./pages/subscribe/Custom/edit"));
+const SettingAccessKey = async(() => import("./pages/setting/AccessKey/index"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -145,6 +146,9 @@ const routes = [{
         }, {
             path: 'license',
             element: <License/>
+        }, {
+            path: 'access-key',
+            element: <SettingAccessKey/>
         }
     ]
 }, {

@@ -15,6 +15,8 @@ import message from "@/utils/message";
 import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from '@mui/icons-material/Search';
 import CheckIcon from '@mui/icons-material/Check';
+import LogoDevIcon from '@mui/icons-material/LogoDev';
+
 function AdvancedSettingList() {
     const navigate = useNavigate();
     const {data: settingStatus, refetch} = useGetSettingStatus();
@@ -120,6 +122,15 @@ function AdvancedSettingList() {
                         <LanguageIcon fontSize={"large"}/>
                     </ListItemIcon>
                     <ListItemText primary="网络设置"/>
+                    <ArrowForwardIosOutlinedIcon color="disabled"/>
+                </ListItemButton>
+            </ListItem>
+            <ListItem>
+                <ListItemButton onClick={() => navigate("/setting/access-key")}>
+                    <ListItemIcon>
+                        <LogoDevIcon fontSize={"large"}/>
+                    </ListItemIcon>
+                    <ListItemText primary="API密钥管理"/>
                     <ArrowForwardIosOutlinedIcon color="disabled"/>
                 </ListItemButton>
             </ListItem>
