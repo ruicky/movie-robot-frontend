@@ -10,7 +10,7 @@ const Poster = styled(MuiCardMedia)((props) =>({
     },
     height: 160,
     width: 110,
-    borderRadius: '10px',
+    borderRadius: '8px',
     padding: 4
 }));
 const RuleItem = ({
