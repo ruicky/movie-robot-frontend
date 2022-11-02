@@ -239,7 +239,7 @@ const TitleCard = ({
                             src={image ? image : "/static/img/poster_not_found_logo_top.png"}
                         />
                         <Transition
-                            show={!image || showDetail}
+                            show={showDetail}
                             enter="transition transform opacity-0"
                             enterFrom="opacity-0"
                             enterTo="opacity-100"
