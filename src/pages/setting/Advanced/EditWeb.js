@@ -29,7 +29,7 @@ const Centered = styled.div`
 
 function EditForm({isInit}) {
     const navigate = useNavigate();
-    const {data: webSetting, isLoading: isLoading} = useGetWeb();
+    const {data: webSetting, isLoading} = useGetWeb();
     const {mutateAsync: saveWeb, isSaving} = useSaveWeb();
     const formik = useFormik({
         initialValues: {

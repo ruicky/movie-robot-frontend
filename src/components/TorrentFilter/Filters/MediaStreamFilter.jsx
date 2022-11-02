@@ -86,11 +86,17 @@ const Form = ({handleClose, handleSave, data}) => {
 export function MediaStreamFilter() {
     return {
         Form,
-        preview: (filterData,options) => {
+        preview: (filterData, options) => {
             let desc = '';
-            desc += filterData.media_source.join('/') + ' - ';
-            desc += filterData.resolution.join('/') + ' - ';
-            desc += filterData.media_codec.join('/');
+            if (filterData.media_source) {
+                desc += filterData.media_source.join('/') + ' - ';
+            }
+            if (filterData.resolution) {
+                desc += filterData.resolution.join('/') + ' - ';
+            }
+            if (filterData.media_codec) {
+                desc += filterData.media_codec.join('/');
+            }
             return desc;
         }
     }

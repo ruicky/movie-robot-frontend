@@ -27,12 +27,7 @@ import CategorizeDialog from "@/pages/media/Link/CategorizeDialog";
 import TableToolbar from "@/pages/media/Link/Table/TableToolbar";
 import LinkDialog from "@/pages/media/Link/LinkDialog";
 
-const Divider = styled(MuiDivider)(spacing);
-
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
-
 const Paper = styled(MuiPaper)(spacing);
-
 
 const Chip = styled(MuiChip)`
   height: 20px;
@@ -152,9 +147,9 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const {mutateAsync: linkMedia, isLinking} = useLinkMedia();
-    const {mutateAsync: autoCategorizeApi, isAutoCategorize} = useAutoCategorize();
-    const {mutateAsync: fixBdmv, isFixing} = useFixEmbyBdmvBug();
+    const {mutateAsync: linkMedia} = useLinkMedia();
+    const {mutateAsync: autoCategorizeApi} = useAutoCategorize();
+    const {mutateAsync: fixBdmv} = useFixEmbyBdmvBug();
     const [correctDialogData, setCorrectDialogData] = useState({open: false});
     const [fixDiscPath, setFixDiscPath] = useState(null);
     const [autoCategorize, setAutoCategorize] = useState(null);
@@ -223,7 +218,7 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             link_mode: linkMode
         }, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const {code, message: msg} = resData;
                 if (code === 0) {
                     setShowLinkDialog(null);
                     message.success(msg);
@@ -264,7 +259,7 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
             season_inbdex: values.seasonIndex
         }, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const {code, message: msg} = resData;
                 if (code === 0) {
                     message.success(msg)
                     setCorrectDialogData({open: false});
@@ -293,7 +288,7 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const onFixBdmv = (discPaths) => {
         fixBdmv({paths: discPaths}, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const {code, message: msg} = resData;
                 if (code === 0) {
                     message.success(msg)
                     setFixDiscPath(null);
@@ -327,7 +322,7 @@ function MediaTable({rows, isLoading, path, linkPath, mediaType, onLinkStart = n
     const doAutoCategorize = (paths, linkMode) => {
         autoCategorizeApi({paths: paths, link_path: linkPath, link_mode: linkMode}, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const {code, message: msg} = resData;
                 if (code === 0) {
                     message.success(msg)
                     setAutoCategorize(null);

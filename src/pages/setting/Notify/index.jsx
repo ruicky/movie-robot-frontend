@@ -23,7 +23,7 @@ function NotifySettingList() {
     const navigate = useNavigate();
     const [showSelect, setShowSelect] = useState(false);
     const [mediaServer, setMediaServer] = useState([]);
-    const {data: notifySetting, isLoading: isLoading, refetch} = useGetNotifySetting();
+    const {data: notifySetting, isLoading, refetch} = useGetNotifySetting();
     const {mutateAsync: setNotifyEnable, isLoading: isSetting} = useSetNotifyEnable();
     const getTypeStr = (type) => {
         if (type) {

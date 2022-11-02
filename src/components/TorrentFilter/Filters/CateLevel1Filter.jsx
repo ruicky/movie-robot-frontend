@@ -66,7 +66,9 @@ export function CateLevel1() {
                 }).join(' / ');
                 return desc;
             } else {
-                desc += filterData.join(' / ');
+                if (filterData.cate_level1) {
+                    desc += filterData.cate_level1.join(' / ');
+                }
                 return desc;
             }
         }

@@ -36,7 +36,6 @@ const SubscribeTVIndex = async(() => import("./pages/subscribe/TV"));
 const ScoreRuleConfig = async(() => import("./pages/config/ScoreRuleConfig"));
 const Selectors = async(() => import("./pages/selectors"));
 const SelectorsEditFilter = async(() => import("./pages/selectors/Filter/Edit"));
-const SearchPage = async(() => import("./pages/search/index"));
 const Setting = async(() => import("./pages/setting"));
 const EditMediaServer = async(() => import("./pages/setting/MediaServer/EditMediaServer"));
 const EditDownloadClient = async(() => import("./pages/setting/DownloadClient/Edit"));
@@ -56,6 +55,7 @@ const MediaLinkIndex = async(() => import("./pages/media/Link/index"));
 const HomePage = async(() => import("./pages/home"));
 const MediaDetail = async(() => import("./pages/media/Detail/index"));
 const EditCustomSub = async(() => import("./pages/subscribe/Custom/edit"));
+const SettingAccessKey = async(() => import("./pages/setting/AccessKey/index"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -146,6 +146,9 @@ const routes = [{
         }, {
             path: 'license',
             element: <License/>
+        }, {
+            path: 'access-key',
+            element: <SettingAccessKey/>
         }
     ]
 }, {

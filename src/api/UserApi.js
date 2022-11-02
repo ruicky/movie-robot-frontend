@@ -1,11 +1,17 @@
 import axios from "../utils/request";
 import useHttp from "@/hooks/useHttp";
-import {useMutation} from "react-query";
+import {useMutation, useQuery} from "react-query";
 
 export const getUserList = async () => {
     const result = await axios.get("/api/user/get_user_list")
     return result.data;
 }
+export const useGetUserList = (param) => {
+    const client = useHttp();
+    return useQuery(['get_user_list', param], () =>
+        client("/api/user/get_user_list", {params: param})
+    );
+};
 export const getUserOptions = async () => {
     const result = await axios.get("/api/user/get_user_options")
     return result.data;
@@ -71,5 +77,12 @@ export const useDeleteUser = (param) => {
     return useMutation(
         (params) =>
             client("/api/user/delete_user", {params: params, method: "POST"})
+    );
+};
+export const useUpdateRemoteNickname = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/user/upload_nickname", {params: params, method: "GET"})
     );
 };

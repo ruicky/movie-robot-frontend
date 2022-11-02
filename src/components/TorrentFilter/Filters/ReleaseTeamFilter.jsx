@@ -51,9 +51,13 @@ const Form = ({handleClose, handleSave, data}) => {
 export function ReleaseTeamFilter() {
     return {
         Form,
-        preview:(filterData,options)=>{
+        preview: (filterData, options) => {
             let desc = '';
-            desc += filterData.release_team.join(' / ');
+            if (filterData.release_team) {
+                desc += filterData.release_team.join(' / ');
+            } else {
+                desc = '未指定'
+            }
             return desc;
         }
 

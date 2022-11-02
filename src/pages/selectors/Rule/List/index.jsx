@@ -4,15 +4,12 @@ import {
     List,
     ListItem,
     ListItemAvatar,
-    ListItemButton,
-    ListItemIcon,
     ListItemText,
     Stack,
     Typography
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import {Add as AddIcon, Delete as DeleteIcon} from "@mui/icons-material";
 import React, {useEffect, useState} from "react";
 import {Skeleton} from "@mui/lab";
 import {getRuleConfigList} from "@/api/ConfigApi";

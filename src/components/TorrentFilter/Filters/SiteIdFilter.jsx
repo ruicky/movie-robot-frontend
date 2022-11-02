@@ -62,11 +62,13 @@ export function SiteIdFilter() {
             let desc = '';
             if (siteList && siteList.length > 0) {
                 desc += filterData.site_id.map((val) => {
-                    return siteList.find((item) => item.value === val).name;
+                    return siteList.find((item) => item.value === val)?.name;
                 }).join(' / ');
                 return desc;
             } else {
-                desc += filterData.join(' / ');
+                if (filterData.site_id) {
+                    desc += filterData.site_id.join(' / ');
+                }
                 return desc;
             }
         }

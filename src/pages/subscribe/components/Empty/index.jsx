@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box,Colors } from "@mui/material";
-import styled from "styled-components/macro";
+import { Box } from "@mui/material";
 
 const Empty = () => {
   return(

@@ -51,7 +51,7 @@ const AREAS = ["中国大陆", "中国台湾", "中国香港", "日本", "韩国
 
 function EditForm({}) {
     const navigate = useNavigate();
-    const {data: setting, isLoading: isLoading} = useGetSubtitleSetting();
+    const {data: setting, isLoading} = useGetSubtitleSetting();
     const {mutateAsync: save, isSaving} = useSaveSubtitle();
 
     const formik = useFormik({

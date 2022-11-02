@@ -1,21 +1,15 @@
 import {
     Alert,
     Button,
-    Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
     Link,
-    MenuItem,
-    Select,
     TextField
 } from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import axios from "../../../utils/request";
 
 

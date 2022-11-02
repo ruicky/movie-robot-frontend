@@ -19,7 +19,7 @@ const Wrapper = styled(Paper)`
 
 function FilterEdit() {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [formValues, setFormValues] = useState();
     const [filterOptions, setFilterOptions] = useState();
     const onSubmit = async (values, setErrors) => {

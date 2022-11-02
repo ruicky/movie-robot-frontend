@@ -1,5 +1,4 @@
 import axios from "axios";
-import message from "@/utils/message";
 
 const axiosInstance = axios.create({
     baseURL: '',

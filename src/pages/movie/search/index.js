@@ -198,7 +198,7 @@ function SearchRecords(props) {
     const [message, setMessage] = useState(false);
 
     const searchData = (keyword) => {
-        if (keyword && !loading) {
+        if (keyword !== undefined && keyword !== null && !loading) {
             setLoading(true);
             setRecords(null);
             setParam({keyword, searchSite: 'true'});

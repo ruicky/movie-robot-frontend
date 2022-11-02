@@ -1,5 +1,6 @@
 import {Helmet} from "react-helmet-async";
 import {
+    Alert,
     Box,
     Breadcrumbs,
     Button,
@@ -17,16 +18,25 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {spacing} from "@mui/system";
 import {useSmartForm} from "@/components/SmartForm";
 import TorrentFilterList from "@/components/TorrentFilter/FilterList";
 import styled from "styled-components/macro";
 import {FilterOptionsContext, FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
 import RenameRuleList from "@/pages/subscribe/components/RenameRuleList";
-import {useGetSubCustom, useSubCustom} from "@/utils/subscribe";
+import {
+    useCancelHateSubRule,
+    useCancelLikeSubRule,
+    useGetSubCustom,
+    useGetSubRule,
+    useHateSubRule,
+    useLikeSubRule,
+    useSubCustom
+} from "@/utils/subscribe";
 import message from "@/utils/message";
 import {NavLink, useNavigate, useSearchParams} from "react-router-dom";
+import {VoteButtonGroup} from "@/components/VoteButtonGroup";
 
 const Divider = styled(MuiDivider)(spacing);
 const Card = styled(MuiCard)(spacing);
@@ -73,13 +83,21 @@ const ScoreRuleSelect = ({smartForm}) => {
 }
 const EditCustomSub = () => {
     const navigate = useNavigate();
+    const [remoteSubRuleId, setRemoteSubRuleId] = useState();
+    const [remoteSubRule, setRemoteSubRule] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
     const {mutateAsync: subCustom, isSaving} = useSubCustom();
     const {mutate: getSubCustom, isLoading} = useGetSubCustom();
+    const {mutate: getSubRule} = useGetSubRule();
+    const {mutate: like} = useLikeSubRule();
+    const {mutate: cancellike} = useCancelLikeSubRule();
+    const {mutate: hate} = useHateSubRule();
+    const {mutate: cancelHate} = useCancelHateSubRule();
     const smartForm = useSmartForm({
         initValues: {
             media_type: 'Movie',
             name: '',
+            desc: '',
             torrent_filter: [],
             rename_rule: [],
             douban_id: '',
@@ -88,62 +106,114 @@ const EditCustomSub = () => {
             season_number: 1,
             episode_count: 1000,
             auto_delete: false,
-            skip_exists: false,
-            score_rule_name: 'compress'
+            skip_exists: true,
+            score_rule_name: 'compress',
+            skip_unknown: true,
+            remote_sub_rule_id: null,
+            is_author: false
         }
     });
+
+    function setFormByData(data) {
+        if (data.media_type) {
+            smartForm.setFieldValue('media_type', data.media_type);
+        }
+        if (data.name) {
+            smartForm.setFieldValue('name', data.name);
+        }
+        if (data.desc) {
+            smartForm.setFieldValue('desc', data.desc);
+        }
+        if (data.score_rule_name) {
+            smartForm.setFieldValue('score_rule_name', data.score_rule_name);
+        }
+        smartForm.setFieldValue('douban_id', data.douban_id);
+        smartForm.setFieldValue('tmdb_id', data.tmdb_id);
+        smartForm.setFieldValue('save_path', data.save_path);
+        smartForm.setFieldValue('season_number', data.season_number);
+        smartForm.setFieldValue('episode_count', data.episode_count);
+        if (data.remote_sub_rule_id !== undefined && data.remote_sub_rule_id !== null) {
+            smartForm.setFieldValue('remote_sub_rule_id', data.remote_sub_rule_id);
+        }
+        if (data.auto_delete !== undefined && data.auto_delete !== null) {
+            smartForm.setFieldValue('auto_delete', data.auto_delete);
+        }
+        if (data.skip_exists !== undefined && data.skip_exists !== null) {
+            smartForm.setFieldValue('skip_exists', data.skip_exists);
+        }
+        if (data.skip_unknown !== undefined && data.skip_unknown !== null) {
+            smartForm.setFieldValue('skip_unknown', data.skip_unknown);
+        }
+        if (data.torrent_filter) {
+            let id = 0;
+            const torrentFilter = JSON.parse(data.torrent_filter).map((item) => {
+                id += 1;
+                return {
+                    id,
+                    filter_type: item.type,
+                    filter_data: item.args
+                };
+            });
+            smartForm.setFieldValue('torrent_filter', torrentFilter)
+        }
+        if (data.rename_rule) {
+            let id = 0;
+            const renameRule = JSON.parse(data.rename_rule).map((item) => {
+                id += 1;
+                return {
+                    id,
+                    renameRuleType: item.type,
+                    formData: item.args
+                };
+            });
+            smartForm.setFieldValue('rename_rule', renameRule)
+        }
+        if (data.is_author !== undefined && data.is_author !== null) {
+            smartForm.setFieldValue('is_author', data.is_author);
+        }
+    }
+
+    useEffect(() => {
+        if (!remoteSubRuleId) {
+            return;
+        }
+        getSubRule({sub_rule_id: remoteSubRuleId}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0 && data) {
+                    setRemoteSubRule(data);
+                }
+            },
+            onError: error => message.error(error)
+        });
+    }, [remoteSubRuleId]);
+    useEffect(() => {
+        if (!remoteSubRule) {
+            return;
+        }
+        if (searchParams.get("sub_rule_id")) {
+            smartForm.setFieldValue('remote_sub_rule_id', remoteSubRule.id);
+            setFormByData(remoteSubRule);
+        }
+    }, [remoteSubRule]);
     useEffect(async () => {
         if (searchParams.get("id")) {
             getSubCustom({id: searchParams.get("id")}, {
                 onSuccess: resData => {
                     const {code, message: msg, data} = resData;
                     if (code === 0 && data) {
-                        if (data.media_type) {
-                            smartForm.setFieldValue('media_type', data.media_type);
-                        }
-                        if (data.name) {
-                            smartForm.setFieldValue('name', data.name);
-                        }
-                        if (data.score_rule_name) {
-                            smartForm.setFieldValue('score_rule_name', data.score_rule_name);
-                        }
-                        smartForm.setFieldValue('douban_id', data.douban_id);
-                        smartForm.setFieldValue('tmdb_id', data.tmdb_id);
-                        smartForm.setFieldValue('save_path', data.save_path);
-                        smartForm.setFieldValue('season_number', data.season_number);
-                        smartForm.setFieldValue('episode_count', data.episode_count);
-                        smartForm.setFieldValue('auto_delete', data.auto_delete);
-                        smartForm.setFieldValue('skip_exists', data.skip_exists);
-                        if (data.torrent_filter) {
-                            let id = 0;
-                            const torrentFilter = JSON.parse(data.torrent_filter).map((item) => {
-                                id += 1;
-                                return {
-                                    id,
-                                    filter_type: item.type,
-                                    filter_data: item.args
-                                };
-                            });
-                            smartForm.setFieldValue('torrent_filter', torrentFilter)
-                        }
-                        if (data.rename_rule) {
-                            let id = 0;
-                            const renameRule = JSON.parse(data.rename_rule).map((item) => {
-                                id += 1;
-                                return {
-                                    id,
-                                    renameRuleType: item.type,
-                                    formData: item.args
-                                };
-                            });
-                            smartForm.setFieldValue('rename_rule', renameRule)
-                        }
+                        setFormByData(data);
+                        setRemoteSubRuleId(data.remote_sub_rule_id);
                     } else {
                         message.error(msg);
                     }
                 },
                 onError: error => message.error(error)
             })
+        } else {
+            if (searchParams.get('sub_rule_id')) {
+                setRemoteSubRuleId(searchParams.get('sub_rule_id'));
+            }
         }
     }, [searchParams])
     const saveTorrentFilter = (id, val) => {
@@ -199,9 +269,14 @@ const EditCustomSub = () => {
             episode_count,
             auto_delete,
             skip_exists,
-            score_rule_name
+            score_rule_name,
+            skip_unknown,
+            desc,
+            remote_sub_rule_id,
+            is_author
         } = smartForm.values;
         const params = {
+            remote_sub_rule_id,
             media_type,
             name,
             douban_id,
@@ -212,6 +287,9 @@ const EditCustomSub = () => {
             auto_delete,
             skip_exists,
             score_rule_name,
+            skip_unknown,
+            desc,
+            is_author,
             torrent_filter: torrent_filter.map((item) => {
                 return {
                     type: item.filter_type,
@@ -238,6 +316,60 @@ const EditCustomSub = () => {
             }
         })
     }
+    const onLike = (cancel) => {
+        let func;
+        if (cancel) {
+            func = cancellike;
+        } else {
+            func = like;
+        }
+        func({sub_rule_id: remoteSubRuleId}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg)
+                    const item = {...remoteSubRule};
+                    if (cancel) {
+                        item.likeCount = item.likeCount - 1;
+                        item.liked = false;
+                    } else {
+                        item.likeCount = item.likeCount + 1;
+                        item.liked = true;
+                    }
+                    setRemoteSubRule(item);
+                } else {
+                    message.error(msg)
+                }
+            }
+        })
+    }
+    const onHate = (cancel) => {
+        let func;
+        if (cancel) {
+            func = cancelHate;
+        } else {
+            func = hate;
+        }
+        func({sub_rule_id: remoteSubRuleId}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg)
+                    const item = {...remoteSubRule};
+                    if (cancel) {
+                        item.hateCount = item.hateCount - 1;
+                        item.hated = false;
+                    } else {
+                        item.hateCount = item.hateCount + 1;
+                        item.hated = true;
+                    }
+                    setRemoteSubRule(item);
+                } else {
+                    message.error(msg)
+                }
+            }
+        })
+    }
     return (<>
         <Helmet title="设置自定义订阅"/>
         <Typography variant="h3" gutterBottom>
@@ -250,6 +382,19 @@ const EditCustomSub = () => {
             <Typography>规则设置</Typography>
         </Breadcrumbs>
         <Divider my={4}/>
+        {remoteSubRule && <Alert severity="success" action={
+            <VoteButtonGroup
+                color="inherit"
+                likeCount={remoteSubRule.like_count}
+                hateCount={remoteSubRule.hate_count}
+                liked={remoteSubRule.liked}
+                hated={remoteSubRule.hated}
+                onLike={onLike}
+                onHate={onHate}
+            />}>
+            {`这是由${remoteSubRule.author_nickname}分享的订阅规则，最后更新：${remoteSubRule.gmt_modified}`}
+        </Alert>
+        }
         <FilterOptionsProvider>
             <Box component="form" noValidate mt={4}>
                 <Card mb={6}>
@@ -283,6 +428,18 @@ const EditCustomSub = () => {
                                     onChange={smartForm.handleChange}
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    type="text"
+                                    name="desc"
+                                    label="简介"
+                                    helperText={"简单介绍一下你的订阅规则有什么用，以及分享一点这条规则的设计思考吧"}
+                                    fullWidth
+                                    my={3}
+                                    value={smartForm.values.desc}
+                                    onChange={smartForm.handleChange}
+                                />
+                            </Grid>
                             {smartForm.values.media_type !== 'Other' && smartForm.values.media_type !== 'XX' && (
                                 <>
                                     <Grid item xs={12}>
@@ -290,7 +447,7 @@ const EditCustomSub = () => {
                                             type="text"
                                             name="douban_id"
                                             label="豆瓣影片信息"
-                                            helperText={"这个订阅规则关联的豆瓣影片编号（编号或直接复制豆瓣影片的URL）"}
+                                            helperText={"这个订阅规则关联的豆瓣影片编号（编号或直接复制豆瓣影片的URL），留空会自动识别"}
                                             fullWidth
                                             my={3}
                                             value={smartForm.values.douban_id}
@@ -302,7 +459,7 @@ const EditCustomSub = () => {
                                             type="text"
                                             name="tmdb_id"
                                             label="TheMovieDB影片信息"
-                                            helperText={"这个订阅规则关联的TMDB影片编号（编号或直接复制TMDB影片的URL）"}
+                                            helperText={"这个订阅规则关联的TMDB影片编号（编号或直接复制TMDB影片的URL），留空会自动识别"}
                                             fullWidth
                                             my={3}
                                             value={smartForm.values.tmdb_id}
@@ -399,6 +556,16 @@ const EditCustomSub = () => {
                                     label="自动跳过媒体库存在的影片"
                                 />
                             </Grid>
+                            <Grid xs={12} item>
+                                <FormControlLabel
+                                    control={<Checkbox
+                                        name="skip_unknown"
+                                        checked={smartForm.values.skip_unknown}
+                                        onChange={smartForm.handleChange}
+                                    />}
+                                    label="自动跳过识别不到标准影片信息的种子"
+                                />
+                            </Grid>
                         </Grid>
                     </CardContent>
                 </Card>
@@ -412,7 +579,7 @@ const EditCustomSub = () => {
                     fullWidth
                     onClick={save}
                 >
-                    保存自定义订阅规则
+                    {searchParams.get("sub_rule_id") ? "应用共享订阅规则" : "保存自定义订阅规则"}
                 </Button>
             </Box>
         </FilterOptionsProvider>

@@ -148,7 +148,7 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                     {siteData && siteData.map((row) => (
                         <MenuItem key={row.id} value={row.id}>{row.name + '-' + row.domain}</MenuItem>))}
                 </Select>
-                <FormHelperText>当前已经支持的站点</FormHelperText>
+                <FormHelperText>传播盗版以及教唆他人使用盗版都是违法行为，产品为自动化工具不提供任何站点接入，请自行研究学习使用</FormHelperText>
             </FormControl>
             <TextField
                 type="text"
