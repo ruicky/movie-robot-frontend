@@ -56,6 +56,8 @@ const HomePage = async(() => import("./pages/home"));
 const MediaDetail = async(() => import("./pages/media/Detail/index"));
 const EditCustomSub = async(() => import("./pages/subscribe/Custom/edit"));
 const SettingAccessKey = async(() => import("./pages/setting/AccessKey/index"));
+const PluginsIndex = async(() => import("./pages/plugins/index"));
+const PluginsDetail = async(() => import("./pages/plugins/detail"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -230,6 +232,12 @@ const routes = [{
         path: "link-index", element: <MediaLinkIndex/>
     }, {
         path: "detail", element: <MediaDetail/>
+    }]
+}, {
+    path: "plugins", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
+        path: "index", element: <PluginsIndex/>
+    }, {
+        path: "detail", element: <PluginsDetail/>
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{

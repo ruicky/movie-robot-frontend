@@ -65,7 +65,7 @@ function SiteDashboard() {
     }
     const fetchSharesWeekData = () => {
         getSiteSharesData().then(r => {
-            setSharesWeekData(r.data?.week.filter(site => site.download !== 0 && site.upload !== 0))
+            setSharesWeekData(r.data?.week.filter(site => !(site.download === 0 && site.upload === 0)))
             setSharesTodayUploadData(r.data?.today_upload)
             setSharesTodayDownloadData(r.data?.today_download)
         })
