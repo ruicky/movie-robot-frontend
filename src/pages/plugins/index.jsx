@@ -14,7 +14,7 @@ const PluginsIndex = () => {
         </Typography>
         <Divider my={4}/>
         <Grid spacing={4} container>
-            <Grid xs={12} md={6} item>
+            <Grid item md={6} lg={4} xl={3}  sx={{width: '100%'}}>
                 <PluginItem
                     name={"Discord通知插件"}
                     desc={"系统产生一些关键事件时，发送通知到Discord。"}
@@ -23,7 +23,7 @@ const PluginsIndex = () => {
                     version={"v0.1"}
                 />
             </Grid>
-            <Grid xs={12} md={6} item>
+            <Grid item md={6} lg={4} xl={3}  sx={{width: '100%'}}>
                 <PluginItem
                     name={"Telegram交互机器人"}
                     desc={"可以通过tg机器人操控本产品核心功能"}
