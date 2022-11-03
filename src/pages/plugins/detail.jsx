@@ -33,7 +33,7 @@ const PluginsDetail = () => {
                     <Grid item>
                         <Img src="http://p.xmoviebot.com/plugins/discordlogo.jpg" />
                     </Grid>
-                    <Grid sx={{m:2}} item item xs container direction="column" spacing={2}>
+                    <Grid sx={{m:2}} item xs container direction="column" spacing={2}>
                         <Grid item xs>
                             <Typography gutterBottom variant="h5" component="div">
                                 Discord通知插件
