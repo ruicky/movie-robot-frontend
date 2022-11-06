@@ -9,6 +9,8 @@ import HelpIcon from '@mui/icons-material/Help';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import {styled} from "@mui/material/styles";
 import DeleteIcon from '@mui/icons-material/Delete';
+import SettingsIcon from '@mui/icons-material/Settings';
+import {useNavigate} from "react-router-dom";
 
 const Flag = styled("div")`
     position: absolute;
@@ -27,11 +29,23 @@ const Flag = styled("div")`
     top: 9px;
 `;
 export const PluginItem = ({
-                               name, desc, authorNickname, version, imageUrl, installed, githubUrl, docUrl
+                               pluginId,
+                               name,
+                               desc,
+                               authorNickname,
+                               version,
+                               imageUrl,
+                               installed,
+                               githubUrl,
+                               docUrl,
+                               onInstall,
+                               onUnInstall,
+                               onConfig
                            }) => {
+    const navigate = useNavigate();
     return (
         <Card>
-            <CardActionArea>
+            <CardActionArea onClick={() => navigate("/plugins/detail?pluginId=" + pluginId)}>
                 <CardMedia
                     sx={{
                         height: 235
@@ -57,31 +71,38 @@ export const PluginItem = ({
                     {name && <Typography gutterBottom variant="h5" component="div">
                         {name}
                     </Typography>}
-                    {desc && <Typography variant="body2" color="text.secondary">
-                        {desc}
-                    </Typography>}
-                    {authorNickname && <Typography variant="caption">
+                    {authorNickname && <Typography variant="body2" color="text.secondary">
                         由 {authorNickname} 开发
+                    </Typography>}
+                    {desc && <Typography variant="caption">
+                        {desc}
                     </Typography>}
                 </CardContent>
             </CardActionArea>
             <Box sx={{display: 'flex', marginTop: 'auto', p: 2}}>
-                {githubUrl && <Tooltip title="查看源代码">
-                    <IconButton component="a" target="_blank" href={githubUrl}>
-                        <GitHubIcon/>
-                    </IconButton>
-                </Tooltip>}
-                <Tooltip title="帮助文档">
-                    <IconButton component="a" target="_blank" href={docUrl}>
-                        <HelpIcon/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={installed ? "卸载插件" : "安装插件"}>
-                    <IconButton sx={{marginLeft: "auto"}}>
-                        {installed ? <DeleteIcon/> : <GetAppIcon/>}
-                    </IconButton>
-                </Tooltip>
+                <Box>
+                    {githubUrl && <Tooltip title="查看源代码">
+                        <IconButton component="a" target="_blank" href={githubUrl}>
+                            <GitHubIcon/>
+                        </IconButton>
+                    </Tooltip>}
+                    <Tooltip title="帮助文档">
+                        <IconButton component="a" target="_blank" href={docUrl}>
+                            <HelpIcon/>
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+                <Box sx={{marginLeft: 'auto'}}>
+                    {installed && <Tooltip title="插件设置">
+                        <IconButton> <SettingsIcon onClick={onConfig}/></IconButton>
+                    </Tooltip>}
+                    <Tooltip title={installed ? "卸载插件" : "安装插件"}>
+                        {installed ?
+                            <IconButton onClick={onUnInstall}> <DeleteIcon/></IconButton> :
+                            <IconButton onClick={onInstall}><GetAppIcon/></IconButton>}
+                    </Tooltip>
+                </Box>
             </Box>
         </Card>
     );
-}
+};
