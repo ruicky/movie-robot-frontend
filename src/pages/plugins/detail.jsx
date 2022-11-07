@@ -5,7 +5,13 @@ import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import Changelog from "@/pages/plugins/components/Changelog";
 import {NavLink, useSearchParams} from "react-router-dom";
-import {useGetPluginsDetail, useGetPluginsVersionList, useInstallPlugin, useUnInstallPlugin} from "@/api/PluginApi";
+import {
+    useGetPluginsDetail,
+    useGetPluginsVersionList,
+    useInstallPlugin,
+    useUnInstallPlugin,
+    useUpgradePlugin
+} from "@/api/PluginApi";
 import message from "@/utils/message";
 import {InstallDialog} from "@/pages/plugins/components/InstallDialog";
 import {UnInstallDialog} from "@/pages/plugins/components/UnInstallDialog";
@@ -21,6 +27,7 @@ const Divider = styled(MuiDivider)(spacing);
 const PluginsDetail = () => {
     const [showInstall, setShowInstall] = useState(null);
     const [showUnInstall, setShowUnInstall] = useState(null);
+    const {mutate: upgradePlugin, isLoading: isUpgrade} = useUpgradePlugin();
     const [showConfig, setShowConfig] = useState(null);
     const [plugin, setPlugin] = useState(null);
     const [versionList, setVersionList] = useState(null);
@@ -54,8 +61,14 @@ const PluginsDetail = () => {
             }
         });
     }, [queryString]);
-    const onInstall = (id, values, config) => {
-        installPlugin({
+    const onInstall = (installed, id, values, config) => {
+        let func;
+        if (installed) {
+            func = upgradePlugin;
+        } else {
+            func = installPlugin;
+        }
+        func({
             plugin_id: id,
             version: values.version,
             config: config
@@ -110,7 +123,7 @@ const PluginsDetail = () => {
                 open={Boolean(showInstall)}
                 pluginId={showInstall?.id}
                 pluginName={showInstall?.name}
-                title={showInstall?.title ? `安装${showInstall.title}插件` : "安装插件"}
+                title={showInstall?.title ? `${showInstall.upgrade ? "更新" : "安装"}${showInstall.title}插件` : showInstall?.upgrade ? "更新" : "安装"}
                 versionList={versionList}
                 handleClose={() => setShowInstall(null)}
                 submitting={isInstall}
@@ -159,14 +172,15 @@ const PluginsDetail = () => {
                                 {plugin?.description}
                             </Typography>
                         </Grid>
-                        <Grid sx={{marginLeft:"auto"}} item>
-                            {!plugin?.installed && <Button onClick={() => setShowInstall({
+                        <Grid sx={{marginLeft: "auto"}} item>
+                            {(!plugin?.installed || plugin?.hasNew) && <Button onClick={() => setShowInstall({
                                 id: plugin.id,
                                 name: plugin.pluginName,
                                 title: plugin.title,
-                                installed: plugin.installed
+                                installed: plugin.installed,
+                                upgrade: plugin.hasNew
                             })}>
-                                安装
+                                {plugin?.hasNew ? "升级" : "安装"}
                             </Button>}
                             {plugin?.installed && <Button onClick={() => setShowConfig({
                                 id: plugin.id,
@@ -177,7 +191,8 @@ const PluginsDetail = () => {
                             })}>
                                 配置
                             </Button>}
-                            {plugin?.installed && <Button onClick={() => setShowUnInstall({name: plugin.pluginName, title: plugin.title})}>
+                            {plugin?.installed &&
+                            <Button onClick={() => setShowUnInstall({name: plugin.pluginName, title: plugin.title})}>
                                 卸载
                             </Button>}
                         </Grid>

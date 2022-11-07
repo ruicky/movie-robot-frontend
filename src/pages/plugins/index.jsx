@@ -6,10 +6,10 @@ import {spacing} from "@mui/system";
 import {PluginItem} from "@/pages/plugins/components/PluginItem";
 import {
     useGetPluginsList,
-    useGetPluginsVersion,
     useGetPluginsVersionList,
     useInstallPlugin,
-    useUnInstallPlugin
+    useUnInstallPlugin,
+    useUpgradePlugin
 } from "@/api/PluginApi";
 import {InstallDialog} from "@/pages/plugins/components/InstallDialog";
 import message from "@/utils/message";
@@ -19,13 +19,14 @@ import {ConfigDialog} from "@/pages/plugins/components/ConfigDialog";
 const Divider = styled(MuiDivider)(spacing);
 
 const PluginsIndex = () => {
-    const {data: listRes} = useGetPluginsList();
+    const {data: listRes,refetch:refetch} = useGetPluginsList();
     const [pluginsList, setPluginsList] = useState(null);
     const [showInstall, setShowInstall] = useState(null);
     const [showUnInstall, setShowUnInstall] = useState(null);
     const [showConfig, setShowConfig] = useState(null);
     const {mutate: getVersionList} = useGetPluginsVersionList();
     const {mutate: installPlugin, isLoading: isInstall} = useInstallPlugin();
+    const {mutate: upgradePlugin, isLoading: isUpgrade} = useUpgradePlugin();
     const {mutate: unInstallPlugin, isLoading: isUnInstall} = useUnInstallPlugin();
     useEffect(() => {
         if (listRes?.data) {
@@ -48,8 +49,14 @@ const PluginsIndex = () => {
             }
         });
     }, [showInstall]);
-    const onInstall = (id, values, config) => {
-        installPlugin({
+    const onInstall = (installed, id, values, config) => {
+        let func;
+        if (installed) {
+            func = upgradePlugin;
+        } else {
+            func = installPlugin;
+        }
+        func({
             plugin_id: id,
             version: values.version,
             config: config
@@ -58,12 +65,8 @@ const PluginsIndex = () => {
                 const {code, message: msg, data} = resData;
                 if (code === 0) {
                     message.success(msg);
+                    refetch();
                     setShowInstall(null);
-                    const tmp = [...pluginsList];
-                    let plugin = tmp.find(x => x.id === id);
-                    plugin.installed = true;
-                    plugin.localVersion = values.version;
-                    setPluginsList(tmp);
                 } else {
                     message.error(msg);
                 }
@@ -101,7 +104,7 @@ const PluginsIndex = () => {
             open={Boolean(showInstall)}
             pluginId={showInstall?.id}
             pluginName={showInstall?.name}
-            title={showInstall?.title ? `安装${showInstall.title}插件` : "安装插件"}
+            title={showInstall?.title ? `${showInstall.upgrade ? "更新" : "安装"}${showInstall.title}插件` : showInstall?.upgrade ? "更新" : "安装"}
             versionList={versionList}
             handleClose={() => setShowInstall(null)}
             submitting={isInstall}
@@ -134,7 +137,7 @@ const PluginsIndex = () => {
                         desc={item.description}
                         authorNickname={item.author}
                         imageUrl={item.logoUrl}
-                        version={`v${item.lastVersion}`}
+                        version={`v${item.localVersion ? item.localVersion : item.lastVersion}`}
                         githubUrl={item.githubUrl}
                         docUrl={item.helpDocUrl}
                         installed={item.installed}
@@ -143,7 +146,15 @@ const PluginsIndex = () => {
                             id: item.id,
                             name: item.pluginName,
                             title: item.title,
-                            installed: item.installed
+                            installed: item.installed,
+                            upgrade: false
+                        })}
+                        onUpgrade={() => setShowInstall({
+                            id: item.id,
+                            name: item.pluginName,
+                            title: item.title,
+                            installed: item.installed,
+                            upgrade: true
                         })}
                         onUnInstall={() => setShowUnInstall({name: item.pluginName, title: item.title})}
                         onConfig={() => setShowConfig({

@@ -39,7 +39,13 @@ export const useInstallPlugin = () => {
             client("/api/plugins/install", {params: params, method: "POST"})
     );
 };
-
+export const useUpgradePlugin = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/plugins/upgrade", {params: params, method: "POST"})
+    );
+};
 export const useUnInstallPlugin = () => {
     const client = useHttp();
     return useMutation(

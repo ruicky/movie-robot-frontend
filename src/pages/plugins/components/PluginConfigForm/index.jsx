@@ -31,7 +31,7 @@ export const PluginConfigForm = ({title, fields, formRef}) => {
         if (fields && fields.length > 0) {
             fields.map((item) => {
                 let val = smartForm.values[item.fieldName];
-                if (!val) {
+                if (val!==item.defaultValue) {
                     smartForm.setFieldValue(item.fieldName, item.defaultValue)
                 }
             });

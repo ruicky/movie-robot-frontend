@@ -10,6 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import {styled} from "@mui/material/styles";
 import DeleteIcon from '@mui/icons-material/Delete';
 import SettingsIcon from '@mui/icons-material/Settings';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import {useNavigate} from "react-router-dom";
 
 const Flag = styled("div")`
@@ -41,6 +42,7 @@ export const PluginItem = ({
                                docUrl,
                                onInstall,
                                onUnInstall,
+                               onUpgrade,
                                onConfig
                            }) => {
     const navigate = useNavigate();
@@ -97,6 +99,10 @@ export const PluginItem = ({
                 <Box sx={{marginLeft: 'auto'}}>
                     {installed && <Tooltip title="插件设置">
                         <IconButton> <SettingsIcon onClick={onConfig}/></IconButton>
+                    </Tooltip>}
+                    {hasNew &&
+                    <Tooltip title="升级插件">
+                        <IconButton onClick={onUpgrade}> <RefreshIcon/></IconButton>
                     </Tooltip>}
                     <Tooltip title={installed ? "卸载插件" : "安装插件"}>
                         {installed ?

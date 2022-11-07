@@ -43,6 +43,7 @@ export const InstallDialog = ({
         if (!smartForm.values.version) {
             return;
         }
+
         const version = versionList.find(x => x.version === smartForm.values.version);
         if (!version) {
             return;
@@ -112,8 +113,9 @@ export const InstallDialog = ({
         </DialogContent>
         <DialogActions>
             <Button onClick={handleClose}>取消</Button>
-            <Button onClick={() => handleSubmit(pluginId, smartForm.values, configFormRef.current.getValues())}
-                    disabled={Boolean(submitting)}>
+            <Button
+                onClick={() => handleSubmit(installed, pluginId, smartForm.values, configFormRef.current.getValues())}
+                disabled={Boolean(submitting)}>
                 {submitting ? installed ? "升级中" : "安装中" : installed ? "升级" : "安装"}
             </Button>
         </DialogActions>
