@@ -18,7 +18,7 @@ const Flag = styled("div")`
     line-height: 20px;
     text-align: center;
     width: 74px;
-    background-color: #FF5722;
+    background-color: ${(props) => (props.color === 'orange' ? '#FF5722' : props.color === 'red' ? '#FF0000' : '#FF5722')};
     color: #fff;
     -moz-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
@@ -35,6 +35,7 @@ export const PluginItem = ({
                                authorNickname,
                                version,
                                imageUrl,
+                               hasNew,
                                installed,
                                githubUrl,
                                docUrl,
@@ -53,7 +54,8 @@ export const PluginItem = ({
                     image={imageUrl}
                     alt="插件"
                 >
-                    {installed && <Flag>已安装</Flag>}
+                    {installed && !hasNew && <Flag>已安装</Flag>}
+                    {installed && hasNew && <Flag color='red'>有新版</Flag>}
                     {version && <Chip
                         size={"small"}
                         sx={{

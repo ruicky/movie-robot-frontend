@@ -138,6 +138,7 @@ const PluginsIndex = () => {
                         githubUrl={item.githubUrl}
                         docUrl={item.helpDocUrl}
                         installed={item.installed}
+                        hasNew={item.hasNew}
                         onInstall={() => setShowInstall({
                             id: item.id,
                             name: item.pluginName,
