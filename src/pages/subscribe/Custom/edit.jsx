@@ -35,7 +35,7 @@ import {
     useSubCustom
 } from "@/utils/subscribe";
 import message from "@/utils/message";
-import {NavLink, useNavigate, useSearchParams} from "react-router-dom";
+import {NavLink, useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {VoteButtonGroup} from "@/components/VoteButtonGroup";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -83,6 +83,7 @@ const ScoreRuleSelect = ({smartForm}) => {
 }
 const EditCustomSub = () => {
     const navigate = useNavigate();
+    const {state: ruleData} = useLocation();
     const [remoteSubRuleId, setRemoteSubRuleId] = useState();
     const [remoteSubRule, setRemoteSubRule] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -173,6 +174,11 @@ const EditCustomSub = () => {
         }
     }
 
+    useEffect(() => {
+        if (ruleData) {
+            setFormByData(JSON.parse(ruleData));
+        }
+    }, [ruleData])
     useEffect(() => {
         if (!remoteSubRuleId) {
             return;

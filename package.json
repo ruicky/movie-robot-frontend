@@ -49,6 +49,7 @@
     "better-scroll": "^2.4.2",
     "callapp-lib": "^3.5.1",
     "chart.js": "3.6.2",
+    "copy-to-clipboard": "^3.3.2",
     "css-vendor": "2.0.8",
     "date-fns": "2.27.0",
     "deepmerge": "4.2.2",

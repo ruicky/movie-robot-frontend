@@ -56,6 +56,18 @@ export const useGetSubCustom = (param) => {
         client("/api/subscribe/get_sub_custom", {params: params})
     );
 };
+export const useGetSubRuleString = (param) => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/get_sub_rule_string", {params: params})
+    );
+};
+export const useParseSubRuleString = (param) => {
+    const client = useHttp();
+    return useMutation((params) =>
+        client("/api/subscribe/parse_sub_rule_string", {params: params, method: "POST"})
+    );
+};
 export const useGetSubRule = (param) => {
     const client = useHttp();
     return useMutation((params) =>
