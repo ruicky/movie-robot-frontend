@@ -259,7 +259,7 @@ const deepDarkVariant = merge(defaultVariant, {
       default: "rgb(23, 23, 23)",
     },
     primary: {
-      main: "#E8590B",
+      main: "#4F6ED3",
       contrastText: "rgb(23, 23, 23)",
       light: `rgba(95, 139, 217, ${dimRatio})`
     },
