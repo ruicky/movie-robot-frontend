@@ -46,12 +46,6 @@ const SidebarNav = ({ items }) => {
                 title={item.title}
               />
             ))}
-          <SidebarNavSection
-            component="div"
-            key='test'
-            pages={[{ title: 'test', href: '/test/index' }]}
-            title="test"
-          />
         </Items>
       </List>
     </ScrollbarComponent>
