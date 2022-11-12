@@ -15,11 +15,17 @@ import {InstallDialog} from "@/pages/plugins/components/InstallDialog";
 import message from "@/utils/message";
 import {UnInstallDialog} from "@/pages/plugins/components/UnInstallDialog";
 import {ConfigDialog} from "@/pages/plugins/components/ConfigDialog";
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import {Command} from "@/pages/plugins/Command";
 
 const Divider = styled(MuiDivider)(spacing);
 
 const PluginsIndex = () => {
-    const {data: listRes,refetch:refetch} = useGetPluginsList();
+    const {data: listRes, refetch: refetch} = useGetPluginsList();
     const [pluginsList, setPluginsList] = useState(null);
     const [showInstall, setShowInstall] = useState(null);
     const [showUnInstall, setShowUnInstall] = useState(null);
@@ -28,6 +34,11 @@ const PluginsIndex = () => {
     const {mutate: installPlugin, isLoading: isInstall} = useInstallPlugin();
     const {mutate: upgradePlugin, isLoading: isUpgrade} = useUpgradePlugin();
     const {mutate: unInstallPlugin, isLoading: isUnInstall} = useUnInstallPlugin();
+    const [currentTab, setCurrentTab] = useState('market');
+
+    const handleTabChange = (event, newValue) => {
+        setCurrentTab(newValue);
+    };
     useEffect(() => {
         if (listRes?.data) {
             setPluginsList(listRes.data);
@@ -95,11 +106,10 @@ const PluginsIndex = () => {
         });
     }
     return (<>
-        <Helmet title="全部插件"/>
+        <Helmet title="应用插件"/>
         <Typography variant="h3" gutterBottom>
-            全部插件
+            应用插件
         </Typography>
-        <Divider my={4}/>
         <InstallDialog
             open={Boolean(showInstall)}
             pluginId={showInstall?.id}
@@ -128,45 +138,62 @@ const PluginsIndex = () => {
             title={showConfig?.title ? `${showConfig.title}的设置` : "插件设置"}
             handleClose={() => setShowConfig(null)}
         />
-        <Grid spacing={4} container>
-            {pluginsList && pluginsList.map((item) => (
-                <Grid key={item.id} item md={6} lg={4} xl={4} sx={{width: '100%'}}>
-                    <PluginItem
-                        pluginId={item.id}
-                        name={item.title}
-                        desc={item.description}
-                        authorNickname={item.author}
-                        imageUrl={item.logoUrl}
-                        version={`v${item.localVersion ? item.localVersion : item.lastVersion}`}
-                        githubUrl={item.githubUrl}
-                        docUrl={item.helpDocUrl}
-                        installed={item.installed}
-                        hasNew={item.hasNew}
-                        onInstall={() => setShowInstall({
-                            id: item.id,
-                            name: item.pluginName,
-                            title: item.title,
-                            installed: item.installed,
-                            upgrade: false
-                        })}
-                        onUpgrade={() => setShowInstall({
-                            id: item.id,
-                            name: item.pluginName,
-                            title: item.title,
-                            installed: item.installed,
-                            upgrade: true
-                        })}
-                        onUnInstall={() => setShowUnInstall({name: item.pluginName, title: item.title})}
-                        onConfig={() => setShowConfig({
-                            id: item.id,
-                            name: item.pluginName,
-                            version: item.localVersion,
-                            title: item.title,
-                            configField: item.configField
-                        })}
-                    />
-                </Grid>))}
-        </Grid>
+        <TabContext value={currentTab}>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                <TabList onChange={handleTabChange}>
+                    <Tab label="快捷功能" value="command"/>
+                    <Tab label="我的插件" value="local"/>
+                    <Tab label="插件市场" value="market"/>
+                </TabList>
+            </Box>
+            <TabPanel value="command">
+                <Command/>
+            </TabPanel>
+            <TabPanel value="local">
+
+            </TabPanel>
+            <TabPanel value="market">
+                <Grid spacing={4} container>
+                    {pluginsList && pluginsList.map((item) => (
+                        <Grid key={item.id} item md={6} lg={4} xl={4} sx={{width: '100%'}}>
+                            <PluginItem
+                                pluginId={item.id}
+                                name={item.title}
+                                desc={item.description}
+                                authorNickname={item.author}
+                                imageUrl={item.logoUrl}
+                                version={`v${item.localVersion ? item.localVersion : item.lastVersion}`}
+                                githubUrl={item.githubUrl}
+                                docUrl={item.helpDocUrl}
+                                installed={item.installed}
+                                hasNew={item.hasNew}
+                                onInstall={() => setShowInstall({
+                                    id: item.id,
+                                    name: item.pluginName,
+                                    title: item.title,
+                                    installed: item.installed,
+                                    upgrade: false
+                                })}
+                                onUpgrade={() => setShowInstall({
+                                    id: item.id,
+                                    name: item.pluginName,
+                                    title: item.title,
+                                    installed: item.installed,
+                                    upgrade: true
+                                })}
+                                onUnInstall={() => setShowUnInstall({name: item.pluginName, title: item.title})}
+                                onConfig={() => setShowConfig({
+                                    id: item.id,
+                                    name: item.pluginName,
+                                    version: item.localVersion,
+                                    title: item.title,
+                                    configField: item.configField
+                                })}
+                            />
+                        </Grid>))}
+                </Grid>
+            </TabPanel>
+        </TabContext>
     </>);
 }
 export default PluginsIndex;

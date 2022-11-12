@@ -1,7 +1,8 @@
 import React from 'react'
-import Shortcuts from '../../components/Shortcuts/Shortcuts'
-import AddPhotoAlternateSharpIcon from '@mui/icons-material/AddPhotoAlternateSharp';
 import './index.css'
+import {CardButton} from "@/components/CardButton";
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import {Grid} from "@mui/material";
 
 // 随机生成颜色
 function randomColor() {
@@ -10,13 +11,15 @@ function randomColor() {
 
 function index() {
     return (
-        <div className="test group">
+        <Grid spacing={3} container>
             {Array.from(new Array(10).keys()).map((index) => {
-                const color = randomColor()
-                return <Shortcuts color={color} key={index} text={color} icon={<AddPhotoAlternateSharpIcon fontSize="large" />} />
+                return <Grid key={index} xs={6} sm={4} md={3} lg={2} item>
+                    <CardButton color={randomColor()} icon={<AcUnitIcon fontSize="large"/>} label={"功能"}
+                                helper={"描述"}/>
+                </Grid>
             })}
-        </div>
-    )
+        </Grid>
+    );
 }
 
 export default index
