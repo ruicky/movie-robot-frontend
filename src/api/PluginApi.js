@@ -7,7 +7,12 @@ export const useGetPluginsList = (param) => {
         client("/api/plugins/get_plugins_list", {params: param})
     );
 };
-
+export const useGetInstalledList = (param) => {
+    const client = useHttp();
+    return useQuery(['get_installed_list', param], () =>
+        client("/api/plugins/get_installed_list", {params: param})
+    );
+};
 export const useGetPluginsDetail = () => {
     const client = useHttp();
     return useMutation(
