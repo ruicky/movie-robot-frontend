@@ -4,7 +4,7 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import {Box, Box as MuiBox, CircularProgress, Typography} from "@mui/material";
+import { Box, Box as MuiBox, CircularProgress, Typography } from "@mui/material";
 import _ from "lodash";
 import * as m_icon from "@mui/icons-material";
 import * as f_icon from "react-feather";
@@ -39,12 +39,28 @@ const Card = styled.div`
   }
   ${(props) => props.selected && cardSelectStyle}
 `;
+
 const CardHead = styled(MuiBox)({
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: 20
 });
-export const CardButton = ({ color, icon, label, helper, selected, onClick }) => {
+
+const RunningButton = () => {
+    return <Box sx={{ m: 1, position: 'relative' }}>
+        <StopCircleIcon fontSize="large" />
+        {/* <CircularProgress
+            size={32}
+            sx={{
+                color: '#4F6ED3',
+                position: 'absolute',
+                left: 0
+            }}
+        /> */}
+    </Box>
+}
+
+export const CardButton = ({ color, icon, label, helper, selected, status, onClick }) => {
     const Icon = _.get({
         ...m_icon,
         ...f_icon
@@ -59,7 +75,7 @@ export const CardButton = ({ color, icon, label, helper, selected, onClick }) =>
         event.currentTarget.addEventListener('animationend', () => {
             setIsAnimation(false);
         });
-        onClick && onClick(event);
+        // onClick && onClick(event);
     }
 
     return <Card
@@ -69,11 +85,11 @@ export const CardButton = ({ color, icon, label, helper, selected, onClick }) =>
         className={isAnimation && 'isAnimation'}
     >
         <CardHead>
-            {Icon && <Icon fontSize="large"/>}
-            {status === 'running' && <RunningButton fontSize="large"/>}
-            {status === 'done' && <CheckCircleIcon fontSize="large"/>}
-            {status === 'error' && <ErrorIcon fontSize="large"/>}
-            {(status === undefined || status === null || status === 'ready') && <PlayCircleIcon fontSize="large"/>}
+            {Icon && <Icon fontSize="large" />}
+            {status === 'running' && <RunningButton fontSize="large" />}
+            {status === 'done' && <CheckCircleIcon fontSize="large" />}
+            {status === 'error' && <ErrorIcon fontSize="large" />}
+            {(status === undefined || status === null || status === 'ready') && <PlayCircleIcon fontSize="large" />}
         </CardHead>
         <Typography variant="h6" color="#FFF" gutterBottom>
             {label}
