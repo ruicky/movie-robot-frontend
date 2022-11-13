@@ -48,7 +48,12 @@ export const PluginItem = ({
     const navigate = useNavigate();
     return (
         <Card>
-            <CardActionArea onClick={() => navigate("/plugins/detail?pluginId=" + pluginId)}>
+            <CardActionArea onClick={() => {
+                if (!pluginId) {
+                    return;
+                }
+                navigate("/plugins/detail?pluginId=" + pluginId);
+            }}>
                 <CardMedia
                     sx={{
                         height: 235
