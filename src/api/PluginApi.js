@@ -71,3 +71,16 @@ export const useSavePluginConfig = () => {
             client("/api/plugins/save_plugin_config", {params: params, method: "POST"})
     );
 };
+export const useGetPluginCommandList = (param) => {
+    const client = useHttp();
+    return useQuery(['get_plugin_command_list', param], () =>
+        client("/api/plugins/get_plugin_command_list", {params: param})
+    );
+};
+export const useRunPluginCommand = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/plugins/run_command", {params: params, method: "POST"})
+    );
+};

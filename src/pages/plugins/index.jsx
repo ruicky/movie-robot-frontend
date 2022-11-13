@@ -74,7 +74,7 @@ const PluginsIndex = () => {
     const {mutate: installPlugin, isLoading: isInstall} = useInstallPlugin();
     const {mutate: upgradePlugin, isLoading: isUpgrade} = useUpgradePlugin();
     const {mutate: unInstallPlugin, isLoading: isUnInstall} = useUnInstallPlugin();
-    const [currentTab, setCurrentTab] = useState('market');
+    const [currentTab, setCurrentTab] = useState('command');
 
     const handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);
