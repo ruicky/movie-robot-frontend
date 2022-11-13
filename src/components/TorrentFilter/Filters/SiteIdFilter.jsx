@@ -41,7 +41,7 @@ const Form = ({handleClose, handleSave, data}) => {
                             }))}
                         />
                         <FormHelperText>
-                            想要的制作组，可留空，多个为或
+                            想要的站点，可留空，多个为或
                         </FormHelperText>
                     </FormControl>
                 </Grid>
