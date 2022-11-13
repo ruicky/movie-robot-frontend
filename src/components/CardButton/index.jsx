@@ -34,8 +34,10 @@ const Card = styled.div`
   --squircle-radius: 20px;
   --squircle-smooth: 0.8;
   transition: all 0.2s ease;
-  &:hover {
-    transform: scale(1.02);
+  @media(any-hover:hover){
+    &:hover {
+      transform: scale(1.02);
+    }
   }
   &.isAnimation { 
     animation: ${breatheAnimation} 0.3s ease-in-out alternate;
