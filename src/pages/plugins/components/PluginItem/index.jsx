@@ -95,11 +95,11 @@ export const PluginItem = ({
                             <GitHubIcon/>
                         </IconButton>
                     </Tooltip>}
-                    <Tooltip title="帮助文档">
+                    {docUrl && <Tooltip title="帮助文档">
                         <IconButton component="a" target="_blank" href={docUrl}>
                             <HelpIcon/>
                         </IconButton>
-                    </Tooltip>
+                    </Tooltip>}
                 </Box>
                 <Box sx={{marginLeft: 'auto'}}>
                     {installed && <Tooltip title="插件设置">
