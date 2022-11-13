@@ -1,10 +1,9 @@
 import {Helmet} from "react-helmet-async";
-import {Divider as MuiDivider, Grid, Typography} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import styled from "styled-components/macro";
-import {spacing} from "@mui/system";
 import {PluginItem} from "@/pages/plugins/components/PluginItem";
 import {
+    useGetInstalledList,
     useGetPluginsList,
     useGetPluginsVersionList,
     useInstallPlugin,
@@ -22,11 +21,52 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import {Command} from "@/pages/plugins/Command";
 
-const Divider = styled(MuiDivider)(spacing);
-
+const PluginList = ({data, setShowInstall, setShowUnInstall, setShowConfig}) => {
+    return <Grid spacing={4} container>
+        {data && data.map((item) => (
+            <Grid key={item.id} item md={6} lg={4} xl={4} sx={{width: '100%'}}>
+                <PluginItem
+                    pluginId={item.id}
+                    name={item.title}
+                    desc={item.description}
+                    authorNickname={item.author}
+                    imageUrl={item.logoUrl}
+                    version={`v${item.localVersion ? item.localVersion : item.lastVersion}`}
+                    githubUrl={item.githubUrl}
+                    docUrl={item.helpDocUrl}
+                    installed={item.installed}
+                    hasNew={item.hasNew}
+                    onInstall={() => setShowInstall({
+                        id: item.id,
+                        name: item.pluginName,
+                        title: item.title,
+                        installed: item.installed,
+                        upgrade: false
+                    })}
+                    onUpgrade={() => setShowInstall({
+                        id: item.id,
+                        name: item.pluginName,
+                        title: item.title,
+                        installed: item.installed,
+                        upgrade: true
+                    })}
+                    onUnInstall={() => setShowUnInstall({name: item.pluginName, title: item.title})}
+                    onConfig={() => setShowConfig({
+                        id: item.id,
+                        name: item.pluginName,
+                        version: item.localVersion,
+                        title: item.title,
+                        configField: item.configField
+                    })}
+                />
+            </Grid>))}
+    </Grid>
+}
 const PluginsIndex = () => {
-    const {data: listRes, refetch: refetch} = useGetPluginsList();
-    const [pluginsList, setPluginsList] = useState(null);
+    const {data: marketPluginsRes, refetch: refetch} = useGetPluginsList();
+    const {data: installedPluginsRes, refetch: refetchInstalled} = useGetInstalledList();
+    const [installedPluginsList, setInstalledPluginsList] = useState(null);
+    const [marketPluginsList, setMarketPluginsList] = useState(null);
     const [showInstall, setShowInstall] = useState(null);
     const [showUnInstall, setShowUnInstall] = useState(null);
     const [showConfig, setShowConfig] = useState(null);
@@ -34,16 +74,44 @@ const PluginsIndex = () => {
     const {mutate: installPlugin, isLoading: isInstall} = useInstallPlugin();
     const {mutate: upgradePlugin, isLoading: isUpgrade} = useUpgradePlugin();
     const {mutate: unInstallPlugin, isLoading: isUnInstall} = useUnInstallPlugin();
-    const [currentTab, setCurrentTab] = useState('market');
+    const [currentTab, setCurrentTab] = useState('command');
 
     const handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);
     };
     useEffect(() => {
-        if (listRes?.data) {
-            setPluginsList(listRes.data);
+        if (marketPluginsRes?.data) {
+            setMarketPluginsList(marketPluginsRes.data);
+        } else {
+            setMarketPluginsList(null);
         }
-    }, [listRes])
+    }, [marketPluginsRes]);
+    useEffect(() => {
+        if (installedPluginsRes?.data) {
+            setInstalledPluginsList(installedPluginsRes.data);
+        } else {
+            setInstalledPluginsList(null);
+        }
+    }, [installedPluginsRes]);
+    useEffect(() => {
+        if (!installedPluginsList || !marketPluginsList) {
+            return;
+        }
+        if (installedPluginsList.length > 0 && !installedPluginsList[0].checkNew) {
+            let tmp = [...installedPluginsList];
+            //从市场列表返回的数据中，检查更新
+            tmp = tmp.map((item) => {
+                const remotePlugin = marketPluginsList.find(x => x.pluginName === item.pluginName)
+                if (remotePlugin) {
+                    item['hasNew'] = remotePlugin['hasNew']
+                    item['lastVersion'] = remotePlugin['lastVersion']
+                }
+                item['checkNew'] = true
+                return item;
+            });
+            setInstalledPluginsList(tmp);
+        }
+    }, [installedPluginsList, marketPluginsList])
     const [versionList, setVersionList] = useState(null);
     useEffect(() => {
         if (!showInstall) {
@@ -94,11 +162,12 @@ const PluginsIndex = () => {
                 if (code === 0) {
                     message.success(msg);
                     setShowUnInstall(null);
-                    const tmp = [...pluginsList];
+                    const tmp = [...marketPluginsList];
                     let plugin = tmp.find(x => x.pluginName === pluginName);
                     plugin.installed = false;
                     plugin.localVersion = null;
-                    setPluginsList(tmp);
+                    setMarketPluginsList(tmp);
+                    refetchInstalled();
                 } else {
                     message.error(msg);
                 }
@@ -150,48 +219,12 @@ const PluginsIndex = () => {
                 <Command/>
             </TabPanel>
             <TabPanel value="local">
-
+                <PluginList data={installedPluginsList} setShowConfig={setShowConfig} setShowInstall={setShowInstall}
+                            setShowUnInstall={setShowUnInstall}/>
             </TabPanel>
             <TabPanel value="market">
-                <Grid spacing={4} container>
-                    {pluginsList && pluginsList.map((item) => (
-                        <Grid key={item.id} item md={6} lg={4} xl={4} sx={{width: '100%'}}>
-                            <PluginItem
-                                pluginId={item.id}
-                                name={item.title}
-                                desc={item.description}
-                                authorNickname={item.author}
-                                imageUrl={item.logoUrl}
-                                version={`v${item.localVersion ? item.localVersion : item.lastVersion}`}
-                                githubUrl={item.githubUrl}
-                                docUrl={item.helpDocUrl}
-                                installed={item.installed}
-                                hasNew={item.hasNew}
-                                onInstall={() => setShowInstall({
-                                    id: item.id,
-                                    name: item.pluginName,
-                                    title: item.title,
-                                    installed: item.installed,
-                                    upgrade: false
-                                })}
-                                onUpgrade={() => setShowInstall({
-                                    id: item.id,
-                                    name: item.pluginName,
-                                    title: item.title,
-                                    installed: item.installed,
-                                    upgrade: true
-                                })}
-                                onUnInstall={() => setShowUnInstall({name: item.pluginName, title: item.title})}
-                                onConfig={() => setShowConfig({
-                                    id: item.id,
-                                    name: item.pluginName,
-                                    version: item.localVersion,
-                                    title: item.title,
-                                    configField: item.configField
-                                })}
-                            />
-                        </Grid>))}
-                </Grid>
+                <PluginList data={marketPluginsList} setShowConfig={setShowConfig} setShowInstall={setShowInstall}
+                            setShowUnInstall={setShowUnInstall}/>
             </TabPanel>
         </TabContext>
     </>);

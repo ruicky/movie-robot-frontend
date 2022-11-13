@@ -26,17 +26,17 @@ export const PluginConfigForm = ({title, fields, formRef}) => {
     });
     useImperativeHandle(formRef, () => ({
         getValues: () => smartForm.values
-    }))
+    }));
     useEffect(() => {
         if (fields && fields.length > 0) {
             fields.map((item) => {
                 let val = smartForm.values[item.fieldName];
-                if (val!==item.defaultValue) {
-                    smartForm.setFieldValue(item.fieldName, item.defaultValue)
+                if (val !== item.defaultValue) {
+                    smartForm.setFieldValue(item.fieldName, item.defaultValue);
                 }
             });
         }
-    }, [fields])
+    }, [fields]);
     return (<Grid spacing={2} container>
         {title && <Grid>
             <Typography variant="h6" gutterBottom>

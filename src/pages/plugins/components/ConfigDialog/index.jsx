@@ -10,7 +10,8 @@ export const ConfigDialog = ({
                                  pluginName,
                                  version,
                                  handleClose,
-                                 title
+                                 title,
+                                 pluginConfigField
                              }) => {
     const {mutate: getVersion} = useGetPluginsVersion();
     const {mutate: saveConfig, isLoading: isSaving} = useSavePluginConfig();
@@ -31,6 +32,11 @@ export const ConfigDialog = ({
             }
         });
     }, [pluginId, version])
+    useEffect(()=>{
+        if (pluginConfigField) {
+            setConfigField(pluginConfigField);
+        }
+    },[pluginConfigField])
     const onSubmit = () => {
         const values = configFormRef.current.getValues();
         saveConfig({
