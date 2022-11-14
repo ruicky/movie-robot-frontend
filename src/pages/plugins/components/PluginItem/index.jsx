@@ -76,7 +76,7 @@ export const PluginItem = ({
                         }}
                         label={version}/>}
                 </CardMedia>
-                <CardContent>
+                <CardContent sx={{minHeight:120}}>
                     {name && <Typography gutterBottom variant="h5" component="div">
                         {name}
                     </Typography>}

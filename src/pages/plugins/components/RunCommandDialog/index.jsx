@@ -27,8 +27,8 @@ export const RunCommandDialog = ({
                 fields={argsSchema}/></Box>
         </DialogContent>
         <DialogActions>
-            <Button onClick={handleClose}>取消</Button>
-            <Button onClick={() => onSubmit(pluginName, commandName, argsFormRef.current.getValues())}>
+            <Button onClick={handleClose} disabled={isRunning}>取消</Button>
+            <Button disabled={isRunning} onClick={() => onSubmit(pluginName, commandName, argsFormRef.current.getValues())}>
                 {isRunning ? "运行中" : "运行"}
             </Button>
         </DialogActions>
