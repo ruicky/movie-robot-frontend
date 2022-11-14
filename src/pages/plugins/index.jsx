@@ -36,6 +36,7 @@ const PluginList = ({data, setShowInstall, setShowUnInstall, setShowConfig}) => 
                     docUrl={item.helpDocUrl}
                     installed={item.installed}
                     hasNew={item.hasNew}
+                    hasConfig={item.hasConfig}
                     onInstall={() => setShowInstall({
                         id: item.id,
                         name: item.pluginName,

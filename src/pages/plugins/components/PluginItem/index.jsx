@@ -37,6 +37,7 @@ export const PluginItem = ({
                                version,
                                imageUrl,
                                hasNew,
+                               hasConfig,
                                installed,
                                githubUrl,
                                docUrl,
@@ -76,7 +77,7 @@ export const PluginItem = ({
                         }}
                         label={version}/>}
                 </CardMedia>
-                <CardContent sx={{minHeight:120}}>
+                <CardContent sx={{minHeight: 120}}>
                     {name && <Typography gutterBottom variant="h5" component="div">
                         {name}
                     </Typography>}
@@ -102,7 +103,7 @@ export const PluginItem = ({
                     </Tooltip>}
                 </Box>
                 <Box sx={{marginLeft: 'auto'}}>
-                    {installed && <Tooltip title="插件设置">
+                    {installed && hasConfig && <Tooltip title="插件设置">
                         <IconButton> <SettingsIcon onClick={onConfig}/></IconButton>
                     </Tooltip>}
                     {hasNew &&
