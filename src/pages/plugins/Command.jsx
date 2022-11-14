@@ -1,15 +1,15 @@
-import {Grid} from "@mui/material";
-import React, {useEffect, useState} from "react";
-import {useGetPluginCommandList, useRunPluginCommand} from "@/api/PluginApi";
-import {CardButton} from "@/components/CardButton";
-import {RunCommandDialog} from "@/pages/plugins/components/RunCommandDialog";
+import { Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useGetPluginCommandList, useRunPluginCommand } from "@/api/PluginApi";
+import { CardButton } from "@/components/CardButton";
+import { RunCommandDialog } from "@/pages/plugins/components/RunCommandDialog";
 import message from "@/utils/message";
 import stc from "string-to-color";
-import {useInterval} from "@/utils/hooks";
+import { useInterval } from "@/utils/hooks";
 
 export const Command = () => {
-    const {data: commandListRes,refetch} = useGetPluginCommandList();
-    const {mutate: run} = useRunPluginCommand();
+    const { data: commandListRes, refetch } = useGetPluginCommandList();
+    const { mutate: run } = useRunPluginCommand();
     const [commandList, setCommandList] = useState(null);
     const [showRunCommand, setShowRunCommand] = useState(null);
     useEffect(() => {
@@ -41,7 +41,7 @@ export const Command = () => {
             args: args
         }, {
             onSuccess: resData => {
-                const {code, message: msg, data} = resData;
+                const { code, message: msg, data } = resData;
                 if (code === 0 && data) {
                     if (data.run_in_background) {
                         setCommandStatus(pluginName, commandName, 'running');
@@ -90,7 +90,7 @@ export const Command = () => {
             title={showRunCommand?.title ? showRunCommand?.title : ''}
             onSubmit={summitRun}
         />
-        <Grid spacing={3} container>
+        <Grid xs={0} spacing={3} container>
             {commandList && commandList.map((item) => {
                 return <Grid key={item.name} xs={6} sm={4} md={3} lg={2} item>
                     <CardButton

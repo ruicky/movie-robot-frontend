@@ -60,6 +60,11 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_DEV_PROXY || '',
           secure: false,
           changeOrigin: true,
+        },
+        '^/plugins/.*/logo.jpg': {
+          target: env.VITE_DEV_PROXY || '',
+          secure: false,
+          changeOrigin: true,
         }
       }
     },
