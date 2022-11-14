@@ -1,15 +1,15 @@
-import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useGetPluginCommandList, useRunPluginCommand } from "@/api/PluginApi";
-import { CardButton } from "@/components/CardButton";
-import { RunCommandDialog } from "@/pages/plugins/components/RunCommandDialog";
+import {Grid} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {useGetPluginCommandList, useRunPluginCommand} from "@/api/PluginApi";
+import {CardButton} from "@/components/CardButton";
+import {RunCommandDialog} from "@/pages/plugins/components/RunCommandDialog";
 import message from "@/utils/message";
 import stc from "string-to-color";
-import { useInterval } from "@/utils/hooks";
+import {useInterval} from "@/utils/hooks";
 
 export const Command = () => {
-    const { data: commandListRes, refetch } = useGetPluginCommandList();
-    const { mutate: run } = useRunPluginCommand();
+    const {data: commandListRes, refetch} = useGetPluginCommandList();
+    const {mutate: run, isLoading: submitRunning} = useRunPluginCommand();
     const [commandList, setCommandList] = useState(null);
     const [showRunCommand, setShowRunCommand] = useState(null);
     useEffect(() => {
@@ -41,7 +41,7 @@ export const Command = () => {
             args: args
         }, {
             onSuccess: resData => {
-                const { code, message: msg, data } = resData;
+                const {code, message: msg, data} = resData;
                 if (code === 0 && data) {
                     if (data.run_in_background) {
                         setCommandStatus(pluginName, commandName, 'running');
@@ -58,7 +58,11 @@ export const Command = () => {
             }
         });
     }
-    const handleRun = (command) => {
+    const handleCardButtonClick = (command, status) => {
+        if (status === 'running') {
+            message.warn("已经在运行了，不要重复点击了")
+            return;
+        }
         if (command.arg_schema && command.arg_schema.length > 0) {
             setShowRunCommand({
                 commandName: command.name,
@@ -75,7 +79,7 @@ export const Command = () => {
                     }
                 }),
                 title: `运行${command.title}`
-            })
+            });
         } else {
             summitRun(command.plugin_name, command.name);
         }
@@ -88,6 +92,7 @@ export const Command = () => {
             pluginName={showRunCommand?.pluginName}
             argsSchema={showRunCommand?.argsSchema}
             title={showRunCommand?.title ? showRunCommand?.title : ''}
+            isRunning={submitRunning}
             onSubmit={summitRun}
         />
         <Grid xs={0} spacing={3} container>
@@ -99,7 +104,7 @@ export const Command = () => {
                         label={item.title}
                         helper={item.desc}
                         status={item.status}
-                        onClick={() => handleRun(item)}
+                        onClick={(status) => handleCardButtonClick(item, status)}
                     />
                 </Grid>
             })}

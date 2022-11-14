@@ -1,5 +1,5 @@
-import styled, { css, keyframes } from "styled-components/macro";
-import React, { useEffect, useRef } from "react";
+import styled, {css, keyframes} from "styled-components/macro";
+import React, {useEffect, useRef} from "react";
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -60,8 +60,8 @@ const CardStatus = styled.div`
 `;
 
 const RunningButton = () => {
-    return <Box sx={{ m: 1, position: 'relative', margin: 0 }}>
-        <StopCircleIcon fontSize="large" />
+    return <Box sx={{m: 1, position: 'relative', margin: 0}}>
+        <StopCircleIcon fontSize="large"/>
         <CircularProgress
             size={32}
             sx={{
@@ -109,17 +109,17 @@ export const CardButton = ({ color, icon, label, helper, selected, status, onCli
     return <Card
         color={color}
         selected={selected}
-        onClick={handleClick}
+        onClick={() => handleClick(status)}
         className={isAnimation && 'isAnimation'}
         ref={card}
     >
         <CardHead>
-            {Icon && <Icon fontSize="large" />}
+            {Icon && <Icon fontSize="large"/>}
             <CardStatus>
-                {status === 'running' && <RunningButton fontSize="large" />}
-                {status === 'done' && <CheckCircleIcon fontSize="large" />}
-                {status === 'error' && <ErrorIcon fontSize="large" />}
-                {(status === undefined || status === null || status === 'ready') && <PlayCircleIcon fontSize="large" />}
+                {status === 'running' && <RunningButton fontSize="large"/>}
+                {status === 'done' && <CheckCircleIcon fontSize="large"/>}
+                {status === 'error' && <ErrorIcon fontSize="large"/>}
+                {(status === undefined || status === null || status === 'ready') && <PlayCircleIcon fontSize="large"/>}
             </CardStatus>
         </CardHead>
         <Typography variant="h6" color="#FFF" gutterBottom>

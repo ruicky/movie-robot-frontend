@@ -36,6 +36,7 @@ const PluginList = ({data, setShowInstall, setShowUnInstall, setShowConfig}) => 
                     docUrl={item.helpDocUrl}
                     installed={item.installed}
                     hasNew={item.hasNew}
+                    hasConfig={item.hasConfig}
                     onInstall={() => setShowInstall({
                         id: item.id,
                         name: item.pluginName,
@@ -215,14 +216,14 @@ const PluginsIndex = () => {
                     <Tab label="插件市场" value="market"/>
                 </TabList>
             </Box>
-            <TabPanel value="command">
+            <TabPanel value="command" sx={{p: 0, pt: 3}}>
                 <Command/>
             </TabPanel>
-            <TabPanel value="local">
+            <TabPanel value="local" sx={{p: 0, pt: 3}}>
                 <PluginList data={installedPluginsList} setShowConfig={setShowConfig} setShowInstall={setShowInstall}
                             setShowUnInstall={setShowUnInstall}/>
             </TabPanel>
-            <TabPanel value="market">
+            <TabPanel value="market" sx={{p: 0, pt: 3}}>
                 <PluginList data={marketPluginsList} setShowConfig={setShowConfig} setShowInstall={setShowInstall}
                             setShowUnInstall={setShowUnInstall}/>
             </TabPanel>
