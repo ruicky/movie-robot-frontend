@@ -146,6 +146,7 @@ const PluginsIndex = () => {
                 if (code === 0) {
                     message.success(msg);
                     refetch();
+                    refetchInstalled();
                     setShowInstall(null);
                 } else {
                     message.error(msg);
