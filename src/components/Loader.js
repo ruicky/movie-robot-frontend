@@ -6,7 +6,8 @@ const Root = styled.div`
   justify-content: center;
   align-items: center;
   display: flex;
-  min-height: 100%;
+  height: 100%;
+  min-height: 80vh;
 `;
 
 function Loader() {

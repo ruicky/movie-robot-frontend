@@ -5,7 +5,7 @@ import {PieChart} from "@mui/icons-material";
 import {SmallButton} from "@/components/core/SmallButton";
 import {Skeleton} from "@mui/lab";
 import {getRecordDashboard} from "@/api/DownloadApi";
-import * as echarts from "echarts";
+import * as echarts from "echarts/core";
 
 function MovieTypeChart({data}) {
     const movieCountOption = {

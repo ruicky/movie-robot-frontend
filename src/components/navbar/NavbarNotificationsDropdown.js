@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Link} from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import {
@@ -19,11 +19,11 @@ import {
     CircularProgress
 } from "@mui/material";
 import * as f_icon from "react-feather";
-import {Bell} from "react-feather";
-import {countUnreadSysNotify, getUnreadSysNotify} from "@/api/UserApi";
+import { Bell } from "react-feather";
+import { countUnreadSysNotify, getUnreadSysNotify } from "@/api/UserApi";
 import * as m_icon from "@mui/icons-material";
-import _ from "lodash";
-import {useInterval} from "@/utils/hooks";
+import { get as _get } from "lodash-es";
+import { useInterval } from "@/utils/hooks";
 
 const Popover = styled(MuiPopover)`
   .MuiPaper-root {
@@ -49,8 +49,8 @@ const NotificationHeader = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider};
 `;
 
-function Notification({title, description, icon}) {
-    const Icon = _.get({
+function Notification({ title, description, icon }) {
+    const Icon = _get({
         ...m_icon,
         ...f_icon
     }, icon, null)
@@ -59,7 +59,7 @@ function Notification({title, description, icon}) {
             <ListItemAvatar>
                 <Avatar>
                     <SvgIcon fontSize="small">
-                        <Icon/>
+                        <Icon />
                     </SvgIcon>
                 </Avatar>
             </ListItemAvatar>
@@ -92,7 +92,7 @@ function NavbarNotificationsDropdown() {
             setUnreadCount(0);
             setOpen(true);
         } catch (error) {
-           console.error(error)
+            console.error(error)
         }
         setLoading(false)
     };
@@ -114,7 +114,7 @@ function NavbarNotificationsDropdown() {
             <Tooltip title="通知消息">
                 <IconButton disabled={loading} component="div" color="inherit" ref={ref} onClick={handleOpen} size="large">
                     {loading ? <CircularProgress size={24} color="primary" /> : <Indicator badgeContent={unread > 0 ? unread : null}>
-                        <Bell/>
+                        <Bell />
                     </Indicator>}
                 </IconButton>
             </Tooltip>

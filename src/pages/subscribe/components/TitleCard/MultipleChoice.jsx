@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { CheckCircleRounded as CheckCircleRoundedIcon, Circle as CircleIcon } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSubscribeList, multipleChoiceActions } from "@/redux/slices/multiple-choice.slice";
-import { clone as _clone, includes as _includes, remove as _remove } from 'lodash'
+import { clone as _clone, includes as _includes, remove as _remove } from 'lodash-es'
 
 const MultipleChoice = ({id}) => {
   const dispatch = useDispatch();

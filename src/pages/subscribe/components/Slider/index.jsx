@@ -1,7 +1,6 @@
 import React,{useState, useCallback, useRef, useEffect} from 'react';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { useSpring } from 'react-spring';
-import TitleCard from '../TitleCard';
 import { Box } from "@mui/material";
 import styled, {css} from "styled-components/macro";
 import {
