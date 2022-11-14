@@ -2,7 +2,7 @@ import styled from "styled-components/macro";
 import { FormControl, Grid, InputLabel, MenuItem, Select, Box, Chip, Checkbox } from "@mui/material";
 import React from "react";
 import {useTheme} from '@mui/material/styles';
-import {find as _find} from 'lodash';
+import { find as _find } from 'lodash-es';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

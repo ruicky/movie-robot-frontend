@@ -5,7 +5,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Box, Box as MuiBox, CircularProgress, Typography } from "@mui/material";
-import _ from "lodash";
+import { get as _get } from "lodash-es";
 import * as m_icon from "@mui/icons-material";
 import * as f_icon from "react-feather";
 
@@ -74,7 +74,7 @@ const RunningButton = () => {
 }
 
 export const CardButton = ({ color, icon, label, helper, selected, status, onClick }) => {
-    const Icon = _.get({
+    const Icon = _get({
         ...m_icon,
         ...f_icon
     }, icon, null);

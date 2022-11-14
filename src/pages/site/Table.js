@@ -1,6 +1,5 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
-
 import {
     Card as MuiCard,
     CardHeader,
@@ -16,11 +15,11 @@ import {
     TableRow,
     Link,
 } from "@mui/material";
-import {spacing} from "@mui/system";
-import {Add, Delete, Edit} from "@mui/icons-material";
-import {coverSize} from "../../utils/PtUtils";
-import {Eye, EyeOff} from "react-feather";
-import _ from 'lodash';
+import { spacing } from "@mui/system";
+import { Add, Delete, Edit } from "@mui/icons-material";
+import { coverSize } from "../../utils/PtUtils";
+import { Eye, EyeOff } from "react-feather";
+import { reduce } from 'lodash-es';
 
 const Card = styled(MuiCard)(spacing);
 
@@ -40,16 +39,16 @@ const TableWrapper = styled.div`
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)});
 `;
 const getStatus = (status) => {
-    if (status == 1) {
-        return (<Chip label="可用" color="success"/>)
-    } else if (status == 2) {
-        return (<Chip label="异常" color="error"/>)
+    if (status === 1) {
+        return (<Chip label="可用" color="success" />)
+    } else if (status === 2) {
+        return (<Chip label="异常" color="error" />)
     } else {
-        return (<Chip label="未知" color="warning"/>)
+        return (<Chip label="未知" color="warning" />)
     }
 }
 const getTrafficManagementStatus = (traffic_management_status) => {
-    switch(traffic_management_status) {
+    switch (traffic_management_status) {
         case 0:
             return "关闭";
         case 1:
@@ -60,12 +59,12 @@ const getTrafficManagementStatus = (traffic_management_status) => {
             return "关闭";
     }
 }
-const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick, siteMeta}) => {
+const DashboardTable = ({ data, onAddClick, onUpdateClick, onDeleteClick, siteMeta }) => {
     const [hideData, setHideData] = useState(false)
     const hideOnClick = () => {
         setHideData(!hideData)
     }
-    const siteMap = _.reduce(siteMeta, (result, value, key) => {
+    const siteMap = reduce(siteMeta, (result, value, key) => {
         result[value.id] = value
         return result
     }, {})
@@ -73,12 +72,12 @@ const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick, siteMet
         <Card mb={6}>
             <CardHeader
                 action={
-                    <Stack direction="row" divider={<Divider orientation="vertical" flexItem/>} spacing={1}>
+                    <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1}>
                         <IconButton color="info" aria-label="添加" size="large" onClick={onAddClick}>
-                            <Add/>
+                            <Add />
                         </IconButton>
                         <IconButton color="info" aria-label="隐藏" size="large" onClick={hideOnClick}>
-                            {hideData ? <EyeOff/> : <Eye/>}
+                            {hideData ? <EyeOff /> : <Eye />}
                         </IconButton>
                     </Stack>
                 }
@@ -122,7 +121,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick, siteMet
                                             size="small"
                                             onClick={() => onUpdateClick(row)}
                                         >
-                                            <Edit/>
+                                            <Edit />
                                         </IconButton>
                                         <IconButton
                                             color="secondary"
@@ -130,7 +129,7 @@ const DashboardTable = ({data, onAddClick, onUpdateClick, onDeleteClick, siteMet
                                             size="small"
                                             onClick={() => onDeleteClick(row)}
                                         >
-                                            <Delete/>
+                                            <Delete />
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>
