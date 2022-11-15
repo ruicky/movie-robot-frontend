@@ -36,6 +36,10 @@ const DepAttr = {
     'mediaServer': {
         label: '媒体服务器=',
         color: '#17486C'
+    },
+    'downloadClient': {
+        label: '下载器=',
+        color: '#4D64D4'
     }
 }
 export const InstallDialog = ({
