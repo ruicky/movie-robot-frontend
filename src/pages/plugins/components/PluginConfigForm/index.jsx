@@ -38,7 +38,7 @@ export const PluginConfigForm = ({title, fields, formRef}) => {
         }
     }, [fields]);
     return (<Grid spacing={2} container>
-        {title && <Grid>
+        {title && fields && fields.length > 0 && <Grid>
             <Typography variant="h6" gutterBottom>
                 {title}
             </Typography>

@@ -1,6 +1,7 @@
 import {
     Button,
     Checkbox,
+    Chip as MuiChip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -10,14 +11,33 @@ import {
     FormHelperText,
     Grid,
     MenuItem,
-    Select
+    Select,
+    Stack
 } from "@mui/material";
 import React, {useEffect, useRef, useState} from "react";
 import {useSmartForm} from "@/components/SmartForm";
 import {ChangeLogItem} from "@/pages/plugins/components/Changelog/Item";
 import {PluginConfigForm} from "@/pages/plugins/components/PluginConfigForm";
 import {useGetPluginConfig} from "@/api/PluginApi";
+import styled from "styled-components/macro";
+import stc from "string-to-color";
 
+const Chip = styled(MuiChip)`
+  height: 25px;
+  font-weight: bold;
+  font-size: 75%;
+  background-color:  ${(props) => props.bgColor}
+`;
+const DepAttr = {
+    'appVersion': {
+        label: '应用版本',
+        color: '#6C54D8'
+    },
+    'mediaServer': {
+        label: '媒体服务器=',
+        color: '#17486C'
+    }
+}
 export const InstallDialog = ({
                                   open,
                                   pluginId,
@@ -32,6 +52,7 @@ export const InstallDialog = ({
     const {data: configRes} = useGetPluginConfig(pluginName);
     const [version, setVersion] = useState(null);
     const [configField, setConfigField] = useState(null);
+    const [dependencies, setDependencies] = useState(null);
     const configFormRef = useRef(null);
     const smartForm = useSmartForm({
         initValues: {
@@ -54,10 +75,17 @@ export const InstallDialog = ({
                 //将读到的现存配置信息作为配置展示的默认值
                 Object.keys(configRes.data).map((key) => {
                     let f = configField.find(x => x.fieldName === key);
-                    f.defaultValue = configRes.data[key];
+                    if (f) {
+                        f.defaultValue = configRes.data[key];
+                    }
                 })
             }
             setConfigField(configField);
+        }
+        if (version.dependencies) {
+            setDependencies(JSON.parse(version.dependencies));
+        }else{
+            setDependencies(null);
         }
         setVersion(version);
     }, [smartForm.values.version, configRes])
@@ -90,9 +118,18 @@ export const InstallDialog = ({
                         <FormHelperText>选择需要安装的版本</FormHelperText>
                     </FormControl>
                 </Grid>
-                {version && <Grid item xs={12}>
-                    <ChangeLogItem version={version.version} body={version.changelog} publishDate={version.gmtCreate}/>
-                </Grid>}
+                {version && <>
+                    {dependencies && <Grid item xs={12}>
+                        <Stack direction="row" spacing={2}>
+                            {Object.keys(dependencies).map((key) => <Chip color="secondary" bgColor={DepAttr[key].color}
+                                                                          label={`${DepAttr[key].label}${dependencies[key]}`}/>)}
+                        </Stack>
+                    </Grid>}
+                    <Grid item xs={12}>
+                        <ChangeLogItem version={version.version} body={version.changelog}
+                                       publishDate={version.gmtCreate}/>
+                    </Grid>
+                </>}
                 {configField && <Grid xs={12} item>
                     <PluginConfigForm
                         formRef={configFormRef}
