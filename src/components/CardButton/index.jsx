@@ -8,6 +8,7 @@ import { Box, Box as MuiBox, CircularProgress, Typography } from "@mui/material"
 import { get as _get } from "lodash-es";
 import * as m_icon from "@mui/icons-material";
 import * as f_icon from "react-feather";
+import LinesEllipsis from "react-lines-ellipsis";
 
 const breatheAnimation = keyframes`
   0% { transform: scale(1); }
@@ -123,10 +124,18 @@ export const CardButton = ({ color, icon, label, helper, selected, status, onCli
             </CardStatus>
         </CardHead>
         <Typography variant="h6" color="#FFF" gutterBottom>
-            {label}
+            <LinesEllipsis
+                text={label}
+                maxLine={1}
+                style={{height: "20px"}}
+            />    
         </Typography>
         <Typography variant="caption" color="#FFF" display="block" gutterBottom>
-            {helper}
+            <LinesEllipsis
+                text={helper}
+                maxLine={2}
+                style={{height: "40px"}}
+            />   
         </Typography>
     </Card>
 }

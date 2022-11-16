@@ -6,6 +6,8 @@ import {RunCommandDialog} from "@/pages/plugins/components/RunCommandDialog";
 import message from "@/utils/message";
 import stc from "string-to-color";
 import {useInterval} from "@/utils/hooks";
+import {string2color} from "@/utils/string2color";
+
 
 export const Command = () => {
     const {data: commandListRes, refetch} = useGetPluginCommandList();
@@ -97,9 +99,10 @@ export const Command = () => {
         />
         <Grid xs={0} spacing={3} container>
             {commandList && commandList.map((item) => {
+                // md={6} lg={4} xl={3} 
                 return <Grid key={item.name} xs={6} sm={4} md={3} lg={2} item>
                     <CardButton
-                        color={stc(item.name)}
+                        color={string2color(item.name)}
                         icon={item.icon}
                         label={item.title}
                         helper={item.desc}
