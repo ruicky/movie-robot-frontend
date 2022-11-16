@@ -1,4 +1,4 @@
-import * as echarts from "echarts";
+import * as echarts from "echarts/core";
 import ReactECharts from "echarts-for-react";
 import React from "react";
 import {coverSize} from "@/utils/PtUtils";

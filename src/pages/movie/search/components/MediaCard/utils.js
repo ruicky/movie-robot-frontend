@@ -2,7 +2,7 @@ import {useState, useEffect } from 'react';
 import { useWindowSize } from "@/utils/hooks";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { subtract as _subtract, divide as _divide } from 'lodash';
+import { subtract as _subtract, divide as _divide } from 'lodash-es';
 
 
 export const useEpisodesDisplay = (episodes) => {

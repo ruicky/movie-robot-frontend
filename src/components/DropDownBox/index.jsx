@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Menu, MenuItem} from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { get as _get} from 'lodash';
 
 /**
  * 下拉框组件

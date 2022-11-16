@@ -3,7 +3,24 @@ import react from '@vitejs/plugin-react'
 import svgrPlugin from 'vite-plugin-svgr';
 import fs from 'fs/promises';
 import { resolve } from 'path'
+import visualizer from "rollup-plugin-visualizer";
 
+const plugins = [react({
+  babel: {
+    plugins: ['babel-plugin-macros']
+  }
+}), svgrPlugin()]
+
+// 打包生产环境才引入的插件
+if (process.env.NODE_ENV === "production") {
+  // 打包依赖展示
+  plugins.push(
+    visualizer({
+      // open: true,
+      gzipSize: true,
+    })
+  );
+}
 
 export default defineConfig(({ mode }) => {
   // 根据当前工作目录中的 `mode` 加载 .env 文件
@@ -47,11 +64,7 @@ export default defineConfig(({ mode }) => {
         ],
       },
     },
-    plugins: [react({
-      babel: {
-        plugins: ['babel-plugin-macros']
-      }
-    }), svgrPlugin()],
+    plugins: plugins,
     server: {
       open: true,
       port: 3000,
@@ -60,11 +73,30 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_DEV_PROXY || '',
           secure: false,
           changeOrigin: true,
+        },
+        '^/plugins/.*/logo.jpg': {
+          target: env.VITE_DEV_PROXY || '',
+          secure: false,
+          changeOrigin: true,
         }
       }
     },
     build: {
       outDir: 'build',
+      assetsInlineLimit: 1024 * 10,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            lodash: ['lodash'],
+            reactFeather: ['react-feather'],
+            zrender: ['zrender'],
+            echartsCore: ['echarts/core'],
+            echartsCharts: ['echarts/charts'],
+            echartsComponents: ['echarts/components'],
+            vender: ['axios', 'core-js', 'react-dom', 'react-query', 'date-fns']
+          }
+        }
+      }
     },
   }
 })

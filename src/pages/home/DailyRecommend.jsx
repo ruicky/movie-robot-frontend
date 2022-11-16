@@ -7,9 +7,9 @@ import {jumpUrl} from "@/utils/urlUtils";
 
 const DailyRecommend = (data) => {
     const {
-        background = "https://img2.doubanio.com/view/photo/l/public/p2878075263.jpg",
-        title = "风骚律师",
-        desc = `Better Call Saul`,
+        background = "",
+        title = "",
+        desc = "",
         url, appUrl, rating,
         onPicClick = () => {
             return;

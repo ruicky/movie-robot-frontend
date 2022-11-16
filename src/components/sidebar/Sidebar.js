@@ -76,9 +76,9 @@ const Sidebar = ({ items, showFooter = true, ...rest }) => {
   return (
     <Drawer variant="permanent" {...rest}>
       <Brand component={NavLink} to="/">
-        <BrandIcon />{" "}
+        <BrandIcon />{""}
         <Box ml={1}>
-          Movie Robot
+          Movie Bot
         </Box>
       </Brand>
       <SidebarNav items={items} />

@@ -1,18 +1,18 @@
-import React, {forwardRef} from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components/macro";
-import {NavLink} from "react-router-dom";
-import {darken, rgba} from "polished";
+import { NavLink } from "react-router-dom";
+import { darken, rgba } from "polished";
 
-import {Chip, Collapse, ListItemButton, ListItemText} from "@mui/material";
-import {ExpandLess, ExpandMore} from "@mui/icons-material";
+import { Chip, Collapse, ListItemButton, ListItemText } from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import useStore from "@/store/index";
 import * as m_icon from "@mui/icons-material";
 import * as f_icon from "react-feather";
-import _ from "lodash";
+import { get as _get } from "lodash-es";
 const CustomRouterLink = forwardRef((props, ref) => (
-    <div ref={ref}>
-        <NavLink {...props} />
-    </div>
+  <div ref={ref}>
+    <NavLink {...props} />
+  </div>
 ));
 
 const Item = styled(ListItemButton)`
@@ -50,8 +50,8 @@ const Title = styled(ListItemText)`
   span {
     color: ${(props) =>
     rgba(
-        props.theme.sidebar.color,
-        props.depth && props.depth > 0 ? 0.7 : 1
+      props.theme.sidebar.color,
+      props.depth && props.depth > 0 ? 0.7 : 1
     )};
     font-size: ${(props) => props.theme.typography.body1.fontSize}px;
     padding: 0 ${(props) => props.theme.spacing(4)};
@@ -85,62 +85,62 @@ const ExpandMoreIcon = styled(ExpandMore)`
 `;
 
 const SidebarNavListItem = (props) => {
-    const {
-        title,
-        href,
-        depth = 0,
-        children,
-        icon,
-        badge,
-        open: openProp = false,
-    } = props;
-    const Icon = _.get({
-        ...m_icon,
-        ...f_icon
-    }, icon, null);
-    const [open, setOpen] = React.useState(openProp);
+  const {
+    title,
+    href,
+    depth = 0,
+    children,
+    icon,
+    badge,
+    open: openProp = false,
+  } = props;
+  const Icon = _get({
+    ...m_icon,
+    ...f_icon
+  }, icon, null);
+  const [open, setOpen] = React.useState(openProp);
 
-    const handleToggle = () => {
-        setOpen((state) => !state);
-    };
+  const handleToggle = () => {
+    setOpen((state) => !state);
+  };
 
-    const sideBar = useStore((state) => state.sideBar);
+  const sideBar = useStore((state) => state.sideBar);
 
-    if (children) {
-        return (
-            <React.Fragment>
-                <Item depth={depth} onClick={handleToggle}>
-                    {Icon && <Icon/>}
-                    <Title depth={depth}>
-                        {title}
-                        {badge && <Badge label={badge}/>}
-                    </Title>
-                    {open ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
-                </Item>
-                <Collapse in={open}>{children}</Collapse>
-            </React.Fragment>
-        );
-    }
-
+  if (children) {
     return (
-        <React.Fragment>
-            <Item
-                depth={depth}
-                component={CustomRouterLink}
-                to={href}
-                onClick={() => {
-                    sideBar.toggleOpen(false)
-                }}
-                activeclassname="active"
-            >
-                {Icon && <Icon/>}
-                <Title depth={depth}>
-                    {title}
-                    {badge && <Badge label={badge}/>}
-                </Title>
-            </Item>
-        </React.Fragment>
+      <React.Fragment>
+        <Item depth={depth} onClick={handleToggle}>
+          {Icon && <Icon />}
+          <Title depth={depth}>
+            {title}
+            {badge && <Badge label={badge} />}
+          </Title>
+          {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </Item>
+        <Collapse in={open}>{children}</Collapse>
+      </React.Fragment>
     );
+  }
+
+  return (
+    <React.Fragment>
+      <Item
+        depth={depth}
+        component={CustomRouterLink}
+        to={href}
+        onClick={() => {
+          sideBar.toggleOpen(false)
+        }}
+        activeclassname="active"
+      >
+        {Icon && <Icon />}
+        <Title depth={depth}>
+          {title}
+          {badge && <Badge label={badge} />}
+        </Title>
+      </Item>
+    </React.Fragment>
+  );
 };
 
 export default SidebarNavListItem;

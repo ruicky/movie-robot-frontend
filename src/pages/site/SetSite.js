@@ -210,7 +210,7 @@ const SetSite = ({opType, open, site, siteMeta, filterSiteNames, onClose, onEdit
                 <FormHelperText>
                     开启此功能还需要在基础设置-流量管理中做好设置才会生效。
                     <Link target="_blank"
-                          href="https://feather-purple-bdd.notion.site/854f2ab70f394358b00b0ff9e2c1690a">有什么用？</Link>
+                          href="https://yee329.notion.site/28702cf23a834c2380eb8ff34de68ea5">有什么用？</Link>
                 </FormHelperText>
             </FormControl>
             <TextField

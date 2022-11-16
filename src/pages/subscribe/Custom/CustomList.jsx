@@ -21,6 +21,7 @@ import {useNavigate} from "react-router-dom";
 import MovieIcon from '@mui/icons-material/Movie';
 import TvIcon from '@mui/icons-material/Tv';
 import VideocamIcon from '@mui/icons-material/Videocam';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
 import DeleteDialog from "@/pages/subscribe/Custom/DeleteDialog";
 import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 import message from "@/utils/message";
@@ -28,6 +29,8 @@ import {RunDialog} from "@/pages/subscribe/Custom/RunDialog";
 import {RecordDialog} from "@/pages/subscribe/Custom/RecordDialog";
 import {useInterval} from "@/utils/hooks";
 import {ShareDialog} from "@/pages/subscribe/Custom/ShareDialog";
+import copy from "copy-to-clipboard";
+import {ImportRuleDialog} from "@/pages/subscribe/Custom/ImportRuleDialog";
 
 function OptionMenus({enable, onEdit, onDelete, onShowLog, onRun, onEnableChange, onShare = null}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -159,7 +162,7 @@ function FilterItem({
     )
 }
 
-const CustomList = ({onAdd}) => {
+const CustomList = ({onAdd,onImport}) => {
     const navigate = useNavigate();
     const [subLogData, setSubLogData] = useState(null);
     const [runCustomSubId, setRunCustomSubId] = useState(null);
@@ -218,24 +221,30 @@ const CustomList = ({onAdd}) => {
             }
         })
     }
-    const onShare = (subId, params) => {
-        shareSubRule({
-            sub_id: subId,
-            name: params.name,
-            desc: params.desc,
-            tag: params.tag
-        }, {
-            onSuccess: res => {
-                const {code, message: msg, data} = res;
-                if (code === 0) {
-                    message.success(msg)
-                    refetchSubCustomData();
-                    setShowShare(null);
-                } else {
-                    message.error(msg);
+    const onShare = (type, subId, value) => {
+        if (type === "all") {
+            shareSubRule({
+                sub_id: subId,
+                name: value.name,
+                desc: value.desc,
+                tag: value.tag
+            }, {
+                onSuccess: res => {
+                    const {code, message: msg, data} = res;
+                    if (code === 0) {
+                        message.success(msg)
+                        refetchSubCustomData();
+                        setShowShare(null);
+                    } else {
+                        message.error(msg);
+                    }
                 }
-            }
-        })
+            });
+        } else {
+            copy(value);
+            message.success("已经将内容复制到剪切板，可以直接发送给好友导入")
+            setShowShare(null);
+        }
     }
     const autoRefreshList = () => {
         const runningList = subCustomData?.data?.filter(x => x.status === 'Running');
@@ -283,6 +292,7 @@ const CustomList = ({onAdd}) => {
                 showDeleteRemote={Boolean(showDelete?.showDeleteRemote)}
                 onSuccess={onDeleteSuccess}
             />}
+
             <List sx={{width: '100%', bgcolor: 'background.paper'}}>
                 {subCustomData && subCustomData?.data ? subCustomData.data.map((item, index) => (
                     <FilterItem
@@ -309,12 +319,20 @@ const CustomList = ({onAdd}) => {
                         }) : null}
                     />
                 )) : <Skeleton variant="rectangular"/>}
-                <ListItem disablePadding>
+                <ListItem>
                     <ListItemButton onClick={onAdd}>
                         <ListItemIcon>
                             <AddIcon/>
                         </ListItemIcon>
                         <ListItemText primary="新增订阅"/>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem>
+                    <ListItemButton onClick={onImport}>
+                        <ListItemIcon>
+                            <ImportExportIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="导入订阅"/>
                     </ListItemButton>
                 </ListItem>
             </List>

@@ -12,20 +12,25 @@ import {
     useCancelLikeSubRule,
     useGetTopSubRuleList,
     useHateSubRule,
-    useLikeSubRule
+    useLikeSubRule,
+    useParseSubRuleString
 } from "@/utils/subscribe";
 import message from "@/utils/message";
+import {ImportRuleDialog} from "@/pages/subscribe/Custom/ImportRuleDialog";
 
 const Divider = styled(MuiDivider)(spacing);
 
 const CustomIndex = () => {
     const navigate = useNavigate();
     const [ruleList, setRuleList] = useState(null);
+    const [showImport, setShowImport] = useState(null);
+
     const {data: ruleListData} = useGetTopSubRuleList();
     const {mutate: like} = useLikeSubRule();
     const {mutate: cancellike} = useCancelLikeSubRule();
     const {mutate: hate} = useHateSubRule();
     const {mutate: cancelHate} = useCancelHateSubRule();
+    const {mutate: parseSubRuleString} = useParseSubRuleString();
     useEffect(() => {
         if (ruleListData?.data) {
             setRuleList(ruleListData?.data);
@@ -93,12 +98,31 @@ const CustomIndex = () => {
     const onInstall = (rule) => {
         navigate("/subscribe/edit-custom-sub?sub_rule_id=" + rule.id);
     }
+    const onImport = (ruleString) => {
+        parseSubRuleString({
+            rule_string: ruleString
+        }, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    navigate("/subscribe/edit-custom-sub", {replace: false, state: data});
+                } else {
+                    message.error(msg)
+                }
+            }
+        })
+    }
     return (<>
         <Helmet title="自定义订阅"/>
         <Typography variant="h3" gutterBottom>
             自定义订阅
         </Typography>
         <Divider my={4}/>
+        {showImport && <ImportRuleDialog
+            open={Boolean(showImport)}
+            handleClose={() => setShowImport(null)}
+            handleSubmit={onImport}
+        />}
         <FilterOptionsProvider>
             <Grid container>
                 <Grid>
@@ -107,7 +131,7 @@ const CustomIndex = () => {
                     </Typography>
                 </Grid>
                 <Grid xs={12}>
-                    <CustomList onAdd={onAdd}/>
+                    <CustomList onAdd={onAdd} onImport={() => setShowImport(true)}/>
                 </Grid>
             </Grid>
             <Grid mt={2} container>

@@ -1,25 +1,152 @@
 import {Helmet} from "react-helmet-async";
-import {Divider as MuiDivider, Grid, Typography, Paper, ButtonBase, Button} from "@mui/material";
-import React from "react";
+import {Breadcrumbs, Button, Divider as MuiDivider, Grid, Link, Paper, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import Changelog from "@/pages/plugins/components/Changelog";
+import {NavLink, useSearchParams} from "react-router-dom";
+import {
+    useGetPluginsDetail,
+    useGetPluginsVersionList,
+    useInstallPlugin,
+    useUnInstallPlugin,
+    useUpgradePlugin
+} from "@/api/PluginApi";
+import message from "@/utils/message";
+import {InstallDialog} from "@/pages/plugins/components/InstallDialog";
+import {UnInstallDialog} from "@/pages/plugins/components/UnInstallDialog";
+import {ConfigDialog} from "@/pages/plugins/components/ConfigDialog";
 
 const Img = styled('img')({
     maxWidth: '100%',
     maxHeight: 235,
-    borderRadius:'8px'
+    borderRadius: '8px'
 });
 const Divider = styled(MuiDivider)(spacing);
 
 const PluginsDetail = () => {
+    const [showInstall, setShowInstall] = useState(null);
+    const [showUnInstall, setShowUnInstall] = useState(null);
+    const {mutate: upgradePlugin, isLoading: isUpgrade} = useUpgradePlugin();
+    const [showConfig, setShowConfig] = useState(null);
+    const [plugin, setPlugin] = useState(null);
+    const [versionList, setVersionList] = useState(null);
+    const {mutate: getDetail} = useGetPluginsDetail();
+    const {mutate: getVersionList} = useGetPluginsVersionList();
+    const {mutate: installPlugin, isLoading: isInstall} = useInstallPlugin();
+    const {mutate: unInstallPlugin, isLoading: isUnInstall} = useUnInstallPlugin();
+    const [queryString, setQueryString] = useSearchParams();
+    useEffect(() => {
+        if (!queryString.get("pluginId")) {
+            return;
+        }
+        getDetail({plugin_id: queryString.get("pluginId")}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0 && data) {
+                    setPlugin(data);
+                } else {
+                    message.error(msg);
+                }
+            }
+        });
+        getVersionList({plugin_id: queryString.get("pluginId")}, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0 && data) {
+                    setVersionList(data);
+                } else {
+                    message.error(msg);
+                }
+            }
+        });
+    }, [queryString]);
+    const onInstall = (installed, id, values, config) => {
+        let func;
+        if (installed) {
+            func = upgradePlugin;
+        } else {
+            func = installPlugin;
+        }
+        func({
+            plugin_id: id,
+            version: values.version,
+            config: config
+        }, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    message.success(msg);
+                    setShowInstall(null);
+                    plugin.installed = true;
+                    plugin.localVersion = values.version;
+                    setPlugin(plugin);
+                } else {
+                    message.error(msg);
+                }
+            }
+        });
+    }
+    const onUnInstall = (pluginName, values) => {
+        unInstallPlugin({
+            plugin_name: pluginName,
+            delete_config: values.deleteConfig
+        }, {
+            onSuccess: resData => {
+                const {code, message: msg, data} = resData;
+                if (code === 0) {
+                    message.success(msg);
+                    setShowUnInstall(null);
+                    plugin.installed = false;
+                    plugin.localVersion = null;
+                    setPlugin(plugin);
+                } else {
+                    message.error(msg);
+                }
+            }
+        });
+    }
     return (
         <>
             <Helmet title="插件"/>
             <Typography variant="h3" gutterBottom>
                 插件
             </Typography>
+            <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+                <Link component={NavLink} to="/plugins/index">
+                    全部插件
+                </Link>
+                <Typography>插件详情</Typography>
+            </Breadcrumbs>
             <Divider my={4}/>
+            <InstallDialog
+                open={Boolean(showInstall)}
+                pluginId={showInstall?.id}
+                pluginName={showInstall?.name}
+                title={showInstall?.title ? `${showInstall.upgrade ? "更新" : "安装"}${showInstall.title}插件` : showInstall?.upgrade ? "更新" : "安装"}
+                versionList={versionList}
+                handleClose={() => setShowInstall(null)}
+                submitting={isInstall}
+                handleSubmit={onInstall}
+                installed={showInstall?.installed}
+            />
+            <UnInstallDialog
+                open={Boolean(showUnInstall)}
+                pluginName={showUnInstall?.name}
+                title={showUnInstall?.title ? `卸载${showUnInstall.title}插件` : "卸载插件"}
+                handleClose={() => setShowUnInstall(null)}
+                submitting={isUnInstall}
+                handleSubmit={onUnInstall}
+            />
+            <ConfigDialog
+                open={Boolean(showConfig)}
+                pluginId={showConfig?.id}
+                pluginName={showConfig?.name}
+                version={showConfig?.version}
+                pluginConfigField={showConfig?.configField}
+                title={showConfig?.title ? `${showConfig.title}的设置` : "插件设置"}
+                handleClose={() => setShowConfig(null)}
+            />
             <Paper
                 sx={{
                     p: 2,
@@ -31,30 +158,55 @@ const PluginsDetail = () => {
             >
                 <Grid container spacing={2}>
                     <Grid item>
-                        <Img src="http://p.xmoviebot.com/plugins/discordlogo.jpg" />
+                        <Img src={plugin?.logoUrl}/>
                     </Grid>
-                    <Grid sx={{m:2}} item xs container direction="column" spacing={2}>
+                    <Grid sx={{m: 2}} item xs container direction="column" spacing={2}>
                         <Grid item xs>
                             <Typography gutterBottom variant="h5" component="div">
-                                Discord通知插件
+                                {plugin?.title}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                由 yee 开发
+                                由 {plugin?.author} 开发
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                系统产生一些关键事件时，发送通知到Discord。系统产生一些关键事件时，发送通知到Discord。系统产生一些关键事件时，发送通知到Discord。
+                            <Typography variant="body">
+                                {plugin?.description}
                             </Typography>
                         </Grid>
-                        <Grid item>
-                            <Button>
-                                安装
-                            </Button>
+                        <Grid sx={{marginLeft: "auto"}} item>
+                            {(!plugin?.installed || plugin?.hasNew) && <Button onClick={() => setShowInstall({
+                                id: plugin.id,
+                                name: plugin.pluginName,
+                                title: plugin.title,
+                                installed: plugin.installed,
+                                upgrade: plugin.hasNew
+                            })}>
+                                {plugin?.hasNew ? "升级" : "安装"}
+                            </Button>}
+                            {plugin?.installed && <Button onClick={() => setShowConfig({
+                                id: plugin.id,
+                                name: plugin.pluginName,
+                                version: plugin.localVersion,
+                                title: plugin.title,
+                                configField: plugin.configField
+                            })}>
+                                配置
+                            </Button>}
+                            {plugin?.installed &&
+                            <Button onClick={() => setShowUnInstall({name: plugin.pluginName, title: plugin.title})}>
+                                卸载
+                            </Button>}
                         </Grid>
                     </Grid>
                 </Grid>
             </Paper>
             <Divider my={4}/>
-            <Changelog/>
+            {versionList && <Changelog items={versionList.map((item) => {
+                return {
+                    version: item.version,
+                    date: item.gmtCreate,
+                    body: item.changelog
+                };
+            })}/>}
         </>
     );
 }

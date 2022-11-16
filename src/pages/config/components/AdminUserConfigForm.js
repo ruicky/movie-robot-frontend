@@ -101,7 +101,6 @@ function AdminUserConfigForm({}) {
             variant="contained"
             color="primary"
             disabled={formik.isSubmitting}
-            fullWidth
         >
             创建进入下一步
         </Button>

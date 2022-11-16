@@ -1,6 +1,6 @@
-import React, {useEffect} from "react";
-import {NavLink, useNavigate} from "react-router-dom";
-import {Helmet} from "react-helmet-async";
+import React, { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import {
     Alert as MuiAlert,
     Breadcrumbs,
@@ -11,10 +11,10 @@ import {
     Typography
 } from "@mui/material";
 import styled from "styled-components/macro";
-import {spacing} from "@mui/system";
-import {useFormik} from "formik";
+import { spacing } from "@mui/system";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import {useGetWeb, useSaveWeb} from "@/api/SettingApi";
+import { useGetWeb, useSaveWeb } from "@/api/SettingApi";
 import message from "@/utils/message";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -22,22 +22,19 @@ const Divider = styled(MuiDivider)(spacing);
 const Alert = styled(MuiAlert)(spacing);
 
 const TextField = styled(MuiTextField)(spacing);
-const Centered = styled.div`
-  text-align: center;
-`;
 
 
-function EditForm({isInit}) {
+function EditForm({ isInit }) {
     const navigate = useNavigate();
-    const {data: webSetting, isLoading} = useGetWeb();
-    const {mutateAsync: saveWeb, isSaving} = useSaveWeb();
+    const { data: webSetting } = useGetWeb();
+    const { mutateAsync: saveWeb } = useSaveWeb();
     const formik = useFormik({
         initialValues: {
             host: "::", port: 1329, server_url: "http://"
         }, validationSchema: Yup.object().shape({
             host: Yup.string().max(64).required("主机地址必须填写"),
             port: Yup.string().max(5).required("网站服务端口号必须填写"),
-        }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
+        }), onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
             try {
                 saveWeb({
                     host: values.host,
@@ -45,7 +42,7 @@ function EditForm({isInit}) {
                     server_url: values.server_url
                 }, {
                     onSuccess: res => {
-                        const {code, message: msg, data} = res;
+                        const { code, message: msg } = res;
                         if (code === 0) {
                             message.success('更改应用访问设置成功，重启后才能生效。')
                             navigate("/setting/index");
@@ -57,8 +54,8 @@ function EditForm({isInit}) {
             } catch (error) {
                 const message = error.message || "配置出错啦";
 
-                setStatus({success: false});
-                setErrors({submit: message});
+                setStatus({ success: false });
+                setErrors({ submit: message });
                 setSubmitting(false);
             }
         }
@@ -117,7 +114,6 @@ function EditForm({isInit}) {
             variant="contained"
             color="primary"
             disabled={formik.isSubmitting}
-            fullWidth
         >
             保存
         </Button>
@@ -126,7 +122,7 @@ function EditForm({isInit}) {
 
 const EditWeb = () => {
     return (<React.Fragment>
-        <Helmet title="网站访问设置"/>
+        <Helmet title="网站访问设置" />
         <Typography variant="h3" gutterBottom display="inline">
             网站访问设置
         </Typography>
@@ -137,8 +133,8 @@ const EditWeb = () => {
             </Link>
             <Typography>网站访问</Typography>
         </Breadcrumbs>
-        <Divider my={6}/>
-        <EditForm/>
+        <Divider my={6} />
+        <EditForm />
     </React.Fragment>);
 }
 export default EditWeb;
