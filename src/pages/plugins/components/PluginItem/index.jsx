@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SettingsIcon from '@mui/icons-material/Settings';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {useNavigate} from "react-router-dom";
+import LinesEllipsis from 'react-lines-ellipsis'
 
 const Flag = styled("div")`
     position: absolute;
@@ -79,13 +80,21 @@ export const PluginItem = ({
                 </CardMedia>
                 <CardContent sx={{minHeight: 120}}>
                     {name && <Typography gutterBottom variant="h5" component="div">
-                        {name}
+                        <LinesEllipsis
+                            text={name}
+                            maxLine={1}
+                            style={{height: "24px"}}
+                        />    
                     </Typography>}
                     {authorNickname && <Typography variant="body2" color="text.secondary">
                         由 {authorNickname} 开发
                     </Typography>}
                     {desc && <Typography variant="caption">
-                        {desc}
+                        <LinesEllipsis
+                            text={desc}
+                            maxLine={2}
+                            style={{height: "48px"}}
+                        />  
                     </Typography>}
                 </CardContent>
             </CardActionArea>

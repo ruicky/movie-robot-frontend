@@ -20,7 +20,6 @@ import {ChangeLogItem} from "@/pages/plugins/components/Changelog/Item";
 import {PluginConfigForm} from "@/pages/plugins/components/PluginConfigForm";
 import {useGetPluginConfig} from "@/api/PluginApi";
 import styled from "styled-components/macro";
-import stc from "string-to-color";
 
 const Chip = styled(MuiChip)`
   height: 25px;
