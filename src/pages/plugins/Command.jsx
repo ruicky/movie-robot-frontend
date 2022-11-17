@@ -4,7 +4,6 @@ import {useGetPluginCommandList, useRunPluginCommand} from "@/api/PluginApi";
 import {CardButton} from "@/components/CardButton";
 import {RunCommandDialog} from "@/pages/plugins/components/RunCommandDialog";
 import message from "@/utils/message";
-import stc from "string-to-color";
 import {useInterval} from "@/utils/hooks";
 import {string2color} from "@/utils/string2color";
 
