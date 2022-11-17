@@ -4,7 +4,6 @@ import {useGetPluginCommandList, useRunPluginCommand} from "@/api/PluginApi";
 import {CardButton} from "@/components/CardButton";
 import {RunCommandDialog} from "@/pages/plugins/components/RunCommandDialog";
 import message from "@/utils/message";
-import stc from "string-to-color";
 import {useInterval} from "@/utils/hooks";
 import {string2color} from "@/utils/string2color";
 
@@ -102,7 +101,7 @@ export const Command = () => {
                 // md={6} lg={4} xl={3} 
                 return <Grid key={item.name} xs={6} sm={4} md={3} lg={2} item>
                     <CardButton
-                        color={string2color(item.name)}
+                        color={string2color(`${item.name}${item.plugin_name}${item.plugin_title}`)}
                         icon={item.icon}
                         label={item.title}
                         helper={item.desc}
