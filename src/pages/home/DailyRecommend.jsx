@@ -33,8 +33,8 @@ const DailyRecommend = (data) => {
                     </Typography>
                     <Stack direction="row" divider={<Divider orientation="vertical" flexItem/>} spacing={1.5}
                            sx={{color: '#fff'}}>
-                        <span>{month}</span>
-                        <span>{week}</span>
+                        <span style={{minWidth: '39px'}}>{month}</span>
+                        <span  style={{minWidth: '40px'}}>{week}</span>
                     </Stack>
                     <Typography component="div" sx={{color: '#fff'}}>
                         {lunar_date}
@@ -57,7 +57,7 @@ const DailyRecommend = (data) => {
                                     marginLeft: 2,
                                     fontSize: "11px"
                                 }}
-                                label={"豆瓣评分 " + rating}/>
+                                label={`豆瓣评分 ${rating || '0'}`}/>
                         </Typography>
                     </Grid>
                     <Grid item>
