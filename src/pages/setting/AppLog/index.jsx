@@ -93,7 +93,6 @@ const AppLog = () => {
         <Stack my={2} direction={"row"} spacing={2}>
             <FormControl>
             <Select
-                labelId="demo-simple-select-label"
                 size={"small"}
                 value={selectLogFile || ""}
                 onChange={(e) => setSelectLogFile(e.target.value)}

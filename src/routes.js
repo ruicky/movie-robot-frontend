@@ -59,7 +59,6 @@ const SettingAccessKey = async(() => import("./pages/setting/AccessKey/index"));
 const PluginsIndex = async(() => import("./pages/plugins/index"));
 const PluginsDetail = async(() => import("./pages/plugins/detail"));
 const AppLog = async(() => import("./pages/setting/AppLog"));
-const Test = async(() => import("./pages/test/index"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -243,10 +242,6 @@ const routes = [{
         path: "index", element: <PluginsIndex/>
     }, {
         path: "detail", element: <PluginsDetail/>
-    }]
-}, {
-    path: "test", element: <AuthGuard><DashboardLayout/></AuthGuard>, children: [{
-        path: "index", element: <Test /> 
     }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{
