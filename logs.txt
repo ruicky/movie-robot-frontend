@@ -1,0 +1,741 @@
+ 2022/11/27 00:00:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 00:00:00 - ThreadPoolExecutor-6_4 - INFO: 开始检查站点Cookie有效性及刷新分享数据，共12个站点：天空;不可说;柠檬;馒头;我堡;彩虹岛;瓷器;猫站;听听歌;观众;朋友;家园
+ 2022/11/27 00:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 00:00:01 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 00:00:03 - ThreadPoolExecutor-6_4 - ERROR: 天空站点数据更新出错：
+ 2022/11/27 00:00:13 - ThreadPoolExecutor-6_4 - ERROR: 不可说站点数据更新出错：
+ 2022/11/27 00:00:16 - ThreadPoolExecutor-6_4 - ERROR: 馒头检测到CloudFlare 5秒盾，请浏览器访问跳过拿到新Cookie重新配置。
+ 2022/11/27 00:00:31 - ThreadPoolExecutor-6_4 - INFO: 站点检测及数据更新完毕。
+ 2022/11/27 00:05:43 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 00:05:44 - ThreadPoolExecutor-6_0 - ERROR: 馒头检测到CloudFlare 5秒盾，请浏览器访问跳过拿到新Cookie重新配置。
+ 2022/11/27 00:07:32 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：109.29秒
+ 2022/11/27 00:07:32 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 00:07:33 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 00:21:41 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 00:21:42 - ThreadPoolExecutor-6_0 - ERROR: 馒头检测到CloudFlare 5秒盾，请浏览器访问跳过拿到新Cookie重新配置。
+ 2022/11/27 00:23:25 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：103.66秒
+ 2022/11/27 00:23:25 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 00:23:25 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 00:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 00:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 00:30:00 - ThreadPoolExecutor-6_0 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 00:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 00:30:00 - ThreadPoolExecutor-6_0 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 00:30:00 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 00:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 00:30:01 - ThreadPoolExecutor-6_0 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 00:30:01 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 00:30:01 - ThreadPoolExecutor-6_0 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 00:30:01 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 00:37:39 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 00:37:40 - ThreadPoolExecutor-6_3 - ERROR: 馒头检测到CloudFlare 5秒盾，请浏览器访问跳过拿到新Cookie重新配置。
+ 2022/11/27 00:39:17 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：97.7秒
+ 2022/11/27 00:39:17 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 00:39:17 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 00:53:37 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 00:53:38 - ThreadPoolExecutor-6_0 - ERROR: 馒头检测到CloudFlare 5秒盾，请浏览器访问跳过拿到新Cookie重新配置。
+ 2022/11/27 00:55:20 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：102.79秒
+ 2022/11/27 00:55:20 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 00:55:20 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 01:00:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 01:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 01:00:01 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 01:09:35 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 01:09:36 - ThreadPoolExecutor-6_0 - ERROR: 馒头检测到CloudFlare 5秒盾，请浏览器访问跳过拿到新Cookie重新配置。
+ 2022/11/27 01:11:24 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：108.98秒
+ 2022/11/27 01:11:24 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 01:11:24 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 01:25:33 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 01:25:34 - ThreadPoolExecutor-6_0 - ERROR: 馒头检测到CloudFlare 5秒盾，请浏览器访问跳过拿到新Cookie重新配置。
+ 2022/11/27 01:27:12 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：98.83秒
+ 2022/11/27 01:27:12 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 01:27:12 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 01:30:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 01:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 01:30:00 - ThreadPoolExecutor-6_2 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 01:30:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 01:30:01 - ThreadPoolExecutor-6_2 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 01:30:01 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 01:30:01 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 01:30:01 - ThreadPoolExecutor-6_2 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 01:30:01 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 01:30:01 - ThreadPoolExecutor-6_2 - ERROR: 豆瓣说：有异常请求从你的 IP 发出 换个IP吧
+ 2022/11/27 01:30:01 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 01:36:20 - RemoteConfigUpdateThread - INFO: 检测到config.name_ignore_words配置文件发生变化，链接：http://api.xmoviebot.com/static/config/name_ignore_words.txt
+ 2022/11/27 01:36:20 - RemoteConfigUpdateThread - INFO: 开始初始化名称识别特征：无效词表
+ 2022/11/27 01:41:31 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 01:41:32 - ThreadPoolExecutor-6_2 - ERROR: 馒头检测到CloudFlare 5秒盾，请浏览器访问跳过拿到新Cookie重新配置。
+ 2022/11/27 01:43:24 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：113.21秒
+ 2022/11/27 01:43:24 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 01:43:25 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 01:49:28 - Thread-3847 - INFO: 已经开始在站点(1): 馒头 搜索: 
+ 2022/11/27 01:49:33 - Thread-3847 - INFO: 共在1个站点搜索到100条结果，其中馒头最慢，耗费5.23秒
+ 2022/11/27 01:57:29 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 01:59:35 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：126.46秒
+ 2022/11/27 01:59:36 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 01:59:36 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 02:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 02:06:31 - ThreadPoolExecutor-6_1 - INFO: 完成2022-11-26 02:00:00.003802前的所有订阅本地搜索日志，共5399条
+ 2022/11/27 02:06:31 - ThreadPoolExecutor-6_1 - INFO: 完成7天前的站内通知消息清理，共1条
+ 2022/11/27 02:13:27 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 02:15:31 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：124.24秒
+ 2022/11/27 02:15:31 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 02:15:32 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 02:29:25 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 02:30:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 02:31:30 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：124.79秒
+ 2022/11/27 02:31:30 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 02:31:30 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 02:45:23 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 02:47:29 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：126.02秒
+ 2022/11/27 02:47:29 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 02:47:29 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 03:00:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 03:01:21 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 03:02:57 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：96.07秒
+ 2022/11/27 03:02:57 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 03:02:57 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 03:17:19 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 03:19:25 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：126.33秒
+ 2022/11/27 03:19:25 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 03:19:26 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 03:30:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 03:33:17 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 03:35:23 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：126.3秒
+ 2022/11/27 03:35:23 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 03:35:24 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 03:49:15 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 03:51:23 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：127.97秒
+ 2022/11/27 03:51:23 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 03:51:23 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 04:00:00 - ThreadPoolExecutor-6_2 - INFO: 开始更新间谍过家家(2022) 的元数据
+ 2022/11/27 04:00:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 04:00:01 - ThreadPoolExecutor-6_2 - INFO: 成功获取豆瓣编号35258427对应的ID映射关系：{'mediaId': 103951, 'mediaType': 'TV', 'doubanId': 35258427, 'doubanSeasonNumber': 1, 'tmdbId': 120089, 'imdbId': 'tt13706018', 'tvdbId': 405920}
+ 2022/11/27 04:00:01 - ThreadPoolExecutor-6_2 - INFO: 开始更新全职(2022) 的元数据
+ 2022/11/27 04:00:02 - ThreadPoolExecutor-6_2 - INFO: 成功获取豆瓣编号35338562对应的ID映射关系：{'mediaId': 100426, 'mediaType': 'Movie', 'doubanId': 35338562, 'doubanSeasonNumber': None, 'tmdbId': 833417, 'imdbId': 'tt13269580', 'tvdbId': None}
+ 2022/11/27 04:00:04 - ThreadPoolExecutor-6_2 - INFO: 开始更新追随(1999) 的元数据
+ 2022/11/27 04:00:06 - ThreadPoolExecutor-6_2 - INFO: 成功获取豆瓣编号1397546对应的ID映射关系：{'mediaId': 101587, 'mediaType': 'Movie', 'doubanId': 1397546, 'doubanSeasonNumber': None, 'tmdbId': 11660, 'imdbId': 'tt0154506', 'tvdbId': None}
+ 2022/11/27 04:05:13 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 04:07:19 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：125.45秒
+ 2022/11/27 04:07:19 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 04:07:19 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 04:21:11 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 04:23:14 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：122.47秒
+ 2022/11/27 04:23:14 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 04:23:14 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 04:30:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 04:37:09 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 04:39:16 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：127.48秒
+ 2022/11/27 04:39:17 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 04:39:17 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 04:53:07 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 04:55:14 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：127.18秒
+ 2022/11/27 04:55:14 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 04:55:15 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 05:00:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 05:09:06 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 05:11:10 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：124.4秒
+ 2022/11/27 05:11:11 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 05:11:11 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 05:25:03 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 05:27:05 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：121.38秒
+ 2022/11/27 05:27:05 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 05:27:05 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 05:30:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 05:41:01 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 05:43:06 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：125.45秒
+ 2022/11/27 05:43:07 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 05:43:07 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 05:56:59 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 05:58:56 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：116.95秒
+ 2022/11/27 05:58:56 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 05:58:56 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 06:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 06:12:57 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 06:15:00 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：122.9秒
+ 2022/11/27 06:15:00 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 06:15:00 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 06:28:55 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 06:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 06:30:59 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：123.7秒
+ 2022/11/27 06:30:59 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 06:30:59 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 06:44:53 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 06:47:00 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：127.35秒
+ 2022/11/27 06:47:00 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 06:47:01 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 07:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 07:00:51 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 07:02:57 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：125.86秒
+ 2022/11/27 07:02:57 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 07:02:57 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 07:16:49 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 07:18:54 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：124.92秒
+ 2022/11/27 07:18:54 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 07:18:54 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 07:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 07:32:47 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 07:34:45 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：118.15秒
+ 2022/11/27 07:34:45 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 07:34:46 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 07:48:45 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 07:50:48 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：122.66秒
+ 2022/11/27 07:50:48 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 07:50:48 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 08:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 08:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 08:00:01 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 08:00:06 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 08:00:06 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 08:00:06 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 08:00:12 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 08:00:12 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 08:04:43 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 08:06:48 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：124.92秒
+ 2022/11/27 08:06:48 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 08:06:48 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 08:20:41 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 08:22:47 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：125.61秒
+ 2022/11/27 08:22:47 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 08:22:47 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 08:30:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 08:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 08:30:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 08:30:04 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 08:30:04 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 08:30:04 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 08:30:10 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 08:30:10 - ThreadPoolExecutor-6_3 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 08:36:39 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 08:38:43 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：123.68秒
+ 2022/11/27 08:38:43 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 08:38:43 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 08:52:37 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 08:54:34 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：117.04秒
+ 2022/11/27 08:54:34 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 08:54:35 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 09:00:00 - ThreadPoolExecutor-6_4 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 09:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 09:00:01 - ThreadPoolExecutor-6_4 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 09:00:05 - ThreadPoolExecutor-6_4 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 09:00:05 - ThreadPoolExecutor-6_4 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 09:00:06 - ThreadPoolExecutor-6_4 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 09:00:10 - ThreadPoolExecutor-6_4 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 09:00:10 - ThreadPoolExecutor-6_4 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 09:08:35 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 09:10:38 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：122.83秒
+ 2022/11/27 09:10:38 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 09:10:38 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 09:24:33 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 09:26:37 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：124.12秒
+ 2022/11/27 09:26:37 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 09:26:37 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 09:30:00 - ThreadPoolExecutor-6_1 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 09:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 09:30:00 - ThreadPoolExecutor-6_1 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 09:30:04 - ThreadPoolExecutor-6_1 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 09:30:04 - ThreadPoolExecutor-6_1 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 09:30:04 - ThreadPoolExecutor-6_1 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 09:30:09 - ThreadPoolExecutor-6_1 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 09:30:09 - ThreadPoolExecutor-6_1 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 09:40:31 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 09:42:37 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：125.6秒
+ 2022/11/27 09:42:37 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 09:42:37 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 09:56:29 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 09:58:38 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：129.06秒
+ 2022/11/27 09:58:38 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 09:58:38 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 10:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 10:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 10:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 10:00:06 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 10:00:06 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 10:00:06 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 10:00:10 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 10:00:10 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 10:12:27 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 10:14:32 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：124.57秒
+ 2022/11/27 10:14:32 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 10:14:32 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 10:28:25 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 10:30:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 10:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 10:30:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 10:30:04 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 10:30:04 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 10:30:04 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 10:30:08 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 10:30:08 - ThreadPoolExecutor-6_3 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 10:30:14 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：109.26秒
+ 2022/11/27 10:30:15 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 10:30:15 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 10:44:23 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 10:46:31 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：127.57秒
+ 2022/11/27 10:46:31 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 10:46:31 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 11:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 11:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 11:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 11:00:04 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 11:00:04 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 11:00:05 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 11:00:10 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 11:00:10 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 11:00:21 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 11:02:24 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：123.43秒
+ 2022/11/27 11:02:24 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 11:02:25 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 11:16:20 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 11:18:10 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：110.97秒
+ 2022/11/27 11:18:11 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 11:18:11 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 11:30:00 - ThreadPoolExecutor-6_4 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 11:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 11:30:00 - ThreadPoolExecutor-6_4 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 11:30:04 - ThreadPoolExecutor-6_4 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 11:30:04 - ThreadPoolExecutor-6_4 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 11:30:04 - ThreadPoolExecutor-6_4 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 11:30:08 - ThreadPoolExecutor-6_4 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 11:30:08 - ThreadPoolExecutor-6_4 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 11:32:18 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 11:34:24 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：126.9秒
+ 2022/11/27 11:34:24 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 11:34:25 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 11:48:15 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 11:50:18 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：122.58秒
+ 2022/11/27 11:50:18 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 11:50:18 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 12:00:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 12:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 12:00:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 12:00:07 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 12:00:07 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 12:00:08 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 12:00:13 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 12:00:13 - ThreadPoolExecutor-6_2 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 12:04:13 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 12:06:15 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：121.78秒
+ 2022/11/27 12:06:15 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 12:06:15 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 12:15:00 - ThreadPoolExecutor-6_3 - INFO: 开始更新媒体趋势榜单数据
+ 2022/11/27 12:16:00 - ThreadPoolExecutor-6_3 - INFO: 媒体趋势榜单更新完毕
+ 2022/11/27 12:20:11 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 12:22:12 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：121.12秒
+ 2022/11/27 12:22:12 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 12:22:12 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 12:30:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 12:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 12:30:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 12:30:05 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 12:30:05 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 12:30:05 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 12:30:09 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 12:30:09 - ThreadPoolExecutor-6_2 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 12:36:09 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 12:38:12 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：122.84秒
+ 2022/11/27 12:38:12 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 12:38:12 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 12:52:07 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 12:54:07 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：120.03秒
+ 2022/11/27 12:54:07 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 12:54:07 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 13:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 13:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 13:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 13:00:04 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 13:00:04 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 13:00:05 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 13:00:11 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 13:00:11 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 13:08:05 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 13:10:09 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：124.17秒
+ 2022/11/27 13:10:09 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 13:10:09 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 13:24:03 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 13:26:06 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：122.9秒
+ 2022/11/27 13:26:06 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 13:26:06 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 13:30:00 - ThreadPoolExecutor-6_1 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 13:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 13:30:00 - ThreadPoolExecutor-6_1 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 13:30:05 - ThreadPoolExecutor-6_1 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 13:30:05 - ThreadPoolExecutor-6_1 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 13:30:06 - ThreadPoolExecutor-6_1 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 13:30:11 - ThreadPoolExecutor-6_1 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 13:30:11 - ThreadPoolExecutor-6_1 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 13:40:01 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 13:42:03 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：121.86秒
+ 2022/11/27 13:42:03 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 13:42:03 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 13:55:59 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 13:58:05 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：125.7秒
+ 2022/11/27 13:58:05 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 13:58:05 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 14:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 14:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 14:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 14:00:04 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 14:00:04 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 14:00:04 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 14:00:08 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 14:00:08 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 14:11:57 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 14:14:11 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：133.5秒
+ 2022/11/27 14:14:11 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 14:14:11 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 14:27:55 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 14:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 14:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 14:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 14:30:03 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：127.74秒
+ 2022/11/27 14:30:03 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 14:30:03 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 14:30:04 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 14:30:04 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 14:30:04 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 14:30:09 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 14:30:09 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 14:43:53 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 14:45:59 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：125.63秒
+ 2022/11/27 14:45:59 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 14:45:59 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 14:59:51 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 15:00:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 15:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 15:00:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 15:00:06 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 15:00:07 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 15:00:07 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 15:00:11 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 15:00:11 - ThreadPoolExecutor-6_2 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 15:01:57 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：126.29秒
+ 2022/11/27 15:01:58 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 15:01:58 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 15:15:49 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 15:17:57 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：127.97秒
+ 2022/11/27 15:17:57 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 15:17:57 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 15:30:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 15:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 15:30:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 15:30:07 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 15:30:07 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 15:30:09 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 15:30:15 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 15:30:15 - ThreadPoolExecutor-6_3 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 15:31:47 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 15:33:42 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：115.2秒
+ 2022/11/27 15:33:42 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 15:33:42 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 15:47:45 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 15:49:51 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：126.14秒
+ 2022/11/27 15:49:51 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 15:49:51 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 16:00:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 16:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 16:00:01 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 16:00:06 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 16:00:06 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 16:00:06 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 16:00:12 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 16:00:12 - ThreadPoolExecutor-6_3 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 16:03:44 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 16:05:46 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：122.0秒
+ 2022/11/27 16:05:46 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 16:05:46 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 16:19:41 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 16:21:45 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：124.31秒
+ 2022/11/27 16:21:45 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 16:21:46 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 16:30:00 - ThreadPoolExecutor-6_4 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 16:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 16:30:00 - ThreadPoolExecutor-6_4 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 16:30:05 - ThreadPoolExecutor-6_4 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 16:30:05 - ThreadPoolExecutor-6_4 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 16:30:05 - ThreadPoolExecutor-6_4 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 16:30:11 - ThreadPoolExecutor-6_4 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 16:30:11 - ThreadPoolExecutor-6_4 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 16:35:39 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 16:37:48 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：128.3秒
+ 2022/11/27 16:37:48 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 16:37:48 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 16:51:37 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 16:53:34 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：116.5秒
+ 2022/11/27 16:53:34 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 16:53:34 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 17:00:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 17:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 17:00:00 - ThreadPoolExecutor-6_3 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 17:00:04 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 17:00:04 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 17:00:04 - ThreadPoolExecutor-6_3 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 17:00:09 - ThreadPoolExecutor-6_3 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 17:00:09 - ThreadPoolExecutor-6_3 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 17:07:35 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 17:09:31 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：116.17秒
+ 2022/11/27 17:09:31 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 17:09:32 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 17:23:33 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 17:25:40 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：126.6秒
+ 2022/11/27 17:25:40 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 17:25:40 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 17:30:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 17:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 17:30:01 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 17:30:07 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 17:30:07 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 17:30:07 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 17:30:12 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 17:30:12 - ThreadPoolExecutor-6_2 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 17:39:32 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 17:41:36 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：124.19秒
+ 2022/11/27 17:41:36 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 17:41:36 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 17:55:29 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 17:57:37 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：127.8秒
+ 2022/11/27 17:57:37 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 17:57:37 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 18:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 18:00:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 18:00:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 18:00:06 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 18:00:06 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 18:00:06 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 18:00:12 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 18:00:12 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 18:11:27 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 18:13:33 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：126.33秒
+ 2022/11/27 18:13:33 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 18:13:34 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 18:15:00 - ThreadPoolExecutor-6_4 - INFO: 开始更新媒体趋势榜单数据
+ 2022/11/27 18:15:45 - ThreadPoolExecutor-6_4 - INFO: 媒体趋势榜单更新完毕
+ 2022/11/27 18:27:25 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 18:29:30 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：124.91秒
+ 2022/11/27 18:29:30 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 18:29:30 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 18:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 18:30:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 18:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 18:30:06 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 18:30:06 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 18:30:06 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 18:30:11 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 18:30:11 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 18:43:23 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 18:45:27 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：123.97秒
+ 2022/11/27 18:45:27 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 18:45:27 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 18:59:21 - ThreadPoolExecutor-6_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 19:00:00 - ThreadPoolExecutor-6_1 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 19:00:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 19:00:00 - ThreadPoolExecutor-6_1 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 19:00:04 - ThreadPoolExecutor-6_1 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 19:00:04 - ThreadPoolExecutor-6_1 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 19:00:04 - ThreadPoolExecutor-6_1 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 19:00:08 - ThreadPoolExecutor-6_1 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 19:00:08 - ThreadPoolExecutor-6_1 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 19:01:27 - ThreadPoolExecutor-6_2 - INFO: 所有站点资源信息已经更新完毕，耗时：125.48秒
+ 2022/11/27 19:01:27 - ThreadPoolExecutor-6_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 19:01:27 - ThreadPoolExecutor-6_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 19:15:19 - ThreadPoolExecutor-6_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 19:17:23 - ThreadPoolExecutor-6_3 - INFO: 所有站点资源信息已经更新完毕，耗时：123.32秒
+ 2022/11/27 19:17:23 - ThreadPoolExecutor-6_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 19:17:23 - ThreadPoolExecutor-6_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 19:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 19:30:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 19:30:00 - ThreadPoolExecutor-6_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 19:30:07 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 19:30:07 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 19:30:07 - ThreadPoolExecutor-6_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 19:30:11 - ThreadPoolExecutor-6_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 19:30:11 - ThreadPoolExecutor-6_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 19:31:17 - ThreadPoolExecutor-6_4 - INFO: 开始同步站点资源信息...
+ 2022/11/27 19:33:26 - ThreadPoolExecutor-6_4 - INFO: 所有站点资源信息已经更新完毕，耗时：128.86秒
+ 2022/11/27 19:33:26 - ThreadPoolExecutor-6_4 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 19:33:26 - ThreadPoolExecutor-6_4 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 19:47:15 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 19:49:04 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：109.02秒
+ 2022/11/27 19:49:04 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 19:49:04 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 20:00:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 20:00:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 20:00:00 - ThreadPoolExecutor-6_2 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 20:00:04 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 20:00:04 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 20:00:05 - ThreadPoolExecutor-6_2 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 20:00:08 - ThreadPoolExecutor-6_2 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 20:00:08 - ThreadPoolExecutor-6_2 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 20:03:13 - ThreadPoolExecutor-6_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 20:05:19 - ThreadPoolExecutor-6_1 - INFO: 所有站点资源信息已经更新完毕，耗时：125.96秒
+ 2022/11/27 20:05:19 - ThreadPoolExecutor-6_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 20:05:19 - ThreadPoolExecutor-6_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 20:19:11 - ThreadPoolExecutor-6_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 20:21:15 - Thread-4635 - ERROR: 错误码：400001 错误消息：登录错误，请检查登录状态是否已经过期，尝试重新登录
+ 2022/11/27 20:21:19 - ThreadPoolExecutor-6_0 - INFO: 所有站点资源信息已经更新完毕，耗时：127.36秒
+ 2022/11/27 20:21:19 - ThreadPoolExecutor-6_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 20:21:19 - ThreadPoolExecutor-6_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 20:21:21 - chdbits-downloader - INFO: 开始处理来自订阅的下载: [chdbits]New Life Begins S01 2022 2160p WEB-DL H265 DDP5.1-CHDWEB
+ 2022/11/27 20:21:22 - chdbits-downloader - INFO: [chdbits]New Life Begins S01 2022 2160p WEB-DL H265 DDP5.1-CHDWEB已经开始下载,路径：/downloads/剧集 分类：未设置 
+ 2022/11/27 20:23:37 - Thread-5053 - INFO: 开始升级discord_message，将采用先卸载，后安装的方式进行升级
+ 2022/11/27 20:23:37 - Thread-5053 - INFO: 开始卸载插件：Discord消息通知
+ 2022/11/27 20:23:38 - Thread-5053 - INFO: 插件相关监听器已经移除
+ 2022/11/27 20:23:38 - Thread-5053 - INFO: 插件Discord消息通知卸载完毕
+ 2022/11/27 20:23:38 - Thread-5053 - INFO: 开始下载插件：https://p.xmoviebot.com/files/discord_message_0.3.zip
+ 2022/11/27 20:23:38 - Thread-5053 - INFO: 插件下载完毕，已经解压到：/data/plugins/discord_message
+ 2022/11/27 20:27:55 - MainThread - INFO: Movie Bot Version: 1.7.36
+███╗   ███╗ ██████╗ ██╗   ██╗██╗███████╗    ██████╗  ██████╗ ████████╗
+████╗ ████║██╔═══██╗██║   ██║██║██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝
+██╔████╔██║██║   ██║██║   ██║██║█████╗      ██████╔╝██║   ██║   ██║   
+██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██║██╔══╝      ██╔══██╗██║   ██║   ██║   
+██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ██║███████╗    ██████╔╝╚██████╔╝   ██║   
+╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚═╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝   
+ 2022/11/27 20:27:57 - MainThread - INFO: 开始初始化名称识别特征：无效词表
+ 2022/11/27 20:27:57 - MainThread - INFO: 开始初始化名称识别特征：终止词表
+ 2022/11/27 20:27:58 - MainThread - INFO: 已开启企业微信接收消息配置
+ 2022/11/27 20:27:58 - MainThread - INFO: 接入站点 天空(https://hdsky.me/)，必须登录：True 支持搜索：True 支持详情页：True
+ 2022/11/27 20:27:58 - MainThread - INFO: 接入站点 不可说(https://springsunday.net/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:58 - MainThread - INFO: 接入站点 柠檬(https://lemonhd.org/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:58 - MainThread - INFO: 接入站点 馒头(https://kp.m-team.cc/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:58 - MainThread - INFO: 接入站点 我堡(https://ourbits.club/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:58 - MainThread - INFO: 接入站点 彩虹岛(https://chdbits.co/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:58 - MainThread - INFO: 接入站点 瓷器(https://hdchina.org/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:59 - MainThread - INFO: 接入站点 猫站(https://pterclub.com/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:59 - MainThread - INFO: 接入站点 听听歌(https://totheglory.im/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:59 - MainThread - INFO: 接入站点 观众(https://audiences.me/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:59 - MainThread - INFO: 接入站点 朋友(https://pt.keepfrds.com/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:59 - MainThread - INFO: 接入站点 家园(https://hdhome.org/)，必须登录：True 支持搜索：True 支持详情页：False
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 站点资源同步任务 运行间隔15分17秒
+ 2022/11/27 20:27:59 - SubtitleFinder - INFO: 字幕自动查找下载任务已经启动
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 资源更新任务 运行间隔0分363秒
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 免费下载种子监测任务 运行间隔1分0秒
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 健康检查任务 运行周期: */30 * * * *
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 媒体趋势榜单任务 运行周期: 15 12,18,22 * * *
+ 2022/11/27 20:27:59 - MainThread - INFO: 开启监控下载器手动种子任务。
+ 2022/11/27 20:27:59 - MainThread - INFO: 开始监控保存目录为/downloads/电影的所有下载任务
+ 2022/11/27 20:27:59 - MainThread - INFO: 开始监控保存目录为/downloads/剧集的所有下载任务
+ 2022/11/27 20:27:59 - MainThread - INFO: 开始监控保存目录为/downloads/综艺剧集的所有下载任务
+ 2022/11/27 20:27:59 - MainThread - INFO: 开始监控保存目录为/downloads/纪录片电影的所有下载任务
+ 2022/11/27 20:27:59 - MainThread - INFO: 开始监控保存目录为/downloads/纪录片剧集的所有下载任务
+ 2022/11/27 20:27:59 - MainThread - INFO: 开始监控保存目录为/downloads/少儿剧集的所有下载任务
+ 2022/11/27 20:27:59 - MainThread - INFO: 开始监控保存目录为/downloads/AV的所有下载任务
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 监听下载客户端下载状态 运行间隔0分60秒
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: PT站点登陆有效性检查及分享数据更新任务 运行周期: 0 0 * * *
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 订阅元数据检查更新任务 运行周期: 0 4 * * *
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 同步豆瓣想看到订阅列表 运行周期: 0,30 0-1,8-23 * * *
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 自定义任务调度 运行周期: */1 * * * *
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 站点描述文件自动升级 运行周期: 0 3 * * *
+ 2022/11/27 20:27:59 - MainThread - INFO: 新增任务: 数据清理任务 运行周期: 0 2 * * *
+ 2022/11/27 20:27:59 - MainThread - INFO: 监听器已经添加: mbot.listener.notifylistener.on_sub_event 绑定事件: DownloadCompleted,SubMedia,DownloadStart,SiteError 顺序：1
+ 2022/11/27 20:27:59 - MainThread - INFO: 监听器已经添加: mbot.listener.sharedata.on_sub_event 绑定事件: SubMedia 顺序：100
+ 2022/11/27 20:27:59 - MainThread - INFO: 监听器已经添加: mbot.listener.sharedata.on_delete_sub_event 绑定事件: DeleteSubMedia 顺序：100
+ 2022/11/27 20:27:59 - MainThread - ERROR: 加载插件时没有发现插件描述文件: /data/plugins/@eaDir/manifest.json
+ 2022/11/27 20:27:59 - MainThread - INFO: 插件豆瓣片单订阅新增功能指令：豆瓣片单订阅
+ 2022/11/27 20:27:59 - MainThread - INFO: 监听器已经添加: plugins.discord_message.event.on_event 绑定事件: DownloadCompleted,SubMedia,DownloadStart,SiteError 顺序：1
+ 2022/11/27 20:27:59 - MainThread - INFO: Discord消息通知加载成功，Webhook: https://discord.com/api/webhooks/1039078574210170901/D0tIZt7fYgW8a9cyBmplQd2Z0ZaWXI9F7tCEMkWXsq0SPsYHcLrsDQK3Yxm2AKeOZeSn Proxy: socks5://192.168.1.50:8889
+ 2022/11/27 20:28:59 - ThreadPoolExecutor-7_0 - INFO: 检测到需要访问外部下载器qBittorrent(qbittorrent)，开始初始化下载器配置
+ 2022/11/27 20:30:00 - ThreadPoolExecutor-7_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 20:30:00 - ThreadPoolExecutor-2_0 - INFO: 检测到需要访问外部媒体服务emby，开始初始化媒体服务器连接
+ 2022/11/27 20:30:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 20:30:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 20:30:00 - ThreadPoolExecutor-7_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 20:30:05 - ThreadPoolExecutor-7_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 20:30:05 - ThreadPoolExecutor-7_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 20:30:06 - ThreadPoolExecutor-7_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 20:30:12 - ThreadPoolExecutor-7_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 20:30:12 - ThreadPoolExecutor-7_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 20:34:00 - ThreadPoolExecutor-7_3 - INFO: 来自影片订阅的下载，tmdb_id: 214172 season_number: 1 douban_id: 35465009
+ 2022/11/27 20:34:17 - ThreadPoolExecutor-7_3 - INFO: 完成剧集 卿卿日常 的NFO文件生成，路径：/media/剧集/大陆/卿卿日常 (2022)/tvshow.nfo
+ 2022/11/27 20:34:17 - ThreadPoolExecutor-7_3 - INFO: 开始刮削图片数据，影片信息：{'tmdb_id': '214172', 'imdb_id': 'tt23473086', 'douban_id': '35465009', 'media_type': 'TV', 'content_path': '/media/剧集/大陆/卿卿日常 (2022)', 'season_index': None, 'episode_index': None, 'episode_filename': None, 'tvdb_id': None}
+ 2022/11/27 20:34:17 - ThreadPoolExecutor-7_3 - INFO: /media/剧集/大陆/卿卿日常 (2022)已经存在图片，跳过下载
+ 2022/11/27 20:34:17 - ThreadPoolExecutor-7_3 - INFO: 完成剧集 第1季 季 1 的NFO文件生成，路径：/media/剧集/大陆/卿卿日常 (2022)/Season 1/season.nfo
+ 2022/11/27 20:34:17 - ThreadPoolExecutor-7_3 - INFO: 开始刮削图片数据，影片信息：{'tmdb_id': 214172, 'imdb_id': None, 'douban_id': None, 'media_type': 'TV', 'content_path': '/media/剧集/大陆/卿卿日常 (2022)', 'season_index': 1, 'episode_index': None, 'episode_filename': None, 'tvdb_id': None}
+ 2022/11/27 20:34:37 - ThreadPoolExecutor-7_3 - INFO: 开始下载图片：https://image.tmdb.org/t/p/original/tQY6Y4LW1fQ8dWhY7vXAJWkUX17.jpg 保存至：/media/剧集/大陆/卿卿日常 (2022)/season01-poster.jpg
+ 2022/11/27 20:34:37 - ThreadPoolExecutor-7_3 - INFO: 开始下载图片：https://image.tmdb.org/t/p/original/3feRgYe1x1KY65C93eEBBaNS4rx.jpg 保存至：/media/剧集/大陆/卿卿日常 (2022)/fanart.jpg
+ 2022/11/27 20:34:39 - ThreadPoolExecutor-7_3 - INFO: TV图片下载完毕。
+ 2022/11/27 20:34:39 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E10.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:39 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E16.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:39 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E15.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:39 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E18.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E08.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E04.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E03.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E19.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E06.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E13.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E20.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E24.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E23.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E22.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E21.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E09.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E17.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E14.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E02.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E12.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E05.2022.2160p.WEB-DL.H265.AAC-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E07.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E11.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E25.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:40 - ThreadPoolExecutor-7_3 - INFO: /downloads/剧集/卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB/New.Life.Begins.S01E26.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB.mkv 集号不属于所需的[27, 28] 跳过处理
+ 2022/11/27 20:34:54 - ThreadPoolExecutor-7_3 - INFO: 完成剧集第1季第27集尹嵩背后耍阴招的NFO文件生成，路径：/media/剧集/大陆/卿卿日常 (2022)/Season 1/卿卿日常 S01E27 - 2160p H.265 DDP5.1 CHDWEB.nfo
+ 2022/11/27 20:34:54 - ThreadPoolExecutor-7_3 - INFO: 开始刮削图片数据，影片信息：{'tmdb_id': 214172, 'imdb_id': None, 'douban_id': None, 'media_type': 'TV', 'content_path': '/media/剧集/大陆/卿卿日常 (2022)/Season 1', 'season_index': 1, 'episode_index': 27, 'episode_filename': '卿卿日常 S01E27 - 2160p H.265 DDP5.1 CHDWEB.mkv', 'tvdb_id': None}
+ 2022/11/27 20:34:54 - ThreadPoolExecutor-7_3 - INFO: 没有找到分集图片，开始自动截图
+ 2022/11/27 20:34:55 - ThreadPoolExecutor-7_3 - INFO: TV图片下载完毕。
+ 2022/11/27 20:35:08 - ThreadPoolExecutor-7_3 - INFO: 完成剧集第1季第28集尹峥私自查案的NFO文件生成，路径：/media/剧集/大陆/卿卿日常 (2022)/Season 1/卿卿日常 S01E28 - 2160p H.265 DDP5.1 CHDWEB.nfo
+ 2022/11/27 20:35:08 - ThreadPoolExecutor-7_3 - INFO: 开始刮削图片数据，影片信息：{'tmdb_id': 214172, 'imdb_id': None, 'douban_id': None, 'media_type': 'TV', 'content_path': '/media/剧集/大陆/卿卿日常 (2022)/Season 1', 'season_index': 1, 'episode_index': 28, 'episode_filename': '卿卿日常 S01E28 - 2160p H.265 DDP5.1 CHDWEB.mkv', 'tvdb_id': None}
+ 2022/11/27 20:35:08 - ThreadPoolExecutor-7_3 - INFO: 没有找到分集图片，开始自动截图
+ 2022/11/27 20:35:09 - ThreadPoolExecutor-7_3 - INFO: TV图片下载完毕。
+ 2022/11/27 20:35:09 - ThreadPoolExecutor-7_3 - INFO: 通知媒体库刷新完成，tmdb_id: 214172 save_path: /media/剧集/大陆 item_id: 27453
+ 2022/11/27 20:35:09 - ThreadPoolExecutor-7_3 - INFO: 卿卿日常(2022) 发行地区为['中国大陆']，不需要下载字幕。
+ 2022/11/27 20:35:09 - ThreadPoolExecutor-7_3 - INFO: 卿卿日常.New.Life.Begins.S01.2022.2160p.WEB-DL.H265.DDP5.1-CHDWEB处理完毕。
+ 2022/11/27 20:43:16 - ThreadPoolExecutor-7_3 - INFO: 开始同步站点资源信息...
+ 2022/11/27 20:45:20 - ThreadPoolExecutor-7_3 - INFO: 所有站点资源信息已经更新完毕，耗时：124.03秒
+ 2022/11/27 20:45:20 - ThreadPoolExecutor-7_3 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 20:45:20 - ThreadPoolExecutor-7_3 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 20:45:40 - Thread-203 - ERROR: 错误码：400001 错误消息：登录错误，请检查登录状态是否已经过期，尝试重新登录
+ 2022/11/27 20:58:33 - ThreadPoolExecutor-7_1 - INFO: 开始同步站点资源信息...
+ 2022/11/27 21:00:00 - ThreadPoolExecutor-7_0 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 21:00:00 - ThreadPoolExecutor-2_1 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 21:00:00 - ThreadPoolExecutor-7_0 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 21:00:04 - ThreadPoolExecutor-7_0 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 21:00:04 - ThreadPoolExecutor-7_0 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 21:00:04 - ThreadPoolExecutor-7_0 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 21:00:11 - ThreadPoolExecutor-7_0 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 21:00:11 - ThreadPoolExecutor-7_0 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 21:00:44 - ThreadPoolExecutor-7_1 - INFO: 所有站点资源信息已经更新完毕，耗时：130.77秒
+ 2022/11/27 21:00:44 - ThreadPoolExecutor-7_1 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 21:00:44 - ThreadPoolExecutor-7_1 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 21:13:50 - ThreadPoolExecutor-7_0 - INFO: 开始同步站点资源信息...
+ 2022/11/27 21:16:01 - ThreadPoolExecutor-7_0 - INFO: 所有站点资源信息已经更新完毕，耗时：131.19秒
+ 2022/11/27 21:16:01 - ThreadPoolExecutor-7_0 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 21:16:02 - ThreadPoolExecutor-7_0 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
+ 2022/11/27 21:29:07 - ThreadPoolExecutor-7_2 - INFO: 开始同步站点资源信息...
+ 2022/11/27 21:30:00 - ThreadPoolExecutor-7_3 - INFO: 开始获取di***n(do) 7天内的电影
+ 2022/11/27 21:30:00 - ThreadPoolExecutor-2_0 - INFO: Emby连接正常，main media版本为4.7.5.0
+ 2022/11/27 21:30:00 - ThreadPoolExecutor-7_3 - INFO: 开始获取di***n(wish) 7天内的电影
+ 2022/11/27 21:30:05 - ThreadPoolExecutor-7_3 - INFO: 豆瓣用户dirain的想看列表开始同步到订阅记录。 
+ 2022/11/27 21:30:05 - ThreadPoolExecutor-7_3 - INFO: 开始获取45****16(do) 7天内的电影
+ 2022/11/27 21:30:05 - ThreadPoolExecutor-7_3 - INFO: 开始获取45****16(wish) 7天内的电影
+ 2022/11/27 21:30:10 - ThreadPoolExecutor-7_3 - INFO: 豆瓣用户45360816的想看列表开始同步到订阅记录。 
+ 2022/11/27 21:30:10 - ThreadPoolExecutor-7_3 - INFO: 本次豆瓣想看同步到订阅任务已经完成。
+ 2022/11/27 21:31:13 - ThreadPoolExecutor-7_2 - INFO: 所有站点资源信息已经更新完毕，耗时：126.0秒
+ 2022/11/27 21:31:13 - ThreadPoolExecutor-7_2 - INFO: 有1个启用的自定义订阅规则，开始处理。
+ 2022/11/27 21:31:13 - ThreadPoolExecutor-7_2 - INFO: 没有配置或开启流量管理设置，不会开始运行：{'available_space': 3000, 'avg_statistics_period': 15, 'enable': False, 'maximum_active_torrent': 10, 'save_path': '/downloads', 'upload_mbps_maximum': 125}
