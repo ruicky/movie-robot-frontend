@@ -50,46 +50,51 @@ const LogContainer = styled.div`
     border-radius: 5px;
     padding: 10px;
 `
+
 const AppLog = () => {
     const parentRef = useRef()
     const [logs, setLogs] = useState([]);
     const [selectLogFile, setSelectLogFile] = useState(null);
     const { data: logFiles } = useGetLogFiles();
-    const { mutate: getLogLines } = useGetLogLines();
+    const { mutate: getLogLines, isLoading } = useGetLogLines();
     const rowVirtualizer = useVirtualizer({
         count: logs.length,
         getScrollElement: () => parentRef.current,
-        estimateSize: () => 35,
+        estimateSize: () => 100,
     })
 
     const [isAutoScroll, setIsAutoScroll] = useState(true)
     const [isAutoRefresh, setIsAutoRefresh] = useState(false)
-    const loadingRef = useRef(false)
+
+
 
     const fetchLog = useCallback(() => {
-        loadingRef.current = true
         getLogLines({ log_file: selectLogFile }, {
             onSuccess: resData => {
-                loadingRef.current = false
                 const { code, data } = resData;
                 if (code === 0 && data) {
                     setLogs(data);
-                    if (isAutoScroll) {
-                        rowVirtualizer.scrollToIndex(data.length - 1)
-                    }
                 }
-            },
-            onError: () => {
-                loadingRef.current = false
             }
         });
-    }, [getLogLines, isAutoScroll, rowVirtualizer, selectLogFile])
+    }, [getLogLines, selectLogFile])
 
     useInterval(() => {
-        if (isAutoRefresh && loadingRef.current === true) {
+        if (isAutoRefresh && !isLoading) {
             fetchLog();
         }
     }, 2000)
+
+    useEffect(() => {
+        if (isAutoScroll) {
+            rowVirtualizer.scrollToIndex(logs.length - 1)
+            // 猜测是因为虚拟滚动高度计算未完成 导致滚动不到底部
+            // 无法识别到计算完成的事件 暴力解决 1s 后再滚动一次
+            setTimeout(() => {
+                rowVirtualizer.scrollToIndex(logs.length - 1)
+            }, 1000)
+        }
+    }, [isAutoScroll, logs.length, rowVirtualizer])
 
     useEffect(() => {
         if (selectLogFile) {
@@ -160,7 +165,8 @@ const AppLog = () => {
                             borderRadius: 'unset',
                             boxShadow: 'unset',
                             padding: 'unset',
-                            background: 'unset'
+                            background: 'unset',
+                            wordBreak: 'break-all'
                         }}
                     >
                         <span
