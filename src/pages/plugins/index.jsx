@@ -112,6 +112,7 @@ const PluginsIndex = () => {
                 if (remotePlugin) {
                     item['hasNew'] = remotePlugin['hasNew']
                     item['lastVersion'] = remotePlugin['lastVersion']
+                    item['payImageUrl'] = remotePlugin['payImageUrl']
                 }
                 item['checkNew'] = true
                 return item;
