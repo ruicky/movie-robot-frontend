@@ -64,29 +64,33 @@ const AppLog = () => {
 
     const [isAutoScroll, setIsAutoScroll] = useState(true)
     const [isAutoRefresh, setIsAutoRefresh] = useState(false)
+    const loadingRef = useRef(false)
 
     const fetchLog = useCallback(() => {
+        loadingRef.current = true
         getLogLines({ log_file: selectLogFile }, {
             onSuccess: resData => {
+                loadingRef.current = false
                 const { code, data } = resData;
                 if (code === 0 && data) {
                     setLogs(data);
+                    if (isAutoScroll) {
+                        rowVirtualizer.scrollToIndex(data.length - 1)
+                    }
                 }
+            },
+            onError: () => {
+                loadingRef.current = false
             }
         });
-    }, [getLogLines, selectLogFile])
+    }, [getLogLines, isAutoScroll, rowVirtualizer, selectLogFile])
 
     useInterval(() => {
-        if (isAutoRefresh) {
+        if (isAutoRefresh && loadingRef.current === true) {
             fetchLog();
         }
     }, 2000)
 
-    useEffect(() => {
-        if (isAutoScroll) {
-            rowVirtualizer.scrollToIndex(logs.length - 1)
-        }
-    }, [logs.length, isAutoScroll, rowVirtualizer])
     useEffect(() => {
         if (selectLogFile) {
             fetchLog();
