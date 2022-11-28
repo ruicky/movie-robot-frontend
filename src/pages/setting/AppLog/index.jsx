@@ -49,6 +49,33 @@ const LogContainer = styled.div`
     background: rgb(23,23,23);
     border-radius: 5px;
     padding: 10px;
+
+    // 移动端
+    @media (max-width: 600px) {
+        code {
+            font-size: 11px !important;
+        }
+        .token.date.number ,.token.time.number ,.token.number {
+            font-size: 11px;
+        }
+    }
+    
+    .token.level.info.keyword {
+        color: #666666;
+    }
+    .token.operator {
+        color: #999999;
+    }
+    .token.level.error.important {
+        color: #dc5229;
+    }
+    .token.level.warning {
+        color: #ddb65c;
+    }
+    .token.date.number ,.token.time.number ,.token.number {
+        color: #559bd6;
+        font-size: 12px;
+    }
 `
 
 const AppLog = () => {
@@ -65,9 +92,6 @@ const AppLog = () => {
 
     const [isAutoScroll, setIsAutoScroll] = useState(true)
     const [isAutoRefresh, setIsAutoRefresh] = useState(false)
-
-
-
     const fetchLog = useCallback(() => {
         getLogLines({ log_file: selectLogFile }, {
             onSuccess: resData => {
