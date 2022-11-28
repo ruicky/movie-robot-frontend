@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Button, Dialog, DialogContent, DialogTitle, IconButton, Slide, Stack} from '@mui/material';
 import styled from "styled-components/macro";
 import {useTheme} from "@mui/material/styles";
@@ -94,6 +94,8 @@ const SearchDialog = ({open, onClose}) => {
     const {mutate: addSearchTemplate} = useAddSearchTemplate();
     const {mutate: updateSearchTemplate} = useUpdateSearchTemplate();
     const {mutate: deleteSearchTemplate} = useDeleteSearchTemplate();
+    const keywordInputRef = useRef(null);
+
     useEffect(() => {
         if (!templates || templates.length === 0) {
             return;
@@ -204,8 +206,12 @@ const SearchDialog = ({open, onClose}) => {
                         </IconButton>
                     </DialogTitle>
                     <SearchTemplate templates={templates} templateType={selectedTemplate}
-                                    setTemplateType={setSelectedTemplate}/>
+                                    setTemplateType={(val)=>{
+                                        setSelectedTemplate(val);
+                                        keywordInputRef.current.focus();
+                                    }}/>
                     <TopSearch
+                        inputRef={keywordInputRef}
                         onClose={handleClose}
                         site={site && Object.keys(site).map((key) => {
                             if (site[key]) {

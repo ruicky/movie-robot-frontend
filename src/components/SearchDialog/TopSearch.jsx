@@ -1,11 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, IconButton, InputBase, Paper, Typography} from '@mui/material';
 import styled from "styled-components/macro";
 import SearchIcon from '@mui/icons-material/Search';
 import {useNavigate} from "react-router-dom";
 import {useUrlQueryParam} from "@/hooks/useUrlQueryParam";
 
-const TopSearch = ({onClose, site, category, searchContent}) => {
+const TopSearch = ({onClose, site, category, searchContent, inputRef}) => {
     const navigate = useNavigate();
     const [param, setParam] = useUrlQueryParam(["keyword"]);
     const [keyword, setKeyword] = useState(param.keyword);
@@ -35,6 +35,7 @@ const TopSearch = ({onClose, site, category, searchContent}) => {
                     </IconButton>
                     <InputBase
                         autoFocus
+                        inputRef={inputRef}
                         sx={{ml: 1, flex: 1, width: '100%'}}
                         placeholder='搜索'
                         inputProps={{'aria-label': '搜索'}}
@@ -47,11 +48,11 @@ const TopSearch = ({onClose, site, category, searchContent}) => {
                         }}
                     />
                     <Typography
-                      variant="button"
-                      display="inline-block"
-                      sx={{cursor: 'pointer',mx:3}}
-                      color='info.main'
-                      onClick={handleSearch}>
+                        variant="button"
+                        display="inline-block"
+                        sx={{cursor: 'pointer', mx: 3}}
+                        color='info.main'
+                        onClick={handleSearch}>
                         搜索
                     </Typography>
                 </SearchInputWrap>
