@@ -52,11 +52,12 @@ const LogContainer = styled.div`
 
     // 移动端
     @media (max-width: 600px) {
+        padding: 0px;
         code {
-            font-size: 11px !important;
+            font-size: 10px !important;
         }
         .token.date.number ,.token.time.number ,.token.number {
-            font-size: 11px;
+            font-size: 10px;
         }
     }
     
