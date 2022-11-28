@@ -1,9 +1,20 @@
 import {useSmartForm} from "@/components/SmartForm";
-import {Grid, TextField, Typography} from "@mui/material";
+import {
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+    Typography
+} from "@mui/material";
 import * as React from "react";
 import {useEffect, useImperativeHandle} from "react";
 
-const Field = ({smartForm, fieldName, fieldType, label, helperText}) => {
+const Field = ({smartForm, fieldName, fieldType, label, helperText, enumValues = null}) => {
     switch (fieldType) {
         case "String":
             return <TextField
@@ -16,6 +27,28 @@ const Field = ({smartForm, fieldName, fieldType, label, helperText}) => {
                 onChange={smartForm.handleChange}
                 fullWidth
             />;
+        case "Bool":
+            return <FormControl>
+                <FormControlLabel control={<Checkbox name={fieldName}
+                                                     checked={smartForm.values[fieldName] ? smartForm.values[fieldName] : ""}
+                                                     onChange={smartForm.handleChange}/>} label={label}/>
+                {helperText&&<FormHelperText>{helperText}</FormHelperText>}
+            </FormControl>;
+        case "Enum":
+            return <FormControl fullWidth>
+                <InputLabel id="select-label">{label}</InputLabel>
+                <Select
+                    name={fieldName}
+                    labelId="select-label"
+                    value={smartForm.values[fieldName] ? smartForm.values[fieldName] : ""}
+                    label={label}
+                    onChange={smartForm.handleChange}
+                >
+                    {enumValues && Object.keys(enumValues).map((key) => <MenuItem
+                        value={enumValues[key]}>{key}</MenuItem>)}
+                </Select>
+                {helperText&&<FormHelperText>{helperText}</FormHelperText>}
+            </FormControl>;
         default:
             return <></>;
     }
@@ -50,6 +83,7 @@ export const PluginConfigForm = ({title, fields, formRef}) => {
                 fieldType={item.fieldType}
                 label={item.label}
                 helperText={item.helperText}
+                enumValues={item.enumValues}
             />
         </Grid>)}
     </Grid>);

@@ -11,7 +11,8 @@ export const ConfigDialog = ({
                                  version,
                                  handleClose,
                                  title,
-                                 pluginConfigField
+                                 pluginConfigField,
+    onSubmitSuccess
                              }) => {
     const {mutate: getVersion} = useGetPluginsVersion();
     const {mutate: saveConfig, isLoading: isSaving} = useSavePluginConfig();
@@ -48,6 +49,12 @@ export const ConfigDialog = ({
                 if (code === 0) {
                     message.success(msg);
                     setConfigField(null);
+                    if (onSubmitSuccess) {
+                        onSubmitSuccess({
+                            plugin_name: pluginName,
+                            config: values
+                        });
+                    }
                     handleClose();
                 } else {
                     message.error(msg);

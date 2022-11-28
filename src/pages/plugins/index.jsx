@@ -235,6 +235,9 @@ const PluginsIndex = () => {
             pluginConfigField={showConfig?.configField}
             title={showConfig?.title ? `${showConfig.title}的设置` : "插件设置"}
             handleClose={() => setShowConfig(null)}
+            onSubmitSuccess={(plugin)=>{
+                refetchInstalled();
+            }}
         />
         <DonateDialog
             open={Boolean(showDonate)}
