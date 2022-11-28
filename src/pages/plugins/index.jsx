@@ -21,6 +21,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import {Command} from "@/pages/plugins/Command";
 import {DonateDialog} from "@/pages/plugins/components/DonateDialog";
+import {useRestartApp} from "@/api/CommonApi";
 
 const PluginList = ({data, setShowInstall, setShowUnInstall, setShowConfig, setShowDonate}) => {
     return <Grid spacing={4} container>
@@ -82,7 +83,21 @@ const PluginsIndex = () => {
     const {mutate: upgradePlugin, isLoading: isUpgrade} = useUpgradePlugin();
     const {mutate: unInstallPlugin, isLoading: isUnInstall} = useUnInstallPlugin();
     const [currentTab, setCurrentTab] = useState('command');
-
+    const {mutateAsync: restartApp} = useRestartApp()
+    const onRestartApp = () => {
+        message.info("立即重新启动应用");
+        restartApp({secs: 0}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg);
+                    handleClose();
+                } else {
+                    message.error(msg)
+                }
+            }
+        })
+    }
     const handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);
     };
@@ -155,6 +170,11 @@ const PluginsIndex = () => {
                     refetch();
                     refetchInstalled();
                     setShowInstall(null);
+                    if (installed) {
+                        if (config.autoRestart) {
+                            onRestartApp();
+                        }
+                    }
                 } else {
                     message.error(msg);
                 }
