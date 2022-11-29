@@ -61,21 +61,28 @@ const LogContainer = styled.div`
         }
     }
     
-    .token.level.info.keyword {
-        color: #666666;
+    .language-log {
+        &.error {
+            color: #dc5229;
+        }
+        &.info {
+            color: #999999;
+        }
+        &.warning {
+            color: #f5a623;
+        }
     }
-    .token.operator {
-        color: #999999;
-    }
-    .token.level.error.important {
-        color: #dc5229;
-    }
-    .token.level.warning {
-        color: #ddb65c;
-    }
-    .token.date.number ,.token.time.number ,.token.number {
-        color: #559bd6;
-        font-size: 12px;
+    .token {
+        &.level.info.keyword {
+            color: #666666;
+        }
+        &.operator {
+            color: #999999;
+        }
+        &.date.number ,.token.time.number ,.token.number {
+            color: #559bd6;
+            font-size: 12px;
+        }
     }
 `
 
@@ -174,30 +181,38 @@ const AppLog = () => {
                     position: 'relative',
                 }}
             >
-                {rowVirtualizer.getVirtualItems().map((virtualItem) => (
-                    <code className={`language-log`}
-                        key={virtualItem.key}
-                        data-index={virtualItem.index}
-                        ref={rowVirtualizer.measureElement}
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            transform: `translateY(${virtualItem.start}px)`,
-                            whiteSpace: 'pre-wrap',
-                            border: 'unset',
-                            borderRadius: 'unset',
-                            boxShadow: 'unset',
-                            padding: 'unset',
-                            background: 'unset',
-                            wordBreak: 'break-all'
-                        }}
-                    >
-                        <span
-                            dangerouslySetInnerHTML={{ __html: Prism.highlight(logs[virtualItem.index], Prism.languages.log, 'log') }} />
-                    </code>
-                ))}
+                {rowVirtualizer.getVirtualItems().map((virtualItem) => {
+                    const rowLog = logs[virtualItem.index];
+                    const rowHtml = Prism.highlight(rowLog, Prism.languages.log, 'log');
+                    // 根据class名字获取日志等级
+                    const isInfo = rowHtml.includes('class="token level info');
+                    const isWarning = rowHtml.includes('class="token level warning');
+                    const isError = rowHtml.includes('class="token level error');
+                    const logLevel = isError ? 'error' : (isWarning ? 'warning' : (isInfo ? 'info' : 'none'));
+                    return (
+                        <code className={`language-log ${logLevel}`}
+                            key={virtualItem.key}
+                            data-index={virtualItem.index}
+                            ref={rowVirtualizer.measureElement}
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                transform: `translateY(${virtualItem.start}px)`,
+                                whiteSpace: 'pre-wrap',
+                                border: 'unset',
+                                borderRadius: 'unset',
+                                boxShadow: 'unset',
+                                padding: 'unset',
+                                background: 'unset',
+                                wordBreak: 'break-all'
+                            }}
+                        >
+                            <span dangerouslySetInnerHTML={{ __html: Prism.highlight(logs[virtualItem.index], Prism.languages.log, 'log') }} />
+                        </code>
+                    )
+                })}
 
             </div>
         </LogContainer>
