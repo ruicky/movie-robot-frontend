@@ -70,7 +70,7 @@ const SubLogDialog = ({ open, handleClose, subId, title, selectTime = null, subT
             }
         })
     }, [getSubLogText, selectLogId]);
-    return (<Dialog
+    return <Dialog
         fullScreen
         open={Boolean(open)}
         onClose={handleClose}
@@ -103,8 +103,10 @@ const SubLogDialog = ({ open, handleClose, subId, title, selectTime = null, subT
                 </Select>
             </Toolbar>
         </AppBar>
-        <LogHighlight style={{ padding: "10px" }} logs={logText} ref={LogHighlightRef} />
-    </Dialog>)
+        <LogHighlight style={{
+            borderRadius: "0",
+        }} logs={logText} ref={LogHighlightRef} />
+    </Dialog>
 }
 
 export default SubLogDialog;

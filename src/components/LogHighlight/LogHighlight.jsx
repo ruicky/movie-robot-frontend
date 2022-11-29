@@ -33,7 +33,7 @@ function ScrollTop(props) {
  * 
  * @param {boolean} props.handleBeforeHighlight
  */
-function LogHighlight({ logs, handleBeforeHighlight = str => str, style }, ref) {
+function LogHighlight({ logs, handleBeforeHighlight = str => str, style, highlightLevelLine }, ref) {
     const logsArr = Array.isArray(logs) ? logs : logs.split('\n')
     const parentRef = useRef()
     const rowVirtualizer = useVirtualizer({
@@ -55,11 +55,13 @@ function LogHighlight({ logs, handleBeforeHighlight = str => str, style }, ref) 
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
-            height: 400
-        }} className="line-numbers">
+            height: 400,
+        }}>
             <LogContainer
+                highlightLevelLine={highlightLevelLine}
                 ref={parentRef}
                 style={{
+
                     ...style,
                 }}
             >

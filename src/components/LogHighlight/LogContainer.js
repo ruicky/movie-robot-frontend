@@ -22,8 +22,7 @@ const LogContainer = styled.div`
     flex: 1 0 auto;
     line-height: 1;
     background: rgb(23,23,23);
-    border-radius: 5px;
-    padding: 0px;
+    padding: 4px;
 
     // 移动端
     @media (max-width: 600px) {
@@ -38,8 +37,8 @@ const LogContainer = styled.div`
         font-size: 11px !important;
         line-height: 1.8 !important;
     }
-    .language-log {
-        color: #999999;
+    ${props => props.highlightLevelLine ? `.language-log {
+        text-shadow: none;
         &.error {
             color: #dc5229 !important;
             .token.date.number ,.token.time.number ,.token.number ,.token.string{
@@ -55,45 +54,49 @@ const LogContainer = styled.div`
                 color: #c7a24d;
             }
         }
-    }
+    }` : `
+        .language-log {
+            color: #999999;
+        }
+    `}
     .token {
         &.level.error.important {
-            color: #dc5229;
-        }
-        &.string {
-            color: #909e6a;    
-        }
-        &.warning {
-            color: #c7a24d;
-            font-weight: normal;
-        }
-        &.level.info.keyword {
-            color: #666666;
-            font-size: 11px !important;
-        }
-        &.property {
-            color: #999999;
-            font-weight: bold;
-        }
-        &.operator {
-            color: #999999;
-        }
-        &.date.number {
-            color: #4782b3;
-            font-size: 11px !important;
-        }
-        &.time.number {
-            color: #4782b3;
-            font-size: 11px !important;
-        }
-        &.number {
-            color: #4782b3;
-            font-size: 11px !important;
-        }
-        &.ip-address.constant {
-            color: #4782b3;
-            font-size: 11px !important;
-        }
+        color: #dc5229;
     }
+        &.string {
+        color: #909e6a;
+    }
+        &.warning {
+        color: #c7a24d;
+        font-weight: normal;
+    }
+        &.level.info.keyword {
+        color: #666666;
+        font-size: 11px!important;
+    }
+        &.property {
+        color: #999999;
+        font-weight: bold;
+    }
+        &.operator {
+        color: #999999;
+    }
+        &.date.number {
+        color: #4782b3;
+        font-size: 11px!important;
+    }
+        &.time.number {
+        color: #4782b3;
+        font-size: 11px!important;
+    }
+        &.number {
+        color: #4782b3;
+        font-size: 11px!important;
+    }
+        &.ip-address.constant {
+        color: #4782b3;
+        font-size: 11px!important;
+    }
+}
 `
 export default LogContainer;
