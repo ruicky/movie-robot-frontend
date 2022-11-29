@@ -23,11 +23,10 @@ const LogContainer = styled.div`
     line-height: 1;
     background: rgb(23,23,23);
     border-radius: 5px;
-    padding: 10px;
+    padding: 0px;
 
     // 移动端
     @media (max-width: 600px) {
-        padding: 0px;
         code {
             font-size: 10px !important;
         }
