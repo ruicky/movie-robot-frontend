@@ -25,6 +25,7 @@ const Field = ({smartForm, fieldName, fieldType, label, helperText, enumValues =
                 my={3}
                 value={smartForm.values[fieldName] ? smartForm.values[fieldName] : ""}
                 onChange={smartForm.handleChange}
+                multiline={true}
                 fullWidth
             />;
         case "Bool":
