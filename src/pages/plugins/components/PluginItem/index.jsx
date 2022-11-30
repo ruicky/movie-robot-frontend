@@ -61,7 +61,7 @@ export const PluginItem = ({
             }}>
                 <CardMedia
                     sx={{
-                        height: 235
+                        height: 180
                     }}
                     image={imageUrl}
                     alt="插件"
