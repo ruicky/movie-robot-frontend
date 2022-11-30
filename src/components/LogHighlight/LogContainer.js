@@ -16,7 +16,7 @@ const LogContainer = styled.div`
         border-radius: 5px;
         background: #00000096;
     }
-    height: 400px;
+    height: 200px;
     width: 100%;
     overflow-x: auto;
     flex: 1 0 auto;
