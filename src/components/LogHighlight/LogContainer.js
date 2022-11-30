@@ -22,7 +22,7 @@ const LogContainer = styled.div`
     flex: 1 0 auto;
     line-height: 1;
     background: rgb(23,23,23);
-    padding: 4px;
+    padding: 2px;
 
     // 移动端
     @media (max-width: 600px) {
@@ -39,6 +39,7 @@ const LogContainer = styled.div`
     }
     ${props => props.highlightLevelLine ? `.language-log {
         text-shadow: none;
+        color: #999999;
         &.error {
             color: #dc5229 !important;
             .token.date.number ,.token.time.number ,.token.number ,.token.string{
@@ -62,6 +63,12 @@ const LogContainer = styled.div`
     .token {
         &.level.error.important {
         color: #dc5229;
+    }
+        &.url {
+        color: #6e995c;    
+    }
+        &.domain.constant {
+        color: #6e995c;
     }
         &.string {
         color: #909e6a;
