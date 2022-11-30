@@ -33,8 +33,8 @@ const DailyRecommend = (data) => {
                     </Typography>
                     <Stack direction="row" divider={<Divider orientation="vertical" flexItem/>} spacing={1.5}
                            sx={{color: '#fff'}}>
-                        <span style={{minWidth: '39px'}}>{month}</span>
-                        <span  style={{minWidth: '40px'}}>{week}</span>
+                        <span style={{whiteSpace: 'nowrap'}}>{month}</span>
+                        <span style={{whiteSpace: 'nowrap'}}>{week}</span>
                     </Stack>
                     <Typography component="div" sx={{color: '#fff'}}>
                         {lunar_date}

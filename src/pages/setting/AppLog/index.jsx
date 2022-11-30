@@ -102,7 +102,9 @@ const AppLog = () => {
                     label="自动刷新" />
             </div>
         </Stack>
-        <LogHighlight ref={LogHighlightRef} logs={logs} />
+        <LogHighlight highlightLevelLine style={{
+            borderRadius: '5px'
+        }} ref={LogHighlightRef} logs={logs} />
     </Box>);
 }
 export default AppLog;
