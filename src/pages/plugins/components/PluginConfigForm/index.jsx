@@ -5,7 +5,9 @@ import {
     FormControlLabel,
     FormHelperText,
     Grid,
-    InputLabel, MenuItem, Select,
+    InputLabel,
+    MenuItem,
+    Select,
     TextField,
     Typography
 } from "@mui/material";
@@ -40,10 +42,10 @@ const Field = ({smartForm, fieldName, fieldType, label, helperText, enumValues =
                     <Autocomplete
                         multiple
                         getOptionLabel={(option) => option.name}
-                        value={enumValues.filter((item) => {
+                        value={enumValues ? enumValues.filter((item) => {
                             return (smartForm.values[fieldName] || []).includes(item.value);
-                        })}
-                        options={enumValues}
+                        }) : []}
+                        options={enumValues || []}
                         renderInput={(params) => <TextField {...params} placeholder={label}/>}
                         onChange={(e, val) => smartForm.setFieldValue(fieldName, val.map((item) => {
                             return item.value
