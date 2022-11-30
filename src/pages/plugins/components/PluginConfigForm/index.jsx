@@ -13,8 +13,9 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import {useEffect, useImperativeHandle} from "react";
+import {Autocomplete} from "@mui/lab";
 
-const Field = ({smartForm, fieldName, fieldType, label, helperText, enumValues = null}) => {
+const Field = ({smartForm, fieldName, fieldType, label, helperText, enumValues = null, multiValue = true}) => {
     switch (fieldType) {
         case "String":
             return <TextField
@@ -25,7 +26,7 @@ const Field = ({smartForm, fieldName, fieldType, label, helperText, enumValues =
                 my={3}
                 value={smartForm.values[fieldName] ? smartForm.values[fieldName] : ""}
                 onChange={smartForm.handleChange}
-                multiline={true}
+                multiline={multiValue}
                 fullWidth
             />;
         case "Bool":
@@ -33,23 +34,41 @@ const Field = ({smartForm, fieldName, fieldType, label, helperText, enumValues =
                 <FormControlLabel control={<Checkbox name={fieldName}
                                                      checked={smartForm.values[fieldName] ? smartForm.values[fieldName] : ""}
                                                      onChange={smartForm.handleChange}/>} label={label}/>
-                {helperText&&<FormHelperText>{helperText}</FormHelperText>}
+                {helperText && <FormHelperText>{helperText}</FormHelperText>}
             </FormControl>;
         case "Enum":
-            return <FormControl fullWidth>
-                <InputLabel id="select-label">{label}</InputLabel>
-                <Select
-                    name={fieldName}
-                    labelId="select-label"
-                    value={smartForm.values[fieldName] ? smartForm.values[fieldName] : ""}
-                    label={label}
-                    onChange={smartForm.handleChange}
-                >
-                    {enumValues && Object.keys(enumValues).map((key) => <MenuItem
-                        value={enumValues[key]}>{key}</MenuItem>)}
-                </Select>
-                {helperText&&<FormHelperText>{helperText}</FormHelperText>}
-            </FormControl>;
+            if (multiValue) {
+                return <FormControl fullWidth>
+                    <Autocomplete
+                        multiple
+                        getOptionLabel={(option) => option.name}
+                        value={enumValues ? enumValues.filter((item) => {
+                            return (smartForm.values[fieldName] || []).includes(item.value);
+                        }) : []}
+                        options={enumValues || []}
+                        renderInput={(params) => <TextField {...params} placeholder={label}/>}
+                        onChange={(e, val) => smartForm.setFieldValue(fieldName, val.map((item) => {
+                            return item.value
+                        }))}
+                    />
+                    {helperText && <FormHelperText>{helperText}</FormHelperText>}
+                </FormControl>;
+            } else {
+                return <FormControl fullWidth>
+                    <InputLabel id="select-label">{label}</InputLabel>
+                    <Select
+                        name={fieldName}
+                        labelId="select-label"
+                        value={smartForm.values[fieldName] ? smartForm.values[fieldName] : ""}
+                        label={label}
+                        onChange={smartForm.handleChange}
+                    >
+                        {enumValues && enumValues.map((item) => <MenuItem
+                            value={item.value}>{item.name}</MenuItem>)}
+                    </Select>
+                    {helperText && <FormHelperText>{helperText}</FormHelperText>}
+                </FormControl>;
+            }
         default:
             return <></>;
     }
@@ -77,7 +96,7 @@ export const PluginConfigForm = ({title, fields, formRef}) => {
                 {title}
             </Typography>
         </Grid>}
-        {fields && fields.map((item, index) => <Grid key={index} xs={12} item>
+        {fields && fields.map((item, index) => <Grid key={item.fieldName} xs={12} item>
             <Field
                 smartForm={smartForm}
                 fieldName={item.fieldName}
@@ -85,6 +104,7 @@ export const PluginConfigForm = ({title, fields, formRef}) => {
                 label={item.label}
                 helperText={item.helperText}
                 enumValues={item.enumValues}
+                multiValue={item.multiValue}
             />
         </Grid>)}
     </Grid>);

@@ -76,7 +76,8 @@ export const Command = () => {
                         helperText: f.helper,
                         defaultValue: f.default_value,
                         required: f.required,
-                        enumValues: f.enum_values
+                        enumValues: f.enum_values,
+                        multiValue:f.multi_value
                     }
                 }),
                 title: `运行${command.title}`
