@@ -104,6 +104,7 @@ const SubLogDialog = ({ open, handleClose, subId, title, selectTime = null, subT
             </Toolbar>
         </AppBar>
         <LogHighlight style={{
+            padding: 15,
             borderRadius: "0",
         }} logs={logText} ref={LogHighlightRef} />
     </Dialog>
