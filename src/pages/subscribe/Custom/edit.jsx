@@ -390,7 +390,6 @@ const EditCustomSub = () => {
         <Divider my={4}/>
         {remoteSubRule && <Alert severity="success" action={
             <VoteButtonGroup
-                color="inherit"
                 likeCount={remoteSubRule.like_count}
                 hateCount={remoteSubRule.hate_count}
                 liked={remoteSubRule.liked}

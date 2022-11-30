@@ -20,8 +20,10 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import {Command} from "@/pages/plugins/Command";
+import {DonateDialog} from "@/pages/plugins/components/DonateDialog";
+import {useRestartApp} from "@/api/CommonApi";
 
-const PluginList = ({data, setShowInstall, setShowUnInstall, setShowConfig}) => {
+const PluginList = ({data, setShowInstall, setShowUnInstall, setShowConfig, setShowDonate}) => {
     return <Grid spacing={4} container>
         {data && data.map((item) => (
             <Grid key={item.id} item md={6} lg={4} xl={4} sx={{width: '100%'}}>
@@ -34,6 +36,7 @@ const PluginList = ({data, setShowInstall, setShowUnInstall, setShowConfig}) => 
                     version={`v${item.localVersion ? item.localVersion : item.lastVersion}`}
                     githubUrl={item.githubUrl}
                     docUrl={item.helpDocUrl}
+                    payImageUrl={item.payImageUrl}
                     installed={item.installed}
                     hasNew={item.hasNew}
                     hasConfig={item.hasConfig}
@@ -59,6 +62,9 @@ const PluginList = ({data, setShowInstall, setShowUnInstall, setShowConfig}) => 
                         title: item.title,
                         configField: item.configField
                     })}
+                    onDonate={() => setShowDonate({
+                        payImageUrl: item.payImageUrl
+                    })}
                 />
             </Grid>))}
     </Grid>
@@ -71,12 +77,27 @@ const PluginsIndex = () => {
     const [showInstall, setShowInstall] = useState(null);
     const [showUnInstall, setShowUnInstall] = useState(null);
     const [showConfig, setShowConfig] = useState(null);
+    const [showDonate, setShowDonate] = useState(null);
     const {mutate: getVersionList} = useGetPluginsVersionList();
     const {mutate: installPlugin, isLoading: isInstall} = useInstallPlugin();
     const {mutate: upgradePlugin, isLoading: isUpgrade} = useUpgradePlugin();
     const {mutate: unInstallPlugin, isLoading: isUnInstall} = useUnInstallPlugin();
     const [currentTab, setCurrentTab] = useState('command');
-
+    const {mutateAsync: restartApp} = useRestartApp()
+    const onRestartApp = () => {
+        message.info("立即重新启动应用");
+        restartApp({secs: 0}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg);
+                    handleClose();
+                } else {
+                    message.error(msg)
+                }
+            }
+        })
+    }
     const handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);
     };
@@ -106,6 +127,7 @@ const PluginsIndex = () => {
                 if (remotePlugin) {
                     item['hasNew'] = remotePlugin['hasNew']
                     item['lastVersion'] = remotePlugin['lastVersion']
+                    item['payImageUrl'] = remotePlugin['payImageUrl']
                 }
                 item['checkNew'] = true
                 return item;
@@ -148,6 +170,11 @@ const PluginsIndex = () => {
                     refetch();
                     refetchInstalled();
                     setShowInstall(null);
+                    if (installed) {
+                        if (config.autoRestart) {
+                            onRestartApp();
+                        }
+                    }
                 } else {
                     message.error(msg);
                 }
@@ -208,6 +235,14 @@ const PluginsIndex = () => {
             pluginConfigField={showConfig?.configField}
             title={showConfig?.title ? `${showConfig.title}的设置` : "插件设置"}
             handleClose={() => setShowConfig(null)}
+            onSubmitSuccess={(plugin)=>{
+                refetchInstalled();
+            }}
+        />
+        <DonateDialog
+            open={Boolean(showDonate)}
+            payImageUrl={showDonate?.payImageUrl}
+            handleClose={() => setShowDonate(null)}
         />
         <TabContext value={currentTab}>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -222,11 +257,11 @@ const PluginsIndex = () => {
             </TabPanel>
             <TabPanel value="local" sx={{p: 0, pt: 3}}>
                 <PluginList data={installedPluginsList} setShowConfig={setShowConfig} setShowInstall={setShowInstall}
-                            setShowUnInstall={setShowUnInstall}/>
+                            setShowUnInstall={setShowUnInstall} setShowDonate={setShowDonate}/>
             </TabPanel>
             <TabPanel value="market" sx={{p: 0, pt: 3}}>
                 <PluginList data={marketPluginsList} setShowConfig={setShowConfig} setShowInstall={setShowInstall}
-                            setShowUnInstall={setShowUnInstall}/>
+                            setShowUnInstall={setShowUnInstall} setShowDonate={setShowDonate}/>
             </TabPanel>
         </TabContext>
     </>);

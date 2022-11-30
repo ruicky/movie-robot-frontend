@@ -49,7 +49,8 @@ const Card = styled.div`
 const CardHead = styled(MuiBox)({
     display: 'flex',
     justifyContent: 'space-between',
-    marginBottom: 20
+    marginBottom: 20,
+    color: '#fff',
 });
 
 const CardStatus = styled.div`

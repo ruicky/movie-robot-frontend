@@ -20,7 +20,8 @@ import List from "@mui/material/List";
 import {useNavigate} from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import {useGetLicenseDetail} from "@/api/AuthApi";
-
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import ArticleIcon from '@mui/icons-material/Article';
 function Setting() {
     const {user} = useAuth();
     const navigate = useNavigate();
@@ -86,6 +87,15 @@ function Setting() {
                                              src={user.avatar}>{user.nickname && user.nickname.substring(0, 1)}</Avatar>}
                         </ListItemIcon>
                         <ListItemText primary={remoteUser?.nickname} secondary={licenseMessage}/>
+                        <ArrowForwardIosOutlinedIcon color="disabled"/>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem>
+                    <ListItemButton onClick={() => navigate("/setting/app-log")}>
+                        <ListItemIcon>
+                            <ArticleIcon fontSize={"large"}/>
+                        </ListItemIcon>
+                        <ListItemText primary="应用运行日志"/>
                         <ArrowForwardIosOutlinedIcon color="disabled"/>
                     </ListItemButton>
                 </ListItem>

@@ -41,3 +41,17 @@ export const useGetDirs = () => {
             client("/api/common/get_dirs", {params: params, method: "GET"})
     );
 };
+
+export const useGetLogLines = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/common/get_log_lines", {params: params, method: "GET"})
+    );
+};
+export const useGetLogFiles = (param) => {
+    const client = useHttp();
+    return useQuery(['get_log_files', param], () =>
+        client("/api/common/get_log_files", {params: param})
+    );
+};

@@ -66,6 +66,8 @@ export default defineConfig(({ mode }) => {
     },
     plugins: plugins,
     server: {
+      host: '0.0.0.0',
+      public: 'http://localhost:3000',
       open: true,
       port: 3000,
       proxy: {

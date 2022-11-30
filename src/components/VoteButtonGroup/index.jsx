@@ -4,7 +4,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 
-export const VoteButtonGroup = ({liked, hated, likeCount, hateCount, onLike, onHate, color="secondary"}) => {
+export const VoteButtonGroup = ({liked, hated, likeCount, hateCount, onLike, onHate, color="primary"}) => {
     return <>
         <Tooltip title="赞一下">
             <IconButton onClick={() => onLike(liked)} disabled={hated} color={color}>

@@ -13,6 +13,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {useNavigate} from "react-router-dom";
 import LinesEllipsis from 'react-lines-ellipsis'
+import PaidIcon from '@mui/icons-material/Paid';
 
 const Flag = styled("div")`
     position: absolute;
@@ -42,10 +43,12 @@ export const PluginItem = ({
                                installed,
                                githubUrl,
                                docUrl,
+                               payImageUrl,
                                onInstall,
                                onUnInstall,
                                onUpgrade,
-                               onConfig
+                               onConfig,
+                               onDonate
                            }) => {
     const navigate = useNavigate();
     return (
@@ -84,7 +87,7 @@ export const PluginItem = ({
                             text={name}
                             maxLine={1}
                             style={{height: "24px"}}
-                        />    
+                        />
                     </Typography>}
                     {authorNickname && <Typography variant="body2" color="text.secondary">
                         由 {authorNickname} 开发
@@ -94,12 +97,17 @@ export const PluginItem = ({
                             text={desc}
                             maxLine={2}
                             style={{height: "48px"}}
-                        />  
+                        />
                     </Typography>}
                 </CardContent>
             </CardActionArea>
             <Box sx={{display: 'flex', marginTop: 'auto', p: 2}}>
                 <Box>
+                    {payImageUrl && <Tooltip title="打赏插件开发者">
+                        <IconButton onClick={onDonate}>
+                            <PaidIcon/>
+                        </IconButton>
+                    </Tooltip>}
                     {githubUrl && <Tooltip title="查看源代码">
                         <IconButton component="a" target="_blank" href={githubUrl}>
                             <GitHubIcon/>
