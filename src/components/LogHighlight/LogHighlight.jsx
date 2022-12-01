@@ -81,7 +81,12 @@ const BottomActionButtons = styled(ActionButtons)`
     grid-auto-flow: row;
 `
 
-function LogHighlight({ logs, handleBeforeHighlight = str => str, style = {}, highlightLevelLine }, ref) {
+function LogHighlight({
+    logs,
+    handleBeforeHighlight = str => str,
+    style = {}, highlightLevelLine,
+    showFullScreenButton = false
+}, ref) {
     const logsArr = Array.isArray(logs) ? logs : logs.split('\n')
     const parentRef = useRef(null)
     const fullScreenRef = useRef(null)
@@ -196,7 +201,7 @@ function LogHighlight({ logs, handleBeforeHighlight = str => str, style = {}, hi
                     })}
                 </div>
             </LogContainer>
-            <Fade in={!onScroll}>
+            {showFullScreenButton && <Fade in={!onScroll}>
                 <TopActionButtons>
                     {isFullscreen ?
                         <Fab size="small" onClick={() => exitFullscreen()}>
@@ -208,7 +213,7 @@ function LogHighlight({ logs, handleBeforeHighlight = str => str, style = {}, hi
                         </Fab>
                     }
                 </TopActionButtons>
-            </Fade>
+            </Fade>}
             <Fade in={!onScroll}>
                 <BottomActionButtons>
                     {!isTop && <Fab size="small" onClick={() => {

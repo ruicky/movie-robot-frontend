@@ -91,9 +91,13 @@ const AppLog = () => {
             </Stack>
         </Grid>
         <Divider mb={4} />
-        <LogHighlight highlightLevelLine style={{
-            borderRadius: '5px'
-        }} ref={LogHighlightRef} logs={logs} />
+        <LogHighlight
+            highlightLevelLine
+            showFullScreenButton
+            style={{ borderRadius: '5px' }}
+            ref={LogHighlightRef}
+            logs={logs}
+        />
     </Box >);
 }
 export default AppLog;
