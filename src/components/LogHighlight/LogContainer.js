@@ -9,20 +9,24 @@ const LogContainer = styled.div`
     &::-webkit-scrollbar-track {
         border-radius: 3px;
         background: rgba(158, 158, 158, 0.185);
-        box-shadow: inset 0 0 2px #000000;
+        box-shadow: inset 0 0 0px #000000;
     }
     /* 滚动条滑块 */
     &::-webkit-scrollbar-thumb {
         border-radius: 5px;
-        background: #00000096;
+        background: #ffffff80;
     }
-    height: 400px;
+    height: 200px;
     width: 100%;
     overflow-x: auto;
     flex: 1 0 auto;
     line-height: 1;
-    background: rgb(23,23,23);
-    padding: 4px;
+    background: rgba(18,18,18,0.9);
+    // padding: 4px;
+    padding-top: 8px;
+    padding-right: 4px;
+    padding-left: 8px;
+    padding-bottom: 8px;
 
     // 移动端
     @media (max-width: 600px) {
@@ -39,6 +43,7 @@ const LogContainer = styled.div`
     }
     ${props => props.highlightLevelLine ? `.language-log {
         text-shadow: none;
+        color: #999999;
         &.error {
             color: #dc5229 !important;
             .token.date.number ,.token.time.number ,.token.number ,.token.string{
@@ -62,6 +67,12 @@ const LogContainer = styled.div`
     .token {
         &.level.error.important {
         color: #dc5229;
+    }
+        &.url {
+        color: #6e995c;    
+    }
+        &.domain.constant {
+        color: #6e995c;
     }
         &.string {
         color: #909e6a;

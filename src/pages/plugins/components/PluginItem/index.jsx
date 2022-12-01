@@ -61,7 +61,7 @@ export const PluginItem = ({
             }}>
                 <CardMedia
                     sx={{
-                        height: 235
+                        height: 180
                     }}
                     image={imageUrl}
                     alt="插件"
@@ -96,7 +96,7 @@ export const PluginItem = ({
                         <LinesEllipsis
                             text={desc}
                             maxLine={2}
-                            style={{height: "48px"}}
+                            style={{height: "38px"}}
                         />
                     </Typography>}
                 </CardContent>
