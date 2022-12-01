@@ -89,7 +89,7 @@ const Dashboard = ({children}) => {
             <MultipleChoiceModal />
             <AppContent>
                 <Navbar onDrawerToggle={handleDrawerToggle}/>
-                <MainContent p={isLgUp ? 12 : 5}>
+                <MainContent pt={isLgUp ? 0 : 0} pl={isLgUp ? 6 : 5} pr={isLgUp ? 6 : 5} pb={isLgUp ? 3 : 3}>
                     {children}
                     <Outlet/>
                 </MainContent>
