@@ -56,39 +56,31 @@ const useScrollToEdgeHook = (
     return [isTop, isBottom, onScroll]
 }
 
-const TopActionButtons = styled.div`
+const ActionButtons = styled.div`
     position: absolute;
-    top: 16px;
-    right: 24px;
+    right: 16px;
     z-index: 1300;
     display: grid;
     gap: 12px;
-    grid-template-columns: auto;
     grid-auto-flow: column;
     .MuiButtonBase-root{
-        opacity: 0.6;
+        background-color: #aaa;
+        opacity: 0.88;
+        width: 32px;
+        height: 32px;
+        min-height: 32px;
     }
 `
 
-const BottomActionButtons = styled.div`
-    position: absolute;
+const TopActionButtons = styled(ActionButtons)`
+    top: 16px;
+`
+
+const BottomActionButtons = styled(ActionButtons)`
     bottom: 16px;
-    right: 24px;
-    z-index: 1300;
-    display: grid;
-    gap: 12px;
-    grid-template-columns: auto;
-    .MuiButtonBase-root{
-        opacity: 0.6;
-    }
+    grid-auto-flow: row;
 `
 
-
-/** 日志高亮组件
- * @param {Array | String} props.logs
- * 
- * @param {boolean} props.handleBeforeHighlight
- */
 function LogHighlight({ logs, handleBeforeHighlight = str => str, style = {}, highlightLevelLine }, ref) {
     const logsArr = Array.isArray(logs) ? logs : logs.split('\n')
     const parentRef = useRef(null)

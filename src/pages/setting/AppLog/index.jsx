@@ -10,11 +10,12 @@ import {
     Select,
     Stack,
     Switch,
-    Typography,
+    Typography, Divider as MuiDivider
 } from "@mui/material";
-
+import styled from "styled-components/macro";
 import { useInterval } from "@/hooks/useInterval";
 import LogHighlight from "@/components/LogHighlight/LogHighlight";
+import { spacing } from "@mui/system";
 
 
 const AppLog = () => {
@@ -66,7 +67,7 @@ const AppLog = () => {
         }
     }, [logFiles])
 
-
+    const Divider = styled(MuiDivider)(spacing);
     return (<Box display={"flex"} flexDirection={"column"} sx={{ width: '100%', height: '100%' }}>
         <Helmet title="应用运行日志" />
         <Grid container direction={{ xs: "column", sm: 'row', md: 'row' }} justifyContent="space-between" mb={{ xs: 2 }} >
@@ -89,6 +90,7 @@ const AppLog = () => {
                 <FormControlLabel control={<Switch size="small" checked={isAutoRefresh} onChange={(e) => setIsAutoRefresh(e.target.checked)} />} label="自动刷新" />
             </Stack>
         </Grid>
+        <Divider mb={4} />
         <LogHighlight highlightLevelLine style={{
             borderRadius: '5px'
         }} ref={LogHighlightRef} logs={logs} />
