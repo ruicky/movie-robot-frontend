@@ -9,20 +9,24 @@ const LogContainer = styled.div`
     &::-webkit-scrollbar-track {
         border-radius: 3px;
         background: rgba(158, 158, 158, 0.185);
-        box-shadow: inset 0 0 2px #000000;
+        box-shadow: inset 0 0 0px #000000;
     }
     /* 滚动条滑块 */
     &::-webkit-scrollbar-thumb {
         border-radius: 5px;
-        background: #00000096;
+        background: #ffffff80;
     }
     height: 200px;
     width: 100%;
     overflow-x: auto;
     flex: 1 0 auto;
     line-height: 1;
-    background: rgb(23,23,23);
-    padding: 2px;
+    background: rgba(18,18,18,0.9);
+    // padding: 4px;
+    padding-top: 8px;
+    padding-right: 4px;
+    padding-left: 8px;
+    padding-bottom: 8px;
 
     // 移动端
     @media (max-width: 600px) {
