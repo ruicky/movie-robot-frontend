@@ -3,26 +3,19 @@ import { useGetLogFiles, useGetLogLines } from "@/api/CommonApi";
 import { Helmet } from "react-helmet-async";
 import {
     Box,
-    Breadcrumbs,
-    Divider as MuiDivider,
+    Grid,
     FormControl,
     FormControlLabel,
-    Link,
     MenuItem,
     Select,
     Stack,
     Switch,
     Typography,
-    IconButton
 } from "@mui/material";
-import styled from "styled-components/macro";
-import { spacing } from "@mui/system";
-import { NavLink } from "react-router-dom";
+
 import { useInterval } from "@/hooks/useInterval";
 import LogHighlight from "@/components/LogHighlight/LogHighlight";
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
 
-const Divider = styled(MuiDivider)(spacing);
 
 const AppLog = () => {
     const LogHighlightRef = useRef(null);
@@ -51,7 +44,9 @@ const AppLog = () => {
 
     useEffect(() => {
         if (isAutoScroll && LogHighlightRef.current) {
-            LogHighlightRef.current.scrollToIndex(logs.length - 1)
+            LogHighlightRef.current.scrollToIndex(logs.length, {
+                smoothScroll: false,
+            })
             // 猜测是因为虚拟滚动高度计算未完成 导致滚动不到底部
             // 无法识别到计算完成的事件 暴力解决 1s 后再滚动一次
             setTimeout(() => {
@@ -74,37 +69,29 @@ const AppLog = () => {
 
     return (<Box display={"flex"} flexDirection={"column"} sx={{ width: '100%', height: '100%' }}>
         <Helmet title="应用运行日志" />
-        <Typography variant="h3" gutterBottom>
-            应用运行日志
-        </Typography>
-        <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} to="/setting/index">
-                应用设置
-            </Link>
-            <Typography>应用日志</Typography>
-        </Breadcrumbs>
-        <Divider mt={4} />
-        <Stack my={2} direction={'row'} spacing={{ xs: 0, sm: 2, md: 4 }}>
-            <FormControl xs="auto">
-                <Select
-                    size="small"
-                    value={selectLogFile || ""}
-                    onChange={(e) => setSelectLogFile(e.target.value)}
-                >
-                    {logFiles?.data && logFiles?.data.length > 0 && logFiles?.data.map((file, index) => (
-                        <MenuItem key={index} value={file}>{file}</MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-            <FormControlLabel control={<Switch size="small" checked={isAutoScroll} onChange={(e) => setIsAutoScroll(e.target.checked)} />} label="自动滚动" />
-            <FormControlLabel control={<Switch size="small" checked={isAutoRefresh} onChange={(e) => setIsAutoRefresh(e.target.checked)} />} label="自动刷新" />
-            <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => LogHighlightRef.current.fullScreen()}>
-                <FullscreenIcon />
-            </IconButton>
-        </Stack>
+        <Grid container direction={{ xs: "column", sm: 'row', md: 'row' }} justifyContent="space-between" mb={{ xs: 2 }} >
+            <Typography variant="h3" gutterBottom>
+                应用运行日志
+            </Typography>
+            <Stack my={2} direction={'row'} spacing={{ xs: 0, sm: 2, md: 4 }}>
+                <FormControl xs="auto">
+                    <Select
+                        size="small"
+                        value={selectLogFile || ""}
+                        onChange={(e) => setSelectLogFile(e.target.value)}
+                    >
+                        {logFiles?.data && logFiles?.data.length > 0 && logFiles?.data.map((file, index) => (
+                            <MenuItem key={index} value={file}>{file}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <FormControlLabel control={<Switch size="small" checked={isAutoScroll} onChange={(e) => setIsAutoScroll(e.target.checked)} />} label="自动滚动" />
+                <FormControlLabel control={<Switch size="small" checked={isAutoRefresh} onChange={(e) => setIsAutoRefresh(e.target.checked)} />} label="自动刷新" />
+            </Stack>
+        </Grid>
         <LogHighlight highlightLevelLine style={{
             borderRadius: '5px'
         }} ref={LogHighlightRef} logs={logs} />
-    </Box>);
+    </Box >);
 }
 export default AppLog;

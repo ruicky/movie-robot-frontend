@@ -1,26 +1,76 @@
-import React, { useRef, useState, useImperativeHandle } from 'react'
+import React, { useRef, useState, useImperativeHandle, useEffect, useCallback } from 'react'
 import LogContainer from './LogContainer'
 import { useVirtualizer } from '@tanstack/react-virtual';
 import Prism from "prismjs";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import 'prismjs/components/prism-log.min.js'
 import 'prismjs/themes/prism-twilight.min.css';
-import { Fade, Fab } from "@mui/material";
+import { Fab, Fade } from "@mui/material";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import styled from "styled-components/macro";
+import useThrottleFn from "@/hooks/useThrottleFn";
+import useDebounceFn from "@/hooks/useDebounceFn";
+
 Prism.languages.log.reason = {
-	// Single-quoted strings must not be confused with plain text. E.g. Can't isn't Susan's Chris' toy
-	pattern: /不包含设定的关键字\(.+\)|解析到的分辨率|不符合设定标准|不符合预期|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
-	greedy: true
+    pattern: /不包含设定的关键字\(.+\)|解析到的分辨率|不符合设定标准|不符合预期|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
+    greedy: true
 }
 Prism.languages.log.site = {
-	pattern: /ssd|acgrip|audiences|beitai|btschool|chdbits|discfan|eastgame|exoticaz|filelist|gainbound|hares|hd4fans|hdarea|hdatmos|hdchina|hddolby|hdfans|hdhome|hdsky|hdtime|hdzone|iptorrents|joyhd|keepfrds|lemonhd|mikanani|mteam|nailuo|ourbits|pterclub|pthome|ptmsg|ptsbao|pttime|putao|rarbg|soulvoice|springsunday|tccf|tjupt|totheglory|U2/,
-	greedy: true
+    pattern: /ttg|HDHome|ssd|acgrip|audiences|beitai|btschool|chdbits|discfan|eastgame|exoticaz|filelist|gainbound|hares|hd4fans|hdarea|hdatmos|hdchina|hddolby|hdfans|hdhome|hdsky|hdtime|hdzone|iptorrents|joyhd|keepfrds|lemonhd|mikanani|mteam|nailuo|ourbits|pterclub|pthome|ptmsg|ptsbao|pttime|putao|rarbg|soulvoice|springsunday|tccf|tjupt|totheglory|U2/,
+    greedy: true
 }
 
-const ActionButtons = styled.div`
+// 判断滚动条是否在边缘
+const useScrollToEdgeHook = (
+    listDomRef,
+    reactionDistance = 0
+) => {
+    const [isTop, setIsTop] = useState(false)
+    const [isBottom, setIsBottom] = useState(false)
+    const [onScroll, setOnScroll] = useState(false)
+    const currentDom = listDomRef.current
+    const handleScrollEnd = useDebounceFn(() => {
+        setOnScroll(false)
+    }, 300)
+    const handleScrollToEdge = useThrottleFn((e) => {
+        if (e.target) {
+            const { scrollTop, scrollHeight, offsetHeight } = e.target
+            setIsTop(scrollTop <= reactionDistance)
+            setIsBottom(scrollHeight - scrollTop - offsetHeight <= reactionDistance)
+        }
+    }, 300)
+    const handleScroll = useCallback((e) => {
+        setOnScroll(true)
+        handleScrollToEdge(e)
+        handleScrollEnd()
+    }, [handleScrollEnd, handleScrollToEdge])
+    useEffect(() => {
+        currentDom?.addEventListener('scroll', handleScroll)
+        return () => {
+            currentDom?.removeEventListener('scroll', handleScroll)
+        }
+    }, [reactionDistance, listDomRef, currentDom, handleScroll])
+    return [isTop, isBottom, onScroll]
+}
+
+const TopActionButtons = styled.div`
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    z-index: 1300;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: auto;
+    grid-auto-flow: column;
+    .MuiButtonBase-root{
+        opacity: 0.6;
+    }
+`
+
+const BottomActionButtons = styled.div`
     position: absolute;
     bottom: 16px;
     right: 24px;
@@ -28,7 +78,9 @@ const ActionButtons = styled.div`
     display: grid;
     gap: 12px;
     grid-template-columns: auto;
-    grid-auto-flow: column;
+    .MuiButtonBase-root{
+        opacity: 0.6;
+    }
 `
 
 
@@ -37,19 +89,20 @@ const ActionButtons = styled.div`
  * 
  * @param {boolean} props.handleBeforeHighlight
  */
-function LogHighlight({ logs, handleBeforeHighlight = str => str, style, highlightLevelLine }, ref) {
+function LogHighlight({ logs, handleBeforeHighlight = str => str, style = {}, highlightLevelLine }, ref) {
     const logsArr = Array.isArray(logs) ? logs : logs.split('\n')
     const parentRef = useRef(null)
     const fullScreenRef = useRef(null)
     const rowVirtualizer = useVirtualizer({
         count: logsArr.length,
         getScrollElement: () => parentRef.current,
-        estimateSize: () => 100,
-        paddingEnd: 50,
-        overscan: 5,
+        estimateSize: () => 50,
+        paddingEnd: 20,
+        overscan: 10,
     })
     const [isFakeFullscreen, setIsFakeFullscreen] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isTop, isBottom, onScroll] = useScrollToEdgeHook(parentRef, 100)
     const fullScreenStyle = {
         position: 'fixed',
         top: 0,
@@ -77,11 +130,6 @@ function LogHighlight({ logs, handleBeforeHighlight = str => str, style, highlig
         }
         setIsFullscreen(false);
     }
-    const trigger = useScrollTrigger({
-        target: parentRef.current || undefined,
-        disableHysteresis: true,
-        threshold: 100,
-    });
     useImperativeHandle(ref, () => (
         {
             scrollToIndex: rowVirtualizer.scrollToIndex,
@@ -156,21 +204,36 @@ function LogHighlight({ logs, handleBeforeHighlight = str => str, style, highlig
                     })}
                 </div>
             </LogContainer>
-
-            <Fade in={trigger}>
-                <ActionButtons>
-                    {isFullscreen &&
+            <Fade in={!onScroll}>
+                <TopActionButtons>
+                    {isFullscreen ?
                         <Fab size="small" onClick={() => exitFullscreen()}>
                             <FullscreenExitIcon />
                         </Fab>
+                        :
+                        <Fab size="small" onClick={() => fullScreen(fullScreenRef.current)}>
+                            <FullscreenIcon />
+                        </Fab>
                     }
-                    <Fab size="small" onClick={() => {
-                        rowVirtualizer.scrollToIndex(0)
+                </TopActionButtons>
+            </Fade>
+            <Fade in={!onScroll}>
+                <BottomActionButtons>
+                    {!isTop && <Fab size="small" onClick={() => {
+                        rowVirtualizer.scrollToIndex(0, {
+                            smoothScroll: true
+                        })
                     }}>
                         <KeyboardArrowUpIcon />
-                    </Fab>
-
-                </ActionButtons>
+                    </Fab>}
+                    {!isBottom && <Fab size="small" onClick={() => {
+                        rowVirtualizer.scrollToIndex(logsArr.length, {
+                            smoothScroll: true
+                        })
+                    }}>
+                        <KeyboardArrowDownIcon />
+                    </Fab>}
+                </BottomActionButtons>
             </Fade>
         </div>
     )
