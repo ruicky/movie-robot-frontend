@@ -90,7 +90,7 @@ const AppLog = () => {
                 <FormControlLabel control={<Switch size="small" checked={isAutoRefresh} onChange={(e) => setIsAutoRefresh(e.target.checked)} />} label="自动刷新" />
             </Stack>
         </Grid>
-        <Divider mb={2} />
+        <Divider mb={3} />
         <LogHighlight
             highlightLevelLine
             showFullScreenButton
