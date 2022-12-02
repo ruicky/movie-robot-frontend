@@ -319,7 +319,7 @@ function EditUser({}) {
                                 <MenuItem key={row.user} value={row.user}>{row.user}</MenuItem>
                             ))}
                         </Select>
-                        <FormHelperText>在企业微信的应用中发送"绑定用户"后，可以回来选择绑定（可留空）</FormHelperText>
+                        <FormHelperText>在企业微信的应用中发送"绑定用户"后，可以回来选择绑定（可留空）；再次发送"解除绑定"，可以解绑</FormHelperText>
                     </FormControl>
                     <TextField
                         type="text"

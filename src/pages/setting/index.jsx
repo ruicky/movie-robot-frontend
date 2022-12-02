@@ -90,15 +90,6 @@ function Setting() {
                         <ArrowForwardIosOutlinedIcon color="disabled"/>
                     </ListItemButton>
                 </ListItem>
-                <ListItem>
-                    <ListItemButton onClick={() => navigate("/setting/app-log")}>
-                        <ListItemIcon>
-                            <ArticleIcon fontSize={"large"}/>
-                        </ListItemIcon>
-                        <ListItemText primary="应用运行日志"/>
-                        <ArrowForwardIosOutlinedIcon color="disabled"/>
-                    </ListItemButton>
-                </ListItem>
             </List>
             <MediaServerSettingList/>
             <DownloadClientSettingList/>
