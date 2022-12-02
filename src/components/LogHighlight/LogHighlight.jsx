@@ -58,17 +58,27 @@ const useScrollToEdgeHook = (
 
 const ActionButtons = styled.div`
     position: absolute;
-    right: 16px;
+    right: 18px;
     z-index: 1300;
     display: grid;
     gap: 12px;
     grid-auto-flow: column;
     .MuiButtonBase-root{
-        background-color: #aaa;
-        opacity: 0.88;
+        background-color: #949599;
+        opacity: 0.97;
         width: 32px;
         height: 32px;
         min-height: 32px;
+        box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    // 按钮悬停高亮
+    .MuiButtonBase-root:hover{
+        background-color: rgba(217, 220, 229, 0.96);
+    }
+    // 移动端日志悬浮按钮
+    @media (max-width: 600px) {
+        right: 8px;
     }
 `
 
