@@ -63,6 +63,14 @@ const LogContainer = styled.div`
         .language-log {
             color: #999999;
         }
+        .token.reason {
+            color: #6e995c;
+        }
+        .token.site {
+            color: #999999;
+            font-weight: bold;
+        }
+
     `}
     .token {
         &.level.error.important {
@@ -83,7 +91,7 @@ const LogContainer = styled.div`
     }
         &.level.info.keyword {
         color: #666666;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
         &.property {
         color: #999999;
@@ -94,19 +102,19 @@ const LogContainer = styled.div`
     }
         &.date.number {
         color: #4782b3;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
         &.time.number {
         color: #4782b3;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
         &.number {
         color: #4782b3;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
         &.ip-address.constant {
         color: #4782b3;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
 }
 `
