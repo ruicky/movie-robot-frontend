@@ -130,7 +130,7 @@ export default function DownloadRecords() {
                     </Stack>
                 </Grid>
             </Grid>
-            <Divider my={4}/>
+            <Divider mt={0} mb={4}/>
             <Backdrop
                 sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
                 open={isLoading}
