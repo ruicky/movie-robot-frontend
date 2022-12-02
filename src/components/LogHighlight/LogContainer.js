@@ -7,7 +7,7 @@ const LogContainer = styled.div`
         height: 8px;
     }
     &::-webkit-scrollbar-track {
-        border-radius: 3px;
+        border-radius: 5px;
         background: rgba(158, 158, 158, 0.185);
         box-shadow: inset 0 0 0px #000000;
     }
@@ -27,6 +27,7 @@ const LogContainer = styled.div`
     padding-right: 4px;
     padding-left: 8px;
     padding-bottom: 8px;
+    // border: 1px solid rgba(255, 255, 255, 0.04);
 
     // 移动端
     @media (max-width: 600px) {
