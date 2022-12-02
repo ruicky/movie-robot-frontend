@@ -77,6 +77,9 @@ const LogContainer = styled.div`
         &.level.error.important {
         color: #dc5229;
     }
+        &.hash.constant {
+        color: #6e995c;    
+    }
         &.url {
         color: #6e995c;    
     }
