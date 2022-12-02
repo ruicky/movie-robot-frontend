@@ -70,7 +70,7 @@ const AppLog = () => {
     const Divider = styled(MuiDivider)(spacing);
     return (<Box display={"flex"} flexDirection={"column"} sx={{ width: '100%', height: '100%' }}>
         <Helmet title="应用运行日志" />
-        <Grid container direction={{ xs: "column", sm: 'row', md: 'row' }} justifyContent="space-between" mb={{ xs: 2 }} >
+        <Grid container direction={{ xs: "column", sm: 'row', md: 'row' }} justifyContent="space-between" mb={{ xs: 0 }} >
             <Typography variant="h3" gutterBottom>
                 应用运行日志
             </Typography>
@@ -90,7 +90,7 @@ const AppLog = () => {
                 <FormControlLabel control={<Switch size="small" checked={isAutoRefresh} onChange={(e) => setIsAutoRefresh(e.target.checked)} />} label="自动刷新" />
             </Stack>
         </Grid>
-        <Divider mb={4} />
+        <Divider mb={3} />
         <LogHighlight
             highlightLevelLine
             showFullScreenButton

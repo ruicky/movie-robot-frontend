@@ -15,7 +15,7 @@ import useThrottleFn from "@/hooks/useThrottleFn";
 import useDebounceFn from "@/hooks/useDebounceFn";
 
 Prism.languages.log.reason = {
-    pattern: /不包含设定的关键字\(.+\)|解析到的分辨率|不符合设定标准|不符合预期|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
+    pattern: /过滤前.+个 过滤后.+|不包含设定的关键字\(.+\)|解析到的分辨率|不符合设定标准|不符合预期|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
     greedy: true
 }
 Prism.languages.log.site = {
@@ -58,17 +58,27 @@ const useScrollToEdgeHook = (
 
 const ActionButtons = styled.div`
     position: absolute;
-    right: 16px;
+    right: 18px;
     z-index: 1300;
     display: grid;
     gap: 12px;
     grid-auto-flow: column;
     .MuiButtonBase-root{
-        background-color: #aaa;
-        opacity: 0.88;
+        background-color: #949599;
+        opacity: 0.97;
         width: 32px;
         height: 32px;
         min-height: 32px;
+        box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    // 按钮悬停高亮
+    .MuiButtonBase-root:hover{
+        background-color: rgba(217, 220, 229, 0.96);
+    }
+    // 移动端日志悬浮按钮
+    @media (max-width: 600px) {
+        right: 8px;
     }
 `
 
