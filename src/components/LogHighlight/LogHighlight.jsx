@@ -15,7 +15,7 @@ import useThrottleFn from "@/hooks/useThrottleFn";
 import useDebounceFn from "@/hooks/useDebounceFn";
 
 Prism.languages.log.reason = {
-    pattern: /过滤前.+个 过滤后.+|不包含设定的关键字\(.+\)|解析到的分辨率|不符合设定标准|不符合预期|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
+    pattern: /自动解析后.+不符合正确片名.+|过滤前.+过滤后.+|不包含设定的关键字\(.+\)|解析到的分辨率|不符合设定标准|不符合预期|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
     greedy: true
 }
 Prism.languages.log.site = {
