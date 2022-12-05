@@ -15,11 +15,15 @@ import useThrottleFn from "@/hooks/useThrottleFn";
 import useDebounceFn from "@/hooks/useDebounceFn";
 
 Prism.languages.log.reason = {
-    pattern: /自动解析后.+不符合正确片名.+|过滤前.+过滤后.+|不包含设定的关键字\(.+\)|解析到的分辨率|不符合设定标准|不符合预期|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
+    pattern: /Plex Sort Out|Success!|解析到的.+不符合.+|自动解析后.+不符合.+|过滤前.+过滤后.+|不包含设定的关键字\(.+\)|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
     greedy: true
 }
 Prism.languages.log.site = {
     pattern: /ttg|HDHome|ssd|acgrip|audiences|beitai|btschool|chdbits|discfan|eastgame|exoticaz|filelist|gainbound|hares|hd4fans|hdarea|hdatmos|hdchina|hddolby|hdfans|hdhome|hdsky|hdtime|hdzone|iptorrents|joyhd|keepfrds|lemonhd|mikanani|mteam|nailuo|ourbits|pterclub|pthome|ptmsg|ptsbao|pttime|putao|rarbg|soulvoice|springsunday|tccf|tjupt|totheglory|U2/,
+    greedy: true
+}
+Prism.languages.log.special = {
+    pattern: /timed out|All.+failed|Connect.+failed|Cannot.+|Errno \d+|No such process/,
     greedy: true
 }
 

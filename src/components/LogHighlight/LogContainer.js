@@ -61,12 +61,13 @@ const LogContainer = styled.div`
             }
         }
     }` : `
+        // 全息日志自立为王
         .language-log {
             color: #999999;
         }
-        .token.reason {
-            color: #6e995c;
-        }
+        // .token.reason {
+        //     color: #6e995c;
+        // }
         .token.site {
             color: #999999;
             font-weight: bold;
@@ -83,12 +84,19 @@ const LogContainer = styled.div`
         &.url {
         color: #6e995c;    
     }
+        &.reason {
+        color: #6e995c;    
+    }
         &.domain.constant {
         color: #6e995c;
     }
         &.string {
         color: #909e6a;
     }
+    //     &.site {
+    //     color: #999999;
+    //     font-weight: bold;
+    // }
         &.warning {
         color: #c7a24d;
         font-weight: normal;
@@ -98,8 +106,12 @@ const LogContainer = styled.div`
         font-size: 11px !important;
     }
         &.property {
-        color: #999999;
-        font-weight: bold;
+        color: #dc5229;
+        // font-weight: bold;
+    }
+        &.special {
+        color: #dc5229;
+        // font-weight: bold;
     }
         &.operator {
         color: #999999;
