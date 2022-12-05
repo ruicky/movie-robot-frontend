@@ -15,7 +15,7 @@ import useThrottleFn from "@/hooks/useThrottleFn";
 import useDebounceFn from "@/hooks/useDebounceFn";
 
 Prism.languages.log.reason = {
-    pattern: /Plex Sort Out|Success!|解析到的.+不符合.+|自动解析后.+不符合.+|过滤前.+过滤后.+|不包含设定的关键字\(.+\)|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
+    pattern: /影视类型不等于.+|解析到的.+不符合.+|自动解析后.+不符合.+|过滤前.+过滤后.+|不包含设定的关键字\(.+\)|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
     greedy: true
 }
 Prism.languages.log.site = {
@@ -23,7 +23,7 @@ Prism.languages.log.site = {
     greedy: true
 }
 Prism.languages.log.special = {
-    pattern: /timed out|All.+failed|Connect.+failed|Cannot.+|Errno \d+|No such process/,
+    pattern: /Plex Sort Out|Success!|timed out|All.+failed|Connect.+failed|Cannot.+|Errno \d+|No such process/,
     greedy: true
 }
 
