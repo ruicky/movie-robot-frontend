@@ -88,11 +88,18 @@ const ActionButtons = styled.div`
 
 const TopActionButtons = styled(ActionButtons)`
     top: 16px;
+    ${(props) => props.theme.breakpoints.down("sm")} {
+        right: ${(props) => props.isFullscreen ? '12px' : '8px'};
+    }
 `
 
 const BottomActionButtons = styled(ActionButtons)`
     bottom: 16px;
     grid-auto-flow: row;
+    ${(props) => props.theme.breakpoints.down("sm")} {
+        bottom: ${(props) => props.isFullscreen ? '40px' : '16px'};
+        right: ${(props) => props.isFullscreen ? '12px' : '8px'};
+    }
 `
 
 function LogHighlight({
@@ -216,7 +223,7 @@ function LogHighlight({
                 </div>
             </LogContainer>
             {showFullScreenButton && <Fade in={!onScroll}>
-                <TopActionButtons>
+                <TopActionButtons isFullscreen={isFullscreen}>
                     {isFullscreen ?
                         <Fab size="small" onClick={() => exitFullscreen()}>
                             <FullscreenExitIcon />
@@ -229,7 +236,7 @@ function LogHighlight({
                 </TopActionButtons>
             </Fade>}
             <Fade in={!onScroll}>
-                <BottomActionButtons>
+                <BottomActionButtons isFullscreen={isFullscreen}>
                     {!isTop && <Fab size="small" onClick={() => {
                         rowVirtualizer.scrollToIndex(0, {
                             smoothScroll: true
