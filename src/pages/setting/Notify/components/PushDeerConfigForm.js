@@ -4,7 +4,7 @@ import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
 
-import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, TextField as MuiTextField} from "@mui/material";
+import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, Stack, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 
 const Alert = styled(MuiAlert)(spacing);
@@ -14,13 +14,13 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-function PushDeerConfigForm({data, onSubmitEvent, onTestEvent}) {
+function PushDeerConfigForm({data, onSubmitEvent, onTestEvent, onDelete}) {
     const navigate = useNavigate();
     const [opType, setOpType] = useState('save')
     const [message, setMessage] = useState();
     const formik = useFormik({
         initialValues: {
-            name:'',
+            name: '',
             api: 'https://api2.pushdeer.com/message/push',
             pushkey: '',
             enable: true
@@ -111,7 +111,7 @@ function PushDeerConfigForm({data, onSubmitEvent, onTestEvent}) {
             />}
             label="启用这个通知（启用多个将推多个）"
         />
-        <Centered>
+        <Stack direction={"row"} justifyContent={"center"} spacing={2}>
             <Button sx={{mr: 2}}
                     size="medium"
                     type="submit"
@@ -133,7 +133,15 @@ function PushDeerConfigForm({data, onSubmitEvent, onTestEvent}) {
             >
                 保存设置
             </Button>
-        </Centered>
+            {data ? <Button
+                size="medium"
+                variant="contained"
+                color="error"
+                onClick={onDelete}
+            >
+                {"删除"}
+            </Button> : null}
+        </Stack>
 
     </form>);
 }

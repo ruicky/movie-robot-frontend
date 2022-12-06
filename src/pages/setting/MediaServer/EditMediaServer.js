@@ -79,7 +79,7 @@ function MediaServerConfigForm({type, name}) {
         }
     });
     const onDelete = (type) => {
-        deleteMediaServer({type}, {
+        deleteMediaServer({type,name}, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -245,7 +245,7 @@ function MediaServerConfigForm({type, name}) {
                     variant="contained"
                     color="error"
                     fullWidth
-                    onClick={() => onDelete(type)}
+                    onClick={() => onDelete(type,name)}
                 >
                     {"删除"}
                 </Button> : null}

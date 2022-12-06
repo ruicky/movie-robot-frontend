@@ -14,13 +14,13 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-function TelegramConfigForm({data, onSubmitEvent, onTestEvent}) {
+function TelegramConfigForm({data, onSubmitEvent, onTestEvent, onDelete}) {
     const navigate = useNavigate();
     const [opType, setOpType] = useState('save')
     const [message, setMessage] = useState();
     const formik = useFormik({
         initialValues: {
-            name:'',
+            name: '',
             server_url: 'https://api.telegram.org',
             token: '',
             user_id: '',
@@ -166,6 +166,14 @@ function TelegramConfigForm({data, onSubmitEvent, onTestEvent}) {
             >
                 保存设置
             </Button>
+            {data ? <Button
+                size="medium"
+                variant="contained"
+                color="error"
+                onClick={onDelete}
+            >
+                {"删除"}
+            </Button> : null}
         </Centered>
 
     </form>);

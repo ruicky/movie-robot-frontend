@@ -5,7 +5,7 @@ import {Breadcrumbs, Divider as MuiDivider, Link, Typography} from "@mui/materia
 import styled from "styled-components/macro";
 import {spacing} from "@mui/system";
 import message from "@/utils/message";
-import {useGetNotifySetting, useSaveNotify, useTestNotify} from "@/api/SettingApi";
+import {useDeleteNotify, useGetNotifySetting, useSaveNotify, useTestNotify} from "@/api/SettingApi";
 import BarkConfigForm from "@/pages/setting/Notify/components/BarkConfigForm";
 import PushDeerConfigForm from "@/pages/setting/Notify/components/PushDeerConfigForm";
 import QywxConfigForm from "@/pages/setting/Notify/components/QywxConfigForm";
@@ -27,6 +27,7 @@ const EditNotify = () => {
     const {data: notifySetting, isLoading} = useGetNotifySetting();
     const {mutateAsync: save, isSaving} = useSaveNotify();
     const {mutateAsync: test, isTesting} = useTestNotify();
+    const {mutateAsync: deleteNotify, isDeleting} = useDeleteNotify();
     const [title, setTitle] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
     const [config, setConfig] = useState()
@@ -51,6 +52,19 @@ const EditNotify = () => {
                 const {code, message: msg, data} = res;
                 if (code === 0) {
                     message.success(msg);
+                } else {
+                    message.error(msg);
+                }
+            }
+        });
+    }
+    const onDelete = (name, type) => {
+        deleteNotify({name, type}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success(msg);
+                    navigate("/setting/index");
                 } else {
                     message.error(msg);
                 }
@@ -84,15 +98,19 @@ const EditNotify = () => {
         </Breadcrumbs>
         <Divider my={6}/>
         {searchParams.get("type") === 'qywx' &&
-        <QywxConfigForm data={config} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
+        <QywxConfigForm data={config} onSubmitEvent={onSubmit} onTestEvent={onTest}
+                        onDelete={() => onDelete(searchParams.get("name"), searchParams.get("type"))}/>}
         {searchParams.get("type") === 'bark' &&
-        <BarkConfigForm data={config} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
+        <BarkConfigForm data={config} onSubmitEvent={onSubmit} onTestEvent={onTest}
+                        onDelete={() => onDelete(searchParams.get("name"), searchParams.get("type"))}/>}
         {searchParams.get("type") === 'pushdeer' &&
         <PushDeerConfigForm data={config} onSubmitEvent={onSubmit}
-                            onTestEvent={onTest}/>}
+                            onTestEvent={onTest}
+                            onDelete={() => onDelete(searchParams.get("name"), searchParams.get("type"))}/>}
         {searchParams.get("type") === 'telegram' &&
         <TelegramConfigForm data={config} onSubmitEvent={onSubmit}
-                            onTestEvent={onTest}/>}
+                            onTestEvent={onTest}
+                            onDelete={() => onDelete(searchParams.get("name"), searchParams.get("type"))}/>}
     </React.Fragment>);
 }
 export default EditNotify;

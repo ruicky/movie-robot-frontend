@@ -111,6 +111,13 @@ export const useTestNotify = (param) => {
             client("/api/setting/test_notify", {params: params, method: "POST"})
     );
 };
+export const useDeleteNotify = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/setting/delete_notify", {params: params, method: "GET"})
+    );
+};
 export const useSetFreeDownloadEnable = (param) => {
     const client = useHttp();
     return useMutation(

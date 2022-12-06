@@ -4,7 +4,7 @@ import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
 
-import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, TextField as MuiTextField} from "@mui/material";
+import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, Stack, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 
 const Alert = styled(MuiAlert)(spacing);
@@ -14,13 +14,13 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
+function BarkConfigForm({data, onSubmitEvent, onTestEvent, onDelete}) {
     const navigate = useNavigate();
     const [opType, setOpType] = useState('save')
     const [message, setMessage] = useState();
     const formik = useFormik({
         initialValues: {
-            name:'',
+            name: '',
             push_url: '',
             sound: 'chime',
             group: '电影机器人',
@@ -141,7 +141,7 @@ function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
             />}
             label="启用这个通知（启用多个将推多个）"
         />
-        <Centered>
+        <Stack direction={"row"} justifyContent={"center"} spacing={2}>
             <Button sx={{mr: 2}}
                     size="medium"
                     type="submit"
@@ -164,7 +164,15 @@ function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
             >
                 保存设置
             </Button>
-        </Centered>
+            {data ? <Button
+                size="medium"
+                variant="contained"
+                color="error"
+                onClick={onDelete}
+            >
+                {"删除"}
+            </Button> : null}
+        </Stack>
 
     </form>);
 }

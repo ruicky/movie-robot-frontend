@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
 
-import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, TextField as MuiTextField} from "@mui/material";
+import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, Stack, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 
 const Alert = styled(MuiAlert)(spacing);
@@ -13,7 +13,7 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
+function QywxConfigForm({data, onSubmitEvent, onTestEvent,onDelete}) {
     const [opType, setOpType] = useState('save')
     const [message, setMessage] = useState();
     const formik = useFormik({
@@ -186,8 +186,8 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             />}
             label="启用这个通知（启用多个将推多个）"
         />
-        <Centered>
-            <Button sx={{mr: 2}}
+        <Stack direction={"row"} justifyContent={"center"} spacing={2}>
+            <Button
                     size="medium"
                     type="submit"
                     variant="contained"
@@ -198,7 +198,6 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
                 推送一条消息测试
             </Button>
             <Button
-                mr={2}
                 size="medium"
                 type="submit"
                 variant="contained"
@@ -208,7 +207,15 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             >
                 保存设置
             </Button>
-        </Centered>
+            {data ? <Button
+                size="medium"
+                variant="contained"
+                color="error"
+                onClick={onDelete}
+            >
+                {"删除"}
+            </Button> : null}
+        </Stack>
 
     </form>);
 }
