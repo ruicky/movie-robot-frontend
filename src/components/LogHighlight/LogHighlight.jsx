@@ -15,11 +15,15 @@ import useThrottleFn from "@/hooks/useThrottleFn";
 import useDebounceFn from "@/hooks/useDebounceFn";
 
 Prism.languages.log.reason = {
-    pattern: /过滤前.+个 过滤后.+|不包含设定的关键字\(.+\)|解析到的分辨率|不符合设定标准|不符合预期|与设定站点不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到中文字幕描述|已经提交下载/,
+    pattern: /(是个)?\s*全集种子.+需要预分析可靠性.+|影视类型不等于.+|(解析到的.+)?\s*不符合.+|自动解析后.+不符合.+|解析.+不符合.+|过滤前.+过滤后.+|不包含设定的关键字\(.+\)|与.+不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到.+描述|已经提交下载|Plex Sort Out|Success!/,
     greedy: true
 }
 Prism.languages.log.site = {
     pattern: /ttg|HDHome|ssd|acgrip|audiences|beitai|btschool|chdbits|discfan|eastgame|exoticaz|filelist|gainbound|hares|hd4fans|hdarea|hdatmos|hdchina|hddolby|hdfans|hdhome|hdsky|hdtime|hdzone|iptorrents|joyhd|keepfrds|lemonhd|mikanani|mteam|nailuo|ourbits|pterclub|pthome|ptmsg|ptsbao|pttime|putao|rarbg|soulvoice|springsunday|tccf|tjupt|totheglory|U2/,
+    greedy: true
+}
+Prism.languages.log.special = {
+    pattern: /timed out|All.+failed|Connect.+failed|Cannot.+|Errno \d+|No such process/,
     greedy: true
 }
 
@@ -84,11 +88,18 @@ const ActionButtons = styled.div`
 
 const TopActionButtons = styled(ActionButtons)`
     top: 16px;
+    ${(props) => props.theme.breakpoints.down("sm")} {
+        right: ${(props) => props.isFullscreen ? '12px' : '8px'};
+    }
 `
 
 const BottomActionButtons = styled(ActionButtons)`
     bottom: 16px;
     grid-auto-flow: row;
+    ${(props) => props.theme.breakpoints.down("sm")} {
+        bottom: ${(props) => props.isFullscreen ? '40px' : '16px'};
+        right: ${(props) => props.isFullscreen ? '12px' : '8px'};
+    }
 `
 
 function LogHighlight({
@@ -212,7 +223,7 @@ function LogHighlight({
                 </div>
             </LogContainer>
             {showFullScreenButton && <Fade in={!onScroll}>
-                <TopActionButtons>
+                <TopActionButtons isFullscreen={isFullscreen}>
                     {isFullscreen ?
                         <Fab size="small" onClick={() => exitFullscreen()}>
                             <FullscreenExitIcon />
@@ -225,7 +236,7 @@ function LogHighlight({
                 </TopActionButtons>
             </Fade>}
             <Fade in={!onScroll}>
-                <BottomActionButtons>
+                <BottomActionButtons isFullscreen={isFullscreen}>
                     {!isTop && <Fab size="small" onClick={() => {
                         rowVirtualizer.scrollToIndex(0, {
                             smoothScroll: true
