@@ -20,12 +20,14 @@ function TelegramConfigForm({data, onSubmitEvent, onTestEvent}) {
     const [message, setMessage] = useState();
     const formik = useFormik({
         initialValues: {
+            name:'',
             server_url: 'https://api.telegram.org',
             token: '',
             user_id: '',
             proxy: '',
             enable: true
         }, validationSchema: Yup.object().shape({
+            name: Yup.string().max(1000).required(),
             server_url: Yup.string().max(1000).required(),
             token: Yup.string().max(500).required(),
             user_id: Yup.string().max(500).required(),
@@ -52,6 +54,7 @@ function TelegramConfigForm({data, onSubmitEvent, onTestEvent}) {
     useEffect(async () => {
         if (data !== undefined && data !== null) {
             formik.setFieldValue('server_url', data?.server_url ? data.server_url : 'https://api.telegram.org');
+            formik.setFieldValue('name', data?.name);
             formik.setFieldValue('token', data?.token);
             formik.setFieldValue('user_id', data?.user_id);
             formik.setFieldValue('proxy', data?.proxy);
@@ -67,6 +70,20 @@ function TelegramConfigForm({data, onSubmitEvent, onTestEvent}) {
         {message && (<Alert severity="success" my={3}>
             {message}
         </Alert>)}
+        <TextField
+            type="text"
+            name="name"
+            label="通道别名"
+            value={formik.values.name}
+            error={Boolean(formik.touched.name && formik.errors.name)}
+            fullWidth
+            helperText={<>
+                设置一个唯一的别名，方便被引用
+            </>}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
         <TextField
             type="text"
             name="server_url"

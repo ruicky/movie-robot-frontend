@@ -29,9 +29,9 @@ const EditNotify = () => {
     const {mutateAsync: test, isTesting} = useTestNotify();
     const [title, setTitle] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
-    const [config, setConfig] = useState({bark: null, qywx: null, pushdeer: null})
+    const [config, setConfig] = useState()
     const onSubmit = async (values, setMessage) => {
-        let params = {"type": searchParams.get("type"), "args": values};
+        let params = {"type": searchParams.get("type"), name: searchParams.get("name"), "args": values};
         save(params, {
             onSuccess: res => {
                 const {code, message: msg, data} = res;
@@ -45,7 +45,7 @@ const EditNotify = () => {
         });
     }
     const onTest = async (values, setMessage) => {
-        let params = {"type": searchParams.get("type"), "args": values};
+        let params = {"type": searchParams.get("type"), name: searchParams.get("name"), "args": values};
         test(params, {
             onSuccess: res => {
                 const {code, message: msg, data} = res;
@@ -58,14 +58,16 @@ const EditNotify = () => {
         });
     }
     useEffect(() => {
-        const type = getTypeStr(searchParams.get("type"));
+        const type = searchParams.get("type");
+        const name = searchParams.get("name");
         setTitle(`设置${type}`)
         if (notifySetting && notifySetting.data) {
-            const setting = {};
             for (const item of notifySetting.data) {
-                setting[item.type] = item;
+                if (item.type === type && item.name === name) {
+                    setConfig(item);
+                    break;
+                }
             }
-            setConfig(setting);
         }
     }, [searchParams, notifySetting]);
     return (<React.Fragment>
@@ -82,14 +84,14 @@ const EditNotify = () => {
         </Breadcrumbs>
         <Divider my={6}/>
         {searchParams.get("type") === 'qywx' &&
-        <QywxConfigForm data={config.qywx} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
+        <QywxConfigForm data={config} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
         {searchParams.get("type") === 'bark' &&
-        <BarkConfigForm data={config.bark} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
+        <BarkConfigForm data={config} onSubmitEvent={onSubmit} onTestEvent={onTest}/>}
         {searchParams.get("type") === 'pushdeer' &&
-        <PushDeerConfigForm data={config.pushdeer} onSubmitEvent={onSubmit}
+        <PushDeerConfigForm data={config} onSubmitEvent={onSubmit}
                             onTestEvent={onTest}/>}
         {searchParams.get("type") === 'telegram' &&
-        <TelegramConfigForm data={config.telegram} onSubmitEvent={onSubmit}
+        <TelegramConfigForm data={config} onSubmitEvent={onSubmit}
                             onTestEvent={onTest}/>}
     </React.Fragment>);
 }

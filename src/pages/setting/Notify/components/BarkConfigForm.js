@@ -20,6 +20,7 @@ function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
     const [message, setMessage] = useState();
     const formik = useFormik({
         initialValues: {
+            name:'',
             push_url: '',
             sound: 'chime',
             group: '电影机器人',
@@ -51,6 +52,7 @@ function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
 
     useEffect(async () => {
         if (data !== undefined && data !== null) {
+            formik.setFieldValue('name', data.name)
             formik.setFieldValue('push_url', data.push_url)
             formik.setFieldValue('sound', data.sound)
             formik.setFieldValue('group', data.group)
@@ -69,6 +71,20 @@ function BarkConfigForm({data, onSubmitEvent, onTestEvent}) {
         {message && (<Alert severity="success" my={3}>
             {message}
         </Alert>)}
+        <TextField
+            type="text"
+            name="name"
+            label="通道别名"
+            value={formik.values.name}
+            error={Boolean(formik.touched.name && formik.errors.name)}
+            fullWidth
+            helperText={<>
+                设置一个唯一的别名，方便被引用
+            </>}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
         <TextField
             type="text"
             name="push_url"

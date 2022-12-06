@@ -17,7 +17,6 @@ import {Add as AddIcon} from "@mui/icons-material";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SelectDialog from "@/pages/setting/Notify/SelectDialog";
 import message from "@/utils/message";
-import CheckIcon from "@mui/icons-material/Check";
 
 function NotifySettingList() {
     const navigate = useNavigate();
@@ -35,11 +34,11 @@ function NotifySettingList() {
             return ""
         }
     }
-    const onButtonClick = (type) => {
-        navigate("/setting/edit-notify?type=" + type)
+    const onButtonClick = (type, name) => {
+        navigate("/setting/edit-notify?type=" + type + "&name=" + name)
     }
-    const onEnableChange = (type, checked) => {
-        setNotifyEnable({type, enable: checked}, {
+    const onEnableChange = (type, name, checked) => {
+        setNotifyEnable({type, name, enable: checked}, {
             onSuccess: res => {
                 const {code, message: msg, data} = res;
                 if (code === 0) {
@@ -60,9 +59,6 @@ function NotifySettingList() {
                 handleClose={() => {
                     setShowSelect(false);
                 }}
-                configured={notifySetting && notifySetting?.data && notifySetting.data.map((item) => {
-                    return item.type
-                })}
             />
             <List
                 sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
@@ -79,7 +75,7 @@ function NotifySettingList() {
                 </ListItem>
                 {notifySetting && notifySetting?.data && notifySetting.data.map((item, index) => (
                     <ListItem key={index} divider={index !== notifySetting.data.length - 1}>
-                        <ListItemButton onClick={() => onButtonClick(item.type)}>
+                        <ListItemButton onClick={() => onButtonClick(item.type, item.name)}>
                             <ListItemIcon>
                                 {item.type === "bark" ?
                                     <SvgIcon fontSize="large" component={BarkIcon} viewBox="0 0 400 400"/> : null}
@@ -90,12 +86,12 @@ function NotifySettingList() {
                                 {item.type === "telegram" ?
                                     <SvgIcon fontSize="large" component={TelegramIcon} viewBox="0 0 400 400"/> : null}
                             </ListItemIcon>
-                            <ListItemText primary={getTypeStr(item.type)}/>
+                            <ListItemText primary={item.name}/>
                             <Switch
                                 edge="end"
                                 checked={item?.enable}
                                 onClick={e => e.stopPropagation()}
-                                onChange={(e) => onEnableChange(item.type, e.target.checked)}
+                                onChange={(e) => onEnableChange(item.type, item.name, e.target.checked)}
                                 inputProps={{
                                     'aria-labelledby': 'switch-list-label-bluetooth',
                                 }}

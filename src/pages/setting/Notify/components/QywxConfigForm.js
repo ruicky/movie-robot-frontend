@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 import * as Yup from "yup";
 import {useFormik} from "formik";
 
-import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, Link, TextField as MuiTextField} from "@mui/material";
+import {Alert as MuiAlert, Button, Checkbox, FormControlLabel, TextField as MuiTextField} from "@mui/material";
 import {spacing} from "@mui/system";
 
 const Alert = styled(MuiAlert)(spacing);
@@ -18,6 +18,7 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
     const [message, setMessage] = useState();
     const formik = useFormik({
         initialValues: {
+            name: '',
             touser: '@all',
             corpid: '',
             corpsecret: '',
@@ -26,7 +27,7 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
             aes_key: '',
             enable: true,
             use_server_proxy: false,
-            server_url:''
+            server_url: 'https://qyapi.weixin.qq.com'
         }, validationSchema: Yup.object().shape({
             touser: Yup.string().max(256).required(),
             corpid: Yup.string().max(256).required(),
@@ -53,6 +54,7 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
     });
     useEffect(async () => {
         if (data !== undefined && data !== null) {
+            formik.setFieldValue('name', data.name)
             formik.setFieldValue('touser', data.touser)
             formik.setFieldValue('corpid', data.corpid)
             formik.setFieldValue('corpsecret', data.corpsecret)
@@ -76,6 +78,20 @@ function QywxConfigForm({data, onSubmitEvent, onTestEvent}) {
         {message && (<Alert severity="success" my={3}>
             {message}
         </Alert>)}
+        <TextField
+            type="text"
+            name="name"
+            label="通道别名"
+            value={formik.values.name}
+            error={Boolean(formik.touched.name && formik.errors.name)}
+            fullWidth
+            helperText={<>
+                设置一个唯一的别名，方便被引用
+            </>}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            my={3}
+        />
         <TextField
             type="text"
             name="server_url"
