@@ -90,6 +90,20 @@ export const useGetNotifySetting = (param) => {
         client("/api/setting/get_notify", {params: param, method: "GET"})
     );
 };
+
+export const useGetNotifyDefinition = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/notify/get_definition", {params: params, method: "GET"})
+    );
+};
+export const useGetNotifyChannelList = (param) => {
+    const client = useHttp();
+    return useQuery(['get_channel_list', param], () =>
+        client("/api/notify/get_channel_list", {params: param, method: "GET"})
+    );
+};
 export const useSaveNotify = (param) => {
     const client = useHttp();
     return useMutation(
