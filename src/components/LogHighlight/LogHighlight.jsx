@@ -23,7 +23,7 @@ Prism.languages.log.site = {
     greedy: true
 }
 Prism.languages.log.special = {
-    pattern: /timed out|All.+failed|Connect.+failed|Cannot.+|Errno \d+|No such process/,
+    pattern: /http.+Error|anyio.+Error|Connect.+Error|timed out|All.+failed|Connect.+failed|Cannot.+|Errno \d+|No such process/,
     greedy: true
 }
 
@@ -68,17 +68,21 @@ const ActionButtons = styled.div`
     gap: 12px;
     grid-auto-flow: column;
     .MuiButtonBase-root{
-        background-color: #949599;
+        background-color: rgba(17, 17, 18, 0.98);
+        color: rgba(255, 255, 255, 0.58);
         opacity: 0.97;
         width: 32px;
         height: 32px;
         min-height: 32px;
-        box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.09);
     }
     // 按钮悬停高亮
     .MuiButtonBase-root:hover{
-        background-color: rgba(217, 220, 229, 0.96);
+        background-color: rgba(29, 85, 187, 0.99);
+        color: rgba(255, 255, 255, 0.75);
+        box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     // 移动端日志悬浮按钮
     @media (max-width: 600px) {
@@ -89,7 +93,7 @@ const ActionButtons = styled.div`
 const TopActionButtons = styled(ActionButtons)`
     top: 16px;
     ${(props) => props.theme.breakpoints.down("sm")} {
-        right: ${(props) => props.isFullscreen ? '12px' : '8px'};
+        right: ${(props) => props.isFullscreen ? '15px' : '8px'};
     }
 `
 
@@ -97,8 +101,8 @@ const BottomActionButtons = styled(ActionButtons)`
     bottom: 16px;
     grid-auto-flow: row;
     ${(props) => props.theme.breakpoints.down("sm")} {
-        bottom: ${(props) => props.isFullscreen ? '40px' : '16px'};
-        right: ${(props) => props.isFullscreen ? '12px' : '8px'};
+        bottom: ${(props) => props.isFullscreen ? '60px' : '16px'};
+        right: ${(props) => props.isFullscreen ? '15px' : '8px'};
     }
 `
 
