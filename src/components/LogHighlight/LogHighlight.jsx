@@ -63,7 +63,7 @@ const useScrollToEdgeHook = (
 const ActionButtons = styled.div`
     position: absolute;
     right: 18px;
-    z-index: 1300;
+    z-index: 220;
     display: grid;
     gap: 12px;
     grid-auto-flow: column;
