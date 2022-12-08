@@ -15,7 +15,7 @@ import useThrottleFn from "@/hooks/useThrottleFn";
 import useDebounceFn from "@/hooks/useDebounceFn";
 
 Prism.languages.log.reason = {
-    pattern: /(是个)?\s*全集种子.+需要预分析可靠性.+|影视类型不等于.+|(解析到的.+)?\s*不符合.+|自动解析后.+不符合.+|解析.+不符合.+|过滤前.+过滤后.+|不包含设定的关键字\(.+\)|与.+不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到.+描述|已经提交下载|Plex Sort Out|Success!/,
+    pattern: /「.+」|(是个)?\s*全集种子.+需要预分析可靠性.+|影视类型不等于.+|(解析到的.+)?\s*不符合.+|自动解析后.+不符合.+|解析.+不符合.+|过滤前.+过滤后.+|不包含设定的关键字\(.+\)|与.+不一致，跳过|解析季度为|用.+规则排序|特别优先关键字|没找到.+描述|已经提交下载|Plex Sort Out|Success!/,
     greedy: true
 }
 Prism.languages.log.site = {
