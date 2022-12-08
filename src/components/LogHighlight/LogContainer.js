@@ -21,7 +21,7 @@ const LogContainer = styled.div`
     overflow-x: auto;
     flex: 1 0 auto;
     line-height: 1;
-    background: rgba(18,18,18,0.9);
+    background: rgba(10,10,11,0.88);
     // padding: 4px;
     padding-top: 8px;
     padding-right: 4px;
