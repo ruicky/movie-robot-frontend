@@ -21,7 +21,7 @@ const LogContainer = styled.div`
     overflow-x: auto;
     flex: 1 0 auto;
     line-height: 1;
-    background: rgba(18,18,18,0.9);
+    background: rgba(12,12,13);
     // padding: 4px;
     padding-top: 8px;
     padding-right: 4px;
@@ -102,6 +102,10 @@ const LogContainer = styled.div`
         font-weight: normal;
     }
         &.level.info.keyword {
+        color: #666666;
+        font-size: 11px !important;
+    }
+        &.level.debug.keyword {
         color: #666666;
         font-size: 11px !important;
     }
