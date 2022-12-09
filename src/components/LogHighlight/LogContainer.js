@@ -105,6 +105,10 @@ const LogContainer = styled.div`
         color: #666666;
         font-size: 11px !important;
     }
+        &.level.debug.keyword {
+        color: #666666;
+        font-size: 11px !important;
+    }
         &.property {
         color: #dc5229;
         // font-weight: bold;
