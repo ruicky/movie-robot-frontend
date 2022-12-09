@@ -68,13 +68,13 @@ const ActionButtons = styled.div`
     gap: 12px;
     grid-auto-flow: column;
     .MuiButtonBase-root{
-        background-color: rgba(15, 15, 17, 0.98);
+        background-color: rgba(8, 8, 9, 0.99);
         color: rgba(255, 255, 255, 0.58);
-        opacity: 0.97;
+        opacity: 0.99;
         width: 32px;
         height: 32px;
         min-height: 32px;
-        box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.4);
+        box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.65);
         border: 1px solid rgba(222, 239, 245, 0.09);
     }
     // 按钮悬停高亮
@@ -120,7 +120,7 @@ function LogHighlight({
         getScrollElement: () => parentRef.current,
         estimateSize: () => 50,
         paddingEnd: 20,
-        overscan: 10,
+        overscan: 100,
     })
     const [isFakeFullscreen, setIsFakeFullscreen] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
