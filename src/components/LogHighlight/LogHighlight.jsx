@@ -23,7 +23,7 @@ Prism.languages.log.site = {
     greedy: true
 }
 Prism.languages.log.special = {
-    pattern: /http.+Error|anyio.+Error|Connect.+Error|timed out|All.+failed|Connect.+failed|Cannot.+|Errno \d+|No such process/,
+    pattern: /object.+no.+|http.+Error|anyio.+Error|Connect.+Error|timed out|All.+failed|Connect.+failed|Cannot.+|Errno \d+|No such process/,
     greedy: true
 }
 
