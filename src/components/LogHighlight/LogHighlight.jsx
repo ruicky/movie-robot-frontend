@@ -135,7 +135,7 @@ function LogHighlight({
         background: '#000'
     }
     const fullScreen = (el) => {
-        const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+        const rfs = el && (el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen)
         if (typeof rfs != "undefined" && rfs) {
             rfs.call(el);
         } else {
@@ -144,8 +144,7 @@ function LogHighlight({
         setIsFullscreen(true);
     }
     const exitFullscreen = () => {
-        const cfs = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen;
-        if (typeof cfs != "undefined" && cfs) {
+        if (document.fullscreenElement) {
             document.exitFullscreen()
         } else {
             setIsFakeFullscreen(false);
@@ -156,8 +155,8 @@ function LogHighlight({
         {
             scrollToIndex: rowVirtualizer.scrollToIndex,
             scrollParentRef: parentRef.current,
-            fullScreen: () => fullScreen(fullScreenRef.current),
-            exitFullscreen: () => exitFullscreen()
+            fullScreen,
+            exitFullscreen,
         }
     ))
     return (

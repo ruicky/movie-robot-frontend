@@ -69,7 +69,7 @@ export const InstallDialog = ({
             return;
         }
         if (version.configField) {
-            const configField = JSON.parse(version.configField);
+            const configField = version.configField;
             if (configRes?.data) {
                 //将读到的现存配置信息作为配置展示的默认值
                 Object.keys(configRes.data).map((key) => {

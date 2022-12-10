@@ -16,6 +16,7 @@ import styled from "styled-components/macro";
 import { useInterval } from "@/hooks/useInterval";
 import LogHighlight from "@/components/LogHighlight/LogHighlight";
 import { spacing } from "@mui/system";
+import { useLocation } from "react-router-dom";
 
 
 const AppLog = () => {
@@ -36,6 +37,16 @@ const AppLog = () => {
             }
         });
     }, [getLogLines, selectLogFile])
+
+    // 获取路由参数
+    const location = useLocation();
+    useEffect(() => {
+        const fullScreen = new URLSearchParams(location.search).get('fullScreen') === 'true';
+        if (fullScreen && LogHighlightRef.current) {
+            console.log('fullScreen', fullScreen);
+            LogHighlightRef.current.fullScreen();
+        }
+    }, [location.search])
 
     useInterval(() => {
         if (isAutoRefresh && !isLoading) {

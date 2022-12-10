@@ -17,16 +17,9 @@ import message from "@/utils/message";
 import HealthStatus from "@/pages/setting/components/HealthStatus";
 import SelectDialog from "@/pages/setting/DownloadClient/SelectDialog";
 import axios from "@/utils/request";
+import {TextLabel} from "@/pages/setting/components/TextLabel";
 
-function TextLabel({text, chipLabel = null, chipColor = "success"}) {
-    return (
-        <>
-            {text}
-            {chipLabel ?
-                <Chip label={chipLabel} size="small" color={chipColor} style={{borderRadius: 50}} sx={{ml: 2}}/> : null}
-        </>
-    );
-}
+
 
 function DownloadSettingList() {
     const navigate = useNavigate();

@@ -74,6 +74,10 @@ function NavbarUserDropdown() {
                     theme.toggle(true);
                     closeMenu()
                 }}>更换主题</MenuItem>
+                <MenuItem onClick={() => {
+                    navigate("/setting/app-log");
+                    closeMenu();
+                }}>系统日志</MenuItem>
                 <MenuItem onClick={handleSignOut}>退出</MenuItem>
             </Menu>
         </React.Fragment>
