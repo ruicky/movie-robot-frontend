@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import MediaSlider from '@/pages/subscribe/components/MediaSlider';
 import {useSubscribeSearchQuery} from "@/utils/subscribe";
 import SubLogDialog from "@/pages/subscribe/SubLogDialog";
+import ListView from "@/pages/subscribe/components/ListView";
+import {Typography} from "@mui/material";
+import MediaSlider from "@/pages/subscribe/components/MediaSlider";
 
-const SubscribeList = ({keyword}) => {
+const SubscribeList = ({keyword, posterWall = false}) => {
     const [subLogData, setSubLogData] = useState(null);
     const {data, isLoading} = useSubscribeSearchQuery({keyword});
     if (data && data.data) {
@@ -13,14 +15,21 @@ const SubscribeList = ({keyword}) => {
                               title={subLogData?.title ? `${subLogData?.title}的订阅全息日志` : "未知信息"}
                               open={Boolean(subLogData)}
                               handleClose={() => setSubLogData(null)}/>
-
-                <MediaSlider
+                <Typography variant="h5" component="div" mt={2} gutterBottom>
+                    影片{data.data.length === 0 ? "(无结果)" : ""}
+                </Typography>
+                {posterWall ? <ListView
+                    items={data.data ?? []}
+                    isLoading={isLoading}
+                    showSubLogs={setSubLogData}
+                /> : <MediaSlider
                     sliderKey="requests"
                     title={""}
                     isLoading={isLoading}
                     titles={data.data ?? []}
                     showSubLogs={setSubLogData}
-                />
+                />}
+
             </>
 
         );
