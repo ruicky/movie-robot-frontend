@@ -26,7 +26,7 @@ const AppLog = () => {
     const { data: logFiles } = useGetLogFiles();
     const { mutate: getLogLines, isLoading } = useGetLogLines();
     const [isAutoScroll, setIsAutoScroll] = useState(true)
-    const [isAutoRefresh, setIsAutoRefresh] = useState(false)
+    const [isAutoRefresh, setIsAutoRefresh] = useState(true)
     const fetchLog = useCallback(() => {
         getLogLines({ log_file: selectLogFile }, {
             onSuccess: resData => {
@@ -41,10 +41,17 @@ const AppLog = () => {
     // 获取路由参数
     const location = useLocation();
     useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
         const fullScreen = new URLSearchParams(location.search).get('fullScreen') === 'true';
         if (fullScreen && LogHighlightRef.current) {
             console.log('fullScreen', fullScreen);
             LogHighlightRef.current.fullScreen();
+        }
+        if (searchParams.has('autoScroll')) {
+            setIsAutoScroll(searchParams.get('autoScroll') === 'true')
+        }
+        if (searchParams.has('autoRefresh')) {
+            setIsAutoRefresh(searchParams.get('autoRefresh') === 'true')
         }
     }, [location.search])
 
