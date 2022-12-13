@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import {Helmet} from "react-helmet-async";
 import axios from "../../../utils/request";
@@ -30,6 +30,7 @@ import {spacing} from "@mui/system";
 import Record from "./components/Record";
 import MediaServerSearch from "@/pages/movie/search/MediaServerSearch";
 import {FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
+import {AppInfoContext} from "@/contexts/AppSetting";
 
 const StyledDivider = styled(Divider)(spacing);
 
@@ -176,6 +177,7 @@ const PathPicker = ({downloadInfo, onClose: close, setMessage}) => {
 
 
 function SearchRecords(props) {
+    const appInfo = useContext(AppInfoContext)
     const [records, setRecords] = useState();
     const [tagResource, setTagResource] = useState({
         sites: {"全部": "全部"},
@@ -326,7 +328,7 @@ function SearchRecords(props) {
             {param?.keyword && param?.searchMediaServer && param?.searchMediaServer === 'true' &&
             <MediaServerSearch keyword={param?.keyword}/>}
             {param?.keyword && param?.searchDouban && param?.searchDouban === 'true' &&
-            <FilterOptionsProvider><SubscribeList keyword={param?.keyword}/></FilterOptionsProvider>}
+            <FilterOptionsProvider><SubscribeList keyword={param?.keyword} posterWall={Boolean(appInfo?.server_config?.douban_poster_wall)}/></FilterOptionsProvider>}
             <Grid container spacing={4}>
                 {
                     (loading ? Array.from(new Array(3)) : records || []).filter((item) => {

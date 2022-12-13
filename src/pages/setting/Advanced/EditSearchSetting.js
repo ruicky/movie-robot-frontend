@@ -3,21 +3,14 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {Helmet} from "react-helmet-async";
 import {
     Alert as MuiAlert,
-    Box,
     Breadcrumbs,
     Button,
     Checkbox,
-    Chip,
     Divider as MuiDivider,
     FormControl,
     FormControlLabel,
-    FormGroup,
     FormHelperText,
-    FormLabel,
     Link,
-    ListItemText,
-    MenuItem,
-    Select,
     TextField as MuiTextField,
     Typography
 } from "@mui/material";
@@ -42,7 +35,7 @@ const MenuProps = {
         },
     },
 };
-const SearchCates = ['Movie', 'TV', 'Anime', 'Documentary','Music'];
+const SearchCates = ['Movie', 'TV', 'Anime', 'Documentary', 'Music'];
 
 function EditForm({}) {
     const navigate = useNavigate();
@@ -51,7 +44,8 @@ function EditForm({}) {
     const formik = useFormik({
         initialValues: {
             web_search_timeout: 10,
-            web_search_result_limit: 0
+            web_search_result_limit: 0,
+            douban_poster_wall: false
         }, validationSchema: Yup.object().shape({
             web_search_timeout: Yup.number().required("搜索超时时间不能为空")
         }), onSubmit: async (values, {setErrors, setStatus, setSubmitting}) => {
@@ -81,6 +75,7 @@ function EditForm({}) {
         if (setting?.data) {
             formik.setFieldValue("web_search_timeout", setting.data?.web_search_timeout ? setting.data?.web_search_timeout : 10);
             formik.setFieldValue("web_search_result_limit", setting.data?.web_search_result_limit ? setting.data?.web_search_result_limit : 0);
+            formik.setFieldValue("douban_poster_wall", setting.data?.douban_poster_wall!==undefined ? setting.data?.douban_poster_wall : false);
         }
     }, [setting]);
     return (<form noValidate onSubmit={formik.handleSubmit}>
@@ -111,6 +106,13 @@ function EditForm({}) {
             onChange={formik.handleChange}
             my={3}
         />
+        <FormControl>
+            <FormControlLabel control={<Checkbox name="douban_poster_wall"
+                                                 checked={formik.values.douban_poster_wall}
+                                                 onChange={formik.handleChange}/>} label={"豆瓣搜索结果以海报墙展示"}/>
+            <FormHelperText>不勾选就是默认的横向滑动搜索结果</FormHelperText>
+        </FormControl>
+
         <Button
             type="submit"
             variant="contained"
