@@ -26,9 +26,9 @@ function getTitle(media) {
 
     if (media?.type === "Movie") {
         return media?.cn_name || media?.en_name;
-    } else if (media?.type === "TV"){
+    } else if (media?.type === "TV") {
         return (media?.cn_name || media?.en_name) + " 第" + media.season_index + "季";
-    }else{
+    } else {
         return media?.cn_name || media?.en_name;
     }
 }
@@ -66,12 +66,12 @@ const ListView = ({items, isLoading, showSubLogs}) => {
       } */}
             {
                 items?.map((title, index) => {
-                    return <li key={title.id}>
+                    return <li key={title.id || title.douban_id}>
                         <TitleCard
-                            key={'card' + title.id}
+                            key={'card' + (title.id || title.douban_id)}
                             canExpand
                             id={title.douban_id}
-                            sub_id={title.id}
+                            sub_id={title.id || title.sub_id}
                             image={title?.poster_path}
                             summary={title?.desc}
                             title={getTitle(title)}

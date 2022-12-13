@@ -19,7 +19,16 @@ const SubscribeList = ({keyword, posterWall = false}) => {
                     影片{data.data.length === 0 ? "(无结果)" : ""}
                 </Typography>
                 {posterWall ? <ListView
-                    items={data.data ?? []}
+                    items={data.data.map((item)=>{
+                        return {
+                            douban_id:item.id,
+                            cn_name:item.cn_name,
+                            poster_path:item.poster_path,
+                            rating:item.rating,
+                            sub_id:item.sub_id,
+                            status:item.status
+                        }
+                    }) ?? []}
                     isLoading={isLoading}
                     showSubLogs={setSubLogData}
                 /> : <MediaSlider
