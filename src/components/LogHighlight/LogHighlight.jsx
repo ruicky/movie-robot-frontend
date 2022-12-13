@@ -68,14 +68,14 @@ const ActionButtons = styled.div`
     gap: 12px;
     grid-auto-flow: column;
     .MuiButtonBase-root{
-        background-color: rgba(8, 8, 9, 0.99);
-        color: rgba(255, 255, 255, 0.58);
-        opacity: 0.99;
+        background-color: rgba(16, 16, 18, 0.99);
+        color: rgba(255, 255, 255, 0.7);
+        opacity: 1;
         width: 32px;
         height: 32px;
         min-height: 32px;
         box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.65);
-        border: 1px solid rgba(222, 239, 245, 0.09);
+        border: 1px solid rgba(222, 239, 245, 0.14);
     }
     // 按钮悬停高亮
     .MuiButtonBase-root:hover{
