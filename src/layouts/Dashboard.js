@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import styled from "styled-components/macro";
-import {Outlet, useLocation} from "react-router-dom";
+import {Outlet,useLocation,useSearchParams} from "react-router-dom";
 
 import {Box, CssBaseline, Paper as MuiPaper} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
@@ -64,7 +64,9 @@ const Dashboard = ({children}) => {
     const theme = useTheme();
     const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
     const location = useLocation();
-    const isIndex = location.pathname === '/';
+  const isIndex = location.pathname === '/';
+  const [search, setSearch] = useSearchParams();
+  const hidePadding = search.get('hidePadding') === 'true';
     return (
         <Root>
             <CssBaseline/>
@@ -88,12 +90,18 @@ const Dashboard = ({children}) => {
             </Drawer>
             <MultipleChoiceModal />
             <AppContent>
-                <Navbar onDrawerToggle={handleDrawerToggle}/>
-                <MainContent pt={isLgUp ? 0 : 0} pl={isLgUp ? 6 : 4} pr={isLgUp ? 6 : 4} pb={isLgUp ? 3 : 3}>
-                    {children}
-                    <Outlet/>
-                </MainContent>
-                <Footer version={appInfo?.version}/>
+          <Navbar onDrawerToggle={handleDrawerToggle} />
+          {hidePadding ?
+            <MainContent>
+              {children}
+              <Outlet />
+            </MainContent>
+            : <MainContent pt={!isLgUp ? 0 : 0} pl={isLgUp ? 6 : 4} pr={isLgUp ? 6 : 4} pb={isLgUp ? 3 : 3}>
+              {children}
+              <Outlet />
+            </MainContent>
+          }
+          <Footer version={appInfo?.version} />
             </AppContent>
             <Settings/>
         </Root>

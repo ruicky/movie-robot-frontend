@@ -59,6 +59,7 @@ const SettingAccessKey = async(() => import("./pages/setting/AccessKey/index"));
 const PluginsIndex = async(() => import("./pages/plugins/index"));
 const PluginsDetail = async(() => import("./pages/plugins/detail"));
 const AppLog = async(() => import("./pages/setting/AppLog"));
+const Iframe = async(() => import("./pages/iframe/Iframe"));
 
 const routes = [{
     path: "auth", element: <AuthLayout/>, children: [{
@@ -243,6 +244,10 @@ const routes = [{
     }, {
         path: "detail", element: <PluginsDetail/>
     }]
+}, {
+    path: "iframe", element: (<AuthGuard><DashboardLayout /></AuthGuard>), children: [{
+        path: "index", element: <Iframe/>
+    } ]
 }, {
     path: "*", element: <AuthLayout/>, children: [{
         path: "*", element: <Page404/>
