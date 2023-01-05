@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import styled from "styled-components/macro";
-import {Outlet,useLocation,useSearchParams} from "react-router-dom";
+import {Outlet,useSearchParams} from "react-router-dom";
 
 import {Box, CssBaseline, Paper as MuiPaper} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
@@ -63,10 +63,8 @@ const Dashboard = ({children}) => {
     };
     const theme = useTheme();
     const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
-    const location = useLocation();
-  const isIndex = location.pathname === '/';
-  const [search, setSearch] = useSearchParams();
-  const hidePadding = search.get('hidePadding') === 'true';
+    const [search] = useSearchParams();
+    const hidePadding = search.get('hidePadding') === 'true';
     return (
         <Root>
             <CssBaseline/>
