@@ -71,7 +71,7 @@ export default defineConfig(({ mode }) => {
       open: true,
       port: 3000,
       proxy: {
-        '^(/api/|/user/).*': {
+        '^(/api/|/user/|/static/).*': {
           target: env.VITE_DEV_PROXY || '',
           secure: false,
           changeOrigin: true,
