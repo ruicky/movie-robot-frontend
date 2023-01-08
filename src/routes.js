@@ -245,9 +245,9 @@ const routes = [{
         path: "detail", element: <PluginsDetail/>
     }]
 }, {
-    path: "iframe", element: (<AuthGuard><DashboardLayout /></AuthGuard>), children: [{
-        path: "index", element: <Iframe/>
-    } ]
+    path: "common", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
+        path: "view", element: <Iframe/>
+    }]
 }, {
     path: "*", element: <AuthLayout/>, children: [{
         path: "*", element: <Page404/>

@@ -80,7 +80,6 @@ function Iframe() {
     return (
         <iframe ref={contentIFrameRef}
             onLoad={handleOnload}
-            title="订阅日志"
             style={{
                 border: 'none',
                 height: '100%',
