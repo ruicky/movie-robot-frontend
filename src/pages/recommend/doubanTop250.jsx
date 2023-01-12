@@ -9,13 +9,6 @@ import {useDoubanRanking} from "@/api/MovieApi";
 import ListView from "@/pages/subscribe/components/ListView";
 import SubLogDialog from "@/pages/subscribe/SubLogDialog";
 
-const Option = ({isSub, onSub, onDelete}) => {
-    return (
-        <SmallButton size="small" mr={2} color="secondary" onClick={isSub ? onSub : onDelete}>
-            {isSub ? <SubscriptionsIcon/> : <DeleteIcon/>}
-        </SmallButton>
-    )
-}
 const Wall = ({trendingType, showSubLogs}) => {
     const {data: subjects, isLoading: subjectsIsLoading} = useDoubanRanking({type: trendingType});
     return (
