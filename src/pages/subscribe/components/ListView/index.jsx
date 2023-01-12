@@ -43,6 +43,8 @@ function getYear(media) {
     } else {
         if (media?.season_year) {
             return media?.season_year;
+        } else {
+            return media?.release_year;
         }
     }
 }

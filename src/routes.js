@@ -28,6 +28,7 @@ const InviteEmail = async(() => import("./pages/user/InviteEmail"));
 const MovieRankingList = async(() => import("./pages/recommend/movieRankingList"));
 const TVRankingList = async(() => import("./pages/recommend/tvRankingList"));
 const NetflixList = async(() => import("./pages/recommend/netflixList"));
+const DoubanTop250 = async(() => import("./pages/recommend/doubanTop250"));
 const RecentPopularMovieList = async(() => import("./pages/recommend/recentPopularMovieList"));
 const SubscribeSearch = async(() => import("./pages/subscribe/Search"));
 const SubscribeCustomIndex = async(() => import("./pages/subscribe/Custom"));
@@ -218,7 +219,7 @@ const routes = [{
     }, {
         path: "recent-popular-movie", element: <RecentPopularMovieList/>
     }, {
-        path: "netflix-list", element: <NetflixList/>
+        path: "doubanTop250", element: <DoubanTop250/>
     }]
 }, {
     path: "subscribe", element: (<AuthGuard><DashboardLayout/></AuthGuard>), children: [{
