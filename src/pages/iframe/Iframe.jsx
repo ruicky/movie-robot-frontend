@@ -53,6 +53,7 @@ const injectCss = (contentIFrameRef) => {
 
 // 注入主题
 const injectTheme = (contentIFrameRef, theme) => {
+    console.log('injectTheme', theme)
     try {
         const iframeWindow = contentIFrameRef.current.contentWindow
         iframeWindow.mrTheme = theme
@@ -94,6 +95,13 @@ function Iframe() {
         injectTheme(contentIFrameRef, theme)
         // 发送消息
     }, [contentIFrameRef, theme])
+
+    useEffect(() => {
+        window.addEventListener('injectTheme', handleOnload)
+        return () => {
+            window.removeEventListener('injectTheme', handleOnload)
+        }
+    }, [handleOnload])
 
     return (
         <iframe ref={contentIFrameRef}
