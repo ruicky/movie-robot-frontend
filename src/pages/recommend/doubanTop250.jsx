@@ -28,7 +28,8 @@ const Wall = ({trendingType, showSubLogs}) => {
                         poster_path: item.poster_path,
                         rating: item.rating,
                         sub_id: item.sub_id,
-                        status: item.status
+                        status: item.status,
+                        release_year: item.release_year
                     }
                 }) ?? []}
                 isLoading={subjectsIsLoading}
