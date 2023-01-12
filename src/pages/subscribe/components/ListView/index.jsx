@@ -38,13 +38,13 @@ function getYear(media) {
         return "";
     }
 
-    if (media?.type === "Movie") {
-        return media?.release_year;
+    if (media?.type?.toLowerCase() === "movie") {
+        return media.release_year;
     } else {
         if (media?.season_year) {
-            return media?.season_year;
+            return media.season_year;
         } else {
-            return media?.release_year;
+            return media.release_year;
         }
     }
 }

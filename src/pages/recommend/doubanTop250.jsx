@@ -1,10 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import PageTitle from '@/components/PageTitle';
 import {Helmet} from "react-helmet-async";
 import {FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
-import {SmallButton} from "@/components/core/SmallButton";
-import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {useDoubanRanking} from "@/api/MovieApi";
 import ListView from "@/pages/subscribe/components/ListView";
 import SubLogDialog from "@/pages/subscribe/SubLogDialog";
@@ -22,7 +19,11 @@ const Wall = ({trendingType, showSubLogs}) => {
                         rating: item.rating,
                         sub_id: item.sub_id,
                         status: item.status,
-                        release_year: item.release_year
+                        release_year: item.release_year,
+                        type: item.type,
+                        url: item.url,
+                        app_url: item.app_url,
+                        desc: item.comment
                     }
                 }) ?? []}
                 isLoading={subjectsIsLoading}

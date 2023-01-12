@@ -26,7 +26,9 @@ const SubscribeList = ({keyword, posterWall = false}) => {
                             poster_path:item.poster_path,
                             rating:item.rating,
                             sub_id:item.sub_id,
-                            status:item.status
+                            status:item.status,
+                            url: `https://movie.douban.com/subject/${item.id}/`,
+                            app_url: `douban://douban.com/movie/${item.id}`,
                         }
                     }) ?? []}
                     isLoading={isLoading}

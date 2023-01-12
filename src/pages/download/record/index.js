@@ -81,7 +81,8 @@ export default function DownloadRecords() {
                 source_type: r?.source_type,
                 sub_id: r.sub_id,
                 sub_type: r.sub_type,
-                gmt_create: r.gmt_create
+                gmt_create: r.gmt_create,
+                douban_id: r.douban_id
             });
         }
         setList(newList);

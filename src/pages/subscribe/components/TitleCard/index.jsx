@@ -327,7 +327,7 @@ const TitleCard = ({
                 {showBottomTitle ? (
                     <h3>
                         <LinesEllipsis
-                            text={title}
+                            text={`${title}${year ? `(${year})` : ''}`}
                             maxLine={1}
                             style={{height: "24px"}}
                         />
