@@ -1,0 +1,57 @@
+import React, {useEffect, useState} from 'react';
+import PageTitle from '@/components/PageTitle';
+import {Helmet} from "react-helmet-async";
+import {FilterOptionsProvider} from "@/contexts/FilterOptionsProvider";
+import {SmallButton} from "@/components/core/SmallButton";
+import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {useDoubanRanking} from "@/api/MovieApi";
+import ListView from "@/pages/subscribe/components/ListView";
+import SubLogDialog from "@/pages/subscribe/SubLogDialog";
+
+const Option = ({isSub, onSub, onDelete}) => {
+    return (
+        <SmallButton size="small" mr={2} color="secondary" onClick={isSub ? onSub : onDelete}>
+            {isSub ? <SubscriptionsIcon/> : <DeleteIcon/>}
+        </SmallButton>
+    )
+}
+const Wall = ({trendingType, showSubLogs}) => {
+    const {data: subjects, isLoading: subjectsIsLoading} = useDoubanRanking({type: trendingType});
+    return (
+        <>
+            <ListView
+                items={subjects?.data.map((item) => {
+                    return {
+                        douban_id: item.id,
+                        cn_name: item.cn_name,
+                        poster_path: item.poster_path,
+                        rating: item.rating,
+                        sub_id: item.sub_id,
+                        status: item.status
+                    }
+                }) ?? []}
+                isLoading={subjectsIsLoading}
+                showSubLogs={showSubLogs}
+            />
+        </>
+    );
+};
+const DoubanTop250 = () => {
+    const [subLogData, setSubLogData] = useState(null);
+    return (
+        <>
+            <Helmet title="豆瓣Top250榜单"/>
+            <PageTitle text="豆瓣Top250榜单"/>
+            <FilterOptionsProvider>
+                <SubLogDialog subId={subLogData?.subId}
+                              title={subLogData?.title ? `${subLogData?.title}的订阅全息日志` : "未知信息"}
+                              open={Boolean(subLogData)}
+                              handleClose={() => setSubLogData(null)}/>
+                <Wall trendingType="movie_top250" showSubLogs={setSubLogData}/>
+            </FilterOptionsProvider>
+        </>
+    )
+}
+
+export default DoubanTop250
