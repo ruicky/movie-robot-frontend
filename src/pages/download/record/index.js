@@ -81,7 +81,8 @@ export default function DownloadRecords() {
                 source_type: r?.source_type,
                 sub_id: r.sub_id,
                 sub_type: r.sub_type,
-                gmt_create: r.gmt_create
+                gmt_create: r.gmt_create,
+                douban_id: r.douban_id
             });
         }
         setList(newList);
@@ -130,7 +131,7 @@ export default function DownloadRecords() {
                     </Stack>
                 </Grid>
             </Grid>
-            <Divider my={4}/>
+            <Divider mt={0} mb={4}/>
             <Backdrop
                 sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
                 open={isLoading}

@@ -18,7 +18,7 @@ export const StyledCardContent = styled(CardContent)`
 `;
 
 export const StyledCardMedia = styled(CardMedia)`
-  height: 220px;
+  height: 200px;
 `;
 
 export const StyledTypography = styled(Typography)(spacing);

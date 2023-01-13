@@ -25,6 +25,7 @@ import {useReLink} from "@/api/DownloadApi";
 import message from "@/utils/message";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import MessageIcon from '@mui/icons-material/Message';
+import {jumpUrl} from "@/utils/urlUtils";
 
 function TitleLabel({title, year, season_index, season_year, movie_type, episode}) {
     if (movie_type === "Movie") {
@@ -69,7 +70,8 @@ export default function MovieCard(props) {
         source_type,
         sub_id,
         sub_type,
-        gmt_create
+        gmt_create,
+        douban_id
     } = props.data;
     const {mutateAsync: reLink, isLinking} = useReLink();
     const getEpisodeStr = (episode) => {
@@ -115,8 +117,15 @@ export default function MovieCard(props) {
         <Grid item md={6} lg={4} xl={3} key={id} style={{width: '100%'}}>
             <CardWrapper>
                 {/*图片*/}
-                <CardActionArea target="_blank" href={url || '#'}>
-                    <CardMedia style={{height: '220px', display: 'flex'}} image={image || '/static/img/default.png'}
+                <CardActionArea target="_blank"
+                                onClick={() => {
+                                    if (douban_id === undefined || douban_id == null) {
+                                        jumpUrl(url, null);
+                                    } else {
+                                        jumpUrl(`https://movie.douban.com/subject/${douban_id}/`, `douban://douban.com/movie/${douban_id}`);
+                                    }
+                                }}>
+                    <CardMedia style={{height: '200px', display: 'flex'}} image={image || '/static/img/default.png'}
                                title={title}
                                act>
                         {

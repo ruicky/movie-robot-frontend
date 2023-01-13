@@ -2,13 +2,11 @@ import React from 'react';
 import MediaSlider from '../../../subscribe/components/MediaSlider';
 import {useDoubanRanking} from "@/api/MovieApi";
 import {SmallButton} from "@/components/core/SmallButton";
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 const Option = ({isSub, onSub, onDelete}) => {
     return (
-        <SmallButton size="small" mr={2} color="secondary" onClick={isSub ? onSub : onDelete}>
-            {isSub ? <SubscriptionsIcon/> : <DeleteIcon/>}
+        <SmallButton size="small" mr={2} color={isSub ? "primary" : "error"} onClick={isSub ? onSub : onDelete}>
+            {isSub ? "订阅榜单" : "取消订阅"}
         </SmallButton>
     )
 }

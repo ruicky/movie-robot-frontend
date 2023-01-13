@@ -7,22 +7,27 @@ const LogContainer = styled.div`
         height: 8px;
     }
     &::-webkit-scrollbar-track {
-        border-radius: 3px;
+        border-radius: 5px;
         background: rgba(158, 158, 158, 0.185);
-        box-shadow: inset 0 0 2px #000000;
+        box-shadow: inset 0 0 0px #000000;
     }
     /* 滚动条滑块 */
     &::-webkit-scrollbar-thumb {
         border-radius: 5px;
-        background: #00000096;
+        background: #ffffff80;
     }
-    height: 400px;
+    height: 200px;
     width: 100%;
     overflow-x: auto;
     flex: 1 0 auto;
     line-height: 1;
-    background: rgb(23,23,23);
-    padding: 4px;
+    background: rgba(12,12,13);
+    // padding: 4px;
+    padding-top: 8px;
+    padding-right: 4px;
+    padding-left: 8px;
+    padding-bottom: 8px;
+    // border: 1px solid rgba(255, 255, 255, 0.04);
 
     // 移动端
     @media (max-width: 600px) {
@@ -39,6 +44,7 @@ const LogContainer = styled.div`
     }
     ${props => props.highlightLevelLine ? `.language-log {
         text-shadow: none;
+        color: #999999;
         &.error {
             color: #dc5229 !important;
             .token.date.number ,.token.time.number ,.token.number ,.token.string{
@@ -55,47 +61,80 @@ const LogContainer = styled.div`
             }
         }
     }` : `
+        // 全息日志自立为王
         .language-log {
             color: #999999;
         }
+        // .token.reason {
+        //     color: #6e995c;
+        // }
+        .token.site {
+            color: #999999;
+            font-weight: bold;
+        }
+
     `}
     .token {
         &.level.error.important {
         color: #dc5229;
     }
+        &.hash.constant {
+        color: #6e995c;    
+    }
+        &.url {
+        color: #6e995c;    
+    }
+        &.reason {
+        color: #6e995c;    
+    }
+        &.domain.constant {
+        color: #6e995c;
+    }
         &.string {
         color: #909e6a;
     }
+    //     &.site {
+    //     color: #999999;
+    //     font-weight: bold;
+    // }
         &.warning {
         color: #c7a24d;
         font-weight: normal;
     }
         &.level.info.keyword {
         color: #666666;
-        font-size: 11px!important;
+        font-size: 11px !important;
+    }
+        &.level.debug.keyword {
+        color: #666666;
+        font-size: 11px !important;
     }
         &.property {
-        color: #999999;
-        font-weight: bold;
+        color: #dc5229;
+        // font-weight: bold;
+    }
+        &.special {
+        color: #dc5229;
+        // font-weight: bold;
     }
         &.operator {
         color: #999999;
     }
         &.date.number {
         color: #4782b3;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
         &.time.number {
         color: #4782b3;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
         &.number {
         color: #4782b3;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
         &.ip-address.constant {
         color: #4782b3;
-        font-size: 11px!important;
+        font-size: 11px !important;
     }
 }
 `

@@ -26,8 +26,10 @@ function getTitle(media) {
 
     if (media?.type === "Movie") {
         return media?.cn_name || media?.en_name;
-    } else {
+    } else if (media?.type === "TV") {
         return (media?.cn_name || media?.en_name) + " 第" + media.season_index + "季";
+    } else {
+        return media?.cn_name || media?.en_name;
     }
 }
 
@@ -36,11 +38,13 @@ function getYear(media) {
         return "";
     }
 
-    if (media?.type === "Movie") {
-        return media?.release_year;
+    if (media?.type?.toLowerCase() === "movie") {
+        return media.release_year;
     } else {
         if (media?.season_year) {
-            return media?.season_year;
+            return media.season_year;
+        } else {
+            return media.release_year;
         }
     }
 }
@@ -64,12 +68,12 @@ const ListView = ({items, isLoading, showSubLogs}) => {
       } */}
             {
                 items?.map((title, index) => {
-                    return <li key={title.id}>
+                    return <li key={title.id || title.douban_id}>
                         <TitleCard
-                            key={'card' + title.id}
+                            key={'card' + (title.id || title.douban_id)}
                             canExpand
                             id={title.douban_id}
-                            sub_id={title.id}
+                            sub_id={title.id || title.sub_id}
                             image={title?.poster_path}
                             summary={title?.desc}
                             title={getTitle(title)}

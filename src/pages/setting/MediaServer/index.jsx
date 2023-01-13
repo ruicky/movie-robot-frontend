@@ -16,6 +16,7 @@ import message from "@/utils/message";
 import HealthStatus from "@/pages/setting/components/HealthStatus";
 import {Add as AddIcon} from "@mui/icons-material";
 import SelectDialog from "@/pages/setting/MediaServer/SelectDialog";
+import {TextLabel} from "@/pages/setting/components/TextLabel";
 
 function MediaServerSettingList() {
     const navigate = useNavigate();
@@ -40,9 +41,6 @@ function MediaServerSettingList() {
                 handleClose={() => {
                     setShowSelectMediaServer(false);
                 }}
-                configured={mediaServer.map((item) => {
-                    return item.type
-                })}
             />
             <List
                 sx={{width: '100%', maxWidth: '100%', bgcolor: 'background.paper', mb: 4}}
@@ -51,7 +49,8 @@ function MediaServerSettingList() {
             >
                 {mediaServer && mediaServer.map((item, index) => (
                     <ListItem key={index} divider={index !== mediaServer.length - 1}>
-                        <ListItemButton onClick={() => navigate("/setting/edit-media-server?type=" + item.type)}>
+                        <ListItemButton
+                            onClick={() => navigate("/setting/edit-media-server?type=" + item.type + "&name=" + item.name)}>
                             <ListItemIcon>
                                 {item.type === "emby" ?
                                     <SvgIcon fontSize="large" component={EmbyIcon} viewBox="0 0 400 400"/> : null}
@@ -60,20 +59,21 @@ function MediaServerSettingList() {
                                 {item.type === "plex" ?
                                     <SvgIcon fontSize="large" component={PlexIcon} viewBox="0 0 400 400"/> : null}
                             </ListItemIcon>
-                            <ListItemText primary={item.type ? item.type.replace(/^\S/, s => s.toUpperCase()) : null}/>
+                            <ListItemText
+                                primary={<TextLabel text={item.name} chipLabel={item.master_server ? "默认" : null}/>}/>
                             <HealthStatus status={item.status}/>
                             <ArrowForwardIosOutlinedIcon color="disabled"/>
                         </ListItemButton>
                     </ListItem>
                 ))}
-                {!mediaServer || mediaServer.length === 0 ? <ListItem>
+                <ListItem>
                     <ListItemButton onClick={() => setShowSelectMediaServer(true)}>
                         <ListItemIcon>
                             <AddIcon/>
                         </ListItemIcon>
                         <ListItemText primary="添加"/>
                     </ListItemButton>
-                </ListItem> : null}
+                </ListItem>
             </List>
         </>
     );
