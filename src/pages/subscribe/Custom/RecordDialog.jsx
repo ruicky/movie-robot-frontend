@@ -8,36 +8,91 @@ import {
     ListItem,
     ListItemText,
     ListSubheader,
+    Tooltip,
     Typography
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {useCustomSubRecordList} from "@/utils/subscribe";
+import {useCustomSubRecordList, useDeleteCustomSubRecord, useRenewCustomSubRecord} from "@/utils/subscribe";
 import message from "@/utils/message";
+import ReplayIcon from '@mui/icons-material/Replay';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-export const RecordDialog = ({title, subId, open, handleClose}) => {
-    const {mutate: getList} = useCustomSubRecordList();
-    const [list, setList] = useState(null);
-    const fetchList = (subId) => {
-        getList({sub_id: subId}, {
+const ItemAction = ({id, status, afterDelete = null, afterReDownload = null}) => {
+    const {mutate: deleteItem} = useDeleteCustomSubRecord();
+    const {mutate: renew} = useRenewCustomSubRecord();
+
+    const onReDownload = () => {
+        renew({id: id}, {
             onSuccess: res => {
                 const {code, message: msg, data} = res;
                 if (code === 0) {
-                    setList(data);
+                    message.success("重新提交下载成功")
+                    if (afterReDownload) {
+                        afterReDownload();
+                    }
                 } else {
                     message.error(msg);
                 }
             }
         })
     }
-    useEffect(() => {
+
+    const onDeleteItem = () => {
+        deleteItem({id: id}, {
+            onSuccess: res => {
+                const {code, message: msg, data} = res;
+                if (code === 0) {
+                    message.success("删除成功")
+                    if (afterDelete) {
+                        afterDelete();
+                    }
+                } else {
+                    message.error(msg);
+                }
+            }
+        })
+    }
+
+    if (status === 'SubmitDownloadFailed') {
+        return <Tooltip title="重新提交下载">
+            <IconButton onClick={onReDownload}>
+                <ReplayIcon/>
+            </IconButton>
+        </Tooltip>
+    } else if (status === 'SubmitDownloadSucceeded') {
+        return <Tooltip title="删除这条记录">
+            <IconButton onClick={onDeleteItem}>
+                <DeleteIcon/>
+            </IconButton>
+        </Tooltip>
+    } else {
+        return null;
+    }
+}
+export const RecordDialog = ({title, subId, open, handleClose}) => {
+    const {mutate: getList} = useCustomSubRecordList();
+    const [list, setList] = useState(null);
+    const fetchList = (subId) => {
         if (subId) {
-            fetchList(subId);
+            getList({sub_id: subId}, {
+                onSuccess: res => {
+                    const {code, message: msg, data} = res;
+                    if (code === 0) {
+                        setList(data);
+                    } else {
+                        message.error(msg);
+                    }
+                }
+            });
         }
+    }
+    useEffect(() => {
+        fetchList(subId);
     }, [subId]);
     return (
-        <Dialog maxWidth={"sm"} open={open} onClose={handleClose} fullWidth>
+        <Dialog maxWidth={"md"} open={open} onClose={handleClose} fullWidth>
             <DialogTitle>
                 {title}
                 <IconButton
@@ -74,7 +129,11 @@ export const RecordDialog = ({title, subId, open, handleClose}) => {
                                     {item.status === 'SubmitDownloadSucceeded' && "提交下载成功(" + item.items.length + ")"}
                                 </ListSubheader>
                                 {item.items && item.items.map((subItem) => (
-                                    <ListItem key={subItem.id}>
+                                    <ListItem key={subItem.id} secondaryAction={
+                                        <ItemAction id={subItem.id} status={subItem.status}
+                                                    afterDelete={() => fetchList(subId)}
+                                                    afterReDownload={() => fetchList(subId)}/>
+                                    }>
                                         <ListItemText
                                             primary={<Link color="inherit" target={"_blank"}
                                                            href={subItem.torrent_detail_url}>{subItem.torrent_subject}</Link>}
