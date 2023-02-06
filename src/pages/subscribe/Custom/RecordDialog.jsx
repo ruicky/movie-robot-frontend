@@ -19,7 +19,7 @@ import message from "@/utils/message";
 import ReplayIcon from '@mui/icons-material/Replay';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const ItemAction = ({id, status, afterDelete = null, afterReDownload = null}) => {
+const ItemAction = ({id, status, reDownloadDisable = false, afterDelete = null, afterReDownload = null}) => {
     const {mutate: deleteItem} = useDeleteCustomSubRecord();
     const {mutate: renew} = useRenewCustomSubRecord();
 
@@ -55,13 +55,13 @@ const ItemAction = ({id, status, afterDelete = null, afterReDownload = null}) =>
         })
     }
 
-    if (status === 'SubmitDownloadFailed') {
+    if (status === 'SubmitDownloadFailed' && !reDownloadDisable) {
         return <Tooltip title="重新提交下载">
             <IconButton onClick={onReDownload}>
                 <ReplayIcon/>
             </IconButton>
         </Tooltip>
-    } else if (status === 'SubmitDownloadSucceeded') {
+    } else if (status === 'SubmitDownloadSucceeded' || reDownloadDisable) {
         return <Tooltip title="删除这条记录">
             <IconButton onClick={onDeleteItem}>
                 <DeleteIcon/>
@@ -131,6 +131,7 @@ export const RecordDialog = ({title, subId, open, handleClose}) => {
                                 {item.items && item.items.map((subItem) => (
                                     <ListItem key={subItem.id} secondaryAction={
                                         <ItemAction id={subItem.id} status={subItem.status}
+                                                    reDownloadDisable={subItem.download_message === null||subItem.download_message===''}
                                                     afterDelete={() => fetchList(subId)}
                                                     afterReDownload={() => fetchList(subId)}/>
                                     }>
