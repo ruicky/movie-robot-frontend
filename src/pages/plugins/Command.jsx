@@ -64,22 +64,10 @@ export const Command = () => {
             message.warn("已经在运行了，不要重复点击了")
             return;
         }
-        if (command.arg_schema && command.arg_schema.length > 0) {
+        if (command.has_args) {
             setShowRunCommand({
                 commandName: command.name,
                 pluginName: command.plugin_name,
-                argsSchema: command.arg_schema?.map((f) => {
-                    return {
-                        fieldName: f.name,
-                        fieldType: f.arg_type,
-                        label: f.label,
-                        helperText: f.helper,
-                        defaultValue: f.default_value,
-                        required: f.required,
-                        enumValues: f.enum_values,
-                        multiValue:f.multi_value
-                    }
-                }),
                 title: `运行${command.title}`
             });
         } else {
@@ -107,6 +95,7 @@ export const Command = () => {
                         label={item.title}
                         helper={item.desc}
                         status={item.status}
+                        statusMessage={item.status_message}
                         onClick={(status) => handleCardButtonClick(item, status)}
                     />
                 </Grid>
