@@ -9,7 +9,7 @@ import SetSite from "./SetSite";
 import DeleteSite from "./DeleteSite";
 import { getSiteSharesData } from "@/api/SiteApi";
 import SiteSharesWeek from "@/pages/site/SiteSharesWeek";
-import { Skeleton } from "@mui/lab";
+import {Alert, Skeleton} from "@mui/lab";
 import SiteSharesDay from "@/pages/site/SiteSharesDay";
 
 

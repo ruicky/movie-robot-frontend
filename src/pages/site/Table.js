@@ -104,7 +104,7 @@ const DashboardTable = ({ data, onAddClick, onUpdateClick, onDeleteClick, siteMe
                             {data.map((row) => (
                                 <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">
-                                        <Link title={row.site_name} target={'_blank'} href={siteMap[row.site_name].domain}>{siteMap[row.site_name].name}</Link>
+                                        <Link title={row.site_name} target={'_blank'} href={siteMap[row.site_name]?.domain}>{siteMap[row.site_name]?.name}</Link>
                                     </TableCell>
                                     <TableCell>{hideData ? "****" : row.username}</TableCell>
                                     <TableCell>{row.share_rate}</TableCell>
