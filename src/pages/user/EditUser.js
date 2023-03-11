@@ -12,6 +12,7 @@ import {
     Checkbox,
     Chip,
     FormControl,
+    FormControlLabel,
     FormHelperText,
     InputLabel,
     ListItemText,
@@ -103,7 +104,8 @@ function EditUser({}) {
             barkUrl: '',
             telegramUserId: '',
             scoreRuleName: 'compress',
-            permissionCategory: []
+            permissionCategory: [],
+            approvalEnable: false
 
         }, validationSchema: Yup.object().shape({
             username: Yup.string().max(64, "用户名太长了").required("用户名不能为空"),
@@ -120,9 +122,9 @@ function EditUser({}) {
                 setSubmitting(true)
                 let r;
                 if (op === "add") {
-                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory, values.telegramUserId)
+                    r = await registerUser(values.username, values.password, values.nickname, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory, values.telegramUserId, values.approvalEnable)
                 } else {
-                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory, values.telegramUserId)
+                    r = await updateUser(id, values.username, values.nickname, values.password, values.role, values.doubanUser, values.qywxUser, values.pushdeerKey, values.barkUrl, values.scoreRuleName, values.permissionCategory, values.telegramUserId, values.approvalEnable)
                 }
                 if (r.code === 0) {
                     message.success(r.message)
@@ -184,7 +186,10 @@ function EditUser({}) {
             if (user.permission_category) {
                 formik.setFieldValue("permissionCategory", user.permission_category)
             }
-            formik.setFieldValue('telegramUserId', user.telegram_user_id)
+            if (user.approval_enable) {
+                formik.setFieldValue('approvalEnable', user.approval_enable)
+            }
+            formik.setFieldValue('telegramUserId', user.telegram_user_id);
             formik.setFieldValue('avatar', user?.avatar)
         }
     }, [op])
@@ -394,6 +399,14 @@ function EditUser({}) {
                             此用户可以使用的搜索分类
                         </FormHelperText>
                     </FormControl>
+                    <FormControlLabel
+                        control={<Checkbox
+                            checked={formik.values.approvalEnable}
+                            onChange={formik.handleChange}
+                            name="approvalEnable"
+                        />}
+                        label="启用订阅审批（开启后该用户的订阅需要管理员批准）"
+                    />
                     <Centered>
                         <Button
                             mr={2}

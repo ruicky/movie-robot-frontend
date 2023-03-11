@@ -21,6 +21,9 @@ const SubscribeList = ({mediaType}) => {
                 }, {
                     name: '洗版中',
                     value: 2
+                }, {
+                    name: '等待批准',
+                    value: 3
                 }
             ]
         }, {
@@ -40,7 +43,7 @@ const SubscribeList = ({mediaType}) => {
         }
     ]
     const [filter, setFilter] = useState({
-        status: [0],
+        status: [0,3],
         genres: null,
         area: null
     });

@@ -4,10 +4,11 @@ import {
     Backdrop,
     Button,
     CircularProgress,
-    Divider as BtnDivider,
     Divider as MuiDivider,
+    FormControlLabel,
     Grid,
     Stack,
+    Switch,
     Typography
 } from "@mui/material";
 import MovieCard from "../components/MovieCard";
@@ -35,9 +36,10 @@ export default function DownloadRecords() {
     const [currentStart, setCurrentStart] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [filterUnknown, setFilterUnknown] = useState(true);
     const fetchData = async (start = null) => {
         setIsLoading(true);
-        const result = await getRecordList(start);
+        const result = await getRecordList(start, filterUnknown);
         setIsLoading(false);
         setDownloadQueueSize(result?.data?.download_queue_size);
         if (!result.data?.result || result.data.result.length === 0) {
@@ -108,7 +110,10 @@ export default function DownloadRecords() {
     useEffect(async () => {
         await fetchData(0)
         await fetchDownloadingList();
-    }, [])
+    }, []);
+    useEffect(async () => {
+        await fetchData(0);
+    }, [filterUnknown]);
     const onUpdateClick = async () => {
         await fetchData(0)
         await fetchDownloadingList();
@@ -123,10 +128,13 @@ export default function DownloadRecords() {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Stack direction="row" divider={<BtnDivider orientation="vertical" flexItem/>} spacing={1}>
+                    <Stack direction="row" spacing={1}>
+                        <FormControlLabel
+                            control={<Switch defaultChecked onChange={(e) => setFilterUnknown(e.target.checked)}/>}
+                            label="隐藏未识别"/>
                         <ChartDialogs/>
                         <SmallButton color="inherit" size="small" mr={2} onClick={() => onUpdateClick()}>
-                            刷新 <LoopIcon/>
+                            <LoopIcon/>
                         </SmallButton>
                     </Stack>
                 </Grid>

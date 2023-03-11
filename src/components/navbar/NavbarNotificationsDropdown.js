@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
+import {Link} from "react-router-dom";
 import styled from "styled-components";
 
 import {
@@ -7,6 +7,7 @@ import {
     Badge,
     Box,
     Button,
+    CircularProgress,
     IconButton,
     List,
     ListItem,
@@ -15,15 +16,15 @@ import {
     Popover as MuiPopover,
     SvgIcon,
     Tooltip,
-    Typography,
-    CircularProgress
+    Typography
 } from "@mui/material";
 import * as f_icon from "react-feather";
-import { Bell } from "react-feather";
-import { countUnreadSysNotify, getUnreadSysNotify } from "@/api/UserApi";
+import {Bell} from "react-feather";
+import {countUnreadSysNotify, getUnreadSysNotify} from "@/api/UserApi";
 import * as m_icon from "@mui/icons-material";
-import { get as _get } from "lodash-es";
-import { useInterval } from "@/utils/hooks";
+import {get as _get} from "lodash-es";
+import {useInterval} from "@/utils/hooks";
+import MessageAction from "@/pages/notify/actions";
 
 const Popover = styled(MuiPopover)`
   .MuiPaper-root {
@@ -49,17 +50,17 @@ const NotificationHeader = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider};
 `;
 
-function Notification({ title, description, icon }) {
+function Notification({title, description, icon, type, args, hasAction, actionLog, onRefresh = null}) {
     const Icon = _get({
         ...m_icon,
         ...f_icon
-    }, icon, null)
+    }, icon, null);
     return (
         <ListItem divider component={Link} to="#">
             <ListItemAvatar>
                 <Avatar>
                     <SvgIcon fontSize="small">
-                        <Icon />
+                        <Icon/>
                     </SvgIcon>
                 </Avatar>
             </ListItemAvatar>
@@ -69,8 +70,10 @@ function Notification({ title, description, icon }) {
                     variant: "subtitle2",
                     color: "textPrimary",
                 }}
-                secondary={description}
+                secondary={<MessageAction type={type} args={args} has_action={hasAction} action_log={actionLog}
+                                          description={description} onSuccess={onRefresh}/>}
             />
+
         </ListItem>
     );
 }
@@ -112,10 +115,12 @@ function NavbarNotificationsDropdown() {
     return (
         <React.Fragment>
             <Tooltip title="通知消息">
-                <IconButton disabled={loading} component="div" color="inherit" ref={ref} onClick={handleOpen} size="large">
-                    {loading ? <CircularProgress size={24} color="primary" /> : <Indicator badgeContent={unread > 0 ? unread : null}>
-                        <Bell />
-                    </Indicator>}
+                <IconButton disabled={loading} component="div" color="inherit" ref={ref} onClick={handleOpen}
+                            size="large">
+                    {loading ? <CircularProgress size={24} color="primary"/> :
+                        <Indicator badgeContent={unread > 0 ? unread : null}>
+                            <Bell/>
+                        </Indicator>}
                 </IconButton>
             </Tooltip>
             <Popover
@@ -140,6 +145,19 @@ function NavbarNotificationsDropdown() {
                                 title={item.title}
                                 description={item.message}
                                 icon={item.icon}
+                                type={item.type}
+                                args={item.args ? JSON.parse(item.args) : null}
+                                hasAction={item.has_action}
+                                actionLog={item.action_log}
+                                onRefresh={() => {
+                                    const tmp = [...messageList];
+                                    for (let i of tmp) {
+                                        if (i.id === item.id) {
+                                            i.action_log = '已处理';
+                                        }
+                                    }
+                                    setMessageList(tmp);
+                                }}
                             />
                         ))}
                     </List>

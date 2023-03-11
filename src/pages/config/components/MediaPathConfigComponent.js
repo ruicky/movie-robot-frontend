@@ -9,9 +9,11 @@ import {
     Button,
     Card,
     CardActions,
-    CardContent, Checkbox,
-    FormControl, FormControlLabel,
-    FormHelperText, Grid,
+    CardContent,
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
     MenuItem,
     Select,
     TextField as MuiTextField,
@@ -30,7 +32,15 @@ function MediaPathConfigComponent({isInit}) {
     const navigate = useNavigate();
     const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
-    const [paths, setPaths] = useState([{download_path: "", source_dir: "", target_dir: "", qbit_cate: "", type: "movie", file_process_mode: "link",use_area_folder:false}]);
+    const [paths, setPaths] = useState([{
+        download_path: "",
+        source_dir: "",
+        target_dir: "",
+        qbit_cate: "",
+        type: "movie",
+        file_process_mode: "link",
+        use_area_folder: false
+    }]);
     const [downloadClient, setDownloadClient] = useState()
     const saveConfig = async (params) => {
         setNextButtonDisabled(true);
@@ -76,9 +86,9 @@ function MediaPathConfigComponent({isInit}) {
     const handleOnChange = (index, e) => {
         let tmpPaths = [...paths];
         let item = {...tmpPaths[index]};
-        if(e.target.type==='checkbox'){
+        if (e.target.type === 'checkbox') {
             item[e.target.name] = e.target.checked;
-        }else{
+        } else {
             item[e.target.name] = e.target.value;
         }
         tmpPaths[index] = item;
@@ -148,8 +158,10 @@ function MediaPathConfigComponent({isInit}) {
                     >
                         <MenuItem value="movie">电影</MenuItem>
                         <MenuItem value="tv">剧集</MenuItem>
+                        <MenuItem value="xx">XX</MenuItem>
+                        <MenuItem value="other">其他</MenuItem>
                     </Select>
-                    <FormHelperText>路径存放的内容类型</FormHelperText>
+                    <FormHelperText>路径存放的内容类型{ p.type === 'xx' || p.type === 'other'?"，XX和其他类型不做识别和转移操作":""}</FormHelperText>
                 </FormControl>
                 <TextField
                     name="download_path"
@@ -198,8 +210,9 @@ function MediaPathConfigComponent({isInit}) {
                     value={p.target_dir}
                     onChange={(e) => handleOnChange(i, e)}
                     onBlur={(e) => handleOnBlur(i, e)}
+                    disabled={p.type === 'xx' || p.type === 'other'}
                 />
-                <FormControl m={4} fullWidth>
+                <FormControl m={4} fullWidth disabled={p.type === 'xx' || p.type === 'other'}>
                     <Select
                         name="file_process_mode"
                         value={p.file_process_mode}
@@ -212,13 +225,13 @@ function MediaPathConfigComponent({isInit}) {
                     </Select>
                     <FormHelperText>{p.file_process_mode === "link" ? "对同一个存储区块做新的引用，不占额外空间，不影响源文件做种" : "将源文件直接复制到目标路径，产生额外的存储空间"}</FormHelperText>
                 </FormControl>
-                <FormControlLabel
-                    control={<Checkbox
-                        checked={p.use_area_folder}
-                        onChange={(e) => handleOnChange(i, e)}
-                        name="use_area_folder"
-                    />}
-                    label="使用区域自动分类，开启后会在此文件夹下建立一些子文件夹（大陆、港台、日韩、欧美、其他）"
+                <FormControlLabel disabled={p.type === 'xx' || p.type === 'other'}
+                                  control={<Checkbox
+                                      checked={p.use_area_folder}
+                                      onChange={(e) => handleOnChange(i, e)}
+                                      name="use_area_folder"
+                                  />}
+                                  label="使用区域自动分类，开启后会在此文件夹下建立一些子文件夹（大陆、港台、日韩、欧美、其他）"
                 />
             </CardContent>
         </Card>))) : null}

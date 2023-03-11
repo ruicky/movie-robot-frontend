@@ -166,6 +166,21 @@ export const useDeleteSubscribe = () => {
     );
 };
 
+export const useApprovedSubscribe = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/approved", {params: params, method: "GET"})
+    );
+};
+
+export const useRefuseSubscribe = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/refuse", {params: params, method: "GET"})
+    );
+};
 // 洗版
 export const useReVersionSubscribe = () => {
     const client = useHttp();
