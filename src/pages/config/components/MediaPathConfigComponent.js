@@ -58,7 +58,7 @@ function MediaPathConfigComponent({isInit}) {
                 item.sourceDirError = item.sourceDirError || "路径不能为空";
                 hasError = true;
             }
-            if (v.target_dir === undefined || v.target_dir === "" || item.targetDirError !== undefined) {
+            if (!['xx', 'other'].includes(v.type) && (v.target_dir === undefined || v.target_dir === "" || item.targetDirError !== undefined)) {
                 item.targetDirError = item.targetDirError || "路径不能为空";
                 hasError = true;
             }
@@ -161,7 +161,7 @@ function MediaPathConfigComponent({isInit}) {
                         <MenuItem value="xx">XX</MenuItem>
                         <MenuItem value="other">其他</MenuItem>
                     </Select>
-                    <FormHelperText>路径存放的内容类型{ p.type === 'xx' || p.type === 'other'?"，XX和其他类型不做识别和转移操作":""}</FormHelperText>
+                    <FormHelperText>路径存放的内容类型{p.type === 'xx' || p.type === 'other' ? "，XX和其他类型不做识别和转移操作" : ""}</FormHelperText>
                 </FormControl>
                 <TextField
                     name="download_path"
