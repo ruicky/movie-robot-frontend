@@ -112,5 +112,8 @@
   "resolutions": {
     "jss": "10.9.0",
     "react-error-overlay": "6.0.9"
+  },
+  "volta": {
+    "node": "18.18.2"
   }
 }
