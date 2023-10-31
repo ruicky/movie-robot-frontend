@@ -95,8 +95,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "7.16.5",
-    "@svgr/webpack": "5.5.0",
-    "@vitejs/plugin-react": "^2.1.0",
+    "@vitejs/plugin-react": "^4.1.0",
     "babel-plugin-macros": "^3.1.0",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "6.15.0",
