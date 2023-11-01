@@ -69,6 +69,7 @@
     "prismjs": "^1.29.0",
     "react": "17.0.2",
     "react-app-polyfill": "2.0.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-chartjs-2": "3.3.0",
     "react-dom": "17.0.2",
     "react-dragula": "1.1.17",
@@ -95,6 +96,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "7.16.5",
+    "@iconify/react": "^4.1.1",
     "@vitejs/plugin-react": "^4.1.0",
     "autoprefixer": "^10.4.16",
     "babel-plugin-macros": "^3.1.0",
