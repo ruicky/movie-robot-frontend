@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import squircle from "css-houdini-squircle/squircle.min.js?url";
 import App from "./App";
+import "./index.css";
 
 import { QueryProvider } from './contexts/QueryProvider';
 import { ThemeProvider } from "./contexts/ThemeContext";
