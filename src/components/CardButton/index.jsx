@@ -1,15 +1,16 @@
-import styled, {css, keyframes} from "styled-components/macro";
-import React, {useEffect, useRef} from "react";
+import styled, { css, keyframes } from "styled-components/macro";
+import React, { useEffect, useRef } from "react";
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import {Box, Box as MuiBox, CircularProgress, Tooltip, Typography} from "@mui/material";
-import {get as _get} from "lodash-es";
-import * as m_icon from "@mui/icons-material";
-import * as f_icon from "react-feather";
+import { Box, Box as MuiBox, CircularProgress, Tooltip, Typography } from "@mui/material";
+// import { get as _get } from "lodash-es";
+// import * as m_icon from "@mui/icons-material";
+// import * as f_icon from "react-feather";
 import LinesEllipsis from "react-lines-ellipsis";
-import {Tool} from "react-feather";
+import IconLoader from "../IconLoader";
+// import {Tool} from "react-feather";
 
 const breatheAnimation = keyframes`
   0% { transform: scale(1); }
@@ -63,8 +64,8 @@ const CardStatus = styled.div`
 `;
 
 const RunningButton = () => {
-    return <Box sx={{m: 1, position: 'relative', margin: 0}}>
-        <StopCircleIcon fontSize="large"/>
+    return <Box sx={{ m: 1, position: 'relative', margin: 0 }}>
+        <StopCircleIcon fontSize="large" />
         <CircularProgress
             size={32}
             sx={{
@@ -76,11 +77,11 @@ const RunningButton = () => {
     </Box>
 }
 
-export const CardButton = ({color, icon, label, helper, selected, status, statusMessage, onClick}) => {
-    const Icon = _get({
-        ...m_icon,
-        ...f_icon
-    }, icon, null);
+export const CardButton = ({ color, icon, label, helper, selected, status, statusMessage, onClick }) => {
+    // const Icon = _get({
+    //     ...m_icon,
+    //     ...f_icon
+    // }, icon, null);
 
     // 点击动画
     const [isAnimation, setIsAnimation] = React.useState(false);
@@ -117,26 +118,27 @@ export const CardButton = ({color, icon, label, helper, selected, status, status
         ref={card}
     >
         <CardHead>
-            {Icon && <Icon fontSize="large"/>}
+            {/* {Icon && <Icon fontSize="large"/>} */}
+            {icon && <IconLoader className="tw-text-4xl" icon={icon} />}
             <CardStatus>
-                {status === 'running' && <Tooltip title="运行中"><RunningButton fontSize="large"/></Tooltip>}
-                {status === 'done' && <Tooltip title="运行完毕"><CheckCircleIcon fontSize="large"/></Tooltip>}
-                {status === 'error' && <Tooltip title={statusMessage}><ErrorIcon fontSize="large"/></Tooltip>}
-                {(status === undefined || status === null || status === 'ready') && <Tooltip title="点击运行"><PlayCircleIcon fontSize="large"/></Tooltip>}
+                {status === 'running' && <Tooltip title="运行中"><RunningButton fontSize="large" /></Tooltip>}
+                {status === 'done' && <Tooltip title="运行完毕"><CheckCircleIcon fontSize="large" /></Tooltip>}
+                {status === 'error' && <Tooltip title={statusMessage}><ErrorIcon fontSize="large" /></Tooltip>}
+                {(status === undefined || status === null || status === 'ready') && <Tooltip title="点击运行"><PlayCircleIcon fontSize="large" /></Tooltip>}
             </CardStatus>
         </CardHead>
         <Typography variant="h6" color="#FFF" gutterBottom>
             <LinesEllipsis
                 text={label}
                 maxLine={1}
-                style={{height: "20px"}}
+                style={{ height: "20px" }}
             />
         </Typography>
         <Typography variant="caption" color="#FFF" display="block" gutterBottom>
             <LinesEllipsis
                 text={helper}
                 maxLine={2}
-                style={{height: "40px"}}
+                style={{ height: "40px" }}
             />
         </Typography>
     </Card>

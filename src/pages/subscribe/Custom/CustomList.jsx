@@ -14,7 +14,7 @@ import {
     MenuItem,
     Stack
 } from "@mui/material";
-import {Skeleton} from "@mui/lab";
+import { Skeleton } from "@mui/material";
 import {Add as AddIcon} from "@mui/icons-material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {useNavigate} from "react-router-dom";
