@@ -6,9 +6,7 @@ import { darken, rgba } from "polished";
 import { Chip, Collapse, ListItemButton, ListItemText } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import useStore from "@/store/index";
-import * as m_icon from "@mui/icons-material";
-import * as f_icon from "react-feather";
-import { get as _get } from "lodash-es";
+import IconLoader from "../IconLoader";
 
 const CustomRouterLink = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -88,14 +86,6 @@ const ExpandMoreIcon = styled(ExpandMore)`
 
 const SidebarNavListItem = (props) => {
   const { title, href, depth = 0, children, icon, badge, open: openProp = false } = props;
-  const Icon = _get(
-    {
-      ...m_icon,
-      ...f_icon,
-    },
-    icon,
-    null
-  );
   const [open, setOpen] = React.useState(openProp);
 
   const handleToggle = () => {
@@ -108,7 +98,7 @@ const SidebarNavListItem = (props) => {
     return (
       <React.Fragment>
         <Item depth={depth} onClick={handleToggle}>
-          {Icon && <Icon />}
+          {icon && <IconLoader icon={icon} />}
           <Title depth={depth}>
             {title}
             {badge && <Badge label={badge} />}
@@ -130,7 +120,7 @@ const SidebarNavListItem = (props) => {
           sideBar.toggleOpen(false);
         }}
       >
-        {Icon && <Icon />}
+        {icon && <IconLoader icon={icon} />}
         <Title depth={depth}>
           {title}
           {badge && <Badge label={badge} />}

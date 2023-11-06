@@ -11,7 +11,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import React, {useEffect, useState} from "react";
-import {Skeleton} from "@mui/lab";
+import { Skeleton } from "@mui/material";
 import {getRuleConfigList} from "@/api/ConfigApi";
 import message from "@/utils/message";
 
