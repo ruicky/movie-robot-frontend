@@ -6,7 +6,7 @@ import { useUrlQueryParam } from "@/hooks/useUrlQueryParam";
 import DropDownBox from "@/components/DropDownBox";
 import Empty from "@/components/Empty";
 import SubscribeList from "./components/SubscribeList";
-
+import FolderIcon from "@mui/icons-material/Folder";
 import {
   Box,
   Button,
@@ -22,9 +22,10 @@ import {
   Grid,
   List,
   ListItem,
+  ListItemAvatar,
+  ListItemButton,
   ListItemText,
-  Snackbar,
-  SwipeableDrawer,
+  Snackbar, Switch,
   Typography
 } from "@mui/material";
 import { spacing } from "@mui/system";
@@ -132,18 +133,6 @@ const PathPicker = ({ downloadInfo, onClose: close, setMessage }) => {
               保存路径: {confirmPath}
             </Typography>
           </DialogContentText>
-          <Grid>
-            <Grid item>
-              <FormControlLabel
-                control={<Checkbox
-                  checked={betterVersion}
-                  name="betterVersion"
-                  onChange={(e) => setBetterVersion(e.target.checked)}
-                />}
-                label="下载完成后自动替换掉媒体服务器的旧版"
-              />
-            </Grid>
-          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => {
@@ -156,27 +145,51 @@ const PathPicker = ({ downloadInfo, onClose: close, setMessage }) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={!!downloadInfo}
-        onClose={close}
-      >
-        <Box
-          role="presentation"
-        >
-          <List>
-            {paths.map((text, index) => (
-              <ListItem
-                button
-                key={text}
-                onClick={() => setConfirmPath(text)}
-              >
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </SwipeableDrawer>
+      <Dialog open={!!downloadInfo} onClose={close} maxWidth={"xs"} fullWidth>
+        <DialogTitle>要保存到哪里？</DialogTitle>
+        <List sx={{ pt: 0 }}>
+          {paths.map((path, index) => (
+            <ListItem key={path}>
+              <ListItemButton onClick={() => setConfirmPath(path)}>
+                <ListItemAvatar>
+                  <FolderIcon />
+                </ListItemAvatar>
+                <ListItemText primary={path} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <DialogActions sx={{justifyContent:"flex-start"}}>
+          <FormControlLabel
+            sx={{ml:3}}
+            control={<Switch checked={betterVersion}
+                             name="betterVersion"
+                             onChange={(e) => setBetterVersion(e.target.checked)} />}
+            label="下载完成后自动替换掉媒体服务器的旧版"
+          />
+        </DialogActions>
+      </Dialog>
+      {/*<SwipeableDrawer*/}
+      {/*  anchor="bottom"*/}
+      {/*  open={!!downloadInfo}*/}
+      {/*  onClose={close}*/}
+      {/*>*/}
+      {/*  <Box*/}
+      {/*    role="presentation"*/}
+      {/*  >*/}
+      {/*    <List>*/}
+      {/*      {paths.map((text, index) => (*/}
+      {/*        <ListItem*/}
+      {/*          button*/}
+      {/*          key={text}*/}
+      {/*          onClick={() => setConfirmPath(text)}*/}
+      {/*        >*/}
+      {/*          <ListItemText primary={text} />*/}
+      {/*        </ListItem>*/}
+      {/*      ))}*/}
+      {/*    </List>*/}
+      {/*  </Box>*/}
+      {/*</SwipeableDrawer>*/}
     </>
   );
 };
@@ -358,7 +371,7 @@ function SearchRecords(props) {
                            images={imageCarousel.images} title={imageCarousel.title} />
       <Grid container spacing={4}>
         {
-          (loading ? Array.from(new Array(3)) : records || []).filter((item) => {
+          (loading ? Array.from(new Array(4)) : records || []).filter((item) => {
             if (!item) {
               return true;
             }

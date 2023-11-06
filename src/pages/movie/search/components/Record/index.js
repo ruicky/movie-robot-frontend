@@ -24,6 +24,8 @@ import { deepOrange, green } from "@mui/material/colors";
 import { coverSize } from "@/utils/PtUtils";
 import { useGetTorrentDetail } from "@/api/SiteApi";
 import message from "@/utils/message";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const CardMediaWrapper = styled(CardMedia)`
   ${(props) => props.theme.breakpoints.up("sm")} {
@@ -87,6 +89,8 @@ const TorrentTitle = ({
                         seasonNumberEnd,
                         episodes
                       }) => {
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const getTitle = () => {
     let title = "";
     if (cnName) {
@@ -107,7 +111,7 @@ const TorrentTitle = ({
     return (<Link target="_blank" href={linkUrl} color="inherit">{title}</Link>);
   };
   return (
-    <Typography gutterBottom variant="h5" component="h2" sx={{ height: 40 }}>
+    <Typography gutterBottom variant="h5" component="h2" sx={{ minHeight: smallScreen ? "auto" : 40 }}>
       {cnName || enName ?
         getTitle() :
         <Skeleton />}
@@ -141,6 +145,8 @@ const COM = ({
                tvInfo,
                onLoading, setImageCarousel
              }) => {
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { mutate: getDetail, isLoading } = useGetTorrentDetail();
   useEffect(() => {
     onLoading(isLoading);
@@ -174,8 +180,9 @@ const COM = ({
         } else {
           setImageCarousel({
             open: true,
-            title: subject,
-            images: data.images.map(item => ({ url: item }))
+            title: subject || name,
+            images: data.images.map(item => ({ url: item })),
+            desc: data.intro
           });
         }
       }
@@ -190,7 +197,7 @@ const COM = ({
         image={poster_url}
         onError={handleImageError}
         onClick={picOnClick}
-        sx={{ height: 350, objectFit: "contain" }}
+        sx={{ height: smallScreen ? "auto" : 350, objectFit: "contain" }}
       /></CardActionArea>}
       <CardContent>
         <TorrentTitle cnName={cnName} enName={enName} releaseYear={releaseYear} mediaType={mediaType}
@@ -207,7 +214,7 @@ const COM = ({
               <Chip label={media_encoding} color="info" /> : null}
           </Stack>
         </div>
-        <Typography mb={4} color="body2" component="p" sx={{ height: 40 }}>
+        <Typography mb={4} color="body2" component="p" sx={{ minHeight: smallScreen ? "auto" : 40 }}>
           {(subject || name) ? `[${site_name}] ${subject ? subject : name}` : <Skeleton />}
         </Typography>
         <Typography mb={4} color="textSecondary" component="p">
