@@ -7,12 +7,7 @@ const strToIconify = (icon) => {
     return icon.replace(/([A-Z])/g, "-$1").toLowerCase().slice(1);
 };
 
-const IconLoader = ({ icon, className }) => {
-    if (icon.includes(":")) {
-        // 如果图标已经是 iconify 格式，直接渲染
-        return <Icon icon={icon} className={className} />;
-    }
-
+const StrIconLoader = ({ icon, className }) => {
     const [iconName, setIconName] = useState(null);
     const mounted = React.useRef(false);
 
@@ -43,5 +38,14 @@ const IconLoader = ({ icon, className }) => {
     // 如果找到图标则渲染
     return iconName ? <Icon icon={iconName} className={className} /> : null
 };
+
+const IconLoader = ({ icon, className }) => {
+    if (icon.includes(":")) {
+        // 如果图标已经是 iconify 格式，直接渲染
+        return <Icon icon={icon} className={className} />;
+    }
+    return <StrIconLoader icon={icon} className={className} />;
+};
+
 
 export default IconLoader;

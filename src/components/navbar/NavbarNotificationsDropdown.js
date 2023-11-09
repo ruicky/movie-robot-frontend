@@ -14,15 +14,11 @@ import {
   ListItemAvatar,
   ListItemText,
   Popover as MuiPopover,
-  SvgIcon,
   Tooltip,
   Typography,
 } from "@mui/material";
-// import * as f_icon from "react-feather";
 import { Bell } from "react-feather";
 import { countUnreadSysNotify, getUnreadSysNotify } from "@/api/UserApi";
-// import * as m_icon from "@mui/icons-material";
-// import {get as _get} from "lodash-es";
 import { useInterval } from "@/utils/hooks";
 import MessageAction from "@/pages/notify/actions";
 import IconLoader from "../IconLoader";
@@ -61,18 +57,11 @@ function Notification({
   actionLog,
   onRefresh = null,
 }) {
-  // const Icon = _get({
-  //     ...m_icon,
-  //     ...f_icon
-  // }, icon, null);
   return (
     <ListItem divider component={Link} to="#">
       <ListItemAvatar>
         <Avatar>
-          <SvgIcon fontSize="small">
-            {/* <Icon/> */}
-            <IconLoader icon={icon} />
-          </SvgIcon>
+          <IconLoader icon={icon} />
         </Avatar>
       </ListItemAvatar>
       <ListItemText
