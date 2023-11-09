@@ -35,7 +35,7 @@
     "@mui/icons-material": "5.2.4",
     "@mui/lab": "5.0.0-alpha.60",
     "@mui/material": "5.2.4",
-    "@mui/styled-engine-sc": "5.1.0",
+    "@mui/styled-engine-sc": "5.14.12",
     "@mui/styles": "5.2.3",
     "@mui/system": "5.2.4",
     "@mui/x-data-grid": "5.2.1",
