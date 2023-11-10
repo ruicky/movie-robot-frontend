@@ -1,264 +1,22 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import { Helmet } from "react-helmet-async";
-import axios from "../../../utils/request";
 import { useUrlQueryParam } from "@/hooks/useUrlQueryParam";
-import DropDownBox from "@/components/DropDownBox";
 import Empty from "@/components/Empty";
 import SubscribeList from "./components/SubscribeList";
-import FolderIcon from "@mui/icons-material/Folder";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-  FormControlLabel,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemText,
-  Snackbar,
-  Switch,
-  Typography,
-} from "@mui/material";
+import { Box, Button, CircularProgress, Divider, Grid, Snackbar } from "@mui/material";
 import { spacing } from "@mui/system";
 import Record from "./components/Record";
 import MediaServerSearch from "@/pages/movie/search/MediaServerSearch";
 import { FilterOptionsProvider } from "@/contexts/FilterOptionsProvider";
 import { AppInfoContext } from "@/contexts/AppSetting";
 import ImageCarouselDialog from "@/pages/movie/search/components/Record/ImageCarouselDialog";
-import Drawer from "@mui/material/Drawer";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { TagFileter } from "./components/TagFileter";
+import { PathPicker } from "./components/PathPicker";
+import axios from "../../../utils/request";
+import { getPromotion } from "./utils";
 
 const StyledDivider = styled(Divider)(spacing);
-
-const TagFileter = ({ filter, data, onFilter }) => {
-  let list = [
-    { name: "站点", dataKey: "sites" },
-    { name: "年份", dataKey: "movie_release_year" },
-    { name: "来源", dataKey: "source" },
-    { name: "分辨率", dataKey: "resolution" },
-    { name: "编码", dataKey: "encode" },
-  ];
-  if ("season" in data) {
-    list.push({ name: "季度", dataKey: "season" });
-  }
-  if ("episode" in data) {
-    list.push({ name: "集数", dataKey: "episode" });
-  }
-  const obj2Array = (obj) => {
-    const arr = Object.keys(obj)
-      .map((key) => ({ name: key, value: obj[key] }))
-      .sort((a, b) => {
-        if (a.name === "全部") {
-          return -1;
-        }
-        if (b.name === "全部") {
-          return 1;
-        }
-        return a.value - b.value;
-      });
-    return arr;
-  };
-  const FilterWrapper = styled(Box)`
-    position: sticky;
-    top: 56px;
-
-    ${(props) => props.theme.breakpoints.up("sm")} {
-      top: 64px;
-    }
-
-    z-index: 100;
-    overflow-x: scroll;
-    -webkit-overflow =
-    scroling: touch;
-    background: ${(props) => props.theme.palette.background.default};
-
-    &::-webkit-scrollbar {
-      display: none
-    }
-  `;
-
-  const [showDrawer, setShowDrawer] = useState(false);
-  const toggleDrawer = () => {
-    setShowDrawer(!showDrawer);
-  };
-
-  return (
-    <FilterWrapper
-      sx={{
-        my: 2,
-      }}
-    >
-      <div className="tw-hidden md:tw-flex">
-        {list.map((item) => {
-          return (
-            <DropDownBox
-              key={item.dataKey}
-              label={item.name}
-              sx={{ minWidth: "80px" }}
-              value={Object.keys(data[item.dataKey]).find(
-                (value) => data[item.dataKey][value] === filter[item.dataKey]
-              )}
-              data={obj2Array(data[item.dataKey])}
-              onChange={(value) => {
-                onFilter({ ...filter, [item.dataKey]: value });
-              }}
-            />
-          );
-        })}
-      </div>
-      <div className="md:tw-hidden tw-flex tw-justify-start">
-        <div onClick={toggleDrawer}>
-          <div className="tw-p-2 tw-flex tw-items-center tw-justify-center">
-            筛选
-            {showDrawer ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-          </div>
-        </div>
-        <Drawer
-          container={document.getElementById("root")}
-          anchor="bottom"
-          open={showDrawer}
-          onClose={toggleDrawer}
-        >
-          <div className="tw-py-4">
-            <div className="tw-px-4 tw-text-start tw-text-lg tw-font-bold tw-p-2">选择筛选项</div>
-            <div className="tw-px-4 tw-overflow-y-auto tw-max-h-[60vh]">
-              {list.map((item) => {
-                return (
-                  <div className="tw-mb-2" key={item.dataKey}>
-                    <div className="tw-opacity-70">{item.name}</div>
-                    <div className="tw-pt-2 tw-grid tw-grid-cols-5 tw-gap-1">
-                      {obj2Array(data[item.dataKey]).map((value) => {
-                        return (
-                          <Button
-                            size="small"
-                            key={value.name}
-                            variant={
-                              filter[item.dataKey] === value.value ||
-                              ((!filter[item.dataKey] || filter[item.dataKey] === "全部") &&
-                                value.name === "全部")
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() => {
-                              onFilter({ ...filter, [item.dataKey]: value.value });
-                            }}
-                          >
-                            {value.name}
-                          </Button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </Drawer>
-      </div>
-    </FilterWrapper>
-  );
-};
-const PathPicker = ({ downloadInfo, onClose: close, setMessage }) => {
-  const [paths, setPaths] = useState([]);
-  const [betterVersion, setBetterVersion] = useState(false);
-  const [confirmPath, setConfirmPath] = useState(null);
-  useEffect(() => {
-    axios
-      .get("/api/download/paths", {
-        params: {},
-      })
-      .then((res) => {
-        const { data } = res;
-        setPaths(data);
-      });
-  }, []);
-
-  const downloadRequest = useCallback(
-    (path, betterVersion) => {
-      const { id, site_id } = downloadInfo;
-      axios
-        .get("/api/download/torrent", {
-          params: { id, site_id, save_path: path, better_version: betterVersion },
-        })
-        .then(({ code, message }) => {
-          setConfirmPath(null);
-          close();
-          setMessage(message);
-        });
-    },
-    [downloadInfo]
-  );
-  return (
-    <>
-      <Dialog
-        open={!!confirmPath}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">确认要下载吗?</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <Typography variant="h5">保存路径: {confirmPath}</Typography>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setConfirmPath(null);
-            }}
-          >
-            取消
-          </Button>
-          <Button
-            onClick={() => {
-              downloadRequest(confirmPath, betterVersion);
-            }}
-          >
-            确定
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog open={!!downloadInfo} onClose={close} maxWidth={"xs"} fullWidth>
-        <DialogTitle>要保存到哪里？</DialogTitle>
-        <List sx={{ pt: 0 }}>
-          {paths.map((path, index) => (
-            <ListItem key={path}>
-              <ListItemButton onClick={() => setConfirmPath(path)}>
-                <ListItemAvatar>
-                  <FolderIcon />
-                </ListItemAvatar>
-                <ListItemText primary={path} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <DialogActions sx={{ justifyContent: "flex-start" }}>
-          <FormControlLabel
-            sx={{ ml: 3 }}
-            control={
-              <Switch
-                checked={betterVersion}
-                name="betterVersion"
-                onChange={(e) => setBetterVersion(e.target.checked)}
-              />
-            }
-            label="下载完成后自动替换掉媒体服务器的旧版"
-          />
-        </DialogActions>
-      </Dialog>
-    </>
-  );
-};
 
 function SearchRecords(props) {
   const appInfo = useContext(AppInfoContext);
@@ -317,6 +75,8 @@ function SearchRecords(props) {
             const source = { 全部: "全部" };
             const resolution = { 全部: "全部" };
             const releaseYear = { 全部: "全部" };
+            const releaseTeam = { 全部: "全部" };
+            const promotion = { 全部: "全部" };
             const torrents = res.data.torrents;
             let tips = `在${res.data.site_names.length}个站点搜索到${torrents.length}条结果，其中${res.data.max_run_site_name}最慢，耗费${res.data.max_run_time}秒`;
             if (res.data.run_timeout_names && res.data.run_timeout_names.length > 0) {
@@ -337,6 +97,9 @@ function SearchRecords(props) {
                 movie_release_year,
                 movie_type,
                 tv_series,
+                release_team,
+                download_volume_factor,
+                upload_volume_factor,
               }) => {
                 if (sites) {
                   sites[site_name] = site_name;
@@ -353,6 +116,13 @@ function SearchRecords(props) {
                 if (movie_release_year) {
                   releaseYear[movie_release_year] = movie_release_year;
                 }
+                if (release_team) {
+                  releaseTeam[release_team] = release_team;
+                }
+                if (upload_volume_factor || download_volume_factor) {
+                  const _promotion = getPromotion(upload_volume_factor, download_volume_factor);
+                  if (_promotion) promotion[_promotion] = _promotion;
+                }
                 if (movie_type === "TV") {
                   tvCnt++;
                   if (tv_series) {
@@ -368,7 +138,15 @@ function SearchRecords(props) {
                 }
               }
             );
-
+            const baseResource = {
+              sites,
+              encode,
+              source,
+              resolution,
+              movie_release_year: releaseYear,
+              releaseTeam,
+              promotion,
+            };
             if (tvCnt > torrents.length * 0.5) {
               const season = { 全部: "全部" };
               const episode = { 全部: "全部" };
@@ -377,21 +155,13 @@ function SearchRecords(props) {
                 episode[`第${value}集`] = value;
               });
               setTagResource({
-                sites,
-                encode,
-                source,
-                resolution,
-                movie_release_year: releaseYear,
+                ...baseResource,
                 season,
                 episode,
               });
             } else {
               setTagResource({
-                sites,
-                encode,
-                source,
-                resolution,
-                movie_release_year: releaseYear,
+                ...baseResource,
               });
             }
             setRecords(torrents);
@@ -475,6 +245,8 @@ function SearchRecords(props) {
               media_encoding,
               movie_release_year,
               tv_series,
+              release_team,
+              download_volume_factor,
             } = item;
             return Object.keys(filter).every((key) => {
               const filterValue = filter[key];
@@ -490,6 +262,15 @@ function SearchRecords(props) {
                   return filterValue === media_encoding;
                 case "movie_release_year":
                   return filterValue === movie_release_year;
+                case "releaseTeam":
+                  return filterValue === release_team;
+                case "downloadVolumeFactor":
+                  return filterValue === download_volume_factor;
+                case "promotion":
+                  return (
+                    filterValue ===
+                    getPromotion(item.upload_volume_factor, item.download_volume_factor)
+                  );
                 case "season":
                   return tv_series?.season_full_index?.includes(filterValue);
                 case "episode":
@@ -499,7 +280,6 @@ function SearchRecords(props) {
               }
             });
           })
-
           .map((row, index) => (
             <Grid key={index} item xs={12} lg={6} xl={6}>
               <Record
