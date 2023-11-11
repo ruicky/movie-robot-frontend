@@ -9,12 +9,8 @@ import {
   ListItemAvatar,
   ListItemText,
   ListSubheader,
-  SvgIcon,
 } from "@mui/material";
 import { clearSysNotify, getAllSysNotify } from "@/api/UserApi";
-// import * as m_icon from "@mui/icons-material";
-// import * as f_icon from "react-feather";
-// import { get as _get } from "lodash-es";
 import styled from "styled-components";
 import { useInterval } from "@/utils/hooks";
 import MessageAction from "@/pages/notify/actions";
@@ -25,19 +21,12 @@ const Avatar = styled(MuiAvatar)`
 `;
 
 function MessageItem({ item, onRefresh = null }) {
-  // const Icon = _get({
-  //     ...m_icon,
-  //     ...f_icon
-  // }, item.icon, null)
   return (
     <>
       <ListItem key={item.id} alignItems="flex-start" divider>
         <ListItemAvatar>
           <Avatar>
-            <SvgIcon fontSize="small">
-              {/* <Icon/> */}
-              <IconLoader icon={item.icon} />
-            </SvgIcon>
+            <IconLoader icon={item.icon} />
           </Avatar>
         </ListItemAvatar>
         <Grid container spacing={2} sx={{ alignItems: "center" }}>
