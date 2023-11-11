@@ -6,24 +6,29 @@ import { darken, rgba } from "polished";
 import { Chip, Collapse, ListItemButton, ListItemText } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import useStore from "@/store/index";
-import * as m_icon from "@mui/icons-material";
-import * as f_icon from "react-feather";
-import { get as _get } from "lodash-es";
+import IconLoader from "../IconLoader";
+
 const CustomRouterLink = forwardRef((props, ref) => (
   <div ref={ref}>
-    <NavLink {...props} />
+    <NavLink
+      {...props}
+      className={({ isActive }) => {
+        if (props.to.startsWith("/common/view")) {
+          const isActive =
+            props.to === window.location.pathname + window.location.search + window.location.hash;
+          return [props.className, isActive ? "active" : ""].join(" ");
+        }
+        return [props.className, isActive ? "active" : ""].join(" ");
+      }}
+    />
   </div>
 ));
 
 const Item = styled(ListItemButton)`
-  padding-top: ${(props) =>
-    props.theme.spacing(props.depth && props.depth > 0 ? 2 : 3)};
-  padding-bottom: ${(props) =>
-    props.theme.spacing(props.depth && props.depth > 0 ? 2 : 3)};
-  padding-left: ${(props) =>
-    props.theme.spacing(props.depth && props.depth > 0 ? 14 : 8)};
-  padding-right: ${(props) =>
-    props.theme.spacing(props.depth && props.depth > 0 ? 4 : 7)};
+  padding-top: ${(props) => props.theme.spacing(props.depth && props.depth > 0 ? 2 : 3)};
+  padding-bottom: ${(props) => props.theme.spacing(props.depth && props.depth > 0 ? 2 : 3)};
+  padding-left: ${(props) => props.theme.spacing(props.depth && props.depth > 0 ? 14 : 8)};
+  padding-right: ${(props) => props.theme.spacing(props.depth && props.depth > 0 ? 4 : 7)};
   font-weight: ${(props) => props.theme.typography.fontWeightRegular};
   svg {
     color: ${(props) => props.theme.sidebar.color};
@@ -36,9 +41,8 @@ const Item = styled(ListItemButton)`
     background: rgba(0, 0, 0, 0.08);
     color: ${(props) => props.theme.sidebar.color};
   }
-  &.${(props) => props.activeclassname} {
-    background-color: ${(props) =>
-    darken(0.03, props.theme.sidebar.background)};
+  &.active {
+    background-color: ${(props) => darken(0.03, props.theme.sidebar.background)};
     span {
       color: ${(props) => props.theme.sidebar.color};
     }
@@ -48,11 +52,7 @@ const Item = styled(ListItemButton)`
 const Title = styled(ListItemText)`
   margin: 0;
   span {
-    color: ${(props) =>
-    rgba(
-      props.theme.sidebar.color,
-      props.depth && props.depth > 0 ? 0.7 : 1
-    )};
+    color: ${(props) => rgba(props.theme.sidebar.color, props.depth && props.depth > 0 ? 0.7 : 1)};
     font-size: ${(props) => props.theme.typography.body1.fontSize}px;
     padding: 0 ${(props) => props.theme.spacing(4)};
   }
@@ -85,19 +85,7 @@ const ExpandMoreIcon = styled(ExpandMore)`
 `;
 
 const SidebarNavListItem = (props) => {
-  const {
-    title,
-    href,
-    depth = 0,
-    children,
-    icon,
-    badge,
-    open: openProp = false,
-  } = props;
-  const Icon = _get({
-    ...m_icon,
-    ...f_icon
-  }, icon, null);
+  const { title, href, depth = 0, children, icon, badge, open: openProp = false } = props;
   const [open, setOpen] = React.useState(openProp);
 
   const handleToggle = () => {
@@ -110,7 +98,7 @@ const SidebarNavListItem = (props) => {
     return (
       <React.Fragment>
         <Item depth={depth} onClick={handleToggle}>
-          {Icon && <Icon />}
+          {icon && <IconLoader icon={icon} />}
           <Title depth={depth}>
             {title}
             {badge && <Badge label={badge} />}
@@ -129,11 +117,10 @@ const SidebarNavListItem = (props) => {
         component={CustomRouterLink}
         to={href}
         onClick={() => {
-          sideBar.toggleOpen(false)
+          sideBar.toggleOpen(false);
         }}
-        activeclassname="active"
       >
-        {Icon && <Icon />}
+        {icon && <IconLoader icon={icon} />}
         <Title depth={depth}>
           {title}
           {badge && <Badge label={badge} />}

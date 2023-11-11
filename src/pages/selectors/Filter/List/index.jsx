@@ -15,7 +15,7 @@ import {Add as AddIcon, FilterList as FilterListIcon} from "@mui/icons-material"
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import React, {useEffect, useState} from "react";
-import {Skeleton} from "@mui/lab";
+import { Skeleton } from "@mui/material";
 import {getFilterConfigList} from "@/api/ConfigApi";
 import {useNavigate} from "react-router-dom";
 import DeleteDialog from "@/pages/selectors/Filter/Delete";

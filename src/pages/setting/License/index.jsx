@@ -178,40 +178,40 @@ function License() {
                                 <br/><br/>
                             </LicenseItem>
                         </Grid>
-                        <Grid item xs={12} md={4}>
-                            <LicenseItem
-                                showPrice={!isVip}
-                                title={"订阅授权"}
-                                selected={licenseType === 'SubVIP'}
-                                price={licenseType === 'SubVIP' ? '已购买' : '¥60'}
-                                period={licenseType === 'SubVIP' ? "" : "/每年"}
-                                actionsComponent={licenseType === 'SubVIP' ? (
-                                    <Button fullWidth variant="contained" color="primary"
-                                            onClick={() => window.open("https://discord.gg/SMauZCXgKx")}>
-                                        去产品社区
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        fullWidth
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={() => window.open("https://yee329.notion.site/b712e719e79b47f58ff374737609d3be")}
-                                        disabled={licenseType === 'VIP'}
-                                    >
-                                        购买
-                                    </Button>
-                                )}
-                            >
-                                最大同时使用IP：1<br/>
-                                最大同时使用设备：不限<br/>
-                                使用自建影视数据库<br/>
-                                订阅期免费升级应用<br/>
-                                Discord专属身份组<br/>
-                                社区问题答疑<br/>
-                                <Link target={"_blank"}
-                                      href={"https://yee329.notion.site/b712e719e79b47f58ff374737609d3be"}>详情</Link>
-                            </LicenseItem>
-                        </Grid>
+                        {/*<Grid item xs={12} md={4}>*/}
+                        {/*    <LicenseItem*/}
+                        {/*        showPrice={!isVip}*/}
+                        {/*        title={"订阅授权"}*/}
+                        {/*        selected={licenseType === 'SubVIP'}*/}
+                        {/*        price={licenseType === 'SubVIP' ? '已购买' : '¥60'}*/}
+                        {/*        period={licenseType === 'SubVIP' ? "" : "/每年"}*/}
+                        {/*        actionsComponent={licenseType === 'SubVIP' ? (*/}
+                        {/*            <Button fullWidth variant="contained" color="primary"*/}
+                        {/*                    onClick={() => window.open("https://discord.gg/SMauZCXgKx")}>*/}
+                        {/*                去产品社区*/}
+                        {/*            </Button>*/}
+                        {/*        ) : (*/}
+                        {/*            <Button*/}
+                        {/*                fullWidth*/}
+                        {/*                variant="outlined"*/}
+                        {/*                color="primary"*/}
+                        {/*                onClick={() => window.open("https://yee329.notion.site/b712e719e79b47f58ff374737609d3be")}*/}
+                        {/*                disabled={licenseType === 'VIP'}*/}
+                        {/*            >*/}
+                        {/*                购买*/}
+                        {/*            </Button>*/}
+                        {/*        )}*/}
+                        {/*    >*/}
+                        {/*        最大同时使用IP：1<br/>*/}
+                        {/*        最大同时使用设备：不限<br/>*/}
+                        {/*        使用自建影视数据库<br/>*/}
+                        {/*        订阅期免费升级应用<br/>*/}
+                        {/*        Discord专属身份组<br/>*/}
+                        {/*        社区问题答疑<br/>*/}
+                        {/*        <Link target={"_blank"}*/}
+                        {/*              href={"https://yee329.notion.site/b712e719e79b47f58ff374737609d3be"}>详情</Link>*/}
+                        {/*    </LicenseItem>*/}
+                        {/*</Grid>*/}
                         <Grid item xs={12} md={4}>
                             <LicenseItem
                                 showPrice={licenseType !== 'VIP'}

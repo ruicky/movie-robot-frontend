@@ -31,6 +31,7 @@
     "@fullcalendar/daygrid": "5.10.1",
     "@fullcalendar/interaction": "5.10.1",
     "@fullcalendar/react": "5.10.1",
+    "@iconify/react": "^4.1.1",
     "@mui/icons-material": "5.2.4",
     "@mui/lab": "5.0.0-alpha.60",
     "@mui/material": "5.2.4",
@@ -39,7 +40,8 @@
     "@mui/system": "5.2.4",
     "@mui/x-data-grid": "5.2.1",
     "@reduxjs/toolkit": "1.7.1",
-    "@tanstack/react-virtual": "^3.0.0-beta.23",
+    "@tanstack/react-virtual": "3.0.0-beta.23",
+    "@vitejs/plugin-react": "^4.1.1",
     "amazon-cognito-identity-js": "5.2.3",
     "axios": "0.24.0",
     "axios-mock-adapter": "1.20.0",
@@ -69,6 +71,7 @@
     "prismjs": "^1.29.0",
     "react": "17.0.2",
     "react-app-polyfill": "2.0.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-chartjs-2": "3.3.0",
     "react-dom": "17.0.2",
     "react-dragula": "1.1.17",
@@ -77,6 +80,7 @@
     "react-i18next": "11.15.1",
     "react-jvectormap": "0.0.16",
     "react-lines-ellipsis": "^0.15.3",
+    "react-material-ui-carousel": "^3.4.2",
     "react-perfect-scrollbar": "1.5.8",
     "react-query": "^3.34.20",
     "react-quill": "2.0.0-beta.4",
@@ -95,22 +99,28 @@
   },
   "devDependencies": {
     "@babel/preset-env": "7.16.5",
-    "@svgr/webpack": "5.5.0",
-    "@vitejs/plugin-react": "^2.1.0",
+    "@iconify/react": "^4.1.1",
+    "@vitejs/plugin-react": "^4.1.0",
+    "autoprefixer": "^10.4.16",
     "babel-plugin-macros": "^3.1.0",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "3.4.1",
+    "postcss": "^8.4.31",
     "prettier": "2.5.1",
     "redux-devtools-extension": "2.13.9",
     "rollup-plugin-visualizer": "^5.8.3",
-    "vite": "^3.1.8",
+    "tailwindcss": "^3.3.5",
+    "vite": "^4.5.0",
     "vite-plugin-babel-macros": "^1.0.6",
     "vite-plugin-svgr": "^2.2.1"
   },
   "resolutions": {
     "jss": "10.9.0",
     "react-error-overlay": "6.0.9"
+  },
+  "volta": {
+    "node": "20.9.0"
   }
 }
