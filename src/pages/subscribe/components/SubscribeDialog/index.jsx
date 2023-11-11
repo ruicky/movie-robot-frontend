@@ -11,6 +11,7 @@ import {
     Grid,
     MenuItem,
     Select,
+    TextField,
     Typography,
 } from '@mui/material';
 import {
@@ -18,7 +19,8 @@ import {
     useCancelHateSubRule,
     useCancelLikeSubRule,
     useGetSubRuleByDoubanId,
-    useHateSubRule, useLikeSubRule
+    useHateSubRule,
+    useLikeSubRule
 } from '@/utils/subscribe';
 import message from "@/utils/message";
 import FilterForm from "@/components/Selectors/FilterForm";
@@ -28,11 +30,13 @@ import {ShareRuleList} from "@/pages/subscribe/components/ShareRuleList";
 import {useNavigate} from "react-router-dom";
 
 
-const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
+const SubscribeDialog = ({open, handleClose, data, onComplete, mediaType = null}) => {
     const navigate = useNavigate();
     const filterOptionsContextData = useContext(FilterOptionsContext)
     const myRef = useRef(null);
     const [filterName, setFilterName] = useState();
+    const [subMode, setSubMode] = useState("Normal");
+    const [startEpisodeNumber, setStartEpisodeNumber] = useState(1);
     const [doubanId, setDoubanId] = useState(null);
     const [seasonDoubanId, setSeasonDoubanId] = useState([]);
     const [showFilterForm, setShowFilterForm] = useState(false);
@@ -88,7 +92,14 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
             await myRef.current.onSubmit()
             filterConfig = await myRef.current.getVal()
         }
-        addSubscribe({id: doubanId, filter_name: filterName, filter_config: filterConfig, season_ids: seasonDoubanId}, {
+        addSubscribe({
+            id: doubanId,
+            filter_name: filterName,
+            filter_config: filterConfig,
+            season_ids: seasonDoubanId,
+            sub_mode: subMode,
+            start_episode_number: startEpisodeNumber
+        }, {
             onSuccess: resData => {
                 const {code, message: msg} = resData;
                 if (code === 0) {
@@ -177,11 +188,41 @@ const SubscribeDialog = ({open, handleClose, data, onComplete}) => {
                 确定要订阅 {name}{year ? "(" + year + ")" : ""} 吗？
             </DialogTitle>
             <DialogContent>
-                <Grid container>
+                <Grid spacing={3} container>
+                    {data?.season && data?.season.length > 0 &&
+                    <Grid xs={12} item><SeasonSelect text={"订阅季数"} items={data?.season} seasonDoubanId={seasonDoubanId}
+                                                     setSeasonDoubanId={setSeasonDoubanId}/></Grid>}
+                    {(mediaType == null || (mediaType && mediaType.toLowerCase() !== "movie")) && <Grid xs={12} item>
+                        <FormControl m={4} fullWidth>
+                            <Select
+                                name="subMode"
+                                value={subMode}
+                                onChange={(e) => setSubMode(e.target.value)}
+                                defaultValue="Normal"
+                            >
+                                <MenuItem value="Normal">标准订阅</MenuItem>
+                                <MenuItem value="EndedOnly">仅下载全集包</MenuItem>
+                                <MenuItem value="AnyNew">从指定集开始</MenuItem>
+                            </Select>
+                            <FormHelperText>
+                            <span>
+                                选择本次订阅模式，不同模式的下载策略不同，仅剧集时有效
+                            </span></FormHelperText>
+                        </FormControl>
+                    </Grid>}
+                    {subMode === "AnyNew" && <Grid xs={12} item><FormControl m={4} fullWidth>
+                        <TextField
+                            type="number"
+                            name="startEpisodeNumber"
+                            label="起始集号"
+                            value={startEpisodeNumber}
+                            onChange={(e) => setStartEpisodeNumber(e.target.value)}
+                            fullWidth
+                            helperText=""
+                            my={3}
+                        />
+                    </FormControl></Grid>}
                     <Grid xs={12} item>
-                        {data?.season && data?.season.length > 0 &&
-                        <SeasonSelect text={"订阅季数"} items={data?.season} seasonDoubanId={seasonDoubanId}
-                                      setSeasonDoubanId={setSeasonDoubanId}/>}
                         <FormControl m={4} fullWidth>
                             <Select
                                 name="filterName"

@@ -226,6 +226,7 @@ const TitleCard = ({
                 onComplete={requestComplete}
                 handleClose={() => setShowRequestModal(false)}
                 data={{id: id, name: title, year, season}}
+                mediaType={mediaType}
             />}
             <ReNewDialog
                 showDownloadMode={showDownloadMode}

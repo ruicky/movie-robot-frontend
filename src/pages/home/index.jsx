@@ -59,6 +59,7 @@ const HomePage = () => {
                     open={subInfo}
                     handleClose={() => setSubInfo(null)}
                     data={({ id: subInfo?.id, name: subInfo?.name, year: subInfo?.year })}
+                    mediaType={media.mediaType}
                 />}
                 <DailyRecommend background={media?.backgroundUrl} title={media?.title} desc={media?.comment} rating={media?.rating}
                     onPicClick={onSub} url={media?.url} appUrl={media?.appUrl} />
