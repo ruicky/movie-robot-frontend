@@ -85,7 +85,7 @@ export const TagFileter = ({ filter, data, onFilter }) => {
       </div>
       <div className="md:tw-hidden tw-flex tw-justify-start">
         <div onClick={toggleDrawer}>
-          <div className="tw-p-2 tw-flex tw-items-center tw-justify-center">筛选</div>
+          <div className="tw-p-2 tw-flex tw-items-center tw-justify-center tw-cursor-pointer">筛选</div>
         </div>
         <Drawer
           container={document.getElementById("root")}
