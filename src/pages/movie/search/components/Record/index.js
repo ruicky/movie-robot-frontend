@@ -152,27 +152,9 @@ const COM = ({
   const { mutate: getDetail, isLoading } = useGetTorrentDetail();
   useEffect(() => {
     onLoading(isLoading);
-  }, [isLoading, onLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
   const free = getPromotion(upload_volume_factor, download_volume_factor);
-  // if (upload_volume_factor === 2) {
-  //   free = "2x";
-  // }
-  // if (download_volume_factor !== 1) {
-  //   switch (download_volume_factor) {
-  //     case 0:
-  //       free += "Free";
-  //       break;
-  //     case 0.5:
-  //       free += "50%";
-  //       break;
-  //     case 0.3:
-  //       free += "30%";
-  //       break;
-  //     default:
-  //       free += "";
-  //       break;
-  //   }
-  // }
   const picOnClick = () => {
     getDetail(
       { site_id: site_id, url: details_url },
