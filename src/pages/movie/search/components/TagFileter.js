@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import DropDownBox from "@/components/DropDownBox";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import classnames from "classnames";
 import Chip from "@mui/material/Chip";
-
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 export const TagFileter = ({ filter, data, onFilter }) => {
   let list = [
     { name: "站点", dataKey: "sites" },
@@ -14,7 +15,7 @@ export const TagFileter = ({ filter, data, onFilter }) => {
     { name: "分辨率", dataKey: "resolution" },
     { name: "编码", dataKey: "encode" },
     { name: "压制组", dataKey: "releaseTeam" },
-    { name: "促销", dataKey: "promotion" },
+    { name: "促销", dataKey: "promotion" }
   ];
   if ("season" in data) {
     list.push({ name: "季度", dataKey: "season" });
@@ -63,7 +64,7 @@ export const TagFileter = ({ filter, data, onFilter }) => {
   return (
     <FilterWrapper
       sx={{
-        my: 2,
+        my: 2
       }}
     >
       <div className="tw-hidden md:tw-flex">
@@ -84,16 +85,10 @@ export const TagFileter = ({ filter, data, onFilter }) => {
           );
         })}
       </div>
-      <div className="md:tw-hidden tw-flex tw-justify-start">
-        <div className="tw-flex">
-          <div
-            onClick={toggleDrawer}
-            className="tw-p-2 tw-flex tw-items-center tw-justify-center tw-cursor-pointer"
-          >
-            筛选
-          </div>
+      <div className="md:tw-hidden tw-flex tw-justify-between">
+        <div className="tw-flex tw-justify-start tw-flex-1 tw-overflow-y-auto tw-items-center">
           {
-            <div className="tw-flex tw-flex-1 tw-overflow-y-auto tw-justify-start tw-items-center tw-p-2">
+            <div className="tw-flex tw-flex-1 tw-overflow-y-auto tw-justify-start tw-items-center">
               {list.map((item) => {
                 const selected =
                   filter[item.dataKey] !== undefined && filter[item.dataKey] !== "全部";
@@ -115,7 +110,7 @@ export const TagFileter = ({ filter, data, onFilter }) => {
                       label={renderFilterName()}
                       size="small"
                       classes={{
-                        root: "tw-mr-2",
+                        root: "tw-mr-2"
                       }}
                       onDelete={() => {
                         onFilter({ ...filter, [item.dataKey]: "全部" });
@@ -126,6 +121,14 @@ export const TagFileter = ({ filter, data, onFilter }) => {
               })}
             </div>
           }
+          <div
+            className="tw-flex tw-p-2 tw-items-center tw-cursor-pointer tw-justify-end"
+          >
+            <Button size={"small"} variant="outlined" startIcon={<NavigateBeforeIcon />} onClick={toggleDrawer}
+            >
+              筛选
+            </Button>
+          </div>
         </div>
         <Drawer
           container={document.getElementById("root")}
@@ -133,7 +136,7 @@ export const TagFileter = ({ filter, data, onFilter }) => {
           open={showDrawer}
           onClose={toggleDrawer}
           PaperProps={{
-            className: "tw-bg-[#15161A] tw-w-[85vw] tw-text-white",
+            className: "tw-bg-[#15161A] tw-w-[85vw] tw-text-white"
           }}
         >
           <div className="tw-py-4 tw-flex-col">
@@ -157,7 +160,7 @@ export const TagFileter = ({ filter, data, onFilter }) => {
                             className={classnames(
                               "tw-bg-[#1D2027] tw-p-1 tw-rounded-md tw-text-center tw-cursor-pointer",
                               {
-                                "tw-text-[#269649]": selected,
+                                "tw-text-[#269649]": selected
                               }
                             )}
                             onClick={() => {
