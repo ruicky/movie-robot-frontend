@@ -4,6 +4,7 @@ import DropDownBox from "@/components/DropDownBox";
 import { Box } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import classnames from "classnames";
+import Chip from "@mui/material/Chip";
 
 export const TagFileter = ({ filter, data, onFilter }) => {
   let list = [
@@ -84,8 +85,47 @@ export const TagFileter = ({ filter, data, onFilter }) => {
         })}
       </div>
       <div className="md:tw-hidden tw-flex tw-justify-start">
-        <div onClick={toggleDrawer}>
-          <div className="tw-p-2 tw-flex tw-items-center tw-justify-center tw-cursor-pointer">筛选</div>
+        <div className="tw-flex">
+          <div
+            onClick={toggleDrawer}
+            className="tw-p-2 tw-flex tw-items-center tw-justify-center tw-cursor-pointer"
+          >
+            筛选
+          </div>
+          {
+            <div className="tw-flex tw-flex-1 tw-overflow-y-auto tw-justify-start tw-items-center tw-p-2">
+              {list.map((item) => {
+                const selected =
+                  filter[item.dataKey] !== undefined && filter[item.dataKey] !== "全部";
+
+                const renderFilterName = () => {
+                  if (item.dataKey === "season") {
+                    return `第${filter[item.dataKey]}季`;
+                  }
+                  if (item.dataKey === "episode") {
+                    return `第${filter[item.dataKey]}集`;
+                  }
+                  return filter[item.dataKey];
+                };
+
+                return (
+                  selected && (
+                    <Chip
+                      key={item.dataKey}
+                      label={renderFilterName()}
+                      size="small"
+                      classes={{
+                        root: "tw-mr-2",
+                      }}
+                      onDelete={() => {
+                        onFilter({ ...filter, [item.dataKey]: "全部" });
+                      }}
+                    />
+                  )
+                );
+              })}
+            </div>
+          }
         </div>
         <Drawer
           container={document.getElementById("root")}
@@ -122,6 +162,7 @@ export const TagFileter = ({ filter, data, onFilter }) => {
                             )}
                             onClick={() => {
                               onFilter({ ...filter, [item.dataKey]: value.value });
+                              toggleDrawer();
                             }}
                           >
                             {value.name}
