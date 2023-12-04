@@ -84,3 +84,10 @@ export const useRunPluginCommand = () => {
             client("/api/plugins/run_command", {params: params, method: "POST"})
     );
 };
+export const useGetPluginCommandMeta = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/plugins/get_plugin_command_meta", {params: params, method: "GET"})
+    );
+};

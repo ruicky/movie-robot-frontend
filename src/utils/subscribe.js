@@ -22,6 +22,20 @@ export const useCustomSubRecordList = (param) => {
             client("/api/subscribe/get_custom_sub_record", {params: params, method: "GET"})
     );
 }
+export const useDeleteCustomSubRecord = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/delete_custom_sub_record", {params: params, method: "GET"})
+    );
+}
+export const useRenewCustomSubRecord = (param) => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/renew_custom_sub_record", {params: params, method: "GET"})
+    );
+}
 export const useSubCustom = (param) => {
     const client = useHttp();
     return useMutation(
@@ -152,6 +166,21 @@ export const useDeleteSubscribe = () => {
     );
 };
 
+export const useApprovedSubscribe = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/approved", {params: params, method: "GET"})
+    );
+};
+
+export const useRefuseSubscribe = () => {
+    const client = useHttp();
+    return useMutation(
+        (params) =>
+            client("/api/subscribe/refuse", {params: params, method: "GET"})
+    );
+};
 // 洗版
 export const useReVersionSubscribe = () => {
     const client = useHttp();

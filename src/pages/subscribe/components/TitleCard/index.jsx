@@ -18,9 +18,12 @@ import DeleteConfirmDialog from "../DeleteConfirmDialog";
 import ReNewDialog from "@/pages/subscribe/components/ReNewDialog";
 import {jumpUrl} from "@/utils/urlUtils";
 import LinesEllipsis from "react-lines-ellipsis";
-import {getSub} from "@/utils/subscribe";
+import {getSub, useApprovedSubscribe, useRefuseSubscribe} from "@/utils/subscribe";
 import MultipleChoice from "./MultipleChoice";
 import ChoiceChecked from "@/pages/subscribe/components/TitleCard/ChoiceChecked";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import message from "@/utils/message";
 
 const ImgWrap = styled.img`
   border-radius: 10px;
@@ -68,6 +71,40 @@ const DeleteSubButton = ({setShowDeleteModal}) => {
         </Button>
     );
 };
+const ApprovalButtonGroup = ({subId, onApproved = null, onRefuse = null}) => {
+    return (<Stack direction="row" spacing={1} sx={{width: '100%'}}>
+        <Button
+            sx={{width: "100%"}}
+            variant="contained"
+            startIcon={<CheckIcon/>}
+            size="small"
+            onClick={(e) => {
+                e.preventDefault();
+                if (onApproved) {
+                    onApproved(subId);
+                }
+            }}
+            color="success"
+        >
+            同意
+        </Button>
+        <Button
+            sx={{width: "100%"}}
+            variant="contained"
+            startIcon={<ClearIcon/>}
+            size="small"
+            onClick={(e) => {
+                e.preventDefault();
+                if (onRefuse) {
+                    onRefuse(subId);
+                }
+            }}
+            color="error"
+        >
+            拒绝
+        </Button>
+    </Stack>);
+}
 const SetFilterButton = ({
                              status,
                              sub_id,
@@ -128,7 +165,36 @@ const TitleCard = ({
     const [renewFormData, setRenewFormData] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
-
+    const {mutate: approved, isLoading: isApproved} = useApprovedSubscribe();
+    const {mutate: refuse, isLoading: isRefuse} = useRefuseSubscribe();
+    const onApproved = (subId) => {
+        approved({sub_id: subId}, {
+            onSuccess: resData => {
+                const {code, message: msg} = resData;
+                if (code === 0) {
+                    message.success(msg);
+                    setCurrentStatus(0);
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error)
+        });
+    }
+    const onRefuse = (subId) => {
+        refuse({sub_id: subId}, {
+            onSuccess: resData => {
+                const {code, message: msg} = resData;
+                if (code === 0) {
+                    message.success(msg);
+                    setCurrentStatus(null);
+                } else {
+                    message.error(msg);
+                }
+            },
+            onError: error => message.error(error)
+        });
+    }
     useEffect(() => {
         setCurrentStatus(status);
     }, [status]);
@@ -160,6 +226,7 @@ const TitleCard = ({
                 onComplete={requestComplete}
                 handleClose={() => setShowRequestModal(false)}
                 data={{id: id, name: title, year, season}}
+                mediaType={mediaType}
             />}
             <ReNewDialog
                 showDownloadMode={showDownloadMode}
@@ -274,6 +341,9 @@ const TitleCard = ({
                                         >
                                             {title}
                                         </Typography>
+                                        {currentStatus === 3 && <Typography variant="subtitle2">
+                                            等待批准后开始下载。
+                                        </Typography>}
                                     </ShadowTextContainer>
                                 </ShadowLinkContainer>
                                 <RequestWrapper>
@@ -291,7 +361,12 @@ const TitleCard = ({
                                             订阅
                                         </Button>
                                     )}
-                                    {(currentStatus || currentStatus === 0) && showSubLogs && <Button
+                                    {
+                                        currentStatus === 3 &&
+                                        <ApprovalButtonGroup subId={sub_id} onApproved={onApproved}
+                                                             onRefuse={onRefuse}/>
+                                    }
+                                    {[0, 1, 2].includes(currentStatus) && showSubLogs && <Button
                                         color="info"
                                         sx={{width: "100%", marginBottom: 1}}
                                         variant="contained"

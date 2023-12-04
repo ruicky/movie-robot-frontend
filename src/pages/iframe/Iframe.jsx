@@ -1,5 +1,6 @@
 import React, { useRef, useCallback, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useTheme } from '@mui/material/styles';
 
 const scrollbarCss = `
 /* 滚动槽 */
@@ -50,6 +51,21 @@ const injectCss = (contentIFrameRef) => {
     }
 }
 
+// 注入主题
+const injectTheme = (contentIFrameRef, theme) => {
+    console.log('injectTheme', theme)
+    try {
+        const iframeWindow = contentIFrameRef.current.contentWindow
+        iframeWindow.mrTheme = theme
+        // 给个事件，让iframe里面的js可以监听到
+        // demo: window.addEventListener('message', (e) => { console.log(e) })
+        iframeWindow.postMessage('injectTheme', '*')
+    } catch (error) {
+        console.log('injectTheme error', error)
+    }
+}
+
+
 // 更新query参数
 const updateHash = (contentIFrameRef) => {
     const href = contentIFrameRef.current.contentWindow.location.href
@@ -59,6 +75,7 @@ const updateHash = (contentIFrameRef) => {
 function Iframe() {
     const contentIFrameRef = useRef(null)
     const location = useLocation()
+    const theme = useTheme();
 
     // 监听hash变化
     useEffect(() => {
@@ -75,10 +92,21 @@ function Iframe() {
         if (!contentIFrameRef.current) return
         updateHash(contentIFrameRef)
         injectCss(contentIFrameRef)
-    }, [contentIFrameRef,])
+        injectTheme(contentIFrameRef, theme)
+        // 发送消息
+    }, [contentIFrameRef, theme])
+
+    useEffect(() => {
+        window.addEventListener('injectTheme', handleOnload)
+        return () => {
+            window.removeEventListener('injectTheme', handleOnload)
+        }
+    }, [handleOnload])
 
     return (
         <iframe ref={contentIFrameRef}
+            // <iframe> elements must have a unique title property.
+            title="common"
             onLoad={handleOnload}
             style={{
                 border: 'none',

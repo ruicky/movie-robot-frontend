@@ -46,6 +46,7 @@ const TopSearch = ({onClose, site, category, searchContent, inputRef}) => {
                                 handleSearch()
                             }
                         }}
+                        fullWidth
                     />
                     <Typography
                         variant="button"

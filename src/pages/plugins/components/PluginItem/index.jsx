@@ -21,7 +21,7 @@ const Flag = styled("div")`
     line-height: 20px;
     text-align: center;
     width: 74px;
-    background-color: ${(props) => (props.color === 'orange' ? '#FF5722' : props.color === 'red' ? '#FF0000' : '#FF5722')};
+    background-color: ${(props) => (props.color === 'orange' ? '#FF5722' : props.color === 'red' ? '#FF0000' : '#39b54a')};
     color: #fff;
     -moz-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);

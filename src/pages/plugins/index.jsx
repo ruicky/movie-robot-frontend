@@ -91,7 +91,6 @@ const PluginsIndex = () => {
                 const {code, message: msg, data} = res;
                 if (code === 0) {
                     message.success(msg);
-                    handleClose();
                 } else {
                     message.error(msg)
                 }

@@ -27,8 +27,8 @@ export const getDownloading = async () => {
  * 获取下载记录列表
  * @returns {Promise<*[]>}
  */
-export const getRecordList = async (start = 0) => {
-    const result = await axios.get("/api/download/record_list?start=" + start);
+export const getRecordList = async (start = 0, filterUnknown = true) => {
+    const result = await axios.get("/api/download/record_list?start=" + start + "&filter_unknown=" + filterUnknown);
     return result;
 }
 

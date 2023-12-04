@@ -13,7 +13,7 @@ const BottomLayer = ({media, onSearch, refreshRandomMedia}) => {
   const maxLine = useMediaQuery(theme.breakpoints.up("md")) ? 1 : 5;
   return (
     <TextWrapper>
-      <Card sx={{borderRadius: 0, background: 'rgba(0, 45, 98, 0.07)'}}>
+      <Card sx={{borderRadius: 0, background: 'rgba(0, 45, 98, 0.07)'}}>123
           <CardContent sx={{mb: 2}}>
             {<Box sx={{my: 2}}><SearchBox/></Box>}
             <Tooltip title={media.comment} onClick={() => refreshRandomMedia(null)}>
